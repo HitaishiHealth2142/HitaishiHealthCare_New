@@ -1578,6 +1578,7 @@
         </script>
     
     </div>
+
 <!-- find doctors near you -->
 <section class="discover-problem-area" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 20px; box-sizing: border-box;">
 
@@ -1710,6 +1711,567 @@
       }
     }
   </style>
+
+
+<!-- new tests -->
+<section style="margin-left: auto ; font-family:sans-serif; background:#f7f7f7; ">
+
+  <!-- HEADER SECTION -->
+  <div style="margin: auto;">
+    <h2 style="color:#0A0A57; font-size: 24px; margin-bottom: 20px;">LifeStyle Health Check Packages</h2>
+
+    <!-- CATEGORY CARDS -->
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: auto;">
+      <div onclick="showTests('women')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+        <img src="images/women-health.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Women's Health</div>
+      </div>
+      <div onclick="showTests('obesity')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+        <img src="images/obesity.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Obesity</div>
+      </div>
+      <div onclick="showTests('smoking')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+        <img src="images/smoking&alcohol.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Smoking & Alcohol</div>
+      </div>
+      <div onclick="showTests('diabetic')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+        <img src="images/diabetic.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Diabetic</div>
+      </div>
+      <div onclick="showTests('thyroid')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
+        <img src="images/thyroid-png.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Thyroid Issues</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST CARDS SECTION -->
+  <div id="test-sections" style="max-width:1200px;margin:auto;padding:20px;">
+
+    <!-- Women-Health -->
+    <div id="women" style="display:none;">
+      <h3 style="color:#0A0A57;">Women's Health Packages</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:15px;">
+
+        <!-- Card 1 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Women’s Staying Strong Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 92 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">50% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹3499/-</p>
+          <a href="payment.html?name=Women’s+Staying+Strong+Health+Checkup&price=3499" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 2 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Women’s Golden Gift Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 103 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">50% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4699/-</p>
+          <a href="payment.html?name=Women’s+Golden+Gift+Health+Checkup&price=4699" 
+            style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Women's Primary Prevention Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 88 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">50% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2299/-</p>
+          <a href="payment.html?name=Women’s+Primary+Prevention+Health+Checkup&price=2299" 
+            style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 4 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Stress Level Package</h4>
+          <p style="margin:5px 0;">✅ 27 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">40% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹899/-</p>
+          <a href="payment.html?name=Stress+Level+Package&price=899" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 5 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Hormone Profile - Female</h4>
+          <p style="margin:5px 0;">✅ 9 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 6 - 8 Hrs</p>
+          <p style="margin:5px 0;color:green;">50% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1999/-</p>
+          <a href="payment.html?name=Hormone+Profile+-+Female&price=1999" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 6 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Weight Management Package</h4>
+          <p style="margin:5px 0;">✅ 49 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">53% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2999/-</p>
+          <a href="payment.html?name=Weight+Management+Package&price=2999" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 7 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15</h4>
+          <p style="margin:5px 0;">✅ 45 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1900/-</p>
+          <a href="payment.html?name=MediBuddy+Women+Healthcheck+with+Cancer+Screening+-+MB+Pack+15&price=1900" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 8 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Extensive Health Screening for Women - MB Pack 21</h4>
+          <p style="margin:5px 0;">✅ 59 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4520/-</p>
+          <a href="payment.html?name=MediBuddy+Extensive+Health+Screening+for+Women+-+MB+Pack+21&price=4520" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Card 9 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy All Inclusive Healthcheck (Young Women) - MB Pack 17</h4>
+          <p style="margin:5px 0;">✅ 43 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2800/-</p>
+          <a href="payment.html?name=MediBuddy+All+Inclusive+Healthcheck+Young+Women+-+MB+Pack+17&price=2800" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <!-- Obesity -->
+    <div id="obesity" style="display:none;">
+      <h3 style="color:#0A0A57;">Obesity Packages</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:15px;">
+        <!-- Weight Management Package -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Weight Management Package</h4>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">✅ 49 Tests</p>
+          <p style="margin:5px 0;">• Complete Blood Count (CBC)...</p>
+          <p style="margin:5px 0;">• Glycosylated Hemoglobin...</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">53% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2999/-</p>
+          <a href="payment.html?name=Weight+Management+Package&price=2999" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Hitaishi All Inclusive Healthcheck with Cancer Test - HH Pack 18</h4>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">✅ 61 Tests</p>
+          <p style="margin:5px 0;">• Bilirubin Profile (Total, Direct...)</p>
+          <p style="margin:5px 0;">• Complete Blood Count (CBC)...</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;">🧪 Includes: Radiology</p>
+          <p style="margin:5px 0;">👨‍⚕️ 1 Consultation</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4100/-</p>
+          <a href="payment.html?name=Hitaishi+All+Inclusive+Healthcheck+with+Cancer+Test+-+HH+Pack+18&price=4100" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smoking & Drinking -->
+    <div id="smoking" style="display:none;">
+      <h3 style="color:#0A0A57;">Smoking & Alcohol Packages</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:15px;">
+        <!-- Alcohol Impact Package -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Alcohol Impact Package</h4>
+          <p style="margin:5px 0;">✅ 61 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">56% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1299/-</p>
+          <a href="payment.html?name=Alcohol+Impact+Package&price=1299" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Smokers Health Checkup -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Smokers Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 72 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 6 - 8 Hrs</p>
+          <p style="margin:5px 0;color:green;">52% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2399/-</p>
+          <a href="payment.html?name=Smokers+Health+Checkup&price=2399" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15</h4>
+          <p style="margin:5px 0;">✅ 45 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1900/-</p>
+          <a href="payment.html?name=Women+Healthcheck+Cancer+Screening+Pack+15&price=1900" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy All Inclusive Healthcheck with Cancer Test - MB Pack 18 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy All Inclusive Healthcheck with Cancer Test - MB Pack 18</h4>
+          <p style="margin:5px 0;">✅ 61 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4100/-</p>
+          <a href="payment.html?name=Inclusive+Healthcheck+Cancer+Test+Pack+18&price=4100" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- Master Full Body Health Checkup - Male (with cancer screening) -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Master Full Body Health Checkup - Male (with cancer screening)</h4>
+          <p style="margin:5px 0;">✅ 88 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">51% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2299/-</p>
+          <a href="payment.html?name=Master+Full+Body+Checkup+Male+Cancer&price=2299" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Basic Extended Health Checkup With Cancer Screening -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Basic Extended Health Checkup With Cancer Screening</h4>
+          <p style="margin:5px 0;">✅ 65 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">46% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1599/-</p>
+          <a href="payment.html?name=Basic+Extended+Cancer+Screening&price=1599" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Basic Extended Health Checkup With Cancer Screening Male -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;
+          box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Basic Extended Health Checkup With Cancer Screening Male</h4>
+          <p style="margin:5px 0;">✅ 65 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
+          <p style="margin:5px 0;color:green;">27% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1599/-</p>
+          <a href="payment.html?name=Basic+Extended+Checkup+Male+Cancer&price=1599" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;
+              border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="diabetic" style="display:none;">
+      <h3 style="color:#0A0A57;">Diabetic Packages</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:15px;">
+        <!-- MediBuddy Diabetes Screening -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Diabetes Screening</h4>
+          <p style="margin:5px 0;">✅ 54 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">51% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1299/-</p>
+          <a href="payment.html?name=MediBuddy+Diabetes+Screening&price=1299" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Essential Healthcheck - MB Pack 16 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Essential Healthcheck with X-Ray & Ultrasound</h4>
+          <p style="margin:5px 0;">✅ 47 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2500/-</p>
+          <a href="payment.html?name=Essential+Healthcheck+MB+Pack+16&price=2500" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Basic Health Checkup -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Basic Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 59 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">52% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1099/-</p>
+          <a href="payment.html?name=MediBuddy+Basic+Health+Checkup&price=1099" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Quick Health Check - MB Pack 2 -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Quick Health Check - MB Pack 2</h4>
+          <p style="margin:5px 0;">✅ 42 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1820/-</p>
+          <a href="payment.html?name=Quick+Health+Check+MB+Pack+2&price=1820" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Advance Health Checkup -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Advance Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 82 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 6-8 Hrs</p>
+          <p style="margin:5px 0;color:green;">48% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1799/-</p>
+          <a href="payment.html?name=Advance+Health+Checkup&price=1799" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
+              Buy Now
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="thyroid" style="display:none;">
+      <h3 style="color:#0A0A57;">Thyroid Packages</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:15px;">
+        <!-- MediBuddy Full Body Health Checkup -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">MediBuddy Full Body Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 81 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
+          <p style="margin:5px 0;color:green;">53% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1399/-</p>
+          <a href="payment.html?name=MediBuddy+Full+Body+Health+Checkup&price=1399" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Primary Health Check with Thyroid Profile -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Primary Health Check with Thyroid - MB Pack 14</h4>
+          <p style="margin:5px 0;">✅ 50 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1800/-</p>
+          <a href="payment.html?name=Primary+Health+Check+Thyroid+MB+14&price=1800" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
+          </a>
+        </div>
+
+        <!-- MediBuddy All Inclusive Healthcheck (Young Women) -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">All Inclusive Healthcheck - MB Pack 17</h4>
+          <p style="margin:5px 0;">✅ 43 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
+          <p style="margin:5px 0;color:green;">23% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2800/-</p>
+          <a href="payment.html?name=All+Inclusive+Healthcheck+MB+17&price=2800" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
+          </a>
+        </div>
+
+        <!-- MediBuddy Prime Comprehensive Health Checkup -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Prime Comprehensive Health Checkup</h4>
+          <p style="margin:5px 0;">✅ 85 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
+          <p style="margin:5px 0;color:green;">50% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2299/-</p>
+          <a href="payment.html?name=Prime+Comprehensive+Health+Checkup&price=2299" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
+          </a>
+        </div>
+
+        <!-- Standard Health Screening Package -->
+        <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
+          <h4 style="margin:0 0 10px;">Standard Health Screening Package</h4>
+          <p style="margin:5px 0;">✅ 59 Tests</p>
+          <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
+          <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
+          <p style="margin:5px 0;">⏳ Fasting: 6–8 Hrs</p>
+          <p style="margin:5px 0;color:green;">54% OFF</p>
+          <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹999/-</p>
+          <a href="payment.html?name=Standard+Health+Screening+Package&price=999" style="text-decoration:none;">
+            <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS TOGGLE -->
+  <script>
+    function showTests(category) {
+      const ids = ['women', 'obesity', 'smoking', 'diabetic', 'thyroid'];
+      ids.forEach(id => {
+        document.getElementById(id).style.display = id === category ? 'block' : 'none';
+      });
+      window.scrollTo({ top: document.getElementById(category).offsetTop - 10, behavior: 'smooth' });
+    }
+  </script>
+</section>
+
+
   <h2>Popular Tests</h2>
 
   <div class="test-grid">
