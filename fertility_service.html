@@ -69,27 +69,56 @@
         </div>
 
         <div style="position: relative;">
-            <a href="Diagnostics.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">
+            <a href="Diagnostics.html"
+            style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+            onmouseover="document.getElementById('diagnosticsMenu').style.display = 'block';"
+            onmouseout="document.getElementById('diagnosticsMenu').style.display = 'none';">
                 Diagnostics <i class="fas fa-caret-down"></i>
             </a>
-            <div style="display: none; position: absolute; background-color: white; min-width: 220px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
-                <a href="xray.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">X-Ray</a>
-                <a href="ultrasound.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Ultrasound</a>
-                <a href="mri.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">MRI</a>
-                <a href="diagnostic-services.html?category=cbc" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Complete Blood Count</a>
-                <a href="diagnostic-services.html?category=pathology" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Pathology Tests</a>
-                <a href="diagnostic-services.html?category=microbiology" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Microbiology Tests</a>
-                <a href="diagnostic-services.html?category=radiology" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Radiology & Imaging</a>
-                <a href="diagnostic-services.html?category=cardiology" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Cardiology</a>
-                <a href="diagnostic-services.html?category=neurology" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Neurology</a>
-                <a href="diagnostic-services.html?category=ophthalmology" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Ophthalmology</a>
-                <a href="diagnostic-services.html?category=ent" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">ENT</a>
-                <a href="diagnostic-services.html?category=dental" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Dental</a>
-                <a href="diagnostic-services.html?category=fertility" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Prenatal & Fertility</a>
-                <a href="diagnostic-services.html?category=genetic" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Genetic Testing</a>
-                <a href="diagnostic-services.html?category=packages" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Health Packages</a>
+
+            <div id="diagnosticsMenu"
+                onmouseover="this.style.display = 'block';"
+                onmouseout="this.style.display = 'none';"
+                style="display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <a href="xray.html" class="menu-item">X-Ray</a>
+                    <a href="ultrasound.html" class="menu-item">Ultrasound</a>
+                    <a href="mri.html" class="menu-item">MRI</a>
+                    <a href="diagnostic-services.html?category=cbc" class="menu-item">Complete Blood Count</a>
+                    <a href="diagnostic-services.html?category=pathology" class="menu-item">Pathology Tests</a>
+                    <a href="diagnostic-services.html?category=microbiology" class="menu-item">Microbiology Tests</a>
+                    <a href="diagnostic-services.html?category=radiology" class="menu-item">Radiology & Imaging</a>
+                    <a href="diagnostic-services.html?category=cardiology" class="menu-item">Cardiology</a>
+                    <a href="diagnostic-services.html?category=neurology" class="menu-item">Neurology</a>
+                    <a href="diagnostic-services.html?category=ophthalmology" class="menu-item">Ophthalmology</a>
+                    <a href="diagnostic-services.html?category=ent" class="menu-item">ENT</a>
+                    <a href="diagnostic-services.html?category=dental" class="menu-item">Dental</a>
+                    <a href="diagnostic-services.html?category=fertility" class="menu-item">Prenatal & Fertility</a>
+                    <a href="diagnostic-services.html?category=genetic" class="menu-item">Genetic Testing</a>
+                    <a href="diagnostic-services.html?category=packages" class="menu-item">Health Packages</a>
+                </div>
             </div>
         </div>
+
+        <style>
+            .menu-item {
+                display: block;
+                padding: 12px;
+                text-decoration: none;
+                background: #fff;
+                border-radius: 6px;
+                color: #333;
+                font-weight: 500;
+                transition: background 0.2s, color 0.2s;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            }
+
+            .menu-item:hover {
+                background: #f0f0f0;
+                color: #000;
+            }
+        </style>
 
         <div style="position:relative;">
             <a href="Physician.html" style="color:white; text-decoration:none; padding:0.5rem 1rem; font-weight:bold;">
