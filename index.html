@@ -1714,14 +1714,14 @@
 
 
 <!-- new tests -->
-<section style="margin-left: auto ; font-family:sans-serif; background:#f7f7f7; ">
+<section style=" font-family:sans-serif; background:#f7f7f7; margin-top: 50px;">
 
   <!-- HEADER SECTION -->
   <div style="margin: auto;">
     <h2 style="color:#0A0A57; font-size: 24px; margin-bottom: 20px;">LifeStyle Health Check Packages</h2>
 
     <!-- CATEGORY CARDS -->
-    <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: auto;">
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: flex-start;">
       <div onclick="showTests('women')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
         <img src="images/women-health.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Women's Health</div>
       </div>
@@ -2656,13 +2656,32 @@
         { name: "CALCIUM", price: 250, rating: 3.7, category: "Bone" },
         { name: "PREGNANCY TEST (URINE)", price: 200, rating: 4.0, category: "Pregnancy" },
         { name: "BETA HCG (QUANTITATIVE)", price: 400, rating: 4.2, category: "Pregnancy" },
+        // 2 more tests for only pregnancy
+    
         { name: "PROSTATE SPECIFIC ANTIGEN (PSA)", price: 600, rating: 4.1, category: "Prostate" },
         { name: "SEMEN ANALYSIS", price: 500, rating: 4.0, category: "Fertility" },
         { name: "MAMMOGRAPHY", price: 1500, rating: 4.5, category: "Breast" },
         { name: "TUBERCULOSIS TEST (TB GOLD)", price: 1200, rating: 4.3, category: "Tuberculosis" },
         { name: "COMPLETE HEMOGRAM", price: 300, rating: 4.1, category: "Anemia" },
         { name: "ALLERGY PANEL TEST", price: 2500, rating: 4.4, category: "Allergy" },
-        { name: "FEBRILE ANTIBODY TEST", price: 350, rating: 3.9, category: "Fever" }
+        { name: "FEBRILE ANTIBODY TEST", price: 350, rating: 3.9, category: "Fever" },
+        { name: "COVID-19 ANTIBODY TEST", price: 800, rating: 4.6, category: "COVID" },
+        { name: "COVID-19 PCR TEST", price: 1500, rating: 4.8, category: "COVID" },
+        { name: "COVID-19 RAPID ANTIGEN TEST", price: 600, rating: 4.5, category: "COVID" },
+        { name: "COVID-19 VACCINATION CERTIFICATE", price: 0, rating: 4.0, category: "COVID" },
+        { name: "HIV ANTIBODY TEST", price: 500, rating: 4.2, category: "General" },
+        { name: "HIV TEST", price: 500, rating: 4.2, category: "General" },
+        { name: "HEPATITIS B SURFACE ANTIGEN (HBsAg)", price: 600, rating: 4.3, category: "Liver" },
+        { name: "HEPATITIS C ANTIBODY", price: 600, rating: 4.1, category: "Liver" },
+        { name: "VITAMIN D", price: 700, rating: 4.5, category: "Vitamins" },
+        { name: "IRON STUDIES", price: 800, rating: 4.0, category: "Anemia" },
+        { name: "BONE DENSITY TEST", price: 1200, rating: 4.4, category: "Bone" },
+        { name: "GASTROINTESTINAL PANEL", price: 1500, rating: 4.2, category: "Gastro" },
+        { name: "CERVICAL CANCER SCREENING (PAP SMEAR)", price: 1000, rating: 4.3, category: "Cervix" },
+        { name: "HEART HEALTH CHECKUP", price: 2000, rating: 4.7, category: "Heart" },
+        { name: "KIDNEY FUNCTION TEST", price: 800, rating: 4.1, category: "Kidney" },
+        { name: "CANCER MARKERS PANEL", price: 2500, rating: 4.5, category: "Cancer" },
+        { name: "LUNG FUNCTION TEST (PFT)", price: 1200, rating: 4.3, category: "Lungs" }
     ];
 
     // Function to filter tests by category
