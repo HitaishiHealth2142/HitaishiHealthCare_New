@@ -10,259 +10,25 @@
     <title>Neurology Specialist Services | Hitiashi Realestate Physicians</title>
     <link rel="canonical" href="https://www.hitiashirealestate.com/physicians/neurology">
 </head>
-<body>
+<body style="width: 100%; font-family: Arial, sans-serif;">
 
-<!-- Navigation Bar 1 -->
-<nav style="display: flex; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
-
-  <!-- Left: Logo & Title -->
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px;">
-    <div>
-      <h2 style="color: #fff; margin: 0; font-size: 22px;">Hitaishi</h2>
-      <p style="color: #fff; margin: 0; font-size: 12px;">HealthCare Service</p>
-    </div>
-    <!-- Search Icon After Title -->
-    <div style="position: relative; margin-left: 10px;">
-      <input type="text" placeholder="Search..." style="padding: 8px 30px 8px 10px; border-radius: 5px; border: none; font-size: 14px;">
-      <i class="fas fa-search" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #007bff;"></i>
-    </div>
-  </div>
-
-  <!-- Hamburger & Close (Mobile only) -->
-  <div onclick="toggleMenu1()" id="hamburger1" style="font-size: 26px; color: white; cursor: pointer; display: none;">&#9776;</div>
-  <div onclick="toggleMenu1()" id="closeIcon1" style="font-size: 26px; color: white; cursor: pointer; display: none;">&times;</div>
-
-  <!-- Center: Nav Items -->
-  <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px;">
-    <a href="blood.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">❤️ Blood</a>
-    <a href="clinics.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Appointment</a>
-    <a href="doctors.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Doctors</a>
-    <a href="clinic.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
-    <a href="Eyecare.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Eye Care</a>
-  </div>
-
-  <!-- Right: Social Media Icons -->
-  <div style="display: flex; gap: 10px; align-items: center;">
-    <a href="https://facebook.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-facebook"></i></a>
-    <a href="https://x.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-twitter"></i></a>
-    <a href="https://instagram.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-instagram"></i></a>
-    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-linkedin"></i></a>
-    <a href="https://youtube.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-youtube"></i></a>
-    <a href="https://t.me" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-telegram"></i></a>
-    <a href="https://wa.me" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-whatsapp"></i></a>
-    <a href="patientLogin.html" style="color: white; font-size: 20px;"><i class="fas fa-user-circle"></i></a>
-  </div>
-</nav>
-
-<!-- Navigation Bar 2 -->
-<nav style="background-color: #2581de; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-        <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
-        <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
-    </div>
-    <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; margin-top: 10px;">
-        <div style="position: relative;"><a href="index.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Home</a></div>
-
-        <div style="position: relative;">
-            <a href="healthRecords.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">
-                Health Records <i class="fas fa-caret-down"></i>
-            </a>
-            <div style="display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                <a href="bloodtest.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Blood Tests</a>
-                <a href="donations.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Donations</a>
-                <a href="inventory.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Inventory</a>
-            </div>
-        </div>
-
-        <div style="position: relative;">
-            <a href="Diagnostics.html"
-            style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-            onmouseover="document.getElementById('diagnosticsMenu').style.display = 'block';"
-            onmouseout="document.getElementById('diagnosticsMenu').style.display = 'none';">
-                Diagnostics <i class="fas fa-caret-down"></i>
-            </a>
-
-            <div id="diagnosticsMenu"
-                onmouseover="this.style.display = 'block';"
-                onmouseout="this.style.display = 'none';"
-                style="display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
-
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                    <a href="xray.html" class="menu-item">X-Ray</a>
-                    <a href="ultrasound.html" class="menu-item">Ultrasound</a>
-                    <a href="mri.html" class="menu-item">MRI</a>
-                    <a href="diagnostic-services.html?category=cbc" class="menu-item">Complete Blood Count</a>
-                    <a href="diagnostic-services.html?category=pathology" class="menu-item">Pathology Tests</a>
-                    <a href="diagnostic-services.html?category=microbiology" class="menu-item">Microbiology Tests</a>
-                    <a href="diagnostic-services.html?category=radiology" class="menu-item">Radiology & Imaging</a>
-                    <a href="diagnostic-services.html?category=cardiology" class="menu-item">Cardiology</a>
-                    <a href="diagnostic-services.html?category=neurology" class="menu-item">Neurology</a>
-                    <a href="diagnostic-services.html?category=ophthalmology" class="menu-item">Ophthalmology</a>
-                    <a href="diagnostic-services.html?category=ent" class="menu-item">ENT</a>
-                    <a href="diagnostic-services.html?category=dental" class="menu-item">Dental</a>
-                    <a href="diagnostic-services.html?category=fertility" class="menu-item">Prenatal & Fertility</a>
-                    <a href="diagnostic-services.html?category=genetic" class="menu-item">Genetic Testing</a>
-                    <a href="diagnostic-services.html?category=packages" class="menu-item">Health Packages</a>
-                </div>
-            </div>
-        </div>
-
-        <style>
-            .menu-item {
-                display: block;
-                padding: 12px;
-                text-decoration: none;
-                background: #fff;
-                border-radius: 6px;
-                color: #333;
-                font-weight: 500;
-                transition: background 0.2s, color 0.2s;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            }
-
-            .menu-item:hover {
-                background: #f0f0f0;
-                color: #000;
-            }
-        </style>
-
-        <div style="position: relative;">
-            <a href="Physician.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">
-                Physicians <i class="fas fa-caret-down"></i>
-            </a>
-            <div style="display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                <a href="cardiologist.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Cardiologist</a>
-                <a href="neuralogist.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Neurologist</a>
-                <a href="dermatologist.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Dermatologist</a>
-            </div>
-        </div>
-
-        <div style="position: relative;">
-            <a href="fertility.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">
-                Fertility <i class="fas fa-caret-down"></i>
-            </a>
-            <div style="display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                <a href="IVF.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">IVF</a>
-                <a href="iui.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">IUI</a>
-                <a href="sarogasi.html" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Surrogacy</a>
-            </div>
-        </div>
-
-        <a href="ai.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
-        <a href="doctor.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctors</a>
-        <a href="patientLogin.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
-        <a href="Cancer.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Cancer</a>
-        <a href="Dental.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
-        <a href="ENT.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">ENT</a>
-        <a href="contact.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Contact</a>
-    </div>
-</nav>
+<!-- Navbar Code -->
+<div id="navbar"></div>
 
 <script>
-  // Navbar 1
-  function toggleMenu1() {
-    const navItems = document.getElementById('navItems1');
-    const hamburger = document.getElementById('hamburger1');
-    const closeIcon = document.getElementById('closeIcon1');
-    const isHidden = navItems.style.display === 'none' || navItems.style.display === '';
-    if (isHidden) {
-      navItems.style.display = 'flex';
-      navItems.style.flexDirection = 'column';
-      hamburger.style.display = 'none';
-      closeIcon.style.display = 'block';
-    } else {
-      navItems.style.display = 'none';
-      hamburger.style.display = 'block';
-      closeIcon.style.display = 'none';
-    }
-  }
-  function checkScreenWidth1() {
-    const navItems = document.getElementById('navItems1');
-    const hamburger = document.getElementById('hamburger1');
-    const closeIcon = document.getElementById('closeIcon1');
-    if (window.innerWidth <= 768) {
-      navItems.style.display = 'none';
-      hamburger.style.display = 'block';
-      closeIcon.style.display = 'none';
-    } else {
-      navItems.style.display = 'flex';
-      navItems.style.flexDirection = 'row';
-      hamburger.style.display = 'none';
-      closeIcon.style.display = 'none';
-    }
-  }
-  window.addEventListener('resize', checkScreenWidth1);
-  window.addEventListener('DOMContentLoaded', checkScreenWidth1);
-
-  // Navbar 2
-  function toggleMenu2() {
-    const nav = document.getElementById("navLinks2");
-    const ham = document.getElementById("hamburger2");
-    const close = document.getElementById("closeIcon2");
-    if (nav.style.display === "none" || nav.style.display === "") {
-        nav.style.display = "flex";
-        nav.style.flexDirection = "column";
-        nav.style.alignItems = "center";
-        ham.style.display = "none";
-        close.style.display = "block";
-    } else {
-        nav.style.display = "none";
-        ham.style.display = "block";
-        close.style.display = "none";
-    }
-  }
-  function setResponsiveMenu2() {
-    const nav = document.getElementById("navLinks2");
-    const ham = document.getElementById("hamburger2");
-    const close = document.getElementById("closeIcon2");
-    if (window.innerWidth <= 768) {
-        nav.style.display = "none";
-        ham.style.display = "block";
-        close.style.display = "none";
-    } else {
-        nav.style.display = "flex";
-        nav.style.flexDirection = "row";
-        nav.style.justifyContent = "center";
-        ham.style.display = "none";
-        close.style.display = "none";
-    }
-  }
-  window.addEventListener('resize', setResponsiveMenu2);
-  window.addEventListener('DOMContentLoaded', setResponsiveMenu2);
-
-  // Dropdowns on hover (desktop) and tap (mobile) for Navbar 2
-  function setupDropdowns2() {
-    document.querySelectorAll('#navLinks2 > div').forEach(item => {
-        const dropdown = item.querySelector('div');
-        item.onmouseenter = null;
-        item.onmouseleave = null;
-        item.onclick = null;
-        if (dropdown) {
-            if (window.innerWidth > 768) {
-                item.addEventListener('mouseenter', () => dropdown.style.display = 'block');
-                item.addEventListener('mouseleave', () => dropdown.style.display = 'none');
-            } else {
-                item.addEventListener('click', function(e) {
-                    if (e.target === item.querySelector('a')) {
-                        e.preventDefault();
-                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                    }
-                });
-            }
-        }
-    });
-  }
-  window.addEventListener('resize', setupDropdowns2);
-  window.addEventListener('DOMContentLoaded', setupDropdowns2);
+    fetch('navbar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('navbar').innerHTML = html;
+      });
 </script>
+<!-- Navbar End -->
 
 
-
-<div id="neurology-container" style="font-family:'Arial',sans-serif;max-width:1200px;margin:0 auto;padding:20px;color:#333;line-height:1.6;">
+<div id="neurology-container" style="font-family:'Arial',sans-serif;max-width:100%;padding:20px;color:#333;line-height:1.0;">
    
 <!-- Hero Section with Animated Backgrounds -->
-<section id="neurology-hero" style="height:500px;position:relative;overflow:hidden;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;border-radius:8px;margin-bottom:40px;">
+<section id="neurology-hero" style="height:500px; max-width: 100%; position:relative;overflow:hidden;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;border-radius:8px;">
     <!-- Background images container -->
     <div id="neurology-hero-bgs" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;">
         <div class="hero-bg" style="position:absolute;width:100%;height:100%;background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');background-size:cover;background-position:center;opacity:1;transition:opacity 1.5s ease-in-out;"></div>
@@ -298,10 +64,11 @@
         });
     </script>
 </section>
+
 <!-- Conditions We Treat with Animation -->
-<section style="padding:80px 20px;background-color:#f1f8fe;max-width:1200px;margin:0 auto;overflow:hidden;">
+<section style="padding:80px 20px;background-color:#f1f8fe;max-width:100%;margin:0 auto;overflow:hidden;">
     <h2 style="text-align:center;font-size:2.5rem;margin-bottom:50px;color:#2c3e50;">Neurological Conditions We Treat</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
+    <div style="width: 80%; margin: auto; display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
         <!-- Card 1 -->
         <div style="background-color:#fff;border-left:5px solid #3498db;padding:20px;border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.1);opacity:0;transform:translateY(20px);animation:fadeIn 0.5s ease-out forwards 0.1s;">
             <h3 style="color:#3498db;margin-bottom:10px;">Migraines & Headaches</h3>
@@ -391,6 +158,7 @@
         restartAnimations();
     });
 </script>
+
   <!-- Why Choose Us -->
   <section id="neurology-why-choose" style="background:#f5f9fc;padding:50px 30px;border-radius:8px;margin-bottom:50px;">
     <h2 style="font-size:2rem;color:#2c3e50;margin-bottom:25px;text-align:center;">Why Choose Our Neurology Services</h2>
@@ -415,9 +183,9 @@
 
 
 <!-- Animated Diagnostic Services Section -->
-<section style="padding:80px 20px;background-color:#f1f8fe;max-width:1200px;margin:0 auto;overflow:hidden;">
+<section style="padding:80px 20px;background-color:#f1f8fe;max-width:100%;margin:0 auto;overflow:hidden;">
     <h2 style="text-align:center;font-size:2.5rem;margin-bottom:50px;color:#2c3e50;">Advanced Diagnostic Services</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;">
+    <div style=" width: 75%; margin: auto; display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;">
         <!-- EEG Card -->
         <div style="background-color:#fff;padding:30px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.05);opacity:0;transform:translateX(-50px);animation:slideIn 0.8s ease-out forwards 0.1s, pulse 2s ease-in-out infinite 1s;">
             <div style="background:url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80') center/cover;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px;border:3px solid #e3f2fd;"></div>
@@ -540,66 +308,57 @@
 
 
 
-
 <!-- Research & Innovation -->
-<section style="padding:80px 20px;background-color:#b1a66e;color:#fff;max-width:1200px;margin:0 auto;">
-    <h2 style="text-align:center;font-size:2.5rem;margin-bottom:50px;">Research & Clinical Trials</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;">
-        <div style="background-color:rgba(255,255,255,0.1);padding:30px;border-radius:10px;backdrop-filter:blur(5px);">
-            <h3 style="font-size:1.5rem;margin-bottom:20px;color:#3498db;">Cutting-Edge Research</h3>
-            <p>Our neurologists participate in national clinical trials and research studies to bring the latest treatments to our patients.</p>
-            <ul style="padding-left:20px;margin-top:20px;">
-                <li style="margin-bottom:10px;">Novel epilepsy medications</li>
-                <li style="margin-bottom:10px;">Advanced MS therapies</li>
-                <li style="margin-bottom:10px;">Parkinson's disease research</li>
-            </ul>
-        </div>
-        <div style="background-color:rgba(255,255,255,0.1);padding:30px;border-radius:10px;backdrop-filter:blur(5px);">
-            <h3 style="font-size:1.5rem;margin-bottom:20px;color:#3498db;">Technology Integration</h3>
-            <p>We incorporate the latest neurological technologies into patient care:</p>
-            <ul style="padding-left:20px;margin-top:20px;">
-                <li style="margin-bottom:10px;">Tele-neurology services</li>
-                <li style="margin-bottom:10px;">Advanced neuroimaging analysis</li>
-                <li style="margin-bottom:10px;">Wearable monitoring devices</li>
-            </ul>
-        </div>
-        <div style="background-color:rgba(255,255,255,0.1);padding:30px;border-radius:10px;backdrop-filter:blur(5px);">
-            <h3 style="font-size:1.5rem;margin-bottom:20px;color:#3498db;">Academic Partnerships</h3>
-            <p>Collaborations with leading medical schools and research institutions ensure access to breakthrough treatments.</p>
-            <ul style="padding-left:20px;margin-top:20px;">
-                <li style="margin-bottom:10px;">Clinical trial participation</li>
-                <li style="margin-bottom:10px;">Fellowship training programs</li>
-                <li style="margin-bottom:10px;">Continuing medical education</li>
-            </ul>
-        </div>
+<section style="padding:80px 20px;background-color:#fff;color:#0a0a0a;max-width:1200px;margin:0 auto;font-family:'Poppins', sans-serif;">
+  <h2 style="text-align:center;font-size:2.5rem;margin-bottom:50px;color:#0A0A57;">Research & Clinical Trials</h2>
+  
+  <div style="display:flex;flex-wrap:wrap;gap:30px;justify-content:center;">
+    
+    <!-- Card 1 -->
+    <div style="flex:1 1 300px;background-color:#f9f9f9;padding:30px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform 0.3s ease;">
+      <h3 style="font-size:1.5rem;margin-bottom:20px;color:#0066cc;">Cutting-Edge Research</h3>
+      <p style="line-height:1.6;">Our neurologists participate in national clinical trials and research studies to bring the latest treatments to our patients.</p>
+      <ul style="padding-left:20px;margin-top:20px;line-height:1.6;">
+        <li>Novel epilepsy medications</li>
+        <li>Advanced MS therapies</li>
+        <li>Parkinson's disease research</li>
+      </ul>
     </div>
+    
+    <!-- Card 2 -->
+    <div style="flex:1 1 300px;background-color:#f9f9f9;padding:30px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform 0.3s ease;">
+      <h3 style="font-size:1.5rem;margin-bottom:20px;color:#0066cc;">Technology Integration</h3>
+      <p style="line-height:1.6;">We incorporate the latest neurological technologies into patient care:</p>
+      <ul style="padding-left:20px;margin-top:20px;line-height:1.6;">
+        <li>Tele-neurology services</li>
+        <li>Advanced neuroimaging analysis</li>
+        <li>Wearable monitoring devices</li>
+      </ul>
+    </div>
+    
+    <!-- Card 3 -->
+    <div style="flex:1 1 300px;background-color:#f9f9f9;padding:30px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform 0.3s ease;">
+      <h3 style="font-size:1.5rem;margin-bottom:20px;color:#0066cc;">Academic Partnerships</h3>
+      <p style="line-height:1.6;">Collaborations with leading medical schools and research institutions ensure access to breakthrough treatments.</p>
+      <ul style="padding-left:20px;margin-top:20px;line-height:1.6;">
+        <li>Clinical trial participation</li>
+        <li>Fellowship training programs</li>
+        <li>Continuing medical education</li>
+      </ul>
+    </div>
+    
+  </div>
 </section>
 
 
 
 
-<!-- Wellness Resources -->
-<section id="neurology-resources" style="margin-bottom:50px;">
-<h2 style="font-size:2rem;color:#2c3e50;margin-bottom:25px;padding-bottom:10px;border-bottom:2px solid #4a90e2;display:inline-block;">Patient Resources</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;margin-top:30px;">
-    <a href="#" style="display:flex;align-items:center;background:#f5f9fc;padding:15px;border-radius:8px;text-decoration:none;color:#2c3e50;transition:all 0.3s ease;" onmouseover="this.style.backgroundColor='#eef7ff'" onmouseout="this.style.backgroundColor='#f5f9fc'">
-        <span style="margin-right:10px;color:#4a90e2;font-size:1.2rem;">📋</span> New Patient Forms
-    </a>
-    <a href="#" style="display:flex;align-items:center;background:#f5f9fc;padding:15px;border-radius:8px;text-decoration:none;color:#2c3e50;transition:all 0.3s ease;" onmouseover="this.style.backgroundColor='#eef7ff'" onmouseout="this.style.backgroundColor='#f5f9fc'">
-        <span style="margin-right:10px;color:#4a90e2;font-size:1.2rem;">🧠</span> Brain Health Tips
-    </a>
-    <a href="#" style="display:flex;align-items:center;background:#f5f9fc;padding:15px;border-radius:8px;text-decoration:none;color:#2c3e50;transition:all 0.3s ease;" onmouseover="this.style.backgroundColor='#eef7ff'" onmouseout="this.style.backgroundColor='#f5f9fc'">
-        <span style="margin-right:10px;color:#4a90e2;font-size:1.2rem;">📚</span> Condition Guides
-    </a>
-    <a href="#" style="display:flex;align-items:center;background:#f5f9fc;padding:15px;border-radius:8px;text-decoration:none;color:#2c3e50;transition:all 0.3s ease;" onmouseover="this.style.backgroundColor='#eef7ff'" onmouseout="this.style.backgroundColor='#f5f9fc'">
-        <span style="margin-right:10px;color:#4a90e2;font-size:1.2rem;">🎥</span> Educational Videos
-    </a>
-</div>
+
 
 
 <!-- Emergency Info -->
-<section id="neurology-emergency" style="background:#fff8f8;border-left:4px solid #e74c3c;padding:30px;border-radius:0 8px 8px 0;margin-bottom:50px;">
-    <h2 style="font-size:1.8rem;color:#e74c3c;margin-bottom:20px;">Neurological Emergencies</h2>
+<section id="neurology-emergency" style="background:#fff;border-left:4px solid #fff;padding:30px;border-radius:0 8px 8px 0; width: 60%; margin: auto;">
+    <h2 style="font-size:1.8rem;color:#000 ;margin-bottom:20px;">Neurological Emergencies</h2>
     <p style="margin-bottom:20px;"><strong>If you or someone you know is experiencing any of the following symptoms, seek emergency medical attention immediately:</strong></p>
     <ul style="margin-bottom:20px;padding-left:20px;">
         <li style="margin-bottom:10px;">Sudden severe headache (worst headache of your life)</li>
@@ -610,8 +369,9 @@
     </ul>
     <p>Call 911 or go to the nearest emergency room. Time is critical for stroke and other neurological emergencies.</p>
 </section>
+
 <!-- Insurance Information -->
-<section id="neurology-insurance" style="margin-bottom:50px;">
+<section id="neurology-insurance" style="margin-bottom:50px; width: 80%; margin: auto;">
     <h2 style="font-size:2rem;color:#2c3e50;margin-bottom:25px;padding-bottom:10px;border-bottom:2px solid #4a90e2;display:inline-block;">Insurance & Payment</h2>
     <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:30px;margin-top:20px;">
         <p style="margin-bottom:20px;">We accept most major insurance plans and are happy to assist with verification of benefits:</p>
@@ -630,6 +390,7 @@
         <p>For patients without insurance coverage, we offer competitive self-pay rates and payment plans.</p>
     </div>
 </section>
+
    <!-- Our Neurologists -->
    <section style="padding:80px 20px;background-color:#fff;max-width:1200px;margin:0 auto;">
     <h2 style="text-align:center;font-size:2.5rem;margin-bottom:50px;color:#2c3e50;">Meet Our Neurology Team</h2>
@@ -660,7 +421,7 @@
 
 
 <!-- Patient Testimonials -->
-<section style="padding:80px 20px;background-color:#f1f8fe;max-width:1200px;margin:0 auto;">
+<section style="padding:80px 20px;background-color:#fff;max-width:80%;margin:0 auto;">
     <h2 style="text-align:center;font-size:2.5rem;margin-bottom:50px;color:#2c3e50;">Patient Success Stories</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;">
         <div style="background-color:#fff;padding:30px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.05);position:relative;">
@@ -701,7 +462,7 @@
 
 
     <!-- FAQ Section -->
-<section class="faq-section" style="margin-bottom: 50px;">
+<section class="faq-section" style="margin-bottom: 50px; width: 80%; margin: auto;">
         <h2 style="font-size: 2rem; color: #2c3e50; text-align: center; margin-bottom: 40px;">Neurology FAQs</h2>
         <div class="faq-container" style="max-width: 800px; margin: 0 auto;">
             <div class="faq-item" style="margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
@@ -745,7 +506,7 @@
 
 
 <!-- Appointment Booking -->
-<section id="neurology-appointment" style="background:#4a90e2;color:#fff;padding:50px 30px;border-radius:8px;margin-bottom:50px;text-align:center;">
+<section id="neurology-appointment" style="background:#4a90e2;color:#fff;padding:50px 30px;border-radius:8px;text-align:center;">
     <h2 style="font-size:2rem;margin-bottom:20px;">Schedule Your Neurology Consultation</h2>
     <p style="max-width:700px;margin:0 auto 30px;font-size:1.1rem;">Our team is ready to provide expert neurological care. Book your appointment today.</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;">
