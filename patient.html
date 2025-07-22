@@ -24,98 +24,142 @@
     
 <div style="display: flex; max-width: 1300px; margin: 40px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); font-family: 'Segoe UI', sans-serif;">
 
-    <!-- Left section with image and content -->
-    <div style="flex: 1; background: #f0f8ff; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-      <img src="https://cdn-icons-png.flaticon.com/512/4320/4320337.png" alt="Patient" style="width: 150px; margin-bottom: 20px;">
-      <h2 style="color: #00796b; font-size: 24px; margin-bottom: 10px;">Welcome to Our Healthcare Family</h2>
-      <p style="color: #555; font-size: 16px; text-align: center;">Your health matters to us. Please register to access personalized medical care, appointments, and diagnostics. Let’s start your journey toward better health today.</p>
-    </div>
-  
-    <!-- Right section with form -->
-    <div style="flex: 1.5; background: #ffffff; padding: 40px;">
-      <h2 style="text-align: center; color: #333; font-size: 26px; margin-bottom: 25px;">📝 Patient Registration</h2>
-      <form id="registrationForm">
-        
-        <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">First Name:</label>
-            <input type="text" id="first_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Last Name:</label>
-            <input type="text" id="last_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-        </div>
-  
-        <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Email:</label>
-            <input type="email" id="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Mobile:</label>
-            <input type="tel" id="mobile" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-        </div>
-  
-        <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Password:</label>
-            <input type="password" id="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Confirm Password:</label>
-            <input type="password" id="confirm_password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-        </div>
-  
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Gender:</label>
-            <select id="gender" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-              <option value="">Select</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Blood Group:</label>
-            <select id="blood_group" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-              <option value="">Select</option>
-              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-              <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-            </select>
-          </div>
-        </div>
-  
-        <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">DOB:</label>
-            <input type="date" id="dob" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-          <div style="flex: 1;">
-            <label style="font-weight: 600;">Disease:</label>
-            <input type="text" id="disease" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-          </div>
-        </div>
-  
-        <div style="margin-bottom: 15px;">
-          <label style="font-weight: 600;">Address:</label>
-          <textarea id="address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 60px;"></textarea>
-        </div>
-  
-        <button type="submit" style="width: 100%; background-color: #007BFF; color: white; padding: 12px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">Register</button>
-  
-        <div style="text-align: center; margin-top: 15px;">
-          <p style="font-size: 14px; color: #666;">Already registered? <a href="patientLogin.html" style="color: #007BFF; text-decoration: none;">Login here</a></p>
-          <p style="font-size: 14px; color: #666;">Forgot your password? <a href="forgot-password.html" style="color: #007BFF; text-decoration: none;">Reset here</a></p>
-        </div>
-      </form>
-    </div>
+  <!-- Left section -->
+  <div style="flex: 1; background: #f0f8ff; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img src="https://cdn-icons-png.flaticon.com/512/4320/4320337.png" alt="Patient" style="width: 150px; margin-bottom: 20px;">
+    <h2 style="color: #00796b; font-size: 24px; margin-bottom: 10px;">Welcome to Our Healthcare Family</h2>
+    <p style="color: #555; font-size: 16px; text-align: center;">
+      Your health matters to us. Please register to access personalized medical care, appointments, and diagnostics. Let’s start your journey toward better health today.
+    </p>
   </div>
-  
-  
+
+  <!-- Right section -->
+  <div style="flex: 1.5; background: #ffffff; padding: 40px;">
+    <h2 style="text-align: center; color: #333; font-size: 26px; margin-bottom: 25px;">📝 Patient Registration</h2>
+    <form id="registrationForm">
+
+      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">First Name:</label>
+          <input type="text" id="first_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Last Name:</label>
+          <input type="text" id="last_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Email:</label>
+          <input type="email" id="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Mobile:</label>
+          <input type="tel" id="mobile" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Password:</label>
+          <input type="password" id="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Confirm Password:</label>
+          <input type="password" id="confirm_password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Gender:</label>
+          <select id="gender" required style="width: 106%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Blood Group:</label>
+          <select id="blood_group" required style="width: 106%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+            <option value="">Select</option>
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">DOB:</label>
+          <input type="date" id="dob" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+        <div style="flex: 1;">
+          <label style="font-weight: 600;">Disease:</label>
+          <input type="text" id="disease" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <label style="font-weight: 600;">Address:</label>
+        <textarea id="address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 60px;"></textarea>
+      </div>
+
+      <button type="submit" style="width: 100%; background-color: #007BFF; color: white; padding: 12px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">Register</button>
+
+      <div style="text-align: center; margin-top: 15px;">
+        <p style="font-size: 14px; color: #666;">Already registered? <a href="patientLogin.html" style="color: #007BFF; text-decoration: none;">Login here</a></p>
+        <p style="font-size: 14px; color: #666;">Forgot your password? <a href="forgot-password.html" style="color: #007BFF; text-decoration: none;">Reset here</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("registrationForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    const formData = {
+      first_name: document.getElementById("first_name").value,
+      last_name: document.getElementById("last_name").value,
+      email: document.getElementById("email").value,
+      mobile: document.getElementById("mobile").value,
+      password: password,
+      confirm_password: confirmPassword,
+      blood_group: document.getElementById("blood_group").value,
+      gender: document.getElementById("gender").value,
+      dob: document.getElementById("dob").value,
+      disease: document.getElementById("disease").value,
+      address: document.getElementById("address").value
+    };
+
+    fetch("https://hitaishihealthcare.com/patient.html", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      console.log("Success:", data);
+      window.location.href = "patientLogin.html";
+    });
+  });
+</script>
+
+
 <!-- Footer -->
 <div style="background-color:#0f0f0f; padding: 30px 20px; text-align: center; font-family: 'Segoe UI', sans-serif; border-top: 1px solid #030303; ">
     
@@ -152,50 +196,6 @@
 
     <p style="font-size: 14px; color: #888;">&copy; 2025 Hitaishi Health Care. All rights reserved.</p>
 </div>
-
-
-    <script>
-        document.getElementById("registrationForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirm_password").value;
-
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return;
-            }
-
-            const formData = {
-                first_name: document.getElementById("first_name").value,
-                last_name: document.getElementById("last_name").value,
-                email: document.getElementById("email").value,
-                mobile: document.getElementById("mobile").value,
-                password: password,
-                confirm_password: confirmPassword,
-                blood_group: document.getElementById("blood_group").value,
-                gender: document.getElementById("gender").value,
-                dob: document.getElementById("dob").value,
-                disease: document.getElementById("disease").value,
-                address: document.getElementById("address").value
-            };
-
-            fetch("https://hitaishihealthcare.com/patient.html", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                console.log("Success:", data);
-                window.location.href = "patientLogin.html";
-            })
-            // .catch(error => console.error("Error:", error));
-        });
-    </script>
 
 <!-- Placeholder where chatbot will be inserted -->
 <div id="chatbot-placeholder"></div>
