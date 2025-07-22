@@ -488,6 +488,7 @@
             }
         </style>
     </section>
+
     <!-- Compact Emergency Info Section -->
     <section style="padding:50px 20px;background:#817b7f;color:#fff;text-align:center;" aria-label="Emergency Information">
             <div style="max-width:700px;margin:0 auto;">
@@ -509,6 +510,7 @@
                 <a href="tel:911" style="background:#fff;color:#e63946;padding:12px 25px;border-radius:25px;text-decoration:none;font-weight:600;display:inline-block;font-size:1rem;transition:all 0.3s;box-shadow:0 3px 10px rgba(0,0,0,0.2);" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 3px 10px rgba(0,0,0,0.2)'">Call 911 Now</a>
             </div>
     </section>
+
     <!-- Meet Our Cardiologists -->
     <section style="padding:80px 20px;background:#f8f9fa;" aria-label="Our Cardiology Team">
         <div style="max-width:1200px;margin:0 auto;">
@@ -723,5 +725,32 @@
             }
         }
     </script>
+
+    <!-- Placeholder where chatbot will be inserted -->
+<div id="chatbot-placeholder"></div>
+
+<!-- JS to load the chatbot -->
+<script>
+    fetch('chatbot.html')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById('chatbot-placeholder');
+        container.innerHTML = html;
+
+        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+        // ✅ So, we must find and re-run those <script> blocks manually:
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      });
+</script>
+
 </body>
 </html>

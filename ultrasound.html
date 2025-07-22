@@ -531,6 +531,32 @@
 
 
 
+<!-- Placeholder where chatbot will be inserted -->
+<div id="chatbot-placeholder"></div>
+
+<!-- JS to load the chatbot -->
+<script>
+    fetch('chatbot.html')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById('chatbot-placeholder');
+        container.innerHTML = html;
+
+        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+        // ✅ So, we must find and re-run those <script> blocks manually:
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      });
+</script>
+
 </body>
 </html>
 

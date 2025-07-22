@@ -612,35 +612,35 @@
   </section>
 
  
-  <script>
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-  const formData = {
-    name: document.getElementById('name').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    subject: document.getElementById('subject').value.trim(),
-    message: document.getElementById('message').value.trim()
-  };
+    const formData = {
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      subject: document.getElementById('subject').value.trim(),
+      message: document.getElementById('message').value.trim()
+    };
 
-  try {
-    const res = await fetch('https://hitaishihealthcare.com/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
+    try {
+      const res = await fetch('https://hitaishihealthcare.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
-    const data = await res.json();
-    alert(data.message);
-    if (res.ok) {
-      document.getElementById('contactForm').reset();
+      const data = await res.json();
+      alert(data.message);
+      if (res.ok) {
+        document.getElementById('contactForm').reset();
+      }
+
+    } catch (err) {
+      console.error('Error:', err);
+      alert('❌ Failed to send message. Try again later.');
     }
-
-  } catch (err) {
-    console.error('Error:', err);
-    alert('❌ Failed to send message. Try again later.');
-  }
-});
+  });
 </script>
 
 
@@ -705,6 +705,32 @@ document.getElementById('contactForm').addEventListener('submit', async function
             <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
         </div>
     </footer>
+
+  <!-- Placeholder where chatbot will be inserted -->
+<div id="chatbot-placeholder"></div>
+
+<!-- JS to load the chatbot -->
+<script>
+    fetch('chatbot.html')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById('chatbot-placeholder');
+        container.innerHTML = html;
+
+        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+        // ✅ So, we must find and re-run those <script> blocks manually:
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      });
+</script>
 
 </body>
 </html>

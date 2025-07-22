@@ -80,27 +80,6 @@
     </section>
 
 
-    <!-- Header -->
-    <!-- <header style="background: linear-gradient(90deg, #007bff, #00c4b4); padding: 20px; text-align: center; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-        <h1 style="margin: 0; font-size: 2.5em;">Hitaishi Healthcare</h1>
-        <p style="margin: 5px 0; font-size: 1.2em;">Empowering Healthcare Excellence</p>
-    </header> -->
-
-
-    <!-- Navigation -->
-    <!-- <nav style="background-color: #343a40; padding: 15px; text-align: center;">
-        <a href="#overview" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Overview</a>
-        <a href="#mission" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Mission & Vision</a>
-        <a href="#categories" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Categories</a>
-        <a href="#team" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Our Team</a>
-        <a href="#partnerships" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Partnerships</a>
-        <a href="#sustainability" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Sustainability</a>
-        <a href="#testimonials" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Testimonials</a>
-        <a href="#faq" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">FAQ</a>
-         <a href="#contact" style="color: white; text-decoration: none; margin: 0 20px; font-size: 1.1em;">Contact</a>
-    </nav> -->
-
-
     <!-- Main Content -->
     <main style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
         <!-- <section id="overview" style="margin-bottom: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px;">
@@ -433,6 +412,33 @@
             <a href="#" style="color: #00c4b4; text-decoration: none; margin: 0 10px;">Terms of Service</a>
         </div>
     </footer>
+
+
+    <!-- Placeholder where chatbot will be inserted -->
+<div id="chatbot-placeholder"></div>
+
+<!-- JS to load the chatbot -->
+<script>
+    fetch('chatbot.html')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById('chatbot-placeholder');
+        container.innerHTML = html;
+
+        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+        // ✅ So, we must find and re-run those <script> blocks manually:
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      });
+</script>
 </body>
 </html>
 

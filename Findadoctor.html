@@ -64,70 +64,70 @@
         </div>
     </div>
 <script>
-async function searchDoctors(event) {
-    event.preventDefault();
+    async function searchDoctors(event) {
+        event.preventDefault();
 
-    // Hide all error messages
-    document.getElementById('nameError').style.display = 'none';
-    document.getElementById('phoneError').style.display = 'none';
-    document.getElementById('emailError').style.display = 'none';
-    document.getElementById('locationError').style.display = 'none';
+        // Hide all error messages
+        document.getElementById('nameError').style.display = 'none';
+        document.getElementById('phoneError').style.display = 'none';
+        document.getElementById('emailError').style.display = 'none';
+        document.getElementById('locationError').style.display = 'none';
 
-    // Get input values
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const location = document.getElementById('location').value.trim();
+        // Get input values
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const location = document.getElementById('location').value.trim();
 
-    let isValid = true;
+        let isValid = true;
 
-    // Basic field validation
-    if (!name) {
-        document.getElementById('nameError').style.display = 'block';
-        isValid = false;
-    }
-    if (!phone) {
-        document.getElementById('phoneError').innerText = 'Phone number is required';
-        document.getElementById('phoneError').style.display = 'block';
-        isValid = false;
-    }
-    if (!email) {
-        document.getElementById('emailError').innerText = 'Email is required';
-        document.getElementById('emailError').style.display = 'block';
-        isValid = false;
-    }
-    if (!location) {
-        document.getElementById('locationError').style.display = 'block';
-        isValid = false;
-    }
-
-    if (!isValid) {
-        return;
-    }
-
-    // Send data to backend (example with fetch)
-    try {
-        const response = await fetch('https://hitaishihealthcare.com/api/finddoctor', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, phone, email, location }),
-        });
-
-        const data = await response.json();
-
-        if (data.status === false) {
-            alert(data.error || "Something went wrong.");
-        } else {
-            alert("Doctors found!"); // or redirect/display result
+        // Basic field validation
+        if (!name) {
+            document.getElementById('nameError').style.display = 'block';
+            isValid = false;
+        }
+        if (!phone) {
+            document.getElementById('phoneError').innerText = 'Phone number is required';
+            document.getElementById('phoneError').style.display = 'block';
+            isValid = false;
+        }
+        if (!email) {
+            document.getElementById('emailError').innerText = 'Email is required';
+            document.getElementById('emailError').style.display = 'block';
+            isValid = false;
+        }
+        if (!location) {
+            document.getElementById('locationError').style.display = 'block';
+            isValid = false;
         }
 
-    } catch (error) {
-        console.error("Error:", error);
-        alert("An unexpected error occurred.");
+        if (!isValid) {
+            return;
+        }
+
+        // Send data to backend (example with fetch)
+        try {
+            const response = await fetch('https://hitaishihealthcare.com/api/finddoctor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, phone, email, location }),
+            });
+
+            const data = await response.json();
+
+            if (data.status === false) {
+                alert(data.error || "Something went wrong.");
+            } else {
+                alert("Doctors found!"); // or redirect/display result
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An unexpected error occurred.");
+        }
     }
-}
 </script>
 
     <!-- Popup Modal -->
@@ -633,6 +633,34 @@ async function searchDoctors(event) {
             <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
         </div>
     </footer>
+
+
+
+<!-- Placeholder where chatbot will be inserted -->
+<div id="chatbot-placeholder"></div>
+
+<!-- JS to load the chatbot -->
+<script>
+    fetch('chatbot.html')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById('chatbot-placeholder');
+        container.innerHTML = html;
+
+        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+        // ✅ So, we must find and re-run those <script> blocks manually:
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      });
+</script>
 
 </body>
 </html>
