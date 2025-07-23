@@ -6,7 +6,7 @@
     <title>Hitaishi Healthcare Services</title>
     <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
 
@@ -29,73 +29,141 @@
     <!-- Registraion form -->
     <div style="font-family: Arial, sans-serif; margin: 0; padding: 20px;background: url('https://img.freepik.com/free-photo/abstract-design-background-smooth-flowing-lines_1048-14640.jpg?semt=ais_country_boost&w=740') no-repeat center center / cover;">
         <!-- <h2 style="text-align: center; color: #333;">Doctor Registration Form</h2> -->
-        <form id="doctorRegistrationForm" action="https://hitaishihealthcare.com/api/doctors" method="POST"  style="max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; color: blue;">Doctor Registration Form</h2><br>
-            <h3>Personal Information</h3>
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="first_name" style="font-weight: bold;">First Name:</label>
-                    <input type="text" id="first_name" name="first_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <form id="doctorRegistrationForm" action="https://hitaishihealthcare.com/api/doctors" method="POST" style="max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; color: blue; margin-bottom: 25px;">Doctor Registration Form</h2>
+            
+            <h3 style="margin-bottom: 15px;">Personal Information</h3>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="first_name" style="font-weight: bold; display: block; margin-bottom: 8px;">First Name:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="first_name" name="first_name" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">First Name</span>
+                    </div>
                 </div>
-                <div style="width: 50%;">
-                    <label for="last_name" style="font-weight: bold;">Last Name:</label>
-                    <input type="text" id="last_name" name="last_name" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                </div>
-            </div>
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="email" style="font-weight: bold;">Email:</label>
-                    <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                </div>
-                <div style="width: 50%;">
-                    <label for="mobile" style="font-weight: bold;">mobile Number:</label>
-                    <input type="text" id="mobile" name="mobile" required pattern="[0-9]{10}" title="mobile number must be 10 digits" style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                </div>
-            </div>
-            <label for="address" style="font-weight: bold;">Address:</label>
-            <textarea id="address" name="address" required rows="3" style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
-        
-            <h3>Educational Background</h3>
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="degree" style="font-weight: bold;">Degree:</label>
-                    <input type="text" id="degree" name="degree" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                </div>
-                <div style="width: 50%;">
-                    <label for="university" style="font-weight: bold;">University:</label>
-                    <input type="text" id="university" name="university" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="last_name" style="font-weight: bold; display: block; margin-bottom: 8px;">Last Name:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="last_name" name="last_name" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Last Name</span>
+                    </div>
                 </div>
             </div>
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="experience" style="font-weight: bold;">Years of Practice:</label>
-                    <input type="number" id="experience" name="experience" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="email" style="font-weight: bold; display: block; margin-bottom: 8px;">Email:</label>
+                    <div style="position: relative;">
+                        <input type="email" id="email" name="email" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Email</span>
+                    </div>
                 </div>
-                <div style="width: 50%;">
-                    <label for="aadhar_card" style="font-weight: bold;">aadhar Card Number:</label>
-                    <input type="text" id="aadhar_card" name="aadhar_card" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="mobile" style="font-weight: bold; display: block; margin-bottom: 8px;">Mobile Number:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="mobile" name="mobile" required pattern="[0-9]{10}" title="mobile number must be 10 digits" 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Mobile Number</span>
+                    </div>
                 </div>
             </div>
-        
-            <h3>Professional Information</h3>
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="license_number" style="font-weight: bold;">Medical License Number:</label>
-                    <input type="text" id="license_number" name="license_number" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                </div>
-                <div style="width: 50%;">
-                    <label for="specialization" style="font-weight: bold;">Specialization:</label>
-                    <input type="text" id="specialization" name="specialization" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            
+            <div style="margin-top: 15px;">
+                <label for="address" style="font-weight: bold; display: block; margin-bottom: 8px;">Address:</label>
+                <div style="position: relative;">
+                    <textarea id="address" name="address" required rows="3" 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; resize: vertical;"
+                            placeholder=" "></textarea>
+                    <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Address</span>
                 </div>
             </div>
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="clinic" style="font-weight: bold;">Clinic/Hospital Name:</label>
-                    <input type="text" id="clinic" name="clinic" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            
+            <h3 style="margin: 25px 0 15px 0;">Educational Background</h3>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="degree" style="font-weight: bold; display: block; margin-bottom: 8px;">Degree:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="degree" name="degree" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Degree</span>
+                    </div>
                 </div>
-                <div style="width: 50%;">
-                    <label for="availability" style="font-weight: bold;">Available At:</label>
-                    <select id="availability" name="availability" required style="width: 104%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="university" style="font-weight: bold; display: block; margin-bottom: 8px;">University:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="university" name="university" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">University</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="experience" style="font-weight: bold; display: block; margin-bottom: 8px;">Years of Practice:</label>
+                    <div style="position: relative;">
+                        <input type="number" id="experience" name="experience" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Years of Practice</span>
+                    </div>
+                </div>
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="aadhar_card" style="font-weight: bold; display: block; margin-bottom: 8px;">Aadhar Card Number:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="aadhar_card" name="aadhar_card" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Aadhaar Number</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin: 25px 0 15px 0;">Professional Information</h3>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="license_number" style="font-weight: bold; display: block; margin-bottom: 8px;">Medical License Number:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="license_number" name="license_number" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">License Number</span>
+                    </div>
+                </div>
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="specialization" style="font-weight: bold; display: block; margin-bottom: 8px;">Specialization:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="specialization" name="specialization" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Specialization</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="clinic" style="font-weight: bold; display: block; margin-bottom: 8px;">Clinic/Hospital Name:</label>
+                    <div style="position: relative;">
+                        <input type="text" id="clinic" name="clinic" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Clinic/Hospital</span>
+                    </div>
+                </div>
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="availability" style="font-weight: bold; display: block; margin-bottom: 8px;">Available At:</label>
+                    <select id="availability" name="availability" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; background-color: white;">
                         <option value="">Select</option>
                         <option value="Diagnostic Center">Diagnostic Center</option>
                         <option value="Online Only">Online Only</option>
@@ -103,65 +171,112 @@
                     </select>
                 </div>
             </div>
-
             
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="from_time" style="font-weight: bold;">From Time:</label>
-                    <input type="time" id="from_time" name="from_time" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="from_time" style="font-weight: bold; display: block; margin-bottom: 8px;">From Time:</label>
+                    <input type="time" id="from_time" name="from_time" required 
+                        style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
                 </div>
-                <div style="width: 50%;">
-                    <label for="to_time" style="font-weight: bold;">To Time:</label>
-                    <input type="time" id="to_time" name="to_time" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="to_time" style="font-weight: bold; display: block; margin-bottom: 8px;">To Time:</label>
+                    <input type="time" id="to_time" name="to_time" required 
+                        style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
                 </div>
             </div>
-
-            
-            <div style="display: flex; gap: 30px;">
-                <div style="width: 50%;">
-                    <label for="password" style="font-weight: bold;">Password:</label>
-                    <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+    
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="password" style="font-weight: bold; display: block; margin-bottom: 8px;">Password:</label>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Enter Password</span>
+                    </div>
                 </div>
-                <div style="width: 50%;">
-                    <label for="confirm_password" style="font-weight: bold;">Confirm Password:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required style="width: 98%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div style="width: 100%; min-width: 200px; flex: 1;">
+                    <label for="confirm_password" style="font-weight: bold; display: block; margin-bottom: 8px;">Confirm Password:</label>
+                    <div style="position: relative;">
+                        <input type="password" id="confirm_password" name="confirm_password" required 
+                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                            placeholder=" ">
+                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Confirm Password</span>
+                    </div>
                 </div>
             </div>
-        
-            <!-- <label for="profile_image" style="font-weight: bold;">Profile Image:</label>
-            <input type="file" id="profile_image" name="profile_image" accept="image/*" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
-         -->
-            <button type="submit" style="width: 100%; background-color: #007bff; color: white; padding: 10px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;">Register</button>
-              <!-- Social Login Section -->
-      
-              <div style="text-align: center; margin: 20px 0;">
-                <span style="display: inline-block; font-size: 14px; color: #666; margin-bottom: 10px;">OR CONTINUE WITH</span>
-                <div style="margin-top: 10px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-              
-                  <a href="https://accounts.google.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; padding: 8px 16px; background: white;">
-                    <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google" style="width: 20px; height: 20px; margin-right: 8px;">
-                    <span style="color: #000; font-weight: bold;">Google</span>
-                  </a>
-              
-                  <a href="https://facebook.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; padding: 8px 16px; background: white;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width: 20px; height: 20px; margin-right: 8px;">
-                    <span style="color: #1877f2; font-weight: bold;">Facebook</span>
-                  </a>
-              
-                  <a href="https://twitter.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; padding: 8px 16px; background: rgb(255, 255, 255);">
-                    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" style="width: 20px; height: 20px; margin-right: 8px;">
-                    <span style="color: #1da1f2; font-weight: bold;">Twitter</span>
-                  </a>
-              
+            
+            <button type="submit" style="width: 100%; background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 25px; transition: background-color 0.3s;" 
+                    onmouseover="this.style.backgroundColor='#0069d9'" onmouseout="this.style.backgroundColor='#007bff'">Register</button>
+            
+            <!-- Social Login Section -->
+            <div style="text-align: center; margin: 25px 0;">
+                <span style="display: inline-block; font-size: 14px; color: #666; margin-bottom: 15px; position: relative;">
+                    <span style="background: white; padding: 0 10px; position: relative; z-index: 1;">OR CONTINUE WITH</span>
+                    <span style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ddd; z-index: 0;"></span>
+                </span>
+                <div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <a href="https://accounts.google.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px 16px; background: white; transition: all 0.3s;" 
+                    onmouseover="this.style.boxShadow='0 0 5px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google" style="width: 20px; height: 20px; margin-right: 8px;">
+                        <span style="color: #000; font-weight: bold;">Google</span>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px 16px; background: white; transition: all 0.3s;" 
+                    onmouseover="this.style.boxShadow='0 0 5px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width: 20px; height: 20px; margin-right: 8px;">
+                        <span style="color: #1877f2; font-weight: bold;">Facebook</span>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px 16px; background: white; transition: all 0.3s;" 
+                    onmouseover="this.style.boxShadow='0 0 5px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" style="width: 20px; height: 20px; margin-right: 8px;">
+                        <span style="color: #1da1f2; font-weight: bold;">Twitter</span>
+                    </a>
                 </div>
-              </div>
-              
-  
-            <div style="text-align: center; margin-top: 15px;">
-                <p style="font-size: 14px; color: #333;">Already registered? <a href="doctorlogin.html" style="color: #007BFF; text-decoration: none;">Login here</a></p>
-
-              </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <p style="font-size: 14px; color: #333;">Already registered? <a href="doctorlogin.html" style="color: #007BFF; text-decoration: none; font-weight: bold;">Login here</a></p>
+            </div>
         </form>
+
+        <script>
+            // This script handles the floating label effect
+            document.querySelectorAll('input[placeholder=" "], textarea[placeholder=" "]').forEach(input => {
+                const span = input.nextElementSibling;
+                
+                // Focus event
+                input.addEventListener('focus', () => {
+                    span.style.top = '-18px';
+                    span.style.left = '0';
+                    span.style.fontSize = '12px';
+                    span.style.color = '#007bff';
+                    span.style.backgroundColor = 'white';
+                    span.style.padding = '0 5px';
+                });
+                
+                // Blur event
+                input.addEventListener('blur', () => {
+                    if (!input.value) {
+                        span.style.top = '12px';
+                        span.style.left = '12px';
+                        span.style.fontSize = '';
+                        span.style.color = '#999';
+                        span.style.backgroundColor = 'transparent';
+                        span.style.padding = '0';
+                    }
+                });
+                
+                // Check on page load if there's already a value (for browser autofill)
+                if (input.value) {
+                    span.style.top = '-18px';
+                    span.style.left = '0';
+                    span.style.fontSize = '12px';
+                    span.style.color = '#007bff';
+                    span.style.backgroundColor = 'white';
+                    span.style.padding = '0 5px';
+                }
+            });
+        </script>
         
     </div>
 

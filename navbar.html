@@ -150,7 +150,7 @@
             </div>
 
             <a href="ai.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
-            <a href="doctor.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctors</a>
+            <a href="doctor.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctor Registration</a>
             <a href="patientLogin.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
             <a href="Cancer.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Cancer</a>
             <a href="Dental.html" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
@@ -160,100 +160,100 @@
     </nav>
 
     <script>
-    // Navbar 1
-    function toggleMenu1() {
-        const navItems = document.getElementById('navItems1');
-        const hamburger = document.getElementById('hamburger1');
-        const closeIcon = document.getElementById('closeIcon1');
-        const isHidden = navItems.style.display === 'none' || navItems.style.display === '';
-        if (isHidden) {
-        navItems.style.display = 'flex';
-        navItems.style.flexDirection = 'column';
-        hamburger.style.display = 'none';
-        closeIcon.style.display = 'block';
-        } else {
-        navItems.style.display = 'none';
-        hamburger.style.display = 'block';
-        closeIcon.style.display = 'none';
-        }
-    }
-    function checkScreenWidth1() {
-        const navItems = document.getElementById('navItems1');
-        const hamburger = document.getElementById('hamburger1');
-        const closeIcon = document.getElementById('closeIcon1');
-        if (window.innerWidth <= 768) {
-        navItems.style.display = 'none';
-        hamburger.style.display = 'block';
-        closeIcon.style.display = 'none';
-        } else {
-        navItems.style.display = 'flex';
-        navItems.style.flexDirection = 'row';
-        hamburger.style.display = 'none';
-        closeIcon.style.display = 'none';
-        }
-    }
-    window.addEventListener('resize', checkScreenWidth1);
-    window.addEventListener('DOMContentLoaded', checkScreenWidth1);
-
-    // Navbar 2
-    function toggleMenu2() {
-        const nav = document.getElementById("navLinks2");
-        const ham = document.getElementById("hamburger2");
-        const close = document.getElementById("closeIcon2");
-        if (nav.style.display === "none" || nav.style.display === "") {
-            nav.style.display = "flex";
-            nav.style.flexDirection = "column";
-            nav.style.alignItems = "center";
-            ham.style.display = "none";
-            close.style.display = "block";
-        } else {
-            nav.style.display = "none";
-            ham.style.display = "block";
-            close.style.display = "none";
-        }
-    }
-    function setResponsiveMenu2() {
-        const nav = document.getElementById("navLinks2");
-        const ham = document.getElementById("hamburger2");
-        const close = document.getElementById("closeIcon2");
-        if (window.innerWidth <= 768) {
-            nav.style.display = "none";
-            ham.style.display = "block";
-            close.style.display = "none";
-        } else {
-            nav.style.display = "flex";
-            nav.style.flexDirection = "row";
-            nav.style.justifyContent = "center";
-            ham.style.display = "none";
-            close.style.display = "none";
-        }
-    }
-    window.addEventListener('resize', setResponsiveMenu2);
-    window.addEventListener('DOMContentLoaded', setResponsiveMenu2);
-
-    // Dropdowns on hover (desktop) and tap (mobile) for Navbar 2
-    function setupDropdowns2() {
-        document.querySelectorAll('#navLinks2 > div').forEach(item => {
-            const dropdown = item.querySelector('div');
-            item.onmouseenter = null;
-            item.onmouseleave = null;
-            item.onclick = null;
-            if (dropdown) {
-                if (window.innerWidth > 768) {
-                    item.addEventListener('mouseenter', () => dropdown.style.display = 'block');
-                    item.addEventListener('mouseleave', () => dropdown.style.display = 'none');
-                } else {
-                    item.addEventListener('click', function(e) {
-                        if (e.target === item.querySelector('a')) {
-                            e.preventDefault();
-                            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                        }
-                    });
-                }
+        // Navbar 1
+        function toggleMenu1() {
+            const navItems = document.getElementById('navItems1');
+            const hamburger = document.getElementById('hamburger1');
+            const closeIcon = document.getElementById('closeIcon1');
+            const isHidden = navItems.style.display === 'none' || navItems.style.display === '';
+            if (isHidden) {
+            navItems.style.display = 'flex';
+            navItems.style.flexDirection = 'column';
+            hamburger.style.display = 'none';
+            closeIcon.style.display = 'block';
+            } else {
+            navItems.style.display = 'none';
+            hamburger.style.display = 'block';
+            closeIcon.style.display = 'none';
             }
-        });
-    }
-    window.addEventListener('resize', setupDropdowns2);
-    window.addEventListener('DOMContentLoaded', setupDropdowns2);
+        }
+        function checkScreenWidth1() {
+            const navItems = document.getElementById('navItems1');
+            const hamburger = document.getElementById('hamburger1');
+            const closeIcon = document.getElementById('closeIcon1');
+            if (window.innerWidth <= 768) {
+            navItems.style.display = 'none';
+            hamburger.style.display = 'block';
+            closeIcon.style.display = 'none';
+            } else {
+            navItems.style.display = 'flex';
+            navItems.style.flexDirection = 'row';
+            hamburger.style.display = 'none';
+            closeIcon.style.display = 'none';
+            }
+        }
+        window.addEventListener('resize', checkScreenWidth1);
+        window.addEventListener('DOMContentLoaded', checkScreenWidth1);
+
+        // Navbar 2
+        function toggleMenu2() {
+            const nav = document.getElementById("navLinks2");
+            const ham = document.getElementById("hamburger2");
+            const close = document.getElementById("closeIcon2");
+            if (nav.style.display === "none" || nav.style.display === "") {
+                nav.style.display = "flex";
+                nav.style.flexDirection = "column";
+                nav.style.alignItems = "center";
+                ham.style.display = "none";
+                close.style.display = "block";
+            } else {
+                nav.style.display = "none";
+                ham.style.display = "block";
+                close.style.display = "none";
+            }
+        }
+        function setResponsiveMenu2() {
+            const nav = document.getElementById("navLinks2");
+            const ham = document.getElementById("hamburger2");
+            const close = document.getElementById("closeIcon2");
+            if (window.innerWidth <= 768) {
+                nav.style.display = "none";
+                ham.style.display = "block";
+                close.style.display = "none";
+            } else {
+                nav.style.display = "flex";
+                nav.style.flexDirection = "row";
+                nav.style.justifyContent = "center";
+                ham.style.display = "none";
+                close.style.display = "none";
+            }
+        }
+        window.addEventListener('resize', setResponsiveMenu2);
+        window.addEventListener('DOMContentLoaded', setResponsiveMenu2);
+
+        // Dropdowns on hover (desktop) and tap (mobile) for Navbar 2
+        function setupDropdowns2() {
+            document.querySelectorAll('#navLinks2 > div').forEach(item => {
+                const dropdown = item.querySelector('div');
+                item.onmouseenter = null;
+                item.onmouseleave = null;
+                item.onclick = null;
+                if (dropdown) {
+                    if (window.innerWidth > 768) {
+                        item.addEventListener('mouseenter', () => dropdown.style.display = 'block');
+                        item.addEventListener('mouseleave', () => dropdown.style.display = 'none');
+                    } else {
+                        item.addEventListener('click', function(e) {
+                            if (e.target === item.querySelector('a')) {
+                                e.preventDefault();
+                                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        window.addEventListener('resize', setupDropdowns2);
+        window.addEventListener('DOMContentLoaded', setupDropdowns2);
     </script>
 </nav>

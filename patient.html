@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Registration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;  justify-content: center; align-items: center;background: linear-gradient(360deg,#2581de,rgba(255, 255, 255, 0.801)); ">
     
@@ -143,7 +144,7 @@
       address: document.getElementById("address").value
     };
 
-    fetch("https://hitaishihealthcare.com/patient.html", {
+    fetch("https://hitaishihealthcare.com/api/patients", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

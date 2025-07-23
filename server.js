@@ -37,6 +37,7 @@ const hr_donationsRoutes = require("./routes/hr_donations");
 const hr_packagesRoutes = require("./routes/hr_packages");
 const packagesRoutes = require("./routes/packages");
 const patientloginRoutes = require("./routes/patientlogin");
+const patientRoutes = require("./routes/patient"); // Assuming you have a patient route
 
 // Use Routes
 app.use("/api", appointment_fertilityRoutes);
@@ -58,6 +59,7 @@ app.use("/api", hr_donationsRoutes);
 app.use("/api", hr_packagesRoutes);
 app.use("/api", packagesRoutes);
 app.use("/api", patientloginRoutes);
+app.use("/api", patientRoutes);
 
 
 // app.use(express.static(__dirname));
