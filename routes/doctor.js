@@ -41,14 +41,6 @@ db.query(createDoctorsTable, (err) => {
 });
 
 
-
-
-
-
-
-
-
-
 // Register Doctor
 router.post("/doctors", upload.none(), async (req, res) => {
     const {

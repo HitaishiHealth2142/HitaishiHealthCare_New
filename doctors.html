@@ -158,6 +158,7 @@ function initMap() {
 async function fetchDoctors() {
   try {
     const response = await fetch('https://hitaishihealthcare.com/api/getdoctors');
+    if (!response.ok) throw new Error("Server responded with " + response.status);
     const data = await response.json();
     allDoctors = data;
     displayDoctors(allDoctors);
@@ -168,6 +169,7 @@ async function fetchDoctors() {
       '<p style="color: red;">Failed to load doctors. Please try again later.</p>';
   }
 }
+
 
 function displayDoctors(doctors) {
   const doctorsList = document.getElementById('doctorsList');
