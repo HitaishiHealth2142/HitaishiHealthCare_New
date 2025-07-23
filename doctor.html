@@ -32,10 +32,10 @@
         <form id="doctorRegistrationForm" action="https://hitaishihealthcare.com/api/doctors" method="POST" style="max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
             <h2 style="text-align: center; color: blue; margin-bottom: 25px;">Doctor Registration Form</h2>
             
-            <h3 style="margin-bottom: 15px;">Personal Information</h3>
+            <h3 style="margin-bottom: 15px;">Personal Information</h3><br>
             <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="first_name" style="font-weight: bold; display: block; margin-bottom: 8px;">First Name:</label>
+                    <!-- <label for="first_name" style="font-weight: bold; display: block; margin-bottom: 8px;">First Name:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="first_name" name="first_name" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="last_name" style="font-weight: bold; display: block; margin-bottom: 8px;">Last Name:</label>
+                    <!-- <label for="last_name" style="font-weight: bold; display: block; margin-bottom: 8px;">Last Name:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="last_name" name="last_name" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -52,11 +52,11 @@
                         <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Last Name</span>
                     </div>
                 </div>
-            </div>
+            </div><br>
             
             <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="email" style="font-weight: bold; display: block; margin-bottom: 8px;">Email:</label>
+                    <!-- <label for="email" style="font-weight: bold; display: block; margin-bottom: 8px;">Email:</label> -->
                     <div style="position: relative;">
                         <input type="email" id="email" name="email" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="mobile" style="font-weight: bold; display: block; margin-bottom: 8px;">Mobile Number:</label>
+                    <!-- <label for="mobile" style="font-weight: bold; display: block; margin-bottom: 8px;">Mobile Number:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="mobile" name="mobile" required pattern="[0-9]{10}" title="mobile number must be 10 digits" 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -73,10 +73,10 @@
                         <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Mobile Number</span>
                     </div>
                 </div>
-            </div>
+            </div><br>
             
             <div style="margin-top: 15px;">
-                <label for="address" style="font-weight: bold; display: block; margin-bottom: 8px;">Address:</label>
+                <!-- <label for="address" style="font-weight: bold; display: block; margin-bottom: 8px;">Address:</label> -->
                 <div style="position: relative;">
                     <textarea id="address" name="address" required rows="3" 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; resize: vertical;"
@@ -85,10 +85,10 @@
                 </div>
             </div>
             
-            <h3 style="margin: 25px 0 15px 0;">Educational Background</h3>
+            <h3 style="margin: 25px 0 15px 0;">Educational Background</h3><br>
             <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="degree" style="font-weight: bold; display: block; margin-bottom: 8px;">Degree:</label>
+                    <!-- <label for="degree" style="font-weight: bold; display: block; margin-bottom: 8px;">Degree:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="degree" name="degree" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="university" style="font-weight: bold; display: block; margin-bottom: 8px;">University:</label>
+                    <!-- <label for="university" style="font-weight: bold; display: block; margin-bottom: 8px;">University:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="university" name="university" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -105,11 +105,11 @@
                         <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">University</span>
                     </div>
                 </div>
-            </div>
+            </div><br>
             
             <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="experience" style="font-weight: bold; display: block; margin-bottom: 8px;">Years of Practice:</label>
+                    <!-- <label for="experience" style="font-weight: bold; display: block; margin-bottom: 8px;">Years of Practice:</label> -->
                     <div style="position: relative;">
                         <input type="number" id="experience" name="experience" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="aadhar_card" style="font-weight: bold; display: block; margin-bottom: 8px;">Aadhar Card Number:</label>
+                    <!-- <label for="aadhar_card" style="font-weight: bold; display: block; margin-bottom: 8px;">Aadhar Card Number:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="aadhar_card" name="aadhar_card" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -126,12 +126,12 @@
                         <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Aadhaar Number</span>
                     </div>
                 </div>
-            </div>
+            </div><br>
             
-            <h3 style="margin: 25px 0 15px 0;">Professional Information</h3>
+            <h3 style="margin: 25px 0 15px 0;">Professional Information</h3><br>
             <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="license_number" style="font-weight: bold; display: block; margin-bottom: 8px;">Medical License Number:</label>
+                    <!-- <label for="license_number" style="font-weight: bold; display: block; margin-bottom: 8px;">Medical License Number:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="license_number" name="license_number" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="specialization" style="font-weight: bold; display: block; margin-bottom: 8px;">Specialization:</label>
+                    <!-- <label for="specialization" style="font-weight: bold; display: block; margin-bottom: 8px;">Specialization:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="specialization" name="specialization" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -148,11 +148,11 @@
                         <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Specialization</span>
                     </div>
                 </div>
-            </div>
+            </div><br>
             
             <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="clinic" style="font-weight: bold; display: block; margin-bottom: 8px;">Clinic/Hospital Name:</label>
+                    <!-- <label for="clinic" style="font-weight: bold; display: block; margin-bottom: 8px;">Clinic/Hospital Name:</label> -->
                     <div style="position: relative;">
                         <input type="text" id="clinic" name="clinic" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -161,16 +161,16 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="availability" style="font-weight: bold; display: block; margin-bottom: 8px;">Available At:</label>
+                    <!-- <label for="availability" style="font-weight: bold; display: block; margin-bottom: 8px;">Available At:</label> -->
                     <select id="availability" name="availability" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; background-color: white;">
-                        <option value="">Select</option>
+                        <option value="">Select Availability</option>
                         <option value="Diagnostic Center">Diagnostic Center</option>
                         <option value="Online Only">Online Only</option>
                         <option value="Both">Both</option>
                     </select>
                 </div>
-            </div>
+            </div><br>
             
             <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
@@ -183,11 +183,11 @@
                     <input type="time" id="to_time" name="to_time" required 
                         style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
                 </div>
-            </div>
+            </div><br>
     
             <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="password" style="font-weight: bold; display: block; margin-bottom: 8px;">Password:</label>
+                    <!-- <label for="password" style="font-weight: bold; display: block; margin-bottom: 8px;">Password:</label> -->
                     <div style="position: relative;">
                         <input type="password" id="password" name="password" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -196,7 +196,7 @@
                     </div>
                 </div>
                 <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="confirm_password" style="font-weight: bold; display: block; margin-bottom: 8px;">Confirm Password:</label>
+                    <!-- <label for="confirm_password" style="font-weight: bold; display: block; margin-bottom: 8px;">Confirm Password:</label> -->
                     <div style="position: relative;">
                         <input type="password" id="confirm_password" name="confirm_password" required 
                             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
@@ -207,7 +207,7 @@
             </div>
             
             <button type="submit" style="width: 100%; background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 25px; transition: background-color 0.3s;" 
-                    onmouseover="this.style.backgroundColor='#0069d9'" onmouseout="this.style.backgroundColor='#007bff'">Register</button>
+                onmouseover="this.style.backgroundColor='#0069d9'" onmouseout="this.style.backgroundColor='#007bff'">Register</button>
             
             <!-- Social Login Section -->
             <div style="text-align: center; margin: 25px 0;">
