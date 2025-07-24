@@ -319,6 +319,43 @@
         </div>
       </div>
     </div>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        try {
+          const response = await fetch("/api/doctorlogin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include", // VERY IMPORTANT for session cookies
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            document.getElementById("message").style.color = "green";
+            document.getElementById("message").innerText = "Login successful. Redirecting...";
+
+            // Optional: delay redirect
+            setTimeout(() => {
+              window.location.href = "doctor-dashboard.html"; // ✅ Change to your dashboard page
+            }, 1000);
+          } else {
+            document.getElementById("message").style.color = "red";
+            document.getElementById("message").innerText = data.message || "Login failed!";
+          }
+        } catch (error) {
+          console.error("Login Error:", error);
+          document.getElementById("message").style.color = "red";
+          document.getElementById("message").innerText = "Server error. Please try again.";
+        }
+      });
+    </script>
+
   </div>
 </div>
 

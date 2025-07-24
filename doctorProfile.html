@@ -528,7 +528,7 @@
   updateDateTime();
 
   async function loadDoctorData() {
-    const res = await fetch(`https://115.98.159.35:5000/api/gdoctors/${uid}`);
+    const res = await fetch(`https://hitaishihealthcare.com/api/gdoctors/${uid}`);
     const data = await res.json();
     document.getElementById("doctorName").innerText = data.first_name + " " + data.last_name;
     Object.keys(data).forEach(key => {
@@ -590,6 +590,23 @@
   });
 
   window.onload = loadDoctorData;
+
+
+  window.onload = async () => {
+    const res = await fetch("/api/doctor-session", {
+      credentials: "include"
+    });
+    const data = await res.json();
+
+    if (!data.loggedIn) {
+      alert("Please login to continue.");
+      window.location.href = "doctor-login.html";
+    } else {
+      console.log("Welcome", data.user.name);
+      // Populate doctor name/email on dashboard if needed
+    }
+  };
+
 </script>
 
 

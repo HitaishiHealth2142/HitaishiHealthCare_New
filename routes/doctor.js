@@ -93,19 +93,22 @@ router.post("/doctorlogin", async (req, res) => {
         }
 
         const doctor = results[0];
-        if (doctor.password !== password) {
-            return res.status(401).json({ message: "Invalid credentials!" });
-        }
-
-        res.status(200).json({
-            message: "Login successful",
-            uid: doctor.uid,
-            doctor: {
-                name: doctor.first_name + " " + doctor.last_name,
-                email: doctor.email,
-                specialization: doctor.specialization
+            if (doctor.password !== password) {
+                return res.status(401).json({ message: "Invalid credentials!" });
             }
-        });
+
+        // ✅ Save doctor info in session
+            req.session.user = {
+                role: 'doctor',
+                uid: doctor.uid,
+                email: doctor.email,
+                name: doctor.first_name + " " + doctor.last_name
+            };
+
+            res.status(200).json({
+                message: "Login successful",
+                user: req.session.user
+            });
     });
 });
 
@@ -213,5 +216,24 @@ router.delete("/deletedoctors/:uid", (req, res) => {
         res.status(200).json({ message: "Doctor deleted successfully!" });
     });
 });
+
+router.get("/doctor-session", (req, res) => {
+    if (req.session.user && req.session.user.role === 'doctor') {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
+});
+
+router.post("/doctorlogout", (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ message: "Logout failed!" });
+        }
+        res.clearCookie('connect.sid'); // optional, clear session cookie
+        res.json({ message: "Logged out successfully" });
+    });
+});
+
 
 module.exports = router;

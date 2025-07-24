@@ -38,54 +38,60 @@
   <div style="flex: 1.5; background: #ffffff; padding: 40px;">
     <h2 style="text-align: center; color: #333; font-size: 26px; margin-bottom: 25px;">📝 Patient Registration</h2>
     <form id="registrationForm">
-
+      
       <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">First Name:</label>
-          <input type="text" id="first_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div style="flex: 1; position: relative;">
+          <input type="text" id="first_name" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">First Name</span>
         </div>
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Last Name:</label>
-          <input type="text" id="last_name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div style="flex: 1; position: relative;">
+          <input type="text" id="last_name" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Last Name</span>
         </div>
       </div>
 
       <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Email:</label>
-          <input type="email" id="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div style="flex: 1; position: relative;">
+          <input type="email" id="email" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Email</span>
         </div>
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Mobile:</label>
-          <input type="tel" id="mobile" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Password:</label>
-          <input type="password" id="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        </div>
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Confirm Password:</label>
-          <input type="password" id="confirm_password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div style="flex: 1; position: relative;">
+          <input type="tel" id="mobile" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Mobile</span>
         </div>
       </div>
 
       <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Gender:</label>
-          <select id="gender" required style="width: 106%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-            <option value="">Select</option>
+        <div style="flex: 1; position: relative;">
+          <input type="password" id="password" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Password</span>
+        </div>
+        <div style="flex: 1; position: relative;">
+          <input type="password" id="confirm_password" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Confirm Password</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 30px; margin-bottom: 15px;">
+        <div style="flex: 1; position: relative;">
+          <select id="gender" required 
+                  style="width: 106%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: white;">
+            <option value="" disabled selected hidden>Select Gender</option>
             <option>Male</option>
             <option>Female</option>
             <option>Other</option>
           </select>
         </div>
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Blood Group:</label>
-          <select id="blood_group" required style="width: 106%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-            <option value="">Select</option>
+        <div style="flex: 1; position: relative;">
+          <select id="blood_group" required 
+                  style="width: 106%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: white;">
+            <option value="" disabled selected hidden>Select Blood Group</option>
             <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
             <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
           </select>
@@ -93,19 +99,22 @@
       </div>
 
       <div style="display: flex; gap: 30px; margin-bottom: 15px;">
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">DOB:</label>
-          <input type="date" id="dob" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div style="flex: 1; position: relative;">
+          <input type="date" id="dob" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">DOB</span>
         </div>
-        <div style="flex: 1;">
-          <label style="font-weight: 600;">Disease:</label>
-          <input type="text" id="disease" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div style="flex: 1; position: relative;">
+          <input type="text" id="disease" required placeholder=" " 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+          <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Disease</span>
         </div>
       </div>
 
-      <div style="margin-bottom: 15px;">
-        <label style="font-weight: 600;">Address:</label>
-        <textarea id="address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 60px;"></textarea>
+      <div style="margin-bottom: 15px; position: relative;">
+        <textarea id="address" required placeholder=" " 
+                  style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; height: 60px;"></textarea>
+        <span style="position: absolute; left: 12px; top: 10px; color: #999; pointer-events: none; transition: 0.3s;">Address</span>
       </div>
 
       <button type="submit" style="width: 100%; background-color: #007BFF; color: white; padding: 12px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">Register</button>
@@ -115,7 +124,43 @@
         <p style="font-size: 14px; color: #666;">Forgot your password? <a href="forgot-password.html" style="color: #007BFF; text-decoration: none;">Reset here</a></p>
       </div>
     </form>
+
+    <script>
+      document.querySelectorAll('input[placeholder=" "], textarea[placeholder=" "]').forEach(input => {
+        const span = input.nextElementSibling;
+        
+        input.addEventListener('focus', () => {
+          span.style.top = '-14px';
+          span.style.left = '8px';
+          span.style.fontSize = '12px';
+          span.style.color = '#007bff';
+          span.style.backgroundColor = 'white';
+          span.style.padding = '0 4px';
+        });
+
+        input.addEventListener('blur', () => {
+          if (!input.value) {
+            span.style.top = '10px';
+            span.style.left = '12px';
+            span.style.fontSize = '';
+            span.style.color = '#999';
+            span.style.backgroundColor = 'transparent';
+            span.style.padding = '0';
+          }
+        });
+
+        if (input.value) {
+          span.style.top = '-14px';
+          span.style.left = '8px';
+          span.style.fontSize = '12px';
+          span.style.color = '#007bff';
+          span.style.backgroundColor = 'white';
+          span.style.padding = '0 4px';
+        }
+      });
+    </script>
   </div>
+
 </div>
 
 <script>

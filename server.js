@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require("path");
 const multer = require("multer");
+const session = require('express-session');
 
 const app = express(); // ✅ Initialize app first
 
@@ -102,3 +103,13 @@ http.createServer((req, res) => {
 }).listen(80, () => {
   console.log("🌐 Redirecting all HTTP to HTTPS on port 80");
 });
+
+
+app.use(session({
+  secret: 'hitaishi_secure_key_123', // replace with a strong secret
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000  // 1 day
+  }
+}));
