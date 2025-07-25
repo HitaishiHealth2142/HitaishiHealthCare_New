@@ -40,6 +40,18 @@ const packagesRoutes = require("./routes/packages");
 const patientloginRoutes = require("./routes/patientlogin");
 const patientRoutes = require("./routes/patient"); // Assuming you have a patient route
 
+
+
+app.use(session({
+  secret: 'hitaishi_secure_key_123', // Use a strong secret in production
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000  // 1 day
+  }
+}));
+
+
 // Use Routes
 app.use("/api", appointment_fertilityRoutes);
 app.use("/api", appointmentsRoutes);
@@ -105,11 +117,4 @@ http.createServer((req, res) => {
 });
 
 
-app.use(session({
-  secret: 'hitaishi_secure_key_123', // replace with a strong secret
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 24 * 60 * 60 * 1000  // 1 day
-  }
-}));
+
