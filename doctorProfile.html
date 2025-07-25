@@ -377,135 +377,85 @@
       msgDiv.classList.add('error');
     }
     msgDiv.style.display = 'block';
-    // Hide message after 5 seconds
     setTimeout(() => {
       msgDiv.style.display = 'none';
     }, 5000);
   }
 
-  // Function to show/hide loading indicator
   function showLoading(show) {
     document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
   }
 
-  // Update date time function for the top bar
   function updateDateTime() {
     const now = new Date();
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' };
     document.getElementById("dateTime").innerText = now.toLocaleDateString(undefined, options);
   }
 
-  setInterval(updateDateTime, 60000); // Update every minute
-  updateDateTime(); // Initial call
+  setInterval(updateDateTime, 60000);
+  updateDateTime();
 
-  // Main function to check session and load doctor data
-  async function checkSessionAndLoadData() {
-    showLoading(true); // Show loading indicator
+  // ✅ MAIN function to load doctor from localStorage
+  async function checkLocalStorageAndLoadData() {
+    showLoading(true);
     try {
-      // Check session first
-      const sessionRes = await fetch('/api/doctor-session', {
-        credentials: 'include' // Important for session cookies
-      });
-      
-      if (!sessionRes.ok) {
-        throw new Error('Session check failed or no active session.');
-      }
-      
-      const sessionData = await sessionRes.json();
-      
-      if (!sessionData.loggedIn || !sessionData.user || sessionData.user.role !== 'doctor') {
-        displayPageMessage('Session expired or unauthorized. Please login again.', 'error');
-        setTimeout(() => {
-          window.location.href = 'doctorlogin.html'; // Redirect to login page
-        }, 1500);
+      const user = JSON.parse(localStorage.getItem("doctorUser"));
+      if (!user || !user.uid) {
+        displayPageMessage("Login expired. Please log in again.", 'error');
+        setTimeout(() => window.location.href = 'doctorlogin.html', 1500);
         return;
       }
-      
-      doctorUid = sessionData.user.uid; // Set the global doctorUid
-      document.getElementById("doctorName").innerText = sessionData.user.name || "Doctor"; // Display name from session
 
-      // If session is valid, load doctor's full profile data
-      const doctorRes = await fetch(`/api/gdoctors/${doctorUid}`, {
-        credentials: 'include'
-      });
-      
-      if (!doctorRes.ok) {
-        throw new Error('Failed to load doctor profile data.');
-      }
-      
-      const doctorData = await doctorRes.json();
-      
-      // Populate form fields in the "Update Profile" section
-      // Ensure all form fields match the keys returned by the API
-      document.getElementById("first_name").value = doctorData.first_name || '';
-      document.getElementById("last_name").value = doctorData.last_name || '';
-      document.getElementById("email").value = doctorData.email || '';
-      document.getElementById("mobile").value = doctorData.mobile || '';
-      document.getElementById("address").value = doctorData.address || '';
-      document.getElementById("degree").value = doctorData.degree || '';
-      document.getElementById("university").value = doctorData.university || '';
-      document.getElementById("experience").value = doctorData.experience || '';
-      document.getElementById("aadhar_card").value = doctorData.aadhar_card || '';
-      document.getElementById("license_number").value = doctorData.license_number || '';
-      document.getElementById("specialization").value = doctorData.specialization || '';
-      document.getElementById("clinic").value = doctorData.clinic || '';
-      document.getElementById("availability").value = doctorData.availability || '';
-      document.getElementById("from_time").value = doctorData.from_time || '';
-      document.getElementById("to_time").value = doctorData.to_time || '';
-      document.getElementById("additional_info").value = doctorData.additional_info || '';
+      doctorUid = user.uid;
+      document.getElementById("doctorName").innerText = user.name || "Doctor";
+
+      const res = await fetch(`/api/gdoctors/${doctorUid}`);
+      if (!res.ok) throw new Error("Failed to fetch profile");
+
+      const doctor = await res.json();
+
+      // Populate fields
+      document.getElementById("first_name").value = doctor.first_name || '';
+      document.getElementById("last_name").value = doctor.last_name || '';
+      document.getElementById("email").value = doctor.email || '';
+      document.getElementById("mobile").value = doctor.mobile || '';
+      document.getElementById("address").value = doctor.address || '';
+      document.getElementById("degree").value = doctor.degree || '';
+      document.getElementById("university").value = doctor.university || '';
+      document.getElementById("experience").value = doctor.experience || '';
+      document.getElementById("aadhar_card").value = doctor.aadhar_card || '';
+      document.getElementById("license_number").value = doctor.license_number || '';
+      document.getElementById("specialization").value = doctor.specialization || '';
+      document.getElementById("clinic").value = doctor.clinic || '';
+      document.getElementById("availability").value = doctor.availability || '';
+      document.getElementById("from_time").value = doctor.from_time || '';
+      document.getElementById("to_time").value = doctor.to_time || '';
+      document.getElementById("additional_info").value = doctor.additional_info || '';
 
       displayPageMessage('Welcome to your profile!', 'success');
-      showSection('welcome'); // Show the welcome section by default
-
-    } catch (error) {
-      console.error('Error during session check or data load:', error);
-      displayPageMessage(`Error: ${error.message}. Please login again.`, 'error');
-      setTimeout(() => {
-        window.location.href = 'doctorlogin.html';
-      }, 1500);
+      showSection('welcome');
+    } catch (err) {
+      console.error("Error loading profile:", err);
+      displayPageMessage("Error loading profile. Please log in again.", 'error');
+      setTimeout(() => window.location.href = 'doctorlogin.html', 1500);
     } finally {
-      showLoading(false); // Hide loading indicator
+      showLoading(false);
     }
   }
 
-  // Function to show different sections
   function showSection(id) {
     document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
     document.getElementById(id).style.display = 'block';
-    // Specific actions for each section
     if (id === 'appointments') loadAppointments();
     if (id === 'history') loadHistory();
     if (id === 'patients') loadPatients();
-    if (id === 'update') {
-      // Re-populate update form if needed, though checkSessionAndLoadData does it initially
-      // For subsequent clicks, we assume data is already loaded or can be re-fetched.
-      // If the user navigates away and comes back, the data should persist in fields.
-    }
   }
 
-  // Logout function
-  async function logout() {
-    try {
-      const response = await fetch('/api/doctorlogout', {
-        method: 'POST',
-        credentials: 'include'
-      });
-      if (response.ok) {
-        displayPageMessage('Logged out successfully. Redirecting...', 'success');
-        setTimeout(() => {
-          window.location.href = 'doctorlogin.html';
-        }, 1000);
-      } else {
-        const data = await response.json();
-        displayPageMessage(data.message || 'Logout failed!', 'error');
-      }
-    } catch (err) {
-      console.error('Logout error:', err);
-      displayPageMessage('Server error during logout. Please try again.', 'error');
-    }
+  function logout() {
+    localStorage.removeItem("doctorUser");
+    window.location.href = "doctorlogin.html";
   }
 
-  // --- Placeholder functions for other sections (implement these with actual API calls) ---
   async function loadAppointments() {
     if (!doctorUid) {
       document.getElementById("appointmentList").innerHTML = "<p>Please log in to view appointments.</p>";
@@ -513,11 +463,10 @@
     }
     document.getElementById("appointmentList").innerHTML = "Loading appointments...";
     try {
-      // Replace with your actual API endpoint for doctor's appointments
-      const res = await fetch(`/api/appointments/doctor/${doctorUid}`, { credentials: 'include' });
+      const res = await fetch(`/api/appointments/doctor/${doctorUid}`);
       if (!res.ok) throw new Error('Failed to fetch appointments');
       const data = await res.json();
-      if (data && data.length > 0) {
+      if (data.length > 0) {
         document.getElementById("appointmentList").innerHTML = data.map(app => 
           `<p><strong>${app.patient_name}</strong> - ${app.date} @ ${app.time}</p>`
         ).join('');
@@ -537,11 +486,10 @@
     }
     document.getElementById("historyContent").innerHTML = "Loading history...";
     try {
-      // Replace with your actual API endpoint for doctor's patient history
-      const res = await fetch(`/api/history/doctor/${doctorUid}`, { credentials: 'include' });
+      const res = await fetch(`/api/history/doctor/${doctorUid}`);
       if (!res.ok) throw new Error('Failed to fetch history');
       const data = await res.json();
-      if (data && data.length > 0) {
+      if (data.length > 0) {
         document.getElementById("historyContent").innerHTML = data.map(h => 
           `<p><strong>${h.patient_name}</strong> - ${h.date} - ${h.disease} - ${h.treatment}</p>`
         ).join('');
@@ -554,11 +502,10 @@
     }
   }
 
-  let chats = {}; // Stores chat messages per patient
-  let selectedPatient = null; // Currently selected patient for chat
+  let chats = {};
+  let selectedPatient = null;
 
   async function loadPatients() {
-    // This is a mock data for patients. In a real app, you'd fetch this from your backend.
     const patients = [
         { id: 'patient1', name: "John Doe", image: "https://placehold.co/40x40/007bff/ffffff?text=JD" },
         { id: 'patient2', name: "Jane Smith", image: "https://placehold.co/40x40/28a745/ffffff?text=JS" },
@@ -577,17 +524,14 @@
     selectedPatient = patient;
     document.getElementById("chatUserImage").src = patient.image;
     document.getElementById("chatUserName").textContent = patient.name;
-
     document.querySelectorAll(".chat-user").forEach(el => el.classList.remove("active"));
     if (element) element.classList.add("active");
-
     renderMessages(patient.id);
   }
 
   function renderMessages(patientId) {
     const messagesContainer = document.getElementById("messagesContainer");
     messagesContainer.innerHTML = "";
-
     const messages = chats[patientId] || [];
 
     if (messages.length === 0) {
@@ -598,7 +542,6 @@
     messages.forEach(msg => {
       const messageDiv = document.createElement("div");
       messageDiv.className = `message-card ${msg.sender === 'me' ? 'sent-message' : 'received-message'}`;
-      
       if (msg.file) {
         const link = document.createElement("a");
         link.href = msg.file.url;
@@ -628,23 +571,18 @@
 
     const patientId = selectedPatient.id;
     if (!chats[patientId]) chats[patientId] = [];
-
     chats[patientId].push({ sender: 'me', text });
     messageInput.value = "";
     renderMessages(patientId);
 
-    // Simulate a response from the patient
     setTimeout(() => {
-      chats[patientId].push({ sender: 'them', text: "Thank you for your message. I'll get back to you shortly." });
+      chats[patientId].push({ sender: 'them', text: "Thank you for your message." });
       renderMessages(patientId);
     }, 1000);
   }
 
-  // Event listener for sending message on Enter key press
   document.getElementById("chatMessageInput").addEventListener("keydown", function (e) {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
+    if (e.key === 'Enter') sendMessage();
   });
 
   function toggleFileOptions() {
@@ -653,8 +591,8 @@
   }
 
   function uploadFile(type) {
-    document.getElementById('fileOptions').style.display = 'none'; 
-    switch(type) {
+    document.getElementById('fileOptions').style.display = 'none';
+    switch (type) {
       case 'image': document.getElementById('imageUpload').click(); break;
       case 'document': document.getElementById('documentUpload').click(); break;
       case 'audio': document.getElementById('audioUpload').click(); break;
@@ -665,21 +603,15 @@
   function handleFileSelect(event) {
     const file = event.target.files[0];
     if (!file || !selectedPatient) return;
-
     const reader = new FileReader();
     reader.onload = function (e) {
       const fileURL = e.target.result;
       const patientId = selectedPatient.id;
       if (!chats[patientId]) chats[patientId] = [];
-
       chats[patientId].push({
         sender: 'me',
         text: `[${file.type.split('/')[0]} file: ${file.name}]`,
-        file: {
-          name: file.name,
-          url: fileURL,
-          type: file.type
-        }
+        file: { name: file.name, url: fileURL, type: file.type }
       });
       renderMessages(patientId);
     };
@@ -691,47 +623,39 @@
   document.getElementById('audioUpload').addEventListener('change', handleFileSelect);
   document.getElementById('videoUpload').addEventListener('change', handleFileSelect);
 
-  // Event listener for the update profile form submission
   document.getElementById("updateForm").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Prevent default form submission
-
+    e.preventDefault();
     if (!doctorUid) {
-        displayPageMessage("Cannot update profile: Doctor UID not found. Please log in again.", 'error');
-        return;
+      displayPageMessage("Doctor UID missing. Please log in again.", 'error');
+      return;
     }
 
     const formData = {};
-    // Collect all form data
     new FormData(this).forEach((value, key) => { formData[key] = value; });
-    
+
     try {
       const res = await fetch(`/api/updatedoctors/${doctorUid}`, {
         method: "PUT",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-        credentials: 'include'
+        body: JSON.stringify(formData)
       });
-      
-      const result = await res.json();
 
+      const result = await res.json();
       if (res.ok) {
-        displayPageMessage(result.message || "Profile updated successfully!", 'success');
-        // Reload doctor data to reflect changes in the sidebar name if it was updated
-        // This is important if first_name or last_name were changed.
-        checkSessionAndLoadData(); 
+        displayPageMessage(result.message || "Profile updated!", 'success');
+        checkLocalStorageAndLoadData(); // Refresh data
       } else {
-        displayPageMessage(result.message || "Failed to update profile.", 'error');
+        displayPageMessage(result.message || "Update failed.", 'error');
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      displayPageMessage("Server error during profile update. Please try again.", 'error');
+      console.error("Update error:", error);
+      displayPageMessage("Server error during update.", 'error');
     }
   });
 
-  // Load initial data when the DOM is fully loaded
-  document.addEventListener('DOMContentLoaded', checkSessionAndLoadData);
-
+  document.addEventListener('DOMContentLoaded', checkLocalStorageAndLoadData);
 </script>
+
 
  <!-- chatbot icon and placeholder (assuming chatbot.html exists) -->
  <div id="chatbot-icon" style="position: fixed; bottom: 40px; right: 20px; width: 60px; height: 60px; background-color: #ffffffc0; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 1000; transition: all 0.3s ease-in-out;">

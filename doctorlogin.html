@@ -179,25 +179,6 @@
       text-decoration: underline;
     }
 
-    /* Navigation Styles (unchanged from original) */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #007bff;
-      padding: 10px 20px;
-      flex-wrap: wrap;
-      position: relative;
-    }
-
-    /* Footer Styles (unchanged from original) */
-    footer {
-      background-color: black;
-      color: white;
-      padding: 30px 10%;
-      font-family: Arial, sans-serif;
-    }
-
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .login-main-flex {
@@ -251,42 +232,9 @@
         font-size: 13px;
       }
     }
-
-    /* Navigation media queries (unchanged from original) */
-    @media (max-width: 768px) {
-      #navItems1 {
-        display: none;
-        flex-direction: column;
-      }
-      #hamburger1, #closeIcon1 {
-        display: block;
-      }
-    }
-
-    @media (max-width: 768px) {
-      #navLinks2 {
-        display: none;
-        flex-direction: column;
-      }
-      #hamburger2, #closeIcon2 {
-        display: block;
-      }
-    }
   </style>
 </head>
 <body style="font-family: Arial, sans-serif;">
-
-<!-- Navbar Code -->
-<!-- <div id="navbar"></div>
-
-<script>
-    fetch('navbar.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('navbar').innerHTML = html;
-      });
-</script> -->
-<!-- Navbar End -->
 
 <!-- Main Content -->
 <div class="main-content">
@@ -340,8 +288,9 @@
               messageElement.style.color = "green";
               messageElement.innerText = "Login successful. Redirecting...";
 
-              // ✅ Save UID in localStorage
-              localStorage.setItem("doctorUser", JSON.stringify(data.user));
+              // Save doctor data in localStorage
+              localStorage.setItem("doctorData", JSON.stringify(data.user));
+              localStorage.setItem("doctorToken", "doctor-auth-token"); // Simulate auth token
 
               // Redirect after 1s
               setTimeout(() => {
@@ -358,16 +307,14 @@
           }
         });
 
-        // 🔁 Auto redirect if already logged in
+        // Auto redirect if already logged in
         window.onload = () => {
-          const user = localStorage.getItem("doctorUser");
-          if (user) {
+          const doctorData = localStorage.getItem("doctorData");
+          if (doctorData) {
             window.location.href = "doctorProfile.html";
           }
         };
     </script>
-
-
   </div>
 </div>
 
@@ -431,32 +378,5 @@
       <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
   </div>
 </footer>
-
-<!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
-
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
-
-        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-        // ✅ So, we must find and re-run those <script> blocks manually:
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
-        });
-      });
-</script>
-
 </body>
 </html>
