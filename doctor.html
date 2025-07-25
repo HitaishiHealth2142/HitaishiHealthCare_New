@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hitaishi Healthcare Services</title>
-    <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
@@ -206,7 +206,7 @@
                 </div>
             </div>
             
-            <button type="submit" style="width: 100%; background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 25px; transition: background-color 0.3s;" 
+            <button type="submit" style="width: 100%; background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 5m; font-size: 16px; cursor: pointer; margin-top: 25px; transition: background-color 0.3s;" 
                 onmouseover="this.style.backgroundColor='#0069d9'" onmouseout="this.style.backgroundColor='#007bff'">Register</button>
             
             <!-- Social Login Section -->
@@ -288,23 +288,29 @@
       
           const data = Object.fromEntries(formData.entries());
       
-          const res = await fetch('https://hitaishihealthcare.com/api/doctors', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          });
-      
-          const result = await res.json();
-          alert(result.message);
-          window.location.href = "doctorlogin.html";
-
+          try {
+            const res = await fetch('https://hitaishihealthcare.com/api/doctors', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+        
+            const result = await res.json();
+            // Using a simple alert for now, consider a custom modal for better UX
+            alert(result.message); 
+            if (res.ok) {
+                window.location.href = "doctorlogin.html";
+            }
+          } catch (error) {
+            console.error("Registration Error:", error);
+            alert("An error occurred during registration. Please try again.");
+          }
         });
     </script>
       
     
-
 
    <!-- footer -->
     <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif;">

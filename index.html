@@ -11,6 +11,13 @@
 </head>
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
 
+    <script>
+        const user = localStorage.getItem("doctorUser");
+        if (user && window.location.pathname.includes("doctorlogin")) {
+            window.location.href = "doctorProfile.html";
+        }
+    </script>
+
 <!-- Navbar Code -->
 <div id="navbar"></div>
 
