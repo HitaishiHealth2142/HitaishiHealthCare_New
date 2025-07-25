@@ -11,7 +11,11 @@ const session = require('express-session');
 const app = express(); // ✅ Initialize app first
 
 // Middleware setup
-app.use(cors());
+app.use(cors({
+  origin: "https://hitaishihealthcare.com", // ✅ Replace with your frontend domain
+  credentials: true                         // ✅ Allow cookies
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname))); // Serve static files
@@ -43,13 +47,17 @@ const patientRoutes = require("./routes/patient"); // Assuming you have a patien
 
 
 app.use(session({
-  secret: 'hitaishi_secure_key_123', // Use a strong secret in production
+  secret: 'hitaishi_secure_key_123',
   resave: false,
   saveUninitialized: false,
+  rolling: true, // ✅ This resets the cookie expiry on every request
   cookie: {
+    secure: true,
+    sameSite: 'none',
     maxAge: 24 * 60 * 60 * 1000  // 1 day
   }
 }));
+
 
 
 // Use Routes
@@ -62,6 +70,8 @@ app.use("/api", contactRoutes);
 app.use("/api", bloodtestRoutes);
 app.use("/api", diagnosticstestsRoutes);
 app.use("/api", doctorRoutes);
+console.log("✅ doctorRoutes loaded at /api/doctor-session");
+
 app.use("/api", entappointmentRoutes);
 app.use("/api", entspecialistRoutes);
 app.use("/api", eyedoctorsRoutes);

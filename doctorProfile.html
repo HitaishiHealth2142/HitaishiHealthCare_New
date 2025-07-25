@@ -2,88 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Profile - Hitaishi</title>
-  <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <style>
+    /* Basic styling for section buttons */
+    .card-button {
+      width: 100%;
+      padding: 12px;
+      text-align: left;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin-bottom: 10px; /* Added margin for spacing */
+    }
+
+    .card-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Chat specific styles */
+    .chat-user.active {
+      background: #dfe6e9;
+      border-radius: 8px;
+    }
+
+    .message-card {
+      max-width: 70%;
+      background: white;
+      color: black;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+      clear: both;
+    }
+
+    .sent-message {
+      align-self: flex-end;
+      background: #dcf8c6;
+      float: right;
+    }
+
+    .received-message {
+      align-self: flex-start;
+      background: #ffffff;
+      float: left;
+    }
+
+    /* Responsive adjustments for overall layout */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-container {
+      display: flex;
+      flex: 1; /* Allow main content to grow */
+      gap: 10px;
+      padding: 10px;
+      margin-top: 50px; /* Offset for fixed header */
+    }
+
+    .sidebar {
+      width: 260px;
+      margin-left: 20px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: sticky; /* Make sidebar sticky */
+      top: 60px; /* Position below the header */
+      height: fit-content; /* Adjust height based on content */
+    }
+
+    .content-area {
+      flex: 1; /* Allow content to take remaining space */
+      padding: 20px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        margin-top: 0; /* Remove top margin for smaller screens */
+        padding: 0;
+      }
+
+      .sidebar {
+        width: auto; /* Full width on smaller screens */
+        margin: 10px;
+        position: static; /* Remove sticky positioning */
+        top: auto;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .content-area {
+        padding: 10px;
+        width: auto;
+      }
+
+      .section {
+        margin: 10px !important; /* Adjust section margin */
+      }
+    }
+  </style>
 </head>
 <body style="margin: 0; padding: 0; height: 100%; background-color: #f5f7fa; font-family: Arial, sans-serif;">
 
+  <!-- Top Date Time Bar -->
+  <div style="position: fixed; right: 0; top: 0; height: 50px; width: 100%; background: #f1f1f1; display: flex; justify-content: flex-end; align-items: center; padding: 0 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 100;">
+    <i class="fas fa-bell" style="font-size: 20px; margin-left: 20px; cursor: pointer; color: #333;"></i>
+    <i class="fas fa-envelope" style="font-size: 20px; margin-left: 20px; cursor: pointer; color: #333;"></i>
+    <span id="dateTime" style="margin-left: 20px; font-size: 14px; color: #555;"></span>
+  </div>
 
-
-
-
-
-
-
-<div style="display: flex; height: 100vh; gap: 10px; padding: 10px;">
-
-    <!-- top date time bar -->
-    <div style="position: fixed; right: 0; top: 0; height: 50px; width: 100%; background: #f1f1f1; display: flex; justify-content: flex-end; align-items: center; padding: 0 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 100;">
-        <i class="fas fa-bell" style="font-size: 20px; margin-left: 20px; cursor: pointer; color: #333;"></i>
-        <i class="fas fa-envelope" style="font-size: 20px; margin-left: 20px; cursor: pointer; color: #333;"></i>
-        <span id="dateTime" style="margin-left: 20px; font-size: 14px; color: #555;"></span>
-      </div>
-
-
-  <!-- Sidebar -->
-    <div style="width: 260px; margin-top: 60px; margin-left: 20px; background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); border-radius: 16px; padding: 20px;  display: flex; flex-direction: column; align-items: center; position: relative;">
-        <div style="display: flex; flex-direction: column; align-items: center;">
+  <div class="main-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div style="display: flex; flex-direction: column; align-items: center;">
         <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Doctor" style="width: 100px; border-radius: 50%; margin-bottom: 15px;">
-        <h2 id="doctorName" style="margin: 10px 0; font-size: 20px; color: #333;">Doctor Name</h2>
-        </div>
-        
-        <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-        
-        <a href="index.html"><button onclick="showSection('welcome')" class="card-button">🏠 Home</button></a>    
+        <h2 id="doctorName" style="margin: 10px 0; font-size: 20px; color: #333;">Loading Doctor...</h2>
+      </div>
+      
+      <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+        <a href="index.html" style="text-decoration: none;"><button class="card-button">🏠 Home</button></a>    
         <button onclick="showSection('appointments')" class="card-button">📅 Appointments</button>
         <button onclick="showSection('patients')" class="card-button">👨‍⚕️ Patients</button>
         <button onclick="showSection('history')" class="card-button">📖 History</button>
         <button onclick="showSection('update')" class="card-button">📝 Update Profile</button>
         <button onclick="logout()" class="card-button" style="background-color: #ff4d4f;">🚪 Logout</button>
-        </div>
+      </div>
     </div>
-    
-    <style>
-        .card-button {
-        width: 100%;
-        padding: 12px;
-        text-align: left;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-        }
-    
-        .card-button:hover {
-        background-color: #0056b3;
-        }
-    </style>
   
-  <!-- Main Content -->
-  <div style="width: 75%; padding: 80px 20px 20px; overflow-y: auto; position: relative;">
+    <!-- Main Content Area -->
+    <div class="content-area">
 
-    
+      <div id="welcome" class="section active" style="display: block; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
+        <h1>Welcome Back to Hitaishi Health Care Service</h1>
+      </div>
 
-    <div id="welcome" class="section active" style="display: block; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
-      <h1>Welcome Back to Hitaishi Health Care Service</h1>
-    </div>
+      <!-- Appointments Section -->
+      <div id="appointments" class="section" style="display: none; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
+        <h2>Appointments</h2>
+        <div id="appointmentList">Loading...</div>
+      </div>
 
-    <!-- appointments -->
-    <div id="appointments" class="section" style="display: none; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
-      <h2>Appointments</h2>
-      <div id="appointmentList">Loading...</div>
-    </div>
-
-    <div id="patients" class="section" style="display: block; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 0; margin: 20px; height: 600px; overflow: hidden; font-family: 'Segoe UI', sans-serif;">
+      <!-- Patients/Chat Section -->
+      <div id="patients" class="section" style="display: none; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 0; margin-bottom: 20px; height: 600px; overflow: hidden; font-family: 'Segoe UI', sans-serif;">
         <div style="display: flex; height: 100%;">
           
-          <!-- Sidebar -->
+          <!-- Sidebar for Patients -->
           <div style="width: 30%; border-right: 1px solid #ddd; background: #ffffff; display: flex; flex-direction: column; color: black;">
             <div style="padding: 15px; font-size: 18px; font-weight: bold; border-bottom: 1px solid #ccc; background-image: url('https://via.placeholder.com/300x100/007bff/ffffff'); background-size: cover; background-repeat: no-repeat; color:black;">Chats</div>
             <input type="text" placeholder="Search or start a new chat" style="margin: 10px; padding: 8px 12px; border-radius: 20px; border: none; background: #f0f2f5; font-size: 14px;">
@@ -115,29 +200,27 @@
       
             <!-- Input -->
             <div style="display: flex; align-items: center; padding: 10px; background: #f0f2f5; border-top: 1px solid #ccc; gap: 10px;">
-              <!-- File Upload Button -->
-      <!-- Plus Button with Popup -->
-      <div style="position: relative;">
-          <button onclick="toggleFileOptions()" style="background: none; border: none; font-size: 20px; cursor: pointer;">
-            <i class="fa fa-plus"></i>
-          </button>
-        
-          <!-- File Options Menu -->
-          <div id="fileOptions" style="display: none; position: absolute; bottom: 40px; left: 0; background: white; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 100;">
-            <div onclick="uploadFile('image')" style="padding: 10px 15px; cursor: pointer;">📷 Image</div>
-            <div onclick="uploadFile('document')" style="padding: 10px 15px; cursor: pointer;">📄 Document</div>
-            <div onclick="uploadFile('audio')" style="padding: 10px 15px; cursor: pointer;">🎵 Audio</div>
-            <div onclick="uploadFile('video')" style="padding: 10px 15px; cursor: pointer;">🎥 Video</div>
-          </div>
-        
-          <!-- Hidden File Inputs -->
-          <input type="file" id="imageUpload" accept="image/*" style="display: none;">
-          <input type="file" id="documentUpload" accept=".pdf,.doc,.docx,.txt" style="display: none;">
-          <input type="file" id="audioUpload" accept="audio/*" style="display: none;">
-          <input type="file" id="videoUpload" accept="video/*" style="display: none;">
-        </div>
-        
-              
+              <!-- Plus Button with Popup -->
+              <div style="position: relative;">
+                  <button onclick="toggleFileOptions()" style="background: none; border: none; font-size: 20px; cursor: pointer;">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                
+                  <!-- File Options Menu -->
+                  <div id="fileOptions" style="display: none; position: absolute; bottom: 40px; left: 0; background: white; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 100;">
+                    <div onclick="uploadFile('image')" style="padding: 10px 15px; cursor: pointer;">📷 Image</div>
+                    <div onclick="uploadFile('document')" style="padding: 10px 15px; cursor: pointer;">📄 Document</div>
+                    <div onclick="uploadFile('audio')" style="padding: 10px 15px; cursor: pointer;">🎵 Audio</div>
+                    <div onclick="uploadFile('video')" style="padding: 10px 15px; cursor: pointer;">🎥 Video</div>
+                  </div>
+                
+                  <!-- Hidden File Inputs -->
+                  <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                  <input type="file" id="documentUpload" accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                  <input type="file" id="audioUpload" accept="audio/*" style="display: none;">
+                  <input type="file" id="videoUpload" accept="video/*" style="display: none;">
+                </div>
+                
               <input type="text" placeholder="Type a message" style="flex-grow: 1; padding: 10px 15px; border-radius: 20px; border: none; font-size: 14px;">
               <button style="background: none; border: none; font-size: 20px; cursor: pointer;">
                 <i class="fa fa-paper-plane"></i>
@@ -147,366 +230,237 @@
         </div>
       </div>
       
-      <!-- Style -->
-      <style>
-        .chat-user.active {
-          background: #dfe6e9;
-          border-radius: 8px;
-        }
-      
-        .message-card {
-          max-width: 70%;
-          background: white;
-          color: black;
-          padding: 10px 15px;
-          margin-bottom: 10px;
-          border-radius: 10px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          display: inline-block;
-          clear: both;
-        }
-      
-        .sent-message {
-          align-self: flex-end;
-          background: #dcf8c6;
-          float: right;
-        }
-      
-        .received-message {
-          align-self: flex-start;
-          background: #ffffff;
-          float: left;
-        }
-      </style>
-      
-      <!-- Script -->
-      <script>
-          const patients = [
-            { id: 1, name: "John Doe", image: "https://via.placeholder.com/40" },
-            { id: 2, name: "Jane Smith", image: "https://via.placeholder.com/40" },
-            { id: 3, name: "Ravi Kumar", image: "https://via.placeholder.com/40" }
-          ];
-        
-          let chats = {};
-          let selectedPatient = null;
-        
-          const patientList = document.getElementById("patientList");
-          const chatUserImage = document.getElementById("chatUserImage");
-          const chatUserName = document.getElementById("chatUserName");
-          const messagesContainer = document.getElementById("messagesContainer");
-          const messageInput = document.querySelector('#patients input[placeholder="Type a message"]');
-          const sendBtn = document.querySelector('.fa-paper-plane').parentElement;
-          const searchInput = document.querySelector('#patients input[placeholder="Search or start a new chat"]');
-        
-          function loadPatientList(filter = "") {
-            patientList.innerHTML = "";
-        
-            let filteredPatients = patients.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
-            
-            if (filteredPatients.length === 0 && filter.trim() !== "") {
-              const newId = Date.now();
-              const newPatient = { id: newId, name: filter.trim(), image: "https://via.placeholder.com/40" };
-              patients.push(newPatient);
-              filteredPatients = [newPatient];
-            }
-        
-            filteredPatients.forEach((patient) => {
-              const patientDiv = document.createElement("div");
-              patientDiv.className = "chat-user";
-              patientDiv.style.padding = "10px";
-              patientDiv.style.cursor = "pointer";
-              patientDiv.style.display = "flex";
-              patientDiv.style.alignItems = "center";
-              patientDiv.style.gap = "10px";
-        
-              patientDiv.innerHTML = `
-                <img src="${patient.image}" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
-                <span>${patient.name}</span>
-              `;
-        
-              patientDiv.addEventListener("click", () => selectPatient(patient, patientDiv));
-              patientList.appendChild(patientDiv);
-            });
-          }
-        
-          function selectPatient(patient, element) {
-            selectedPatient = patient;
-            chatUserImage.src = patient.image;
-            chatUserName.textContent = patient.name;
-        
-            document.querySelectorAll(".chat-user").forEach(el => el.classList.remove("active"));
-            if (element) element.classList.add("active");
-        
-            renderMessages(patient.id);
-          }
-        
-          function renderMessages(patientId) {
-            messagesContainer.innerHTML = "";
-        
-            const messages = chats[patientId] || [];
-        
-            if (messages.length === 0) {
-              messagesContainer.innerHTML = <p style="color: gray; text-align: center;">Start a conversation...</p>;
-              return;
-            }
-        
-            messages.forEach(msg => {
-              const messageDiv = document.createElement("div");
-              messageDiv.className =   `message-card ${msg.sender === 'me' ? 'sent-message' : 'received-message'}`;
-              messageDiv.textContent = msg.text;
-              messagesContainer.appendChild(messageDiv);
-            });
-        
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }
-        
-          function sendMessage() {
-            if (!selectedPatient) {
-              alert("Please select or start a new chat.");
-              return;
-            }
-        
-            const text = messageInput.value.trim();
-            if (text === "") return;
-        
-            const patientId = selectedPatient.id;
-            if (!chats[patientId]) chats[patientId] = [];
-        
-            chats[patientId].push({ sender: 'me', text });
-            messageInput.value = "";
-            renderMessages(patientId);
-        
-            setTimeout(() => {
-              chats[patientId].push({ sender: 'them', text: "Thank you for your message." });
-              renderMessages(patientId);
-            }, 1000);
-          }
-        
-          // Handle Enter in message input
-          messageInput.addEventListener("keydown", function (e) {
-            if (e.key === 'Enter') sendMessage();
-          });
-        
-          sendBtn.addEventListener("click", sendMessage);
-        
-          // Live search or create
-          searchInput.addEventListener("input", function () {
-            loadPatientList(searchInput.value);
-          });
-        
-          searchInput.addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-              const name = searchInput.value.trim();
-              if (!name) return;
-        
-              const existing = patients.find(p => p.name.toLowerCase() === name.toLowerCase());
-        
-              if (existing) {
-                const allUsers = document.querySelectorAll(".chat-user");
-                const userDiv = [...allUsers].find(div => div.textContent.trim() === existing.name);
-                selectPatient(existing, userDiv);
-              } else {
-                const newId = Date.now();
-                const newPatient = { id: newId, name: name, image: "https://via.placeholder.com/40" };
-                patients.push(newPatient);
-                loadPatientList();
-                setTimeout(() => {
-                  const allUsers = document.querySelectorAll(".chat-user");
-                  const userDiv = [...allUsers].find(div => div.textContent.trim() === newPatient.name);
-                  selectPatient(newPatient, userDiv);
-                }, 100);
-              }
-        
-              searchInput.value = "";
-            }
-          });
-        
-          // Initial list
-          loadPatientList();
-          const fileInput = document.getElementById("fileUpload");
-      
-        fileInput.addEventListener("change", function () {
-          const file = fileInput.files[0];
-          if (!file || !selectedPatient) return;
-      
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const fileURL = e.target.result;
-      
-            const patientId = selectedPatient.id;
-            if (!chats[patientId]) chats[patientId] = [];
-      
-            // Add file message
-            chats[patientId].push({
-              sender: 'me',
-              text: [File],
-              file: {
-                name: file.name,
-                url: fileURL,
-              }
-            });
-      
-            renderMessages(patientId);
-          };
-          reader.readAsDataURL(file);
-        });
-      
-        // Extend renderMessages to handle file display
-        function renderMessages(patientId) {
-          messagesContainer.innerHTML = "";
-      
-          const messages = chats[patientId] || [];
-      
-          if (messages.length === 0) {
-            messagesContainer.innerHTML = <p style="color: gray; text-align: center;">Start a conversation...</p>;
-            return;
-          }
-      
-          messages.forEach(msg => {
-            const messageDiv = document.createElement("div");
-            messageDiv.className = `message-card ${msg.sender === 'me' ? 'sent-message' : 'received-message'}`;
-      
-            if (msg.file) {
-              const link = document.createElement("a");
-              link.href = msg.file.url;
-              link.target = "_blank";
-              link.textContent = `📎 ${msg.file.name}`;
-              link.style.textDecoration = "none";
-              link.style.color = "#007bff";
-              messageDiv.appendChild(link);
-            } else {
-              messageDiv.textContent = msg.text;
-            }
-      
-            messagesContainer.appendChild(messageDiv);
-          });
-      
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-      
-      
-        function toggleFileOptions() {
-          const menu = document.getElementById('fileOptions');
-          menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-      
-        function uploadFile(type) {
-          document.getElementById('fileOptions').style.display = 'none'; // hide menu
-      
-          switch(type) {
-            case 'image':
-              document.getElementById('imageUpload').click();
-              break;
-            case 'document':
-              document.getElementById('documentUpload').click();
-              break;
-            case 'audio':
-              document.getElementById('audioUpload').click();
-              break;
-            case 'video':
-              document.getElementById('videoUpload').click();
-              break;
-          }
-        }
-      
-        // Event listeners for file inputs
-        document.getElementById('imageUpload').addEventListener('change', handleFileSelect);
-        document.getElementById('documentUpload').addEventListener('change', handleFileSelect);
-        document.getElementById('audioUpload').addEventListener('change', handleFileSelect);
-        document.getElementById('videoUpload').addEventListener('change', handleFileSelect);
-      
-        function handleFileSelect(event) {
-          const file = event.target.files[0];
-          if (file) {
-            alert(`Selected: ${file.name}`);
-            // Add logic here to preview/send file in chat
-          }
-        }
-      
-      
-      </script>
-      
-      
-      
-      
+      <!-- History Section -->
+      <div id="history" class="section" style="display: none; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
+        <h2>Treatment History</h2>
+        <div id="historyContent">Loading...</div>
+      </div>
 
-    <!-- history -->
-    <div id="history" class="section" style="display: none; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
-      <h2>Treatment History</h2>
-      <div id="historyContent">Loading...</div>
+      <!-- Update Profile Section -->
+      <div id="update" class="section" style="display: none; background: linear-gradient(to bottom, #f7f9fc, #e3eaf2); border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 40px; margin-bottom: 30px; max-width: 750px; margin-inline: auto; font-family: 'Segoe UI', sans-serif;">
+          <h2 style="text-align: center; color: #0056b3; margin-bottom: 35px; font-size: 28px; font-weight: 600;">Update Profile</h2>
+          <form id="updateForm" style="display: flex; flex-direction: column; gap: 18px;">
+        
+            <input type="text" id="first_name" name="first_name" placeholder="First Name" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="last_name" name="last_name" placeholder="Last Name" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="email" id="email" name="email" placeholder="Email" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="mobile" name="mobile" placeholder="Mobile" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <textarea id="address" name="address" placeholder="Address" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; resize: vertical; background: #fff;"></textarea>
+        
+            <input type="text" id="degree" name="degree" placeholder="Degree" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="university" name="university" placeholder="University" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="number" id="experience" name="experience" placeholder="Years of Experience" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="aadhar_card" name="aadhar_card" placeholder="Aadhar Card" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="license_number" name="license_number" placeholder="License Number" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="specialization" name="specialization" placeholder="Specialization" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="text" id="clinic" name="clinic" placeholder="Clinic" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <select id="availability" name="availability" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+              <option value="">-- Availability --</option>
+              <option value="Diagnostic Center">Diagnostic Center</option>
+              <option value="Online Only">Online Only</option>
+              <option value="Both">Both</option>
+            </select>
+        
+            <input type="time" id="from_time" name="from_time" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <input type="time" id="to_time" name="to_time" required 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
+        
+            <textarea id="additional_info" name="additional_info" placeholder="Additional Info" 
+              style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; resize: vertical; background: #fff;"></textarea>
+        
+            <button type="submit" 
+              style="padding: 16px; background: linear-gradient(to right, #007bff, #0056b3); color: white; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: background 0.3s; font-weight: 500;">
+              Update
+            </button>
+          </form>
+      </div>
     </div>
-
-    <!-- update profile -->
-    <div id="update" class="section" style="display: none; background: linear-gradient(to bottom, #f7f9fc, #e3eaf2); border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 40px; margin-bottom: 30px; max-width: 750px; margin-inline: auto; font-family: 'Segoe UI', sans-serif;">
-        <h2 style="text-align: center; color: #0056b3; margin-bottom: 35px; font-size: 28px; font-weight: 600;">Update Profile</h2>
-        <form id="updateForm" style="display: flex; flex-direction: column; gap: 18px;">
-      
-          <input type="text" id="first_name" name="first_name" placeholder="First Name" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="last_name" name="last_name" placeholder="Last Name" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="email" id="email" name="email" placeholder="Email" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="mobile" name="mobile" placeholder="Mobile" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <textarea id="address" name="address" placeholder="Address" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; resize: vertical; background: #fff;"></textarea>
-      
-          <input type="text" id="degree" name="degree" placeholder="Degree" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="university" name="university" placeholder="University" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="number" id="experience" name="experience" placeholder="Years of Experience" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="aadhar_card" name="aadhar_card" placeholder="Aadhar Card" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="license_number" name="license_number" placeholder="License Number" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="specialization" name="specialization" placeholder="Specialization" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="text" id="clinic" name="clinic" placeholder="Clinic" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <select id="availability" name="availability" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-            <option value="">-- Availability --</option>
-            <option value="Diagnostic Center">Diagnostic Center</option>
-            <option value="Online Only">Online Only</option>
-            <option value="Both">Both</option>
-          </select>
-      
-          <input type="time" id="from_time" name="from_time" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <input type="time" id="to_time" name="to_time" required 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; background: #fff;">
-      
-          <textarea id="additional_info" name="additional_info" placeholder="Additional Info" 
-            style="padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; resize: vertical; background: #fff;"></textarea>
-      
-          <button type="submit" 
-            style="padding: 16px; background: linear-gradient(to right, #007bff, #0056b3); color: white; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: background 0.3s; font-weight: 500;">
-            Update
-          </button>
-        </form>
-    </div>
-      
-
   </div>
-</div>
 
 <script>
-  const uid = localStorage.getItem('doctor_uid');
+  // Update date time function
+  function updateDateTime() {
+    const now = new Date();
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' };
+    document.getElementById("dateTime").innerText = now.toLocaleDateString(undefined, options);
+  }
+
+  setInterval(updateDateTime, 60000);
+  updateDateTime();
+
+  // Check session and load data
+  async function checkSessionAndLoadData() {
+    try {
+      // Check session first
+      const sessionRes = await fetch('https://hitaishihealthcare.com/api/doctor-session', {
+        credentials: 'include'
+      });
+      
+      if (!sessionRes.ok) {
+        throw new Error('Session check failed');
+      }
+      
+      const sessionData = await sessionRes.json();
+      
+      if (!sessionData.loggedIn) {
+        window.location.href = 'doctorlogin.html';
+        return;
+      }
+      
+      // If session is valid, load doctor data
+      const uid = sessionData.user.uid;
+      const res = await fetch(`/api/gdoctors/${uid}`);
+      
+      if (!res.ok) {
+        throw new Error('Failed to load doctor data');
+      }
+      
+      const data = await res.json();
+      document.getElementById("doctorName").innerText = `${data.first_name} ${data.last_name}`;
+      
+      // Populate form fields
+      Object.keys(data).forEach(key => {
+        const input = document.getElementById(key);
+        if (input) input.value = data[key] || '';
+      });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Session expired or error loading data. Please login again.');
+      window.location.href = 'doctorlogin.html';
+    }
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    if (id === 'appointments') loadAppointments();
+    if (id === 'history') loadHistory();
+    if (id === 'patients') loadPatients();
+    if (id === 'update') checkSessionAndLoadData();
+  }
+
+  function logout() {
+    fetch('/api/doctorlogout', {
+      method: 'POST',
+      credentials: 'include'
+    })
+    .then(() => {
+      window.location.href = 'doctorlogin.html';
+    })
+    .catch(err => {
+      console.error('Logout error:', err);
+      window.location.href = 'doctorlogin.html';
+    });
+  }
+
+  // Load initial data when page loads
+  document.addEventListener('DOMContentLoaded', checkSessionAndLoadData);
+</script>
+<script>
+  document.getElementById("updateForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    
+    try {
+      const sessionRes = await fetch('/api/doctor-session', {
+        credentials: 'include'
+      });
+      const sessionData = await sessionRes.json();
+      
+      if (!sessionData.loggedIn) {
+        throw new Error('Session expired');
+      }
+      
+      const uid = sessionData.user.uid;
+      const formData = {};
+      new FormData(this).forEach((value, key) => { formData[key] = value; });
+      
+      const res = await fetch(`/api/updatedoctors/${uid}`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+        credentials: 'include'
+      });
+      
+      if (!res.ok) {
+        throw new Error('Update failed');
+      }
+      
+      const result = await res.json();
+      alert(result.message || "Profile updated successfully!");
+    } catch (error) {
+      console.error('Update error:', error);
+      alert('Failed to update profile. Please try again.');
+    }
+  });
+</script>
+<script>
+window.onload = async () => {
+  try {
+    const res = await fetch("/api/doctor-session", {
+      credentials: "include"  // 🔒 Important for session cookies
+    });
+    const data = await res.json();
+
+    if (data.loggedIn) {
+      document.getElementById("doctorName").innerText = data.user.name;
+
+      // Optional: fetch full profile if needed
+      const doctorRes = await fetch(`/api/gdoctors/${data.user.uid}`);
+      const doctor = await doctorRes.json();
+
+      // Example: populate update form (if you have one)
+      document.getElementById("first_name").value = doctor.first_name || "";
+      document.getElementById("last_name").value = doctor.last_name || "";
+      document.getElementById("email").value = doctor.email || "";
+      document.getElementById("mobile").value = doctor.mobile || "";
+      document.getElementById("address").value = doctor.address || "";
+      document.getElementById("degree").value = doctor.degree || "";
+      document.getElementById("university").value = doctor.university || "";
+      document.getElementById("experience").value = doctor.experience || "";
+      document.getElementById("aadhar_card").value = doctor.aadhar_card || "";
+      document.getElementById("license_number").value = doctor.license_number || "";
+
+    } else {
+      alert("Session expired. Please log in again.");
+      window.location.href = "doctorlogin.html";
+    }
+  } catch (err) {
+    console.error("Session fetch error:", err);
+    alert("Error loading profile. Try again.");
+  }
+}
+</script>
+
+
+<!-- <script>
+  let doctorUid = null;
 
   function updateDateTime() {
     const now = new Date();
@@ -517,14 +471,30 @@
   setInterval(updateDateTime, 60000);
   updateDateTime();
 
-  async function loadDoctorData() {
-    const res = await fetch(`https://hitaishihealthcare.com/api/gdoctors/${uid}`);
-    const data = await res.json();
-    document.getElementById("doctorName").innerText = data.first_name + " " + data.last_name;
-    Object.keys(data).forEach(key => {
-      const input = document.getElementById(key);
-      if (input) input.value = data[key];
-    });
+  async function loadDoctorData(uid) {
+    if (!uid) {
+      console.error("UID is not available to load doctor data.");
+      return;
+    }
+    try {
+      const res = await fetch(`https://hitaishihealthcare.com/api/gdoctors/${uid}`);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const data = await res.json();
+      
+      document.getElementById("doctorName").innerText = data.first_name + " " + data.last_name;
+      
+      Object.keys(data).forEach(key => {
+        const input = document.getElementById(key);
+        if (input) {
+          input.value = data[key];
+        }
+      });
+    } catch (error) {
+      console.error("Error loading doctor data:", error);
+      alert("Failed to load doctor profile. Please try again.");
+    }
   }
 
   function showSection(id) {
@@ -533,74 +503,229 @@
     if (id === 'appointments') loadAppointments();
     if (id === 'history') loadHistory();
     if (id === 'patients') loadPatients();
-    if (id === 'update') loadDoctorData();
+    if (id === 'update') loadDoctorData(doctorUid); 
   }
 
-  function logout() {
-    localStorage.removeItem('doctor_uid');
-    window.location.href = 'doctorlogin.html';
+  async function logout() {
+    try {
+      const response = await fetch("https://hitaishihealthcare.com/api/doctorlogout", { 
+        method: "POST",
+        credentials: "include"
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        window.location.href = 'doctorlogin.html';
+      } else {
+        alert(data.message || "Logout failed!");
+      }
+    } catch (error) {
+      console.error("Logout Error:", error);
+      alert("Server error during logout.");
+    }
   }
 
   async function loadAppointments() {
-    const res = await fetch(`https://hitaishihealthcare.com/api/appointments/${uid}`);
+    if (!doctorUid) return;
+    const res = await fetch(`https://hitaishihealthcare.com/api/appointments/${doctorUid}`);
     const data = await res.json();
     const container = document.getElementById("appointmentList");
     container.innerHTML = data.map(app => `<p><strong>${app.patient_name}</strong> - ${app.date} @ ${app.time}</p>`).join('');
   }
 
   async function loadHistory() {
-    const res = await fetch(`https://hitaishihealthcare.com/api/history/${uid}`);
+    if (!doctorUid) return;
+    const res = await fetch(`https://hitaishihealthcare.com/api/history/${doctorUid}`);
     const data = await res.json();
     const container = document.getElementById("historyContent");
     container.innerHTML = data.map(h => `<p><strong>${h.patient_name}</strong> - ${h.date} - ${h.disease} - ${h.treatment}</p>`).join('');
   }
 
   async function loadPatients() {
-    const list = ['ravi', 'kishore', 'navee', 'ganapathi'];
+  
+    const patients = [
+        { id: 1, name: "John Doe", image: "https://via.placeholder.com/40" },
+        { id: 2, name: "Jane Smith", image: "https://via.placeholder.com/40" },
+        { id: 3, name: "Ravi Kumar", image: "https://via.placeholder.com/40" }
+    ];
     const patientList = document.getElementById("patientList");
-    patientList.innerHTML = list.map(name => `<div style="padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer;" onclick="loadChat('${name}')">${name}</div>`).join('');
+    patientList.innerHTML = patients.map(patient => `
+      <div class="chat-user" style="padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; display: flex; align-items: center; gap: 10px;" onclick="selectPatient(${JSON.stringify(patient).replace(/"/g, '&quot;')}, this)">
+        <img src="${patient.image}" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+        <span>${patient.name}</span>
+      </div>
+    `).join('');
   }
 
-  function loadChat(name) {
-    const chatBox = document.getElementById("chatBox");
-    chatBox.innerHTML = `<h3>Chat with ${name}</h3><p>[Chat history here]</p><button>Start Video Call</button>`;
+  let chats = {}; 
+  let selectedPatient = null;
+
+  function selectPatient(patient, element) {
+    selectedPatient = patient;
+    document.getElementById("chatUserImage").src = patient.image;
+    document.getElementById("chatUserName").textContent = patient.name;
+
+    document.querySelectorAll(".chat-user").forEach(el => el.classList.remove("active"));
+    if (element) element.classList.add("active");
+
+    renderMessages(patient.id);
   }
+
+  function renderMessages(patientId) {
+    const messagesContainer = document.getElementById("messagesContainer");
+    messagesContainer.innerHTML = "";
+
+    const messages = chats[patientId] || [];
+
+    if (messages.length === 0) {
+      messagesContainer.innerHTML = '<p style="color: gray; text-align: center;">Start a conversation...</p>';
+      return;
+    }
+
+    messages.forEach(msg => {
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `message-card ${msg.sender === 'me' ? 'sent-message' : 'received-message'}`;
+      
+      if (msg.file) {
+        const link = document.createElement("a");
+        link.href = msg.file.url;
+        link.target = "_blank";
+        link.textContent = `📎 ${msg.file.name}`;
+        link.style.textDecoration = "none";
+        link.style.color = "#007bff";
+        messageDiv.appendChild(link);
+      } else {
+        messageDiv.textContent = msg.text;
+      }
+      messagesContainer.appendChild(messageDiv);
+    });
+
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function sendMessage() {
+    if (!selectedPatient) {
+      alert("Please select or start a new chat.");
+      return;
+    }
+
+    const messageInput = document.querySelector('#patients input[placeholder="Type a message"]');
+    const text = messageInput.value.trim();
+    if (text === "") return;
+
+    const patientId = selectedPatient.id;
+    if (!chats[patientId]) chats[patientId] = [];
+
+    chats[patientId].push({ sender: 'me', text });
+    messageInput.value = "";
+    renderMessages(patientId);
+
+    setTimeout(() => {
+      chats[patientId].push({ sender: 'them', text: "Thank you for your message. I'll get back to you shortly." });
+      renderMessages(patientId);
+    }, 1000);
+  }
+
+  document.querySelector('#patients input[placeholder="Type a message"]').addEventListener("keydown", function (e) {
+    if (e.key === 'Enter') sendMessage();
+  });
+  document.querySelector('.fa-paper-plane').parentElement.addEventListener("click", sendMessage);
+
+  function toggleFileOptions() {
+    const menu = document.getElementById('fileOptions');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function uploadFile(type) {
+    document.getElementById('fileOptions').style.display = 'none'; 
+    switch(type) {
+      case 'image': document.getElementById('imageUpload').click(); break;
+      case 'document': document.getElementById('documentUpload').click(); break;
+      case 'audio': document.getElementById('audioUpload').click(); break;
+      case 'video': document.getElementById('videoUpload').click(); break;
+    }
+  }
+
+  function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file || !selectedPatient) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const fileURL = e.target.result;
+      const patientId = selectedPatient.id;
+      if (!chats[patientId]) chats[patientId] = [];
+
+      chats[patientId].push({
+        sender: 'me',
+        text: `[${file.type.split('/')[0]} file: ${file.name}]`,
+        file: {
+          name: file.name,
+          url: fileURL,
+          type: file.type
+        }
+      });
+      renderMessages(patientId);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  document.getElementById('imageUpload').addEventListener('change', handleFileSelect);
+  document.getElementById('documentUpload').addEventListener('change', handleFileSelect);
+  document.getElementById('audioUpload').addEventListener('change', handleFileSelect);
+  document.getElementById('videoUpload').addEventListener('change', handleFileSelect);
 
   document.getElementById("updateForm").addEventListener("submit", async function (e) {
     e.preventDefault();
     const formData = {};
     new FormData(this).forEach((value, key) => { formData[key] = value; });
-    const res = await fetch(`https://hitaishihealthcare.com/api/updatedoctors/${uid}`, {
-      method: "PUT",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
-    const result = await res.json();
-    alert(result.message || "Profile updated successfully!");
+    
+    if (!doctorUid) {
+        alert("Cannot update profile: Doctor UID not found.");
+        return;
+    }
+
+    try {
+      const res = await fetch(`https://hitaishihealthcare.com/api/updatedoctors/${doctorUid}`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const result = await res.json();
+      alert(result.message || "Profile updated successfully!");
+      // Reload doctor data to reflect changes in the sidebar name if it was updated
+      loadDoctorData(doctorUid); 
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Server error.");
+    }
   });
 
-  window.onload = loadDoctorData;
-
-
   window.onload = async () => {
-    const res = await fetch("/api/doctor-session", {
-      credentials: "include"
-    });
-    const data = await res.json();
+    try {
+      // Use absolute URL for session check
+      const res = await fetch("https://hitaishihealthcare.com/api/doctor-session", {
+        credentials: "include"
+      });
+      const data = await res.json();
 
-    if (!data.loggedIn) {
-      alert("Please login to continue.");
-      window.location.href = "doctor-login.html";
-    } else {
-      console.log("Welcome", data.user.name);
-      // Populate doctor name/email on dashboard if needed
+      if (!data.loggedIn) {
+        alert("Please login to continue.");
+        window.location.href = "doctorlogin.html"; // Redirect to login page
+      } else {
+        console.log("Welcome", data.user.name);
+        doctorUid = data.user.uid; // Set the global doctorUid
+        await loadDoctorData(doctorUid); // Load doctor's specific data
+        showSection('welcome'); // Show the welcome section by default
+      }
+    } catch (error) {
+      console.error("Session check error:", error); // Log the actual error
+      alert("Could not verify session. Please login again.");
+      window.location.href = "doctorlogin.html"; // Redirect on error
     }
   };
 
-</script>
-
-
-
+</script> -->
 
  <!-- chatbot -->
  <div id="chatbot-icon" style="position: fixed; bottom: 40px; right: 20px; width: 60px; height: 60px; background-color: #ffffffc0; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); cursor: pointer; z-index: 1000; transition: all 0.3s ease-in-out;">

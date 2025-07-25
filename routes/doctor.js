@@ -166,6 +166,46 @@ router.get("/gdoctors/:uid", (req, res) => {
     });
 });
 
+// Fetch Doctor Details from session
+router.get("/doctor-profile", (req, res) => {
+    if (req.session.user && req.session.user.role === 'doctor') {
+        const uid = req.session.user.uid;
+        db.query("SELECT * FROM doctors WHERE uid = ?", [uid], (err, results) => {
+            if (err) {
+                console.error("Error fetching doctor profile:", err);
+                return res.status(500).json({ message: "Server error" });
+            }
+            if (results.length > 0) {
+                const doctor = results[0];
+                res.status(200).json({
+                    uid: doctor.uid,
+                    first_name: doctor.first_name,
+                    last_name: doctor.last_name,
+                    email: doctor.email,
+                    mobile: doctor.mobile,
+                    address: doctor.address,
+                    clinic: doctor.clinic,
+                    license_number: doctor.license_number,
+                    aadhar_card: doctor.aadhar_card,
+                    experience: doctor.experience,
+                    degree: doctor.degree,
+                    university: doctor.university,
+                    specialization: doctor.specialization,
+                    availability: doctor.availability,
+                    from_time: doctor.from_time,
+                    to_time: doctor.to_time,
+                    additional_info: doctor.additional_info,
+                });
+            } else {
+                res.status(404).json({ message: "Doctor not found" });
+            }
+        });
+    } else {
+        res.status(401).json({ message: "Unauthorized" });
+    }
+});
+
+
 // Update Doctor
 router.put("/updatedoctors/:uid", (req, res) => {
     const { uid } = req.params;
@@ -217,6 +257,7 @@ router.delete("/deletedoctors/:uid", (req, res) => {
     });
 });
 
+// Check Doctor Session
 router.get("/doctor-session", (req, res) => {
     if (req.session.user && req.session.user.role === 'doctor') {
         res.json({ loggedIn: true, user: req.session.user });
@@ -225,6 +266,7 @@ router.get("/doctor-session", (req, res) => {
     }
 });
 
+// Doctor Logout
 router.post("/doctorlogout", (req, res) => {
     req.session.destroy(err => {
         if (err) {
