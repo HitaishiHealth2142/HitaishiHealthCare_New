@@ -24,7 +24,14 @@ router.post('/patientlogin', (req, res) => {
 
         const user = results[0];
 
-        res.status(200).json({ message: 'Login successful', userId: user.id });
+        const fullName = `${user.first_name} ${user.last_name}`;
+        res.status(200).json({ 
+        message: 'Login successful', 
+        userId: user.id, 
+        first_name: user.first_name, 
+        last_name: user.last_name, 
+        name: fullName 
+        });
     });
 });
 

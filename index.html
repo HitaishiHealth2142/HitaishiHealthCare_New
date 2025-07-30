@@ -21,14 +21,30 @@
 
 <!-- Navbar Code -->
 <div id="navbar"></div>
-
 <script>
-    fetch('navbar.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('navbar').innerHTML = html;
-      });
+fetch('navbar.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('navbar').innerHTML = html;
+
+    // ✅ Set initials after navbar is inserted
+    const name = localStorage.getItem("userName");
+    const type = localStorage.getItem("userType");
+
+    if (name && type) {
+      const nameParts = name.trim().split(" ");
+      let initials = nameParts[0][0];
+      if (nameParts.length > 1) {
+        initials += nameParts[nameParts.length - 1][0];
+      }
+      initials = initials.toUpperCase();
+
+      const circle = document.getElementById("profileCircle");
+      if (circle) circle.textContent = initials;
+    }
+  });
 </script>
+ 
 <!-- Navbar End -->
 
     <!-- Main Section -->
