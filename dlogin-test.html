@@ -1,0 +1,47 @@
+<!-- doctor-login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doctor Login</title>
+</head>
+<body>
+  <h2>Doctor Login</h2>
+  <form id="loginForm">
+    <label>Email:</label>
+    <input type="email" id="email" required><br><br>
+    <label>Password:</label>
+    <input type="password" id="password" required><br><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("/api/doctorlogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        if (data.user) {
+            localStorage.setItem("doctor", JSON.stringify(data.user));
+        }
+
+        alert("Login successful!");
+        window.location.href = "dprofile-test.html";
+      } else {
+        alert(data.message || "Login failed!");
+      }
+    });
+  </script>
+</body>
+</html>

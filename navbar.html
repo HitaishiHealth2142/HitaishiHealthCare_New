@@ -44,7 +44,29 @@
         <a href="https://youtube.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-youtube"></i></a>
         <a href="https://t.me" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-telegram"></i></a>
         <a href="https://wa.me" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-whatsapp"></i></a>
-        <a href="patientLogin.html" style="color: white; font-size: 20px;"><i class="fas fa-user-circle"></i></a>
+        <div id="loginDropdown" style="position: relative;">
+            <a href="#" onclick="toggleDropdown()" style="color: white; font-size: 20px; display: inline-flex; align-items: center; gap: 5px;">
+                <span id="loginText">Login</span>
+                <i class="fas fa-user-circle" id="userIcon"></i>
+            </a>
+            <div id="dropdownMenu" style="display: none; position: absolute; top: 30px; right: 0; background: white; border: 1px solid #ccc; border-radius: 5px; z-index: 999;">
+                <a href="patientLogin.html" style="display: block; padding: 8px 12px; color: #333; text-decoration: none;">Patient</a>
+                <a href="doctorLogin.html" style="display: block; padding: 8px 12px; color: #333; text-decoration: none;">Doctor</a>
+            </div>
+        </div>
+        <script>
+            function toggleDropdown() {
+                const menu = document.getElementById("dropdownMenu");
+                menu.style.display = menu.style.display === "block" ? "none" : "block";
+            }
+
+            window.addEventListener("click", function(e) {
+                const menu = document.getElementById("dropdownMenu");
+                if (!document.getElementById("loginDropdown").contains(e.target)) {
+                menu.style.display = "none";
+                }
+            });
+        </script>
     </div>
     </nav>
 
