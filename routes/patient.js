@@ -30,11 +30,6 @@ db.query(createPatientsTable, (err) => {
   }
 });
 
-
-
-
-
-
 // POST route to add a new patient
 router.post('/patients', (req, res) => {
     const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, confirm_password } = req.body;
@@ -54,5 +49,57 @@ router.post('/patients', (req, res) => {
         res.status(201).json({ message: 'Patient added successfully', patientId: result.insertId });
     });
 });
+
+// POST route for patient login
+router.post('/patientlogin', (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const sql = 'SELECT * FROM patients WHERE email = ? AND password = ?';
+    db.query(sql, [username, password], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database error' });
+        if (results.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
+
+        const user = results[0];
+
+        res.status(200).json({
+            message: 'Login successful',
+            userId: user.id,
+            // first_name: user.first_name,   
+            firstName: user.first_name,    
+            // last_name: user.last_name,
+            lastName: user.last_name,
+            fullName: user.first_name + '' + user.last_name
+            // console.log(fullName),
+        });
+
+        console.log("🔍 Login user data sent:", user);
+    });
+});
+
+
+router.get('/patients/:id', (req, res) => {
+    const patientId = req.params.id;
+
+    const sql = 'SELECT id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address FROM patients WHERE id = ?';
+
+    db.query(sql, [patientId], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+
+        res.status(200).json({ patient: results[0] });
+    });
+});
+
+
 
 module.exports = router;

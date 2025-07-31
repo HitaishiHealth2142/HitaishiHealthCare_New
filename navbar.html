@@ -44,30 +44,7 @@
             <a href="https://youtube.com" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-youtube"></i></a>
             <a href="https://t.me" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-telegram"></i></a>
             <a href="https://wa.me" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-whatsapp"></i></a>
-            <div id="profileCircle" style="padding: 5px 10px; background: transparent; color: white; border-radius: 5px; display: flex; align-items: center;  justify-content: center; font-weight: bold; font-size: 14px;  cursor: pointer;">
-            </div>
         </div>
-
-            <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const firstName = localStorage.getItem("userName");
-                const userType = localStorage.getItem("userType");
-
-                if (firstName && userType) {
-                    // ✅ Show full first name in the profileCircle
-                    const circle = document.getElementById("profileCircle");
-                    if (circle) {
-                        circle.textContent = firstName;  
-                        circle.style.background = "transparent";  // Remove black background
-                        circle.style.borderRadius = "5px";        // Make it a small box
-                        circle.style.color = "white";             // White text
-                        circle.style.fontWeight = "bold";
-                    }
-                }
-            });
-            </script>
-
-
     </nav>
 
     <!-- Navigation Bar 2 -->

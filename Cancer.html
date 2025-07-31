@@ -24,74 +24,71 @@
 <!-- Navbar End -->
   
 
-  <div style="max-width: 800px; margin: 0 auto; padding: 30px; font-family: Arial, sans-serif; background: #f8f9fa; color: #333;">
-    <h1 style="text-align: center; color: #2c3e50; margin-bottom: 30px;">Register Cancer Specialist</h1>
+    <div style="max-width: 800px; margin: 0 auto; padding: 30px; font-family: Arial, sans-serif; background: #f8f9fa; color: #333;">
+      <h1 style="text-align: center; color: #2c3e50; margin-bottom: 30px;">Register Cancer Specialist</h1>
 
-    <form id="specialistForm" style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-        <input type="url" id="image" placeholder="Doctor Image URL" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <input type="text" id="name" placeholder="Doctor Name" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <input type="number" id="fee" placeholder="Consultation Fee (₹)" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <input type="text" id="degree" placeholder="Degree" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <select id="branch" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <option value="">Select Branch</option>
-          <option value="Medical Oncology">Medical Oncology</option>
-          <option value="Surgical Oncology">Surgical Oncology</option>
-          <option value="Radiation Oncology">Radiation Oncology</option>
-        </select>
-        <input type="text" id="expertise" placeholder="Expertise" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <select id="specialization" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <option value="">Select Specialization</option>
-          <option value="Chemotherapy">Chemotherapy</option>
-          <option value="Immunotherapy">Immunotherapy</option>
-        </select>
-        <input type="text" id="location" placeholder="Location" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      </div>
+      <form id="specialistForm" style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+          <input type="url" id="image" placeholder="Doctor Image URL" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="text" id="name" placeholder="Doctor Name" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="number" id="fee" placeholder="Consultation Fee (₹)" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="text" id="degree" placeholder="Degree" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <select id="branch" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="">Select Branch</option>
+            <option value="Medical Oncology">Medical Oncology</option>
+            <option value="Surgical Oncology">Surgical Oncology</option>
+            <option value="Radiation Oncology">Radiation Oncology</option>
+          </select>
+          <input type="text" id="expertise" placeholder="Expertise" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <select id="specialization" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="">Select Specialization</option>
+            <option value="Chemotherapy">Chemotherapy</option>
+            <option value="Immunotherapy">Immunotherapy</option>
+          </select>
+          <input type="text" id="location" placeholder="Location" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
 
-      <textarea id="description" placeholder="Description" style="width: 100%; margin-top: 20px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; min-height: 80px;"></textarea>
+        <textarea id="description" placeholder="Description" style="width: 100%; margin-top: 20px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; min-height: 80px;"></textarea>
 
-      <button type="submit" style="margin-top: 20px; padding: 12px 20px; background-color: #e63946; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
-        Submit
-      </button>
+        <button type="submit" style="margin-top: 20px; padding: 12px 20px; background-color: #e63946; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+          Submit
+        </button>
 
-      <div id="message" style="text-align: center; margin-top: 20px; display: none; font-weight: bold;"></div>
-    </form>
-  </div>
+        <div id="message" style="text-align: center; margin-top: 20px; display: none; font-weight: bold;"></div>
+      </form>
+    </div>
    
 
-   <!-- footer -->
-    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; margin-top: 30px;">
+    <!-- footer -->
+    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; ">
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
             <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Quick Links</h3>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">About Us</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Our Team</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Accreditation</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Awards And Accolades</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Corporate Social Responsibility</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Tele Radiology</a>
+                <a href="Diagnostics.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Diagnostics</a>
+                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Test's</a>
+                <a href="doctor.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Doctor</a>
+                <a href="Dental.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find A Tooth Expert</a>
+                <a href="Eyecare.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Eye Care</a>
+                <a href="donations.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Organ Donors</a>
             </div>
             <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Services</h3>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Home Sample Collection</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Download Reports</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Corporate Wellness</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">COVID-19</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Contact Us</h3>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Virtual Tour</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Careers</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blog</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Investors</a>
-                <a href="#" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">FAQs</a>
+                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
+                <a href="blood.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blood Donations</a>
+                <a href="healthRecords.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">health Reports</a>
+                <a href="fertility.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Fertility</a>
+                <a href="Cancer.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Cancer Care</a>
             </div>
             <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
                 <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
                 <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
             </div>
+            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
+                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
+            </div>
+            
             <div style="flex: 1; min-width: 200px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
@@ -104,11 +101,12 @@
                 </div>
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
                 <div>
-                    <a href="#" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-facebook"></i></a>
-                    <a href="#" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/optic.bee/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/share/1CC3vxsppD/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-twitter"></i> </a>
+                    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-linkedin"></i> </a>
+                    <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-youtube"></i> </a>
+
                 </div>
             </div>
         </div>
@@ -120,55 +118,55 @@
         </div>
     </footer>
     
-  <script>
-    const form = document.getElementById('specialistForm');
-    const message = document.getElementById('message');
+    <script>
+      const form = document.getElementById('specialistForm');
+      const message = document.getElementById('message');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      const formData = {
-        image: document.getElementById('image').value.trim(),
-        name: document.getElementById('name').value.trim(),
-        fee: document.getElementById('fee').value.trim(),
-        degree: document.getElementById('degree').value.trim(),
-        branch: document.getElementById('branch').value,
-        expertise: document.getElementById('expertise').value.trim(),
-        specialization: document.getElementById('specialization').value,
-        location: document.getElementById('location').value.trim(),
-        description: document.getElementById('description').value.trim()
-      };
+        const formData = {
+          image: document.getElementById('image').value.trim(),
+          name: document.getElementById('name').value.trim(),
+          fee: document.getElementById('fee').value.trim(),
+          degree: document.getElementById('degree').value.trim(),
+          branch: document.getElementById('branch').value,
+          expertise: document.getElementById('expertise').value.trim(),
+          specialization: document.getElementById('specialization').value,
+          location: document.getElementById('location').value.trim(),
+          description: document.getElementById('description').value.trim()
+        };
 
-      try {
-        const response = await fetch('https://hitaishihealthcare.com/api/specialists', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+        try {
+          const response = await fetch('https://hitaishihealthcare.com/api/specialists', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Failed to register');
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to register');
+          }
+
+          message.textContent = '✅ Specialist registered successfully!';
+          message.style.color = '#155724';
+          message.style.display = 'block';
+          message.style.backgroundColor = '#d4edda';
+          form.reset();
+
+        } catch (error) {
+          message.textContent = '❌ ' + error.message;
+          message.style.color = '#721c24';
+          message.style.display = 'block';
+          message.style.backgroundColor = '#f8d7da';
         }
 
-        message.textContent = '✅ Specialist registered successfully!';
-        message.style.color = '#155724';
-        message.style.display = 'block';
-        message.style.backgroundColor = '#d4edda';
-        form.reset();
-
-      } catch (error) {
-        message.textContent = '❌ ' + error.message;
-        message.style.color = '#721c24';
-        message.style.display = 'block';
-        message.style.backgroundColor = '#f8d7da';
-      }
-
-      setTimeout(() => {
-        message.style.display = 'none';
-      }, 4000);
-    });
-  </script>
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 4000);
+      });
+    </script>
 
 <!-- Placeholder where chatbot will be inserted -->
 <div id="chatbot-placeholder"></div>
