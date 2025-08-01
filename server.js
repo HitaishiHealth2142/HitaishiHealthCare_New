@@ -57,6 +57,7 @@ const hr_packagesRoutes = require("./routes/hr_packages");
 const packagesRoutes = require("./routes/packages");
 // const patientloginRoutes = require("./routes/patientlogin");
 const patientRoutes = require("./routes/patient");
+const diagnosticsRoutes = require("./routes/diagnostics")
 
 
 // Use Routes - Mount imported routes under the /api path
@@ -70,7 +71,7 @@ app.use("/api", bloodtestRoutes);
 app.use("/api", diagnosticstestsRoutes);
 app.use("/api", doctorRoutes); // Doctor related APIs (login, profile, update, session check)
 console.log("✅ doctorRoutes loaded at /api/");
-
+app.use("/api" , diagnosticsRoutes)
 app.use("/api", entappointmentRoutes);
 app.use("/api", entspecialistRoutes);
 app.use("/api", eyedoctorsRoutes);
