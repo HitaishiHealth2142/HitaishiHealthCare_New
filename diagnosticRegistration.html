@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnostics Center Registration - Hitaishi Healthcare</title>
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --danger-color: #dc3545;
+      --bg-section: #f9f9f9;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+    h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 5px;
+      margin-bottom: 18px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .section {
+      background: var(--bg-section);
+      padding: 24px 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+    .grid {
+      display: grid;
+      gap: 10px;
+    }
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 8px;
+    }
+    .floating-label {
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .floating-label input,
+    .floating-label select,
+    .floating-label textarea {
+      width: 100%;
+      padding: 18px 14px 8px 14px;
+      border: 1.5px solid #bfc8d6;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1.08rem;
+      background: #f7fafd;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      box-sizing: border-box;
+    }
+    .floating-label input:focus,
+    .floating-label select:focus,
+    .floating-label textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(0,123,255,0.08);
+      background: #fff;
+    }
+    .floating-label label {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      padding: 0 6px;
+      transition: 0.2s;
+      color: #888;
+      pointer-events: none;
+      font-size: 1rem;
+    }
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label,
+    .floating-label select:focus + label,
+    .floating-label select:not([value=""]) + label,
+    .floating-label textarea:focus + label,
+    .floating-label textarea:not(:placeholder-shown) + label {
+      top: -12px;
+      font-size: 0.85rem;
+      color: var(--primary-color);
+      background: #f7fafd;
+      padding: 0 6px;
+    }
+    .required::after {
+      content: " *";
+      color: var(--danger-color);
+    }
+    input[type="file"] {
+      padding: 8px;
+      border-radius: 8px;
+      background: #f7fafd;
+      border: 1.5px solid #bfc8d6;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .checkbox-group, .radio-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .checkbox-group label, .radio-group label {
+      font-size: 1rem;
+      background: #f7fafd;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #e0e6ed;
+      margin-bottom: 6px;
+    }
+    .otp-section {
+      display: none;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+    .submit-btn {
+      display: none;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 16px;
+      font-size: 1.08rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+      transition: background 0.2s;
+    }
+    .submit-btn:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 900px) {
+      .container {
+        max-width: 98vw;
+        padding: 8px;
+      }
+      .section {
+        padding: 16px 6px;
+      }
+      .grid {
+        gap: 18px;
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .floating-label input,
+      .floating-label select,
+      .floating-label textarea {
+        font-size: 1rem;
+        padding: 14px 10px 6px 10px;
+      }
+      .floating-label label {
+        left: 12px;
+        font-size: 0.98rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .container {
+        max-width: 100vw;
+        padding: 2px;
+      }
+      h1 {
+        font-size: 1.3rem;
+        padding: 8px 0;
+      }
+      h2 {
+        font-size: 1.08rem;
+        padding-bottom: 2px;
+      }
+      .section {
+        padding: 10px 2px;
+        border-radius: 8px;
+      }
+      .grid {
+        gap: 12px;
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .floating-label input,
+      .floating-label select,
+      .floating-label textarea {
+        font-size: 0.98rem;
+        padding: 10px 8px 4px 8px;
+        border-radius: 6px;
+      }
+      .floating-label label {
+        left: 8px;
+        font-size: 0.95rem;
+      }
+      .checkbox-group label, .radio-group label {
+        font-size: 0.95rem;
+        padding: 6px 10px;
+      }
+      .submit-btn {
+        font-size: 1rem;
+        padding: 12px;
+        border-radius: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Register Your Diagnostics Center</h1>
+    <form id="registrationForm">
+
+      <!-- Basic Info -->
+      <div class="section">
+        <h2>Basic Information</h2>
+        <div class="grid two-col">
+          <div class="floating-label">
+            <input type="text" id="centerName" placeholder=" " required>
+            <label class="required">Center Name</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" id="ownerName" placeholder=" " required>
+            <label class="required">Owner/Manager Name</label>
+          </div>
+          <div class="floating-label">
+            <select id="centerType" required>
+              <option value="" disabled selected hidden></option>
+              <option>Pathology</option>
+              <option>Radiology</option>
+              <option>Multispeciality</option>
+              <option>Others</option>
+            </select>
+            <label class="required">Center Type</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="section">
+        <h2>Contact Details</h2>
+        <div class="grid two-col">
+          <div class="floating-label">
+            <input type="tel" id="phone" placeholder=" " pattern="\d{10}" required>
+            <label class="required">Phone Number</label>
+          </div>
+          <div class="floating-label">
+            <input type="tel" id="altPhone" placeholder=" ">
+            <label>Alternate Phone Number</label>
+          </div>
+          <div class="floating-label">
+            <input type="email" id="email" placeholder=" " required>
+            <label class="required">Email Address</label>
+          </div>
+          <div class="floating-label">
+            <button type="button" onclick="sendOTP()">Send OTP</button>
+          </div>
+          <div class="floating-label">
+            <input type="tel" id="whatsapp" placeholder=" ">
+            <label>WhatsApp Number</label>
+          </div>
+        </div>
+        <div class="otp-section" id="otpSection">
+          <div class="floating-label">
+            <input type="text" id="otpInput" placeholder=" ">
+            <label>Enter OTP</label>
+          </div>
+          <button type="button" onclick="verifyOTP()">Verify OTP</button>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="section">
+        <h2>Address</h2>
+        <div class="grid two-col">
+          <div class="floating-label">
+            <textarea placeholder=" " required></textarea>
+            <label class="required">Full Address</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">City</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">State</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" " pattern="\d{6}" required>
+            <label class="required">Pincode</label>
+          </div>
+          <div class="floating-label">
+            <input type="url" placeholder=" ">
+            <label>Google Map Location URL</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legal Documents -->
+      <div class="section">
+        <h2>Legal & Verification Documents</h2>
+        <div class="grid two-col">
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">Center Registration Number</label>
+          </div>
+          <div>
+            <label class="required">Upload License Copy</label>
+            <input type="file" accept=".pdf,.jpg,.png" required>
+          </div>
+          <div>
+            <label class="required">Upload PAN or Aadhar</label>
+            <input type="file" accept=".pdf,.jpg,.png" required>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" ">
+            <label>GST Number</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="section">
+        <h2>Services Offered</h2>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> Blood Test</label>
+          <label><input type="checkbox"> Urine Test</label>
+          <label><input type="checkbox"> X-ray</label>
+          <label><input type="checkbox"> MRI</label>
+          <label><input type="checkbox"> CT Scan</label>
+          <label><input type="checkbox"> ECG</label>
+          <label><input type="checkbox"> Others</label>
+        </div>
+        <div class="radio-group">
+          <label>Home Sample Collection? <span class="required"></span></label>
+          <label><input type="radio" name="homeSample" required> Yes</label>
+          <label><input type="radio" name="homeSample"> No</label>
+        </div>
+        <div class="floating-label">
+          <input type="text" placeholder=" " required>
+          <label class="required">Operational Hours</label>
+        </div>
+        <div>
+          <label>Upload Price List (Optional)</label>
+          <input type="file" accept=".pdf,.jpg,.png">
+        </div>
+      </div>
+
+      <!-- Bank & Payment -->
+      <div class="section">
+        <h2>Bank & Payment Details</h2>
+        <div class="grid two-col">
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">Account Holder Name</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">Bank Name</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">Account Number</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" " pattern="[A-Z]{4}0[A-Z0-9]{6}" required>
+            <label class="required">IFSC Code</label>
+          </div>
+          <div class="floating-label">
+            <input type="text" placeholder=" ">
+            <label>UPI ID</label>
+          </div>
+          <div>
+            <label>Upload UPI QR Code</label>
+            <input type="file" accept=".jpg,.png">
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Credentials -->
+      <div class="section">
+        <h2>Login Credentials</h2>
+        <div class="grid two-col">
+          <div class="floating-label">
+            <input type="text" placeholder=" " required>
+            <label class="required">Username or Email ID</label>
+          </div>
+          <div class="floating-label">
+            <input type="password" id="password" placeholder=" " required>
+            <label class="required">Password</label>
+          </div>
+          <div class="floating-label">
+            <input type="password" id="confirmPassword" placeholder=" " required>
+            <label class="required">Confirm Password</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agreement -->
+      <div class="section">
+        <label><input type="checkbox" required> I accept the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a><span class="required"></span></label>
+      </div>
+
+      <button type="submit" id="submitBtn" class="submit-btn">Register</button>
+    </form>
+  </div>
+
+  <script>
+    function sendOTP() {
+      document.getElementById('otpSection').style.display = 'block';
+    }
+
+    function verifyOTP() {
+      // Dummy OTP verification logic
+      const otp = document.getElementById('otpInput').value;
+      if (otp === '123456') {
+        document.getElementById('submitBtn').style.display = 'block';
+        alert('OTP Verified Successfully');
+      } else {
+        alert('Invalid OTP');
+      }
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      if (password !== confirmPassword) {
+        alert("Passwords don't match");
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
