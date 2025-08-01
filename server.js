@@ -55,7 +55,7 @@ const homesample_testRoutes = require("./routes/homesample_test");
 const hr_donationsRoutes = require("./routes/hr_donations");
 const hr_packagesRoutes = require("./routes/hr_packages");
 const packagesRoutes = require("./routes/packages");
-const patientloginRoutes = require("./routes/patientlogin");
+// const patientloginRoutes = require("./routes/patientlogin");
 const patientRoutes = require("./routes/patient");
 
 
@@ -80,7 +80,7 @@ app.use("/api", homesample_testRoutes);
 app.use("/api", hr_donationsRoutes);
 app.use("/api", hr_packagesRoutes);
 app.use("/api", packagesRoutes);
-app.use("/api", patientloginRoutes);
+// app.use("/api", patientloginRoutes);
 app.use("/api", patientRoutes);
 
 

@@ -3,10 +3,10 @@ const mysql = require('mysql2');
 
 // Create the connection pool
 const db = mysql.createPool({
-  host: '35.202.28.237',           // your VM public IP
-  user: 'naveenteja',              // MySQL username
-  password: '214122',              // MySQL password
-  database: 'hitaishihealthcare',  // Your DB name
+  host: '34.57.200.165',           // your VM public IP
+  user: 'hitaishihealthcare',              // MySQL username
+  password: 'Hitaishi@2142',              // MySQL password
+  database: 'hitaishi',  // Your DB name
   port: 3306,
   waitForConnections: true,
   connectionLimit: 10,

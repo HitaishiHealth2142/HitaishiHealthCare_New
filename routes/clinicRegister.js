@@ -172,6 +172,7 @@ router.delete("/clinicRegister/:id", (req, res) => {
     res.status(200).json({ message: "Clinic deleted successfully!" });
   });
 });
+
 // Route: PUT /api/clinicregister/:id
 router.put("/clinicRegister/:id",
   upload.fields([
@@ -241,4 +242,5 @@ router.put("/clinicRegister/:id",
     
     values.push(id);
   })
+  
 module.exports = router;
