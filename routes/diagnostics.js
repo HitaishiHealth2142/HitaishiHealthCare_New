@@ -4,6 +4,10 @@ const db = require('../db');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 // ✅ Create or update the table schema
 const createTableQuery = `
 CREATE TABLE IF NOT EXISTS diagnostic_centers (
@@ -137,93 +141,58 @@ router.post('/diagnostics/verify-otp', (req, res) => {
 });
 
 
-// ✅ Registration API
-router.post('/diagnostics/register', (req, res) => {
-    // Destructure all fields from the request body
+router.post('/register', async (req, res) => {
+  try {
     const {
-        centerName, ownerName, centerType, phone, altPhone, email, whatsapp,
-        address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
-        services, homeSample, fromTime, toTime, accountHolderName, bankName,
-        accountNumber, ifscCode, upiId, panAadhar, licenseCopy, upiQrCode,
-        password
+      centerName, ownerName, centerType,
+      phone, altPhone, whatsapp, email,
+      address, city, state, pincode, mapUrl,
+      registrationNumber, gstNumber,
+      accountHolderName, bankName, accountNumber, ifscCode, upiId,
+      fromTime, toTime,
+      services, homeSample,
+      password
     } = req.body;
 
-    // Check if the user is verified before proceeding
-    db.query("SELECT * FROM diagnostic_centers WHERE email = ? AND is_verified = 1", [email], (err, result) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
-        if (result.length === 0) {
-            return res.status(400).json({ error: 'Email not verified. Please verify your OTP first.' });
-        }
-        
-        // Generate a unique center ID
-        const centerID = generateCenterID();
+    // Ensure all required fields exist
+    if (!email || !centerName || !accountNumber || !password) {
+      return res.status(400).json({ error: 'Missing required fields.' });
+    }
 
-        // Convert services and operational hours to JSON strings for storage
-        const servicesJson = JSON.stringify(services);
-        const operationalHoursJson = JSON.stringify({ from: fromTime, to: toTime });
+    const insertQuery = `
+      INSERT INTO diagnostic_centers (
+        center_name, owner_name, center_type,
+        phone, alt_phone, whatsapp, email,
+        address, city, state, pincode, map_url,
+        registration_number, gst_number,
+        account_holder_name, bank_name, account_number, ifsc_code, upi_id,
+        from_time, to_time, services, home_sample, password
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
 
-        const sql = `
-            UPDATE diagnostic_centers SET
-            center_id = ?,
-            center_name = ?,
-            owner_name = ?,
-            center_type = ?,
-            phone = ?,
-            alt_phone = ?,
-            whatsapp = ?,
-            address = ?,
-            city = ?,
-            state = ?,
-            pincode = ?,
-            map_url = ?,
-            registration_number = ?,
-            gst_number = ?,
-            services = ?,
-            home_sample = ?,
-            operational_hours = ?,
-            account_holder_name = ?,
-            bank_name = ?,
-            account_number = ?,
-            ifsc_code = ?,
-            upi_id = ?,
-            pan_aadhar_jpeg = ?,
-            license_copy_jpeg = ?,
-            upi_qr_code_jpeg = ?,
-            password = ?
-            WHERE email = ?;
-        `;
-        const values = [
-            centerID, centerName, ownerName, centerType, phone, altPhone, whatsapp,
-            address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
-            servicesJson, homeSample, operationalHoursJson, accountHolderName, bankName,
-            accountNumber, ifscCode, upiId, panAadhar, licenseCopy, upiQrCode,
-            password, email
-        ];
+    const values = [
+      centerName, ownerName, centerType,
+      phone, altPhone, whatsapp, email,
+      address, city, state, pincode, mapUrl,
+      registrationNumber, gstNumber,
+      accountHolderName, bankName, accountNumber, ifscCode, upiId,
+      fromTime, toTime, JSON.stringify(services), homeSample || 'No', password
+    ];
 
-        db.query(sql, values, (err2) => {
-            if (err2) {
-                console.error("❌ Registration error:", err2);
-                return res.status(500).json({ error: 'Error during registration. Please check the provided data.' });
-            }
-
-            // Send a success email to the user
-            const successMailHtml = `
-                <div style="font-family: Arial, sans-serif; text-align: center; color: #333;">
-                    <h2>Registration Successful!</h2>
-                    <p>Dear ${ownerName},</p>
-                    <p>Congratulations! Your diagnostic center, <b>${centerName}</b>, has been successfully registered with Hitaishi Healthcare.</p>
-                    <p>Your unique Center ID is: <b>${centerID}</b></p>
-                    <p>You can now log in to your dashboard to manage your services and bookings.</p>
-                    <p>Thank you for joining the Hitaishi Healthcare family!</p>
-                    <p>Best regards,<br>The Hitaishi Healthcare Team</p>
-                </div>
-            `;
-            sendEmail(email, 'Welcome to Hitaishi Healthcare!', successMailHtml);
-
-            res.json({ success: true, message: 'Registration successful! A confirmation email has been sent.' });
-        });
+    db.query(insertQuery, values, (err, result) => {
+      if (err) {
+        console.error('Error inserting data:', err);
+        return res.status(500).json({ error: 'Failed to register center.' });
+      }
+      res.json({ success: true, message: 'Center registered successfully.' });
     });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Server error during registration.' });
+  }
 });
+
 
 // ✅ Login Route
 router.post('/diagnostics/login', (req, res) => {

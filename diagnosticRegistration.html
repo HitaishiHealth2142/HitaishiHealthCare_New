@@ -394,7 +394,7 @@
             <label>Alternate Phone Number (+91)</label>
           </div>
           <div class="floating-label">
-            <input type="email" id="email" placeholder=" " required pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" title="Please enter a valid email address">
+            <input type="email" id="email" placeholder=" " required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address">
             <label class="required">Email Address</label>
           </div>
           <div class="action-group">
@@ -803,14 +803,12 @@
         data.services = services;
         
         // Collect bank details into a single object
-        const bankDetails = {
-            accountHolderName: document.getElementById('accountHolderName').value,
-            bankName: document.getElementById('bankName').value,
-            accountNumber: document.getElementById('accountNumber').value,
-            ifscCode: document.getElementById('ifscCode').value,
-            upiId: document.getElementById('upiId').value
-        };
-        data.bankDetails = bankDetails;
+        data.accountHolderName = document.getElementById('accountHolderName').value;
+        data.bankName = document.getElementById('bankName').value;
+        data.accountNumber = document.getElementById('accountNumber').value;
+        data.ifscCode = document.getElementById('ifscCode').value;
+        data.upiId = document.getElementById('upiId').value;
+
 
         // Collect time fields
         data.fromTime = document.getElementById('fromTime').value;
