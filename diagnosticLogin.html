@@ -81,6 +81,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const data = await res.json();
   if (data.success) {
     alert("Login Successful!");
+    localStorage.setItem("diagnosticEmail", email);
+    localStorage.setItem("diagnosticPassword", password);
+
     window.location.href = "diagnosticProfile.html"; // redirect to dashboard
   } else {
     alert(data.error || "Login failed");
