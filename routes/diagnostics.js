@@ -1,196 +1,152 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
-const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-// ✅ Create or update the table schema
-const createTableQuery = `
+// TABLE SETUP
+const createTable = `
 CREATE TABLE IF NOT EXISTS diagnostic_centers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    center_id VARCHAR(6) UNIQUE,
-    center_name VARCHAR(255),
-    owner_name VARCHAR(255),
-    center_type VARCHAR(100),
-    phone VARCHAR(20),
-    alt_phone VARCHAR(20),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    whatsapp VARCHAR(20),
-    address TEXT,
-    city VARCHAR(100),
-    state VARCHAR(100),
-    pincode VARCHAR(10),
-    map_url TEXT,
-    registration_number VARCHAR(100),
-    gst_number VARCHAR(50),
-    services TEXT,
-    home_sample ENUM('Yes','No'),
-    operational_hours TEXT,
-    account_holder_name VARCHAR(255),
-    bank_name VARCHAR(255),
-    account_number VARCHAR(50),
-    ifsc_code VARCHAR(20),
-    upi_id VARCHAR(255),
-    pan_aadhar_jpeg TEXT,
-    license_copy_jpeg TEXT,
-    upi_qr_code_jpeg TEXT,
-    username VARCHAR(255),
-    password VARCHAR(255),
-    is_verified TINYINT DEFAULT 0,
-    otp_code VARCHAR(6),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`;
-
-db.query(createTableQuery, (err) => {
-    if (err) console.error("❌ Error creating table:", err);
-    else console.log("✅ diagnostic_centers table ready");
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  center_id VARCHAR(6) UNIQUE,
+  center_name VARCHAR(255),
+  owner_name VARCHAR(255),
+  center_type VARCHAR(100),
+  phone VARCHAR(20),
+  alt_phone VARCHAR(20),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  whatsapp VARCHAR(20),
+  address TEXT,
+  city VARCHAR(100),
+  state VARCHAR(100),
+  pincode VARCHAR(10),
+  map_url TEXT,
+  registration_number VARCHAR(100),
+  gst_number VARCHAR(50),
+  services TEXT,
+  home_sample ENUM('Yes','No'),
+  operational_hours TEXT,
+  account_holder_name VARCHAR(255),
+  bank_name VARCHAR(255),
+  account_number VARCHAR(50),
+  ifsc_code VARCHAR(20),
+  upi_id VARCHAR(255),
+  pan_aadhar_jpeg TEXT,
+  license_copy_jpeg TEXT,
+  upi_qr_code_jpeg TEXT,
+  password VARCHAR(255),
+  is_verified TINYINT DEFAULT 0,
+  otp_code VARCHAR(6),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+db.query(createTable, (err) => {
+  if (err) console.error('❌ Table error:', err);
+  else console.log('✅ diagnostic_centers table ready');
 });
 
-// ✅ Generate 6-character alphanumeric ID
-function generateCenterID() {
-    return crypto.randomBytes(3).toString('hex').toUpperCase();
-}
-
-// ✅ Setup Nodemailer
+// EMAIL SETUP
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'spltechnologycorp@gmail.com',  // 🔹 replace with your email
-        pass: 'cbkm ntdm cuvp vygh'      // 🔹 replace with app password
-    }
+  service: 'gmail',
+  auth: {
+    user: 'spltechnologycorp@gmail.com',
+    pass: 'cbkm ntdm cuvp vygh' // App password
+  }
 });
 
-// ✅ Utility function to send email
 async function sendEmail(to, subject, html) {
-    try {
-        const mailOptions = { from: 'spltechnologycorp@gmail.com', to, subject, html };
-        await transporter.sendMail(mailOptions);
-        console.log(`✅ Email sent to ${to}`);
-    } catch (error) {
-        console.error(`❌ Error sending email to ${to}:`, error);
-    }
+  try {
+    await transporter.sendMail({ from: 'spltechnologycorp@gmail.com', to, subject, html });
+    console.log('✅ OTP Email sent');
+  } catch (err) {
+    console.error('❌ Email error:', err);
+  }
 }
 
-// ✅ Send OTP API
-router.post('/diagnostics/send-otp', (req, res) => {
-    const { email } = req.body;
-    if (!email) return res.status(400).json({ error: 'Email is required' });
-
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Check if a diagnostic center with this email already exists and is verified
-    const checkEmailQuery = "SELECT * FROM diagnostic_centers WHERE email = ? AND is_verified = 1";
-    db.query(checkEmailQuery, [email], (err, result) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
-        if (result.length > 0) {
-            return res.status(400).json({ error: 'Email already registered and verified.' });
-        }
-
-        // If email exists but is not verified, update the existing row with the new OTP.
-        const updateExistingQuery = "UPDATE diagnostic_centers SET otp_code = ? WHERE email = ?";
-        db.query(updateExistingQuery, [otp, email], (err, updateResult) => {
-            if (err) return res.status(500).json({ error: 'Database error' });
-
-            if (updateResult.affectedRows === 0) {
-                // If email does not exist, create a new temporary entry
-                const insertQuery = "INSERT INTO diagnostic_centers (email, otp_code) VALUES (?, ?)";
-                db.query(insertQuery, [email, otp], (err) => {
-                    if (err) return res.status(500).json({ error: 'Database error' });
-                });
-            }
-            
-            // Send OTP via email
-            const mailHtml = `
-                <div style="font-family: Arial, sans-serif; text-align: center; color: #333;">
-                    <h2>Hitaishi Healthcare OTP Verification</h2>
-                    <p>Your OTP for registration is:</p>
-                    <div style="background-color: #f0f0f0; padding: 15px; border-radius: 8px; font-size: 24px; font-weight: bold; letter-spacing: 5px; margin: 20px 0;">
-                        ${otp}
-                    </div>
-                    <p>This OTP is valid for 10 minutes.</p>
-                </div>
-            `;
-            sendEmail(email, 'Hitaishi Healthcare: OTP Verification', mailHtml);
-            res.json({ success: true, message: 'OTP sent to your email.' });
-        });
-    });
-});
-
-// ✅ Verify OTP API
-router.post('/diagnostics/verify-otp', (req, res) => {
-    const { email, otp } = req.body;
-    if (!email || !otp) return res.status(400).json({ error: 'Email and OTP are required' });
-
-    db.query("SELECT * FROM diagnostic_centers WHERE email = ? AND otp_code = ?", [email, otp], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        if (result.length > 0) {
-            const updateVerificationQuery = "UPDATE diagnostic_centers SET is_verified = 1, otp_code = NULL WHERE email = ?";
-            db.query(updateVerificationQuery, [email], (err) => {
-                if (err) return res.status(500).json({ error: err });
-                res.json({ success: true, message: 'OTP verified successfully!' });
-            });
-        } else {
-            res.status(400).json({ error: 'Invalid OTP' });
-        }
-    });
-});
-
-
-router.post('/register', async (req, res) => {
-  try {
-    const {
-      centerName, ownerName, centerType,
-      phone, altPhone, whatsapp, email,
-      address, city, state, pincode, mapUrl,
-      registrationNumber, gstNumber,
-      accountHolderName, bankName, accountNumber, ifscCode, upiId,
-      fromTime, toTime,
-      services, homeSample,
-      password
-    } = req.body;
-
-    // Ensure all required fields exist
-    if (!email || !centerName || !accountNumber || !password) {
-      return res.status(400).json({ error: 'Missing required fields.' });
+// CHECK EMAIL ALREADY EXISTS
+router.post('/diagnostics/check-email', (req, res) => {
+  const { email } = req.body;
+  db.query("SELECT * FROM diagnostic_centers WHERE email = ?", [email], (err, result) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    if (result.length > 0 && result[0].is_verified === 1) {
+      return res.json({ exists: true, message: 'Email already registered.' });
     }
+    res.json({ exists: false });
+  });
+});
 
-    const insertQuery = `
-      INSERT INTO diagnostic_centers (
-        center_name, owner_name, center_type,
-        phone, alt_phone, whatsapp, email,
-        address, city, state, pincode, map_url,
-        registration_number, gst_number,
-        account_holder_name, bank_name, account_number, ifsc_code, upi_id,
-        from_time, to_time, services, home_sample, password
-      )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+// SEND OTP
+router.post('/diagnostics/send-otp', (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email required' });
 
-    const values = [
-      centerName, ownerName, centerType,
-      phone, altPhone, whatsapp, email,
-      address, city, state, pincode, mapUrl,
-      registrationNumber, gstNumber,
-      accountHolderName, bankName, accountNumber, ifscCode, upiId,
-      fromTime, toTime, JSON.stringify(services), homeSample || 'No', password
-    ];
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const sql = `
+    INSERT INTO diagnostic_centers (email, otp_code, is_verified)
+    VALUES (?, ?, 0)
+    ON DUPLICATE KEY UPDATE otp_code = ?, is_verified = IF(is_verified = 1, 1, 0)
+  `;
+  db.query(sql, [email, otp, otp], (err) => {
+    if (err) return res.status(500).json({ error: 'DB error during OTP gen' });
 
-    db.query(insertQuery, values, (err, result) => {
-      if (err) {
-        console.error('Error inserting data:', err);
-        return res.status(500).json({ error: 'Failed to register center.' });
-      }
-      res.json({ success: true, message: 'Center registered successfully.' });
-    });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Server error during registration.' });
+    const html = `<p>Your OTP is: <strong>${otp}</strong>. Valid for 10 minutes.</p>`;
+    sendEmail(email, 'Hitaishi OTP Verification', html);
+    res.json({ success: true, message: 'OTP sent successfully.' });
+  });
+});
+
+// VERIFY OTP
+router.post('/diagnostics/verify-otp', (req, res) => {
+  const { email, otp } = req.body;
+  db.query("SELECT * FROM diagnostic_centers WHERE email = ? AND otp_code = ?", [email, otp], (err, result) => {
+    if (err) return res.status(500).json({ error: 'DB error verifying OTP' });
+    if (result.length > 0) {
+      db.query("UPDATE diagnostic_centers SET is_verified = 1, otp_code = NULL WHERE email = ?", [email], (err) => {
+        if (err) return res.status(500).json({ error: 'Error updating verification' });
+        return res.json({ success: true, message: 'OTP verified successfully!' });
+      });
+    } else {
+      res.status(400).json({ error: 'Invalid OTP' });
+    }
+  });
+});
+
+// ✅ REGISTER ROUTE
+router.post('/diagnostics/register', (req, res) => {
+  const {
+    email, centerName, ownerName, centerType, phone, altPhone, whatsapp,
+    address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
+    accountHolderName, bankName, accountNumber, ifscCode, upiId,
+    fromTime, toTime, services, homeSample, password
+  } = req.body;
+
+  if (!email || !centerName || !password) {
+    return res.status(400).json({ error: 'Missing required fields.' });
   }
+
+  const operational_hours = `${fromTime} - ${toTime}`;
+  const center_id = crypto.randomBytes(3).toString('hex').toUpperCase();
+  const sql = `
+    UPDATE diagnostic_centers SET 
+      center_id=?, center_name=?, owner_name=?, center_type=?,
+      phone=?, alt_phone=?, whatsapp=?, address=?, city=?, state=?, pincode=?, map_url=?,
+      registration_number=?, gst_number=?, services=?, home_sample=?, operational_hours=?,
+      account_holder_name=?, bank_name=?, account_number=?, ifsc_code=?, upi_id=?, password=?
+    WHERE email=? AND is_verified=1
+  `;
+  const values = [
+    center_id, centerName, ownerName, centerType,
+    phone, altPhone, whatsapp, address, city, state, pincode, mapUrl,
+    registrationNumber, gstNumber, JSON.stringify(services), homeSample, operational_hours,
+    accountHolderName, bankName, accountNumber, ifscCode, upiId, password, email
+  ];
+
+  db.query(sql, values, (err, result) => {
+    if (err) return res.status(500).json({ error: 'DB error during registration' });
+    if (result.affectedRows === 0) {
+      return res.status(400).json({ error: 'Please verify email before registration.' });
+    }
+    res.json({ success: true, message: 'Registration successful!' });
+  });
 });
 
 
@@ -199,7 +155,7 @@ router.post('/diagnostics/login', (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
 
-    const query = "SELECT * FROM diagnostic_centers WHERE email = ? AND password = ?";
+    const query = "SELECT * FROM diagnostic_centers WHERE email = ? AND password = ? AND is_verified = 1";
     db.query(query, [email, password], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         if (result.length === 0) {
