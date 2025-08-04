@@ -180,7 +180,6 @@
         background: var(--primary-dark);
     }
     .submit-btn {
-      display: none;
       background: var(--primary-color);
       color: white;
       border: none;
@@ -195,6 +194,10 @@
     }
     .submit-btn:hover {
       background: #0056b3;
+    }
+    .submit-btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
     }
     .error-message {
       color: var(--danger-color);
@@ -277,6 +280,21 @@
         color: #888;
         z-index: 10;
         margin-top: 4px;
+    }
+    
+    /* Login link styles */
+    .login-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+    .login-link a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
     }
     
     /* -------------------- Responsive Design -------------------- */
@@ -544,6 +562,11 @@
       </div>
 
       <button type="submit" id="submitBtn" class="submit-btn" disabled>Register</button>
+      
+      <!-- Login Link -->
+      <div class="login-link">
+        Already have an account? <a href="diagnosticLogin.html">Login here</a>
+      </div>
     </form>
   </div>
 
@@ -701,7 +724,6 @@
           if (data.success) {
             otpMessage.textContent = data.message;
             otpMessage.style.display = 'block';
-            submitBtn.style.display = 'block';
             submitBtn.disabled = false; // Enable submit button
           } else {
             showMessageModal(data.error);
@@ -718,7 +740,7 @@
       function checkFormState() {
           const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
           const termsAccepted = termsCheck.checked;
-          const isVerified = submitBtn.style.display === 'block';
+          const isVerified = otpMessage.style.display === 'block';
           
           if (isVerified && passwordsMatch && termsAccepted && passwordInput.value.length > 0) {
               submitBtn.disabled = false;
@@ -834,8 +856,8 @@
             showMessageModal(result.message);
             form.reset();
             otpSection.style.display = 'none';
-            submitBtn.style.display = 'none';
             sendOtpBtn.style.display = 'block';
+            window.location.href = "diagnosticLogin.html";
           } else {
             showMessageModal(result.error);
           }

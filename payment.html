@@ -244,7 +244,7 @@
     }
 
     function sendToBackend(data) {
-      fetch('https://hitaishihealthcare.com/api/payments', {
+      fetch('https://hitaishihealthcare.com/api/payment/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -260,6 +260,7 @@
       .then(data => {
         alert('Booking confirmed successfully!');
         console.log('Success:', data);
+        window.location.href = "index.html";
         // You can redirect to a success page here if needed
       })
       .catch((error) => {

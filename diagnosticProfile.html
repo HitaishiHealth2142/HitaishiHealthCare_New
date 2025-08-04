@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Center Profile | Hitaishi Healthcare</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .profile-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            margin-bottom: 10px;
+        }
+
+        .profile-header h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .profile-header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 5px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .nav-menu a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: var(--dark-color);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        /* Profile Section */
+        .profile-section .form-group {
+            margin-bottom: 20px;
+        }
+
+        .profile-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .profile-section input,
+        .profile-section select,
+        .profile-section textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .profile-section input:focus,
+        .profile-section select:focus,
+        .profile-section textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .profile-section textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .services-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background-color: #e9f5ff;
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tag i {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .add-service {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .add-service input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        /* Appointments Section */
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .appointments-table th,
+        .appointments-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appointments-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .appointments-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Send Reports Section */
+        .send-reports-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .file-upload:hover {
+            border-color: var(--accent-color);
+        }
+
+        .file-upload i {
+            font-size: 40px;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .file-upload p {
+            margin-bottom: 5px;
+        }
+
+        .file-upload small {
+            color: #777;
+        }
+
+        .uploaded-files {
+            margin-top: 20px;
+        }
+
+        .uploaded-file {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+        }
+
+        .uploaded-file-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .uploaded-file-info i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .uploaded-file-actions i {
+            color: var(--danger-color);
+            cursor: pointer;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        /* Hidden class for toggling sections */
+        .hidden {
+            display: none;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="profile-header">
+                <img src="https://via.placeholder.com/80" alt="Profile Image" id="profileImage">
+                <h3 id="centerNameDisplay">Diagnostic Center</h3>
+                <p id="centerIdDisplay">ID: Loading...</p>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="active" id="profileBtn"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="#" id="appointmentsBtn"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="#" id="reportsBtn"><i class="fas fa-file-upload"></i> Send Reports</a></li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 id="sectionTitle">Profile Information</h1>
+                <div id="lastLogin">Last login: Loading...</div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profileSection">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Center Information</h2>
+                        <button class="btn btn-primary" id="editProfileBtn">Edit Profile</button>
+                    </div>
+                    <form id="profileForm" class="profile-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="centerName">Center Name</label>
+                                <input type="text" id="centerName" name="centerName" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="ownerName">Owner Name</label>
+                                <input type="text" id="ownerName" name="ownerName" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="centerType">Center Type</label>
+                                <select id="centerType" name="centerType" required disabled>
+                                    <option value="">Select type</option>
+                                    <option value="Hospital">Hospital</option>
+                                    <option value="Diagnostic Center">Diagnostic Center</option>
+                                    <option value="Clinic">Clinic</option>
+                                    <option value="Lab">Lab</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="registrationNumber">Registration Number</label>
+                                <input type="text" id="registrationNumber" name="registrationNumber" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="gstNumber">GST Number</label>
+                                <input type="text" id="gstNumber" name="gstNumber" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Home Sample Collection</label>
+                                <div>
+                                    <input type="radio" id="homeSampleYes" name="homeSample" value="Yes" disabled>
+                                    <label for="homeSampleYes" style="display: inline; margin-right: 15px;">Yes</label>
+                                    <input type="radio" id="homeSampleNo" name="homeSample" value="No" disabled>
+                                    <label for="homeSampleNo" style="display: inline;">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Services Offered</label>
+                            <div class="services-tags" id="servicesContainer">
+                                <!-- Services will be added here dynamically -->
+                            </div>
+                            <div class="add-service hidden" id="addServiceContainer">
+                                <input type="text" id="newService" placeholder="Add new service">
+                                <button type="button" class="btn btn-primary" id="addServiceBtn">Add</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Operational Hours</label>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fromTime">From</label>
+                                    <input type="time" id="fromTime" name="fromTime" required disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="toTime">To</label>
+                                    <input type="time" id="toTime" name="toTime" required disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Contact Information</h2>
+                    </div>
+                    <form id="contactForm" class="profile-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="altPhone">Alternate Phone</label>
+                                <input type="tel" id="altPhone" name="altPhone" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="whatsapp">WhatsApp Number</label>
+                                <input type="tel" id="whatsapp" name="whatsapp" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea id="address" name="address" required readonly></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <input type="text" id="state" name="state" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="pincode">Pincode</label>
+                                <input type="text" id="pincode" name="pincode" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mapUrl">Map URL</label>
+                            <input type="url" id="mapUrl" name="mapUrl" readonly>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Bank Details</h2>
+                    </div>
+                    <form id="bankForm" class="profile-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="accountHolderName">Account Holder Name</label>
+                                <input type="text" id="accountHolderName" name="accountHolderName" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="bankName">Bank Name</label>
+                                <input type="text" id="bankName" name="bankName" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number</label>
+                                <input type="text" id="accountNumber" name="accountNumber" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="ifscCode">IFSC Code</label>
+                                <input type="text" id="ifscCode" name="ifscCode" required readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="upiId">UPI ID</label>
+                            <input type="text" id="upiId" name="upiId" readonly>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card hidden" id="saveCancelBtns">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+                            <button type="button" class="btn btn-danger" id="cancelEditBtn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Section -->
+            <div id="appointmentsSection" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recent Appointments</h2>
+                        <div>
+                            <select id="appointmentFilter" style="padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+                                <option value="all">All Appointments</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="appointments-table">
+                            <thead>
+                                <tr>
+                                    <th>Appointment ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Test Name</th>
+                                    <th>Date & Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody">
+                                <!-- Appointments will be loaded here -->
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">Loading appointments...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Send Reports Section -->
+            <div id="reportsSection" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Send Test Reports</h2>
+                    </div>
+                    <form id="sendReportForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="patientName">Patient Name</label>
+                                <input type="text" id="patientName" name="patientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientEmail">Patient Email</label>
+                                <input type="email" id="patientEmail" name="patientEmail" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="patientPhone">Patient Phone</label>
+                                <input type="tel" id="patientPhone" name="patientPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointmentId">Appointment ID (if any)</label>
+                                <input type="text" id="appointmentId" name="appointmentId">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Test Report</label>
+                            <div class="file-upload" id="fileUploadArea">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload or drag and drop</p>
+                                <small>PDF, JPG, PNG files (Max 10MB)</small>
+                                <input type="file" id="reportFile" name="reportFile" accept=".pdf,.jpg,.jpeg,.png" style="display: none;" required>
+                            </div>
+                            <div class="uploaded-files" id="uploadedFiles">
+                                <!-- Uploaded files will be shown here -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Send Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const profileBtn = document.getElementById('profileBtn');
+            const appointmentsBtn = document.getElementById('appointmentsBtn');
+            const reportsBtn = document.getElementById('reportsBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            const profileSection = document.getElementById('profileSection');
+            const appointmentsSection = document.getElementById('appointmentsSection');
+            const reportsSection = document.getElementById('reportsSection');
+            
+            const sectionTitle = document.getElementById('sectionTitle');
+            const centerNameDisplay = document.getElementById('centerNameDisplay');
+            const centerIdDisplay = document.getElementById('centerIdDisplay');
+            
+            // Profile Edit Elements
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            const saveProfileBtn = document.getElementById('saveProfileBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const saveCancelBtns = document.getElementById('saveCancelBtns');
+            
+            // Forms
+            const profileForm = document.getElementById('profileForm');
+            const contactForm = document.getElementById('contactForm');
+            const bankForm = document.getElementById('bankForm');
+            const sendReportForm = document.getElementById('sendReportForm');
+            
+            // File Upload
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const reportFileInput = document.getElementById('reportFile');
+            
+            // Services Management
+            const servicesContainer = document.getElementById('servicesContainer');
+            const addServiceContainer = document.getElementById('addServiceContainer');
+            const newServiceInput = document.getElementById('newService');
+            const addServiceBtn = document.getElementById('addServiceBtn');
+            
+            // Appointments Filter
+            const appointmentFilter = document.getElementById('appointmentFilter');
+            const appointmentsTableBody = document.getElementById('appointmentsTableBody');
+            
+            // Store the original profile data
+            let originalProfileData = {};
+            let currentUser = {};
+            
+            // Initialize the page
+            loadProfileData();
+            
+            // Navigation Event Listeners
+            profileBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                setActiveSection('profile');
+            });
+            
+            appointmentsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                setActiveSection('appointments');
+                loadAppointments();
+            });
+            
+            reportsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                setActiveSection('reports');
+            });
+            
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Profile Edit Event Listeners
+            editProfileBtn.addEventListener('click', enableProfileEditing);
+            saveProfileBtn.addEventListener('click', saveProfileChanges);
+            cancelEditBtn.addEventListener('click', cancelProfileEditing);
+            
+            // File Upload Event Listeners
+            fileUploadArea.addEventListener('click', function() {
+                reportFileInput.click();
+            });
+            
+            reportFileInput.addEventListener('change', handleFileUpload);
+            
+            // Services Management
+            addServiceBtn.addEventListener('click', addNewService);
+            
+            // Appointments Filter
+            appointmentFilter.addEventListener('change', loadAppointments);
+            
+            // Send Report Form Submission
+            sendReportForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                sendReport();
+            });
+            
+            // Functions
+            function setActiveSection(section) {
+                // Update active nav item
+                document.querySelectorAll('.nav-menu a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Hide all sections
+                profileSection.classList.add('hidden');
+                appointmentsSection.classList.add('hidden');
+                reportsSection.classList.add('hidden');
+                
+                // Show selected section and update active nav item
+                switch(section) {
+                    case 'profile':
+                        profileSection.classList.remove('hidden');
+                        profileBtn.classList.add('active');
+                        sectionTitle.textContent = 'Profile Information';
+                        break;
+                    case 'appointments':
+                        appointmentsSection.classList.remove('hidden');
+                        appointmentsBtn.classList.add('active');
+                        sectionTitle.textContent = 'Appointments';
+                        break;
+                    case 'reports':
+                        reportsSection.classList.remove('hidden');
+                        reportsBtn.classList.add('active');
+                        sectionTitle.textContent = 'Send Reports';
+                        break;
+                }
+            }
+            
+            function loadProfileData() {
+                // In a real app, you would fetch this from your API
+                // For demo purposes, we'll simulate an API call
+                console.log('Loading profile data...');
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // This would come from your actual API response
+                    const mockResponse = {
+                        id: 1,
+                        center_id: "ABC123",
+                        center_name: "City Diagnostic Center",
+                        owner_name: "Dr. Rajesh Sharma",
+                        center_type: "Diagnostic Center",
+                        phone: "9876543210",
+                        alt_phone: "9876543211",
+                        email: "citydiagnostic@example.com",
+                        whatsapp: "9876543210",
+                        address: "123 Medical Street, Health Town",
+                        city: "Mumbai",
+                        state: "Maharashtra",
+                        pincode: "400001",
+                        map_url: "https://maps.google.com/?q=City+Diagnostic+Center",
+                        registration_number: "DIAG123456",
+                        gst_number: "22ABCDE1234F1Z5",
+                        services: ["Blood Test", "X-Ray", "MRI Scan", "Ultrasound", "ECG"],
+                        home_sample: "Yes",
+                        operational_hours: { from: "08:00", to: "20:00" },
+                        account_holder_name: "City Diagnostic Center",
+                        bank_name: "State Bank of India",
+                        account_number: "123456789012",
+                        ifsc_code: "SBIN0001234",
+                        upi_id: "citydiagnostic@upi",
+                        last_login: "2023-06-15 14:30:22"
+                    };
+                    
+                    currentUser = mockResponse;
+                    originalProfileData = JSON.parse(JSON.stringify(mockResponse)); // Deep copy
+                    
+                    // Update the UI with the profile data
+                    updateProfileUI(mockResponse);
+                    
+                    // Update the sidebar profile info
+                    centerNameDisplay.textContent = mockResponse.center_name;
+                    centerIdDisplay.textContent = `ID: ${mockResponse.center_id}`;
+                    document.getElementById('lastLogin').textContent = `Last login: ${formatDate(mockResponse.last_login)}`;
+                    
+                }, 500);
+            }
+            
+            function updateProfileUI(data) {
+                // Center Information
+                document.getElementById('centerName').value = data.center_name || '';
+                document.getElementById('ownerName').value = data.owner_name || '';
+                document.getElementById('centerType').value = data.center_type || '';
+                document.getElementById('registrationNumber').value = data.registration_number || '';
+                document.getElementById('gstNumber').value = data.gst_number || '';
+                
+                // Set home sample radio button
+                if (data.home_sample === "Yes") {
+                    document.getElementById('homeSampleYes').checked = true;
+                } else {
+                    document.getElementById('homeSampleNo').checked = true;
+                }
+                
+                // Set operational hours
+                if (data.operational_hours) {
+                    document.getElementById('fromTime').value = data.operational_hours.from || '';
+                    document.getElementById('toTime').value = data.operational_hours.to || '';
+                }
+                
+                // Update services
+                updateServicesUI(data.services || []);
+                
+                // Contact Information
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('phone').value = data.phone || '';
+                document.getElementById('altPhone').value = data.alt_phone || '';
+                document.getElementById('whatsapp').value = data.whatsapp || '';
+                document.getElementById('address').value = data.address || '';
+                document.getElementById('city').value = data.city || '';
+                document.getElementById('state').value = data.state || '';
+                document.getElementById('pincode').value = data.pincode || '';
+                document.getElementById('mapUrl').value = data.map_url || '';
+                
+                // Bank Details
+                document.getElementById('accountHolderName').value = data.account_holder_name || '';
+                document.getElementById('bankName').value = data.bank_name || '';
+                document.getElementById('accountNumber').value = data.account_number || '';
+                document.getElementById('ifscCode').value = data.ifsc_code || '';
+                document.getElementById('upiId').value = data.upi_id || '';
+            }
+            
+            function updateServicesUI(services) {
+                servicesContainer.innerHTML = '';
+                services.forEach(service => {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.innerHTML = `
+                        ${service}
+                        <i class="fas fa-times remove-service" data-service="${service}"></i>
+                    `;
+                    servicesContainer.appendChild(tag);
+                });
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.remove-service').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const serviceToRemove = this.getAttribute('data-service');
+                        removeService(serviceToRemove);
+                    });
+                });
+            }
+            
+            function enableProfileEditing() {
+                // Enable all form fields
+                const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
+                inputs.forEach(input => {
+                    if (input.id !== 'email') { // Don't enable email field
+                        input.readOnly = false;
+                        if (input.disabled) input.disabled = false;
+                    }
+                });
+                
+                // Show add service controls
+                addServiceContainer.classList.remove('hidden');
+                
+                // Show save/cancel buttons
+                saveCancelBtns.classList.remove('hidden');
+                
+                // Hide edit button
+                editProfileBtn.classList.add('hidden');
+            }
+            
+            function disableProfileEditing() {
+                // Disable all form fields
+                const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
+                inputs.forEach(input => {
+                    input.readOnly = true;
+                    if (input.type === 'radio' || input.type === 'select-one') {
+                        input.disabled = true;
+                    }
+                });
+                
+                // Hide add service controls
+                addServiceContainer.classList.add('hidden');
+                
+                // Hide save/cancel buttons
+                saveCancelBtns.classList.add('hidden');
+                
+                // Show edit button
+                editProfileBtn.classList.remove('hidden');
+            }
+            
+            function saveProfileChanges() {
+                // Collect all form data
+                const updatedData = {
+                    centerName: document.getElementById('centerName').value,
+                    ownerName: document.getElementById('ownerName').value,
+                    centerType: document.getElementById('centerType').value,
+                    registrationNumber: document.getElementById('registrationNumber').value,
+                    gstNumber: document.getElementById('gstNumber').value,
+                    homeSample: document.querySelector('input[name="homeSample"]:checked').value,
+                    operational_hours: {
+                        from: document.getElementById('fromTime').value,
+                        to: document.getElementById('toTime').value
+                    },
+                    phone: document.getElementById('phone').value,
+                    altPhone: document.getElementById('altPhone').value,
+                    whatsapp: document.getElementById('whatsapp').value,
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    pincode: document.getElementById('pincode').value,
+                    mapUrl: document.getElementById('mapUrl').value,
+                    accountHolderName: document.getElementById('accountHolderName').value,
+                    bankName: document.getElementById('bankName').value,
+                    accountNumber: document.getElementById('accountNumber').value,
+                    ifscCode: document.getElementById('ifscCode').value,
+                    upiId: document.getElementById('upiId').value
+                };
+                
+                // Get services from tags
+                const services = [];
+                document.querySelectorAll('.tag').forEach(tag => {
+                    services.push(tag.textContent.trim());
+                });
+                updatedData.services = services;
+                
+                // In a real app, you would send this data to your API
+                console.log('Saving profile changes:', updatedData);
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Update the current user data
+                    Object.assign(currentUser, updatedData);
+                    originalProfileData = JSON.parse(JSON.stringify(currentUser)); // Update original data
+                    
+                    // Update the UI
+                    centerNameDisplay.textContent = currentUser.center_name;
+                    
+                    // Disable editing
+                    disableProfileEditing();
+                    
+                    // Show success message
+                    alert('Profile updated successfully!');
+                }, 1000);
+            }
+            
+            function cancelProfileEditing() {
+                // Restore original data
+                updateProfileUI(originalProfileData);
+                
+                // Disable editing
+                disableProfileEditing();
+            }
+            
+            function addNewService() {
+                const serviceName = newServiceInput.value.trim();
+                if (serviceName) {
+                    // Add to the UI
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.innerHTML = `
+                        ${serviceName}
+                        <i class="fas fa-times remove-service" data-service="${serviceName}"></i>
+                    `;
+                    servicesContainer.appendChild(tag);
+                    
+                    // Add event listener to the remove button
+                    tag.querySelector('.remove-service').addEventListener('click', function() {
+                        removeService(serviceName);
+                    });
+                    
+                    // Clear the input
+                    newServiceInput.value = '';
+                }
+            }
+            
+            function removeService(serviceName) {
+                // Remove from UI
+                document.querySelectorAll('.tag').forEach(tag => {
+                    if (tag.textContent.trim() === serviceName) {
+                        tag.remove();
+                    }
+                });
+            }
+            
+            function loadAppointments() {
+                const filter = appointmentFilter.value;
+                console.log(`Loading appointments with filter: ${filter}`);
+                
+                // In a real app, you would fetch this from your API
+                // For demo purposes, we'll simulate an API call with mock data
+                setTimeout(() => {
+                    const mockAppointments = [
+                        {
+                            id: "APT1001",
+                            patientName: "Rahul Verma",
+                            testName: "Complete Blood Count",
+                            date: "2023-06-16",
+                            time: "10:00",
+                            status: "completed"
+                        },
+                        {
+                            id: "APT1002",
+                            patientName: "Priya Patel",
+                            testName: "Thyroid Profile",
+                            date: "2023-06-16",
+                            time: "11:30",
+                            status: "pending"
+                        },
+                        {
+                            id: "APT1003",
+                            patientName: "Amit Singh",
+                            testName: "Lipid Profile",
+                            date: "2023-06-17",
+                            time: "09:15",
+                            status: "pending"
+                        },
+                        {
+                            id: "APT1004",
+                            patientName: "Neha Gupta",
+                            testName: "Liver Function Test",
+                            date: "2023-06-15",
+                            time: "14:00",
+                            status: "completed"
+                        },
+                        {
+                            id: "APT1005",
+                            patientName: "Sanjay Kumar",
+                            testName: "MRI Scan",
+                            date: "2023-06-18",
+                            time: "15:45",
+                            status: "cancelled"
+                        }
+                    ];
+                    
+                    // Filter appointments based on selected filter
+                    let filteredAppointments = [...mockAppointments];
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    if (filter === 'today') {
+                        filteredAppointments = mockAppointments.filter(apt => apt.date === today);
+                    } else if (filter === 'week') {
+                        // This is a simplified week filter for demo
+                        const nextWeek = new Date();
+                        nextWeek.setDate(nextWeek.getDate() + 7);
+                        const nextWeekStr = nextWeek.toISOString().split('T')[0];
+                        
+                        filteredAppointments = mockAppointments.filter(apt => 
+                            apt.date >= today && apt.date <= nextWeekStr
+                        );
+                    } else if (filter === 'month') {
+                        // This is a simplified month filter for demo
+                        const nextMonth = new Date();
+                        nextMonth.setMonth(nextMonth.getMonth() + 1);
+                        const nextMonthStr = nextMonth.toISOString().split('T')[0];
+                        
+                        filteredAppointments = mockAppointments.filter(apt => 
+                            apt.date >= today && apt.date <= nextMonthStr
+                        );
+                    }
+                    
+                    // Update the appointments table
+                    updateAppointmentsTable(filteredAppointments);
+                }, 500);
+            }
+            
+            function updateAppointmentsTable(appointments) {
+                if (appointments.length === 0) {
+                    appointmentsTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center;">No appointments found</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                appointmentsTableBody.innerHTML = '';
+                
+                appointments.forEach(apt => {
+                    const row = document.createElement('tr');
+                    
+                    // Determine status class
+                    let statusClass = '';
+                    if (apt.status === 'completed') statusClass = 'status-completed';
+                    else if (apt.status === 'cancelled') statusClass = 'status-cancelled';
+                    else statusClass = 'status-pending';
+                    
+                    row.innerHTML = `
+                        <td>${apt.id}</td>
+                        <td>${apt.patientName}</td>
+                        <td>${apt.testName}</td>
+                        <td>${formatDate(apt.date)} at ${apt.time}</td>
+                        <td><span class="status ${statusClass}">${apt.status.charAt(0).toUpperCase() + apt.status.slice(1)}</span></td>
+                        <td>
+                            <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">View</button>
+                            ${apt.status === 'pending' ? 
+                                `<button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px; margin-left: 5px;">Cancel</button>` : 
+                                ''
+                            }
+                        </td>
+                    `;
+                    
+                    appointmentsTableBody.appendChild(row);
+                });
+            }
+            
+            function handleFileUpload(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size should be less than 10MB');
+                    return;
+                }
+                
+                // Validate file type
+                const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Only PDF, JPG, and PNG files are allowed');
+                    return;
+                }
+                
+                // Display the uploaded file
+                displayUploadedFile(file);
+            }
+            
+            function displayUploadedFile(file) {
+                const fileContainer = document.getElementById('uploadedFiles');
+                fileContainer.innerHTML = ''; // Clear previous files (for simplicity, we'll allow only one file)
+                
+                const fileElement = document.createElement('div');
+                fileElement.className = 'uploaded-file';
+                
+                // Get file icon based on type
+                let fileIcon = 'fa-file';
+                if (file.type === 'application/pdf') fileIcon = 'fa-file-pdf';
+                else if (file.type.includes('image')) fileIcon = 'fa-file-image';
+                
+                fileElement.innerHTML = `
+                    <div class="uploaded-file-info">
+                        <i class="fas ${fileIcon}"></i>
+                        <span>${file.name} (${formatFileSize(file.size)})</span>
+                    </div>
+                    <div class="uploaded-file-actions">
+                        <i class="fas fa-trash-alt remove-file"></i>
+                    </div>
+                `;
+                
+                fileContainer.appendChild(fileElement);
+                
+                // Add event listener to remove button
+                fileElement.querySelector('.remove-file').addEventListener('click', function() {
+                    fileElement.remove();
+                    reportFileInput.value = ''; // Reset file input
+                });
+            }
+            
+            function sendReport() {
+                const formData = {
+                    patientName: document.getElementById('patientName').value,
+                    patientEmail: document.getElementById('patientEmail').value,
+                    patientPhone: document.getElementById('patientPhone').value,
+                    appointmentId: document.getElementById('appointmentId').value,
+                    // In a real app, you would include the file here
+                };
+                
+                console.log('Sending report:', formData);
+                
+                // In a real app, you would send this to your API
+                // This would typically be a multipart/form-data request with the file
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Show success message
+                    alert('Report sent successfully!');
+                    
+                    // Reset the form
+                    sendReportForm.reset();
+                    document.getElementById('uploadedFiles').innerHTML = '';
+                }, 1000);
+            }
+            
+            function logout() {
+                // In a real app, you would call your logout API and clear any tokens
+                console.log('Logging out...');
+                
+                // Redirect to index page
+                window.location.href = 'index.html';
+            }
+            
+            // Utility Functions
+            function formatDate(dateString) {
+                if (!dateString) return '';
+                
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('en-US', options);
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>

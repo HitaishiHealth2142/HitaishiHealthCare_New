@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // assuming db.js exports a configured MySQL connection
+const db = require('../db');
 const nodemailer = require('nodemailer');
 
-// 🔹 Create payments table if not exists
+// ✅ Ensure payments table exists
 const createTableQuery = `
   CREATE TABLE IF NOT EXISTS payments (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,59 +18,50 @@ const createTableQuery = `
   )
 `;
 db.query(createTableQuery, (err) => {
-  if (err) console.error("Failed to create payments table:", err);
+  if (err) console.error("❌ Failed to create payments table:", err);
   else console.log("✅ Payments table ready");
 });
 
-// 🔹 Generate unique payment ID: 4 letters + 6 digits
+// ✅ Generate unique payment ID
 function generatePaymentID() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const numbers = '0123456789';
-  let alpha = '';
-  let numeric = '';
-  for (let i = 0; i < 4; i++) alpha += letters.charAt(Math.floor(Math.random() * letters.length));
-  for (let i = 0; i < 6; i++) numeric += numbers.charAt(Math.floor(Math.random() * numbers.length));
-  return alpha + numeric;
+  return Array.from({ length: 4 }, () => letters[Math.floor(Math.random() * letters.length)]).join('') +
+         Array.from({ length: 6 }, () => numbers[Math.floor(Math.random() * numbers.length)]).join('');
 }
 
-// 🔹 Configure nodemailer
+// ✅ Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'spltechnologycorp@gmail.com',        // ✅ Update this
-    pass: 'cbkm ntdm cuvp vygh'           // ✅ Use Gmail App Password
+    user: 'spltechnologycorp@gmail.com',
+    pass: 'cbkm ntdm cuvp vygh' // 🔹 Should use process.env.GMAIL_PASS
   }
 });
 
-// 🔹 POST /api/payments
+// ✅ POST /api/payment/register
 router.post('/payment/register', (req, res) => {
-  const {
-    testName,
-    amount,
-    paymentMethod,
-    patientName,
-    patientEmail,
-    patientMobile,
-    timestamp
-  } = req.body;
+  const { testName, amount, paymentMethod, patientName, patientEmail, patientMobile } = req.body;
 
   if (!testName || !amount || !paymentMethod || !patientName || !patientEmail || !patientMobile) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   const paymentID = generatePaymentID();
+  const formattedTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
   const insertQuery = `
     INSERT INTO payments (payment_id, test_name, amount, payment_method, patient_name, patient_email, patient_mobile, timestamp)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(insertQuery, [paymentID, testName, amount, paymentMethod, patientName, patientEmail, patientMobile, timestamp], (err, result) => {
+  db.query(insertQuery, [paymentID, testName, amount, paymentMethod, patientName, patientEmail, patientMobile, formattedTime], (err) => {
     if (err) {
-      console.error('Insert Error:', err);
-      return res.status(500).json({ error: 'Database insert failed' });
+      console.error('❌ Insert Error:', err.sqlMessage || err);
+      return res.status(500).json({ error: 'Database insert failed', details: err.sqlMessage });
     }
 
-    // ✉️ Send confirmation email
+    // ✅ Send confirmation email
     const mailOptions = {
       from: 'spltechnologycorp@gmail.com',
       to: patientEmail,
@@ -86,41 +77,38 @@ router.post('/payment/register', (req, res) => {
       `
     };
 
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error('Email Error:', err);
-        return res.status(500).json({ error: 'Email sending failed' });
+    transporter.sendMail(mailOptions, (emailErr) => {
+      if (emailErr) {
+        console.error('❌ Email Error:', emailErr);
+        // ✅ Don't fail booking if email fails
+        return res.json({ success: true, paymentID, email: 'failed' });
       }
 
-      return res.json({ success: true, paymentID });
+      res.json({ success: true, paymentID, email: 'sent' });
     });
   });
 });
 
-// 🔹 GET /api/payments → fetch all
+// ✅ GET /api/payments/get → fetch all
 router.get('/payments/get', (req, res) => {
   db.query('SELECT * FROM payments ORDER BY id DESC', (err, results) => {
     if (err) {
-      console.error('Fetch all error:', err);
+      console.error('❌ Fetch all error:', err);
       return res.status(500).json({ error: 'Failed to fetch payments' });
     }
     res.json(results);
   });
 });
 
-// 🔹 GET /api/payments/:id → fetch by payment ID
-router.get('/payments/get:id', (req, res) => {
+// ✅ GET /api/payments/get/:id → fetch by ID
+router.get('/payments/get/:id', (req, res) => {
   const paymentID = req.params.id;
   db.query('SELECT * FROM payments WHERE payment_id = ?', [paymentID], (err, results) => {
     if (err) {
-      console.error('Fetch by ID error:', err);
+      console.error('❌ Fetch by ID error:', err);
       return res.status(500).json({ error: 'Failed to fetch payment' });
     }
-
-    if (results.length === 0) {
-      return res.status(404).json({ error: 'Payment not found' });
-    }
-
+    if (results.length === 0) return res.status(404).json({ error: 'Payment not found' });
     res.json(results[0]);
   });
 });

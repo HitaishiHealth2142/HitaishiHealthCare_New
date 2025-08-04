@@ -57,7 +57,8 @@ const hr_packagesRoutes = require("./routes/hr_packages");
 const packagesRoutes = require("./routes/packages");
 // const patientloginRoutes = require("./routes/patientlogin");
 const patientRoutes = require("./routes/patient");
-const diagnosticsRoutes = require("./routes/diagnostics")
+const diagnosticsRoutes = require("./routes/diagnostics");
+const paymentRoutes = require("./routes/payment")
 
 
 // Use Routes - Mount imported routes under the /api path
@@ -83,6 +84,7 @@ app.use("/api", hr_packagesRoutes);
 app.use("/api", packagesRoutes);
 // app.use("/api", patientloginRoutes);
 app.use("/api", patientRoutes);
+app.use("/api", paymentRoutes);
 
 
 // Start HTTP server for redirection (if not already handled by a reverse proxy like Nginx)
