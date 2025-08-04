@@ -65,6 +65,46 @@
     .back-btn:hover {
       background-color: #d32f2f;
     }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .payment-options {
+      text-align: left;
+      margin: 20px 0;
+    }
+    .payment-option {
+      margin-bottom: 10px;
+    }
+    .payment-option input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .payment-option label {
+      cursor: pointer;
+    }
+    .payment-option.disabled {
+      color: #999;
+    }
+    .info-message {
+      color: #e60000;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
     @media (max-width: 600px) {
       .container {
         margin: 30px 15px;
@@ -88,7 +128,43 @@
     <h2>Book Test Payment</h2>
     <div class="test-info"><strong>Test Name:</strong> <span id="test-name">Loading...</span></div>
     <div class="amount">Amount: ₹<span id="test-price">0</span></div>
-    <button class="pay-btn" onclick="payNow()">Pay Now</button>
+    
+    <div class="form-group">
+      <label for="patient-name">Patient Name</label>
+      <input type="text" id="patient-name" placeholder="Enter patient's full name" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="patient-email">Email</label>
+      <input type="email" id="patient-email" placeholder="Enter patient's email" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="patient-mobile">Mobile Number</label>
+      <input type="tel" id="patient-mobile" placeholder="Enter patient's mobile number" required>
+    </div>
+    
+    <div class="payment-options">
+      <h3>Payment Method</h3>
+      <div class="payment-option disabled">
+        <input type="checkbox" id="online-banking" disabled>
+        <label for="online-banking">Online Banking</label>
+        <div class="info-message" id="online-banking-message">Currently we are accepting cash payments only</div>
+      </div>
+      
+      <div class="payment-option disabled">
+        <input type="checkbox" id="upi-apps" disabled>
+        <label for="upi-apps">UPI Apps</label>
+        <div class="info-message" id="upi-apps-message">Currently we are accepting cash payments only</div>
+      </div>
+      
+      <div class="payment-option">
+        <input type="checkbox" id="cash-payment" checked>
+        <label for="cash-payment">Pay with Cash</label>
+      </div>
+    </div>
+    
+    <button class="pay-btn" onclick="processPayment()">Confirm Booking</button>
     <button class="back-btn" onclick="goBack()">Back to Tests</button>
   </div>
 
@@ -102,31 +178,94 @@
     document.getElementById("test-name").textContent = testName;
     document.getElementById("test-price").textContent = testPrice;
 
-    function payNow() {
-      const options = {
-        key: "YOUR_KEY_ID_HERE", // ✅ Replace with your Razorpay Key
-        amount: testPrice * 100, // amount in paise
-        currency: "INR",
-        name: "Hitaishi HealthCare",
-        description: testName,
-        image: "https://yourdomain.com/logo.png", // optional logo
-        handler: function (response) {
-          alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-          console.log("Payment successful", response);
-          // Optional: redirect to success page or save in DB
-        },
-        prefill: {
-          name: "",
-          email: "",
-          contact: ""
-        },
-        theme: {
-          color: "#00bcd4"
-        }
-      };
+    // Show messages when trying to select disabled options
+    document.getElementById('online-banking').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('online-banking-message').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('online-banking-message').style.display = 'none';
+      }, 3000);
+    });
 
-      const rzp = new Razorpay(options);
-      rzp.open();
+    document.getElementById('upi-apps').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('upi-apps-message').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('upi-apps-message').style.display = 'none';
+      }, 3000);
+    });
+
+    // Ensure only cash payment can be selected
+    document.getElementById('cash-payment').addEventListener('change', function() {
+      if (!this.checked) {
+        this.checked = true;
+      }
+    });
+
+    function processPayment() {
+      // Get form values
+      const patientName = document.getElementById('patient-name').value.trim();
+      const patientEmail = document.getElementById('patient-email').value.trim();
+      const patientMobile = document.getElementById('patient-mobile').value.trim();
+      const paymentMethod = 'Cash'; // Only option available
+      
+      // Simple validation
+      if (!patientName || !patientEmail || !patientMobile) {
+        alert('Please fill in all patient details');
+        return;
+      }
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(patientEmail)) {
+        alert('Please enter a valid email address');
+        return;
+      }
+      
+      // Mobile validation (simple 10 digit check)
+      if (patientMobile.length !== 10 || !/^\d+$/.test(patientMobile)) {
+        alert('Please enter a valid 10-digit mobile number');
+        return;
+      }
+      
+      // Prepare data for backend
+      const paymentData = {
+        testName: testName,
+        amount: testPrice,
+        paymentMethod: paymentMethod,
+        patientName: patientName,
+        patientEmail: patientEmail,
+        patientMobile: patientMobile,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Send data to backend
+      sendToBackend(paymentData);
+    }
+
+    function sendToBackend(data) {
+      fetch('https://hitaishihealthcare.com/api/payments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Booking confirmed successfully!');
+        console.log('Success:', data);
+        // You can redirect to a success page here if needed
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Booking confirmation failed. Please try again or contact support.');
+      });
     }
 
     function goBack() {

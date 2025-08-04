@@ -5,24 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Diagnostics Center Registration - Hitaishi Healthcare</title>
   <style>
+    /* --------------------  Base Styles -------------------- */
     :root {
       --primary-color: #007bff;
+      --primary-dark: #0056b3;
       --danger-color: #dc3545;
       --bg-section: #f9f9f9;
+      --text-color: #333;
+      --border-color: #bfc8d6;
     }
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
       background: #f0f2f5;
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
     }
     .container {
       max-width: 1000px;
-      margin: auto;
+      width: 100%;
+      margin: 20px;
       padding: 20px;
       background: white;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
+      box-sizing: border-box;
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary-dark);
+      margin-bottom: 20px;
     }
     h2 {
       color: var(--primary-color);
@@ -55,10 +71,11 @@
     }
     .floating-label input,
     .floating-label select,
-    .floating-label textarea {
+    .floating-label textarea,
+    .floating-label .select-wrapper {
       width: 100%;
       padding: 18px 14px 8px 14px;
-      border: 1.5px solid #bfc8d6;
+      border: 1.5px solid var(--border-color);
       border-radius: 8px;
       outline: none;
       font-size: 1.08rem;
@@ -70,7 +87,8 @@
     }
     .floating-label input:focus,
     .floating-label select:focus,
-    .floating-label textarea:focus {
+    .floating-label textarea:focus,
+    .floating-label .select-wrapper:focus-within {
       border-color: var(--primary-color);
       box-shadow: 0 0 0 2px rgba(0,123,255,0.08);
       background: #fff;
@@ -80,7 +98,7 @@
       left: 18px;
       top: 50%;
       transform: translateY(-50%);
-      background: white;
+      background: var(--bg-section);
       padding: 0 6px;
       transition: 0.2s;
       color: #888;
@@ -92,24 +110,34 @@
     .floating-label select:focus + label,
     .floating-label select:not([value=""]) + label,
     .floating-label textarea:focus + label,
-    .floating-label textarea:not(:placeholder-shown) + label {
+    .floating-label textarea:not(:placeholder-shown) + label,
+    .floating-label .select-wrapper:focus-within + label {
       top: -12px;
       font-size: 0.85rem;
       color: var(--primary-color);
-      background: #f7fafd;
+      background: #fff;
       padding: 0 6px;
     }
     .required::after {
       content: " *";
       color: var(--danger-color);
     }
+    .file-input-group {
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .file-input-group label {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 5px;
+    }
     input[type="file"] {
       padding: 8px;
       border-radius: 8px;
       background: #f7fafd;
-      border: 1.5px solid #bfc8d6;
-      margin-top: 8px;
-      margin-bottom: 8px;
+      border: 1.5px solid var(--border-color);
     }
     .checkbox-group, .radio-group {
       display: flex;
@@ -124,11 +152,32 @@
       border-radius: 6px;
       border: 1px solid #e0e6ed;
       margin-bottom: 6px;
+      cursor: pointer;
     }
     .otp-section {
       display: none;
       margin-top: 18px;
       margin-bottom: 18px;
+    }
+    .action-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+    .send-otp-btn, .verify-otp-btn {
+        padding: 10px 15px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.2s;
+    }
+    .send-otp-btn:hover, .verify-otp-btn:hover {
+        background: var(--primary-dark);
     }
     .submit-btn {
       display: none;
@@ -147,6 +196,90 @@
     .submit-btn:hover {
       background: #0056b3;
     }
+    .error-message {
+      color: var(--danger-color);
+      font-size: 0.9rem;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .success-message {
+      color: green;
+      font-size: 0.9rem;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border-left-color: var(--primary-color);
+      animation: spin 1s ease infinite;
+      display: none;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    /* -------------------- Custom Modal -------------------- */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close-btn:hover,
+    .close-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* New styles for password toggle icon */
+    .password-container {
+        position: relative;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+        z-index: 10;
+        margin-top: 4px;
+    }
+    
+    /* -------------------- Responsive Design -------------------- */
     @media (max-width: 900px) {
       .container {
         max-width: 98vw;
@@ -155,22 +288,9 @@
       .section {
         padding: 16px 6px;
       }
-      .grid {
-        gap: 18px;
-      }
       .two-col {
         grid-template-columns: 1fr;
         gap: 18px;
-      }
-      .floating-label input,
-      .floating-label select,
-      .floating-label textarea {
-        font-size: 1rem;
-        padding: 14px 10px 6px 10px;
-      }
-      .floating-label label {
-        left: 12px;
-        font-size: 0.98rem;
       }
     }
     @media (max-width: 600px) {
@@ -189,13 +309,6 @@
       .section {
         padding: 10px 2px;
         border-radius: 8px;
-      }
-      .grid {
-        gap: 12px;
-      }
-      .two-col {
-        grid-template-columns: 1fr;
-        gap: 12px;
       }
       .floating-label input,
       .floating-label select,
@@ -240,10 +353,10 @@
           <div class="floating-label">
             <select id="centerType" required>
               <option value="" disabled selected hidden></option>
-              <option>Pathology</option>
-              <option>Radiology</option>
-              <option>Multispeciality</option>
-              <option>Others</option>
+              <option value="Pathology">Pathology</option>
+              <option value="Radiology">Radiology</option>
+              <option value="Multispeciality">Multispeciality</option>
+              <option value="Others">Others</option>
             </select>
             <label class="required">Center Type</label>
           </div>
@@ -255,31 +368,36 @@
         <h2>Contact Details</h2>
         <div class="grid two-col">
           <div class="floating-label">
-            <input type="tel" id="phone" placeholder=" " pattern="\d{10}" required>
-            <label class="required">Phone Number</label>
+            <input type="tel" id="phone" placeholder=" " pattern="[6-9]{1}[0-9]{9}" title="Phone number must be 10 digits and start with 6, 7, 8, or 9" required>
+            <label class="required">Phone Number (+91)</label>
           </div>
           <div class="floating-label">
-            <input type="tel" id="altPhone" placeholder=" ">
-            <label>Alternate Phone Number</label>
+            <input type="tel" id="altPhone" placeholder=" " pattern="[6-9]{1}[0-9]{9}" title="Phone number must be 10 digits and start with 6, 7, 8, or 9">
+            <label>Alternate Phone Number (+91)</label>
           </div>
           <div class="floating-label">
-            <input type="email" id="email" placeholder=" " required>
+            <input type="email" id="email" placeholder=" " required pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" title="Please enter a valid email address">
             <label class="required">Email Address</label>
           </div>
-          <div class="floating-label">
-            <button type="button" onclick="sendOTP()">Send OTP</button>
+          <div class="action-group">
+            <button type="button" id="sendOtpBtn" class="send-otp-btn">Send OTP</button>
+            <span id="sendOtpSpinner" class="spinner"></span>
           </div>
           <div class="floating-label">
-            <input type="tel" id="whatsapp" placeholder=" ">
-            <label>WhatsApp Number</label>
+            <input type="tel" id="whatsapp" placeholder=" " pattern="[6-9]{1}[0-9]{9}" title="WhatsApp number must be 10 digits and start with 6, 7, 8, or 9">
+            <label>WhatsApp Number (+91)</label>
           </div>
         </div>
         <div class="otp-section" id="otpSection">
           <div class="floating-label">
-            <input type="text" id="otpInput" placeholder=" ">
+            <input type="text" id="otpInput" placeholder=" " pattern="\d{6}" title="OTP must be a 6-digit number">
             <label>Enter OTP</label>
           </div>
-          <button type="button" onclick="verifyOTP()">Verify OTP</button>
+          <div class="action-group">
+            <button type="button" id="verifyOtpBtn" class="verify-otp-btn">Verify OTP</button>
+            <span id="verifyOtpSpinner" class="spinner"></span>
+            <span id="otpMessage" class="success-message"></span>
+          </div>
         </div>
       </div>
 
@@ -288,23 +406,23 @@
         <h2>Address</h2>
         <div class="grid two-col">
           <div class="floating-label">
-            <textarea placeholder=" " required></textarea>
+            <textarea id="address" placeholder=" " required></textarea>
             <label class="required">Full Address</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
+            <input type="text" id="city" placeholder=" " required>
             <label class="required">City</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
+            <input type="text" id="state" placeholder=" " required>
             <label class="required">State</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" " pattern="\d{6}" required>
+            <input type="text" id="pincode" placeholder=" " pattern="\d{6}" title="Pincode must be a 6-digit number" required>
             <label class="required">Pincode</label>
           </div>
           <div class="floating-label">
-            <input type="url" placeholder=" ">
+            <input type="url" id="mapUrl" placeholder=" ">
             <label>Google Map Location URL</label>
           </div>
         </div>
@@ -315,20 +433,20 @@
         <h2>Legal & Verification Documents</h2>
         <div class="grid two-col">
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
+            <input type="text" id="registrationNumber" placeholder=" " required>
             <label class="required">Center Registration Number</label>
           </div>
-          <div>
-            <label class="required">Upload License Copy</label>
-            <input type="file" accept=".pdf,.jpg,.png" required>
-          </div>
-          <div>
-            <label class="required">Upload PAN or Aadhar</label>
-            <input type="file" accept=".pdf,.jpg,.png" required>
-          </div>
           <div class="floating-label">
-            <input type="text" placeholder=" ">
+            <input type="text" id="gstNumber" placeholder=" ">
             <label>GST Number</label>
+          </div>
+          <div class="file-input-group">
+            <label for="panAadhar" class="required">Aadhar/Pan Card (JPEG only)</label>
+            <input type="file" id="panAadhar" name="panAadhar" accept="image/jpeg" required>
+          </div>
+          <div class="file-input-group">
+            <label for="licenseCopy" class="required">License Copy (JPEG only)</label>
+            <input type="file" id="licenseCopy" name="licenseCopy" accept="image/jpeg" required>
           </div>
         </div>
       </div>
@@ -336,27 +454,29 @@
       <!-- Services -->
       <div class="section">
         <h2>Services Offered</h2>
-        <div class="checkbox-group">
-          <label><input type="checkbox"> Blood Test</label>
-          <label><input type="checkbox"> Urine Test</label>
-          <label><input type="checkbox"> X-ray</label>
-          <label><input type="checkbox"> MRI</label>
-          <label><input type="checkbox"> CT Scan</label>
-          <label><input type="checkbox"> ECG</label>
-          <label><input type="checkbox"> Others</label>
+        <div class="checkbox-group" id="servicesCheckboxes">
+          <label><input type="checkbox" value="Blood Test"> Blood Test</label>
+          <label><input type="checkbox" value="Urine Test"> Urine Test</label>
+          <label><input type="checkbox" value="X-ray"> X-ray</label>
+          <label><input type="checkbox" value="MRI"> MRI</label>
+          <label><input type="checkbox" value="CT Scan"> CT Scan</label>
+          <label><input type="checkbox" value="ECG"> ECG</label>
+          <label><input type="checkbox" value="Others"> Others</label>
         </div>
         <div class="radio-group">
           <label>Home Sample Collection? <span class="required"></span></label>
-          <label><input type="radio" name="homeSample" required> Yes</label>
-          <label><input type="radio" name="homeSample"> No</label>
+          <label><input type="radio" name="homeSample" value="Yes" required> Yes</label>
+          <label><input type="radio" name="homeSample" value="No"> No</label>
         </div>
-        <div class="floating-label">
-          <input type="text" placeholder=" " required>
-          <label class="required">Operational Hours</label>
-        </div>
-        <div>
-          <label>Upload Price List (Optional)</label>
-          <input type="file" accept=".pdf,.jpg,.png">
+        <div class="grid two-col">
+          <div class="floating-label">
+            <input type="time" id="fromTime" placeholder=" " required>
+            <label class="required">Operational Hours (From)</label>
+          </div>
+          <div class="floating-label">
+            <input type="time" id="toTime" placeholder=" " required>
+            <label class="required">Operational Hours (To)</label>
+          </div>
         </div>
       </div>
 
@@ -365,83 +485,366 @@
         <h2>Bank & Payment Details</h2>
         <div class="grid two-col">
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
+            <input type="text" id="accountHolderName" placeholder=" " required>
             <label class="required">Account Holder Name</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
+            <input type="text" id="bankName" placeholder=" " required>
             <label class="required">Bank Name</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
+            <input type="text" id="accountNumber" placeholder=" " required>
             <label class="required">Account Number</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" " pattern="[A-Z]{4}0[A-Z0-9]{6}" required>
+            <input type="text" id="ifscCode" placeholder=" " required>
             <label class="required">IFSC Code</label>
           </div>
           <div class="floating-label">
-            <input type="text" placeholder=" ">
+            <input type="text" id="upiId" placeholder=" ">
             <label>UPI ID</label>
           </div>
-          <div>
-            <label>Upload UPI QR Code</label>
-            <input type="file" accept=".jpg,.png">
+          <div class="file-input-group">
+            <label for="upiQrCode">UPI QR Code (Optional, JPEG only)</label>
+            <input type="file" id="upiQrCode" name="upiQrCode" accept="image/jpeg">
           </div>
         </div>
       </div>
 
-      <!-- Login Credentials -->
+      <!-- Credentials -->
       <div class="section">
-        <h2>Login Credentials</h2>
+        <h2>Create Password</h2>
         <div class="grid two-col">
           <div class="floating-label">
-            <input type="text" placeholder=" " required>
-            <label class="required">Username or Email ID</label>
+            <div class="password-container">
+                <input type="password" id="password" placeholder=" " required>
+                <label class="required">Password</label>
+                <span class="toggle-password" id="togglePassword">
+                    <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <svg id="eye-off-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                </span>
+            </div>
           </div>
           <div class="floating-label">
-            <input type="password" id="password" placeholder=" " required>
-            <label class="required">Password</label>
-          </div>
-          <div class="floating-label">
-            <input type="password" id="confirmPassword" placeholder=" " required>
-            <label class="required">Confirm Password</label>
+            <div class="password-container">
+                <input type="password" id="confirmPassword" placeholder=" " required>
+                <label class="required">Confirm Password</label>
+                <span class="toggle-password" id="toggleConfirmPassword">
+                    <svg id="confirm-eye-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <svg id="confirm-eye-off-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                </span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Agreement -->
       <div class="section">
-        <label><input type="checkbox" required> I accept the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a><span class="required"></span></label>
+        <label><input type="checkbox" id="termsCheck" required> I accept the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a><span class="required"></span></label>
       </div>
 
-      <button type="submit" id="submitBtn" class="submit-btn">Register</button>
+      <button type="submit" id="submitBtn" class="submit-btn" disabled>Register</button>
     </form>
   </div>
 
+  <!-- Custom Message Modal -->
+  <div id="messageModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <p id="modalMessage"></p>
+    </div>
+  </div>
+
   <script>
-    function sendOTP() {
-      document.getElementById('otpSection').style.display = 'block';
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registrationForm');
+      const emailInput = document.getElementById('email');
+      const phoneInput = document.getElementById('phone');
+      const pincodeInput = document.getElementById('pincode');
+      const sendOtpBtn = document.getElementById('sendOtpBtn');
+      const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+      const otpSection = document.getElementById('otpSection');
+      const otpInput = document.getElementById('otpInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const termsCheck = document.getElementById('termsCheck');
+      const modal = document.getElementById('messageModal');
+      const modalMessage = document.getElementById('modalMessage');
+      const closeModalBtn = document.querySelector('.close-btn');
+      const sendOtpSpinner = document.getElementById('sendOtpSpinner');
+      const verifyOtpSpinner = document.getElementById('verifyOtpSpinner');
+      const otpMessage = document.getElementById('otpMessage');
+      const togglePassword = document.getElementById('togglePassword');
+      const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+      const eyeIcon = document.getElementById('eye-icon');
+      const eyeOffIcon = document.getElementById('eye-off-icon');
+      const confirmEyeIcon = document.getElementById('confirm-eye-icon');
+      const confirmEyeOffIcon = document.getElementById('confirm-eye-off-icon');
 
-    function verifyOTP() {
-      // Dummy OTP verification logic
-      const otp = document.getElementById('otpInput').value;
-      if (otp === '123456') {
-        document.getElementById('submitBtn').style.display = 'block';
-        alert('OTP Verified Successfully');
-      } else {
-        alert('Invalid OTP');
+      // Function to show the custom message modal
+      function showMessageModal(message) {
+        modalMessage.textContent = message;
+        modal.style.display = 'block';
       }
-    }
 
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      if (password !== confirmPassword) {
-        alert("Passwords don't match");
+      // Function to close the modal
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+
+      closeModalBtn.onclick = closeModal;
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          closeModal();
+        }
+      };
+
+      // Client-side validation function
+      function validateInput(input, regex, errorMessage) {
+        const isValid = regex.test(input.value);
+        if (!isValid) {
+          input.setCustomValidity(errorMessage);
+          input.reportValidity();
+        } else {
+          input.setCustomValidity('');
+        }
+        return isValid;
+      }
+      
+      // Phone number validation listener
+      phoneInput.addEventListener('input', () => {
+        validateInput(phoneInput, /^[6-9]{1}[0-9]{9}$/, 'Phone number must be 10 digits and start with 6, 7, 8, or 9.');
+      });
+      
+      // Pincode validation listener
+      pincodeInput.addEventListener('input', () => {
+        validateInput(pincodeInput, /^\d{6}$/, 'Pincode must be a 6-digit number.');
+      });
+      
+      // Email validation listener
+      emailInput.addEventListener('input', () => {
+          validateInput(emailInput, /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Please enter a valid email address.');
+      });
+
+      // OTP section visibility based on email verification
+      const checkEmailForOtp = async (email) => {
+          try {
+              const response = await fetch('/api/check-email', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email })
+              });
+              const data = await response.json();
+              return data.isRegistered;
+          } catch (error) {
+              console.error('Error checking email:', error);
+              return false;
+          }
+      };
+
+      // Handle Send OTP button click
+      sendOtpBtn.addEventListener('click', async () => {
+        const email = emailInput.value;
+        if (!validateInput(emailInput, /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Please enter a valid email address.')) {
+            return;
+        }
+
+        sendOtpSpinner.style.display = 'inline-block';
+        sendOtpBtn.disabled = true;
+
+        try {
+          const response = await fetch('https://hitaishihealthcare.com/api/diagnostics/send-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showMessageModal(data.message);
+            otpSection.style.display = 'block';
+            sendOtpBtn.style.display = 'none'; // Hide send button after success
+          } else {
+            showMessageModal(data.error);
+          }
+        } catch (error) {
+          showMessageModal('Error sending OTP. Please try again.');
+        } finally {
+          sendOtpSpinner.style.display = 'none';
+          sendOtpBtn.disabled = false;
+        }
+      });
+
+      // Handle Verify OTP button click
+      verifyOtpBtn.addEventListener('click', async () => {
+        const email = emailInput.value;
+        const otp = otpInput.value;
+
+        if (!otp) {
+            showMessageModal('Please enter the OTP.');
+            return;
+        }
+
+        verifyOtpSpinner.style.display = 'inline-block';
+        verifyOtpBtn.disabled = true;
+        otpMessage.style.display = 'none';
+
+        try {
+          const response = await fetch('https://hitaishihealthcare.com/api/diagnostics/verify-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, otp })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            otpMessage.textContent = data.message;
+            otpMessage.style.display = 'block';
+            submitBtn.style.display = 'block';
+            submitBtn.disabled = false; // Enable submit button
+          } else {
+            showMessageModal(data.error);
+          }
+        } catch (error) {
+          showMessageModal('Error verifying OTP. Please try again.');
+        } finally {
+            verifyOtpSpinner.style.display = 'none';
+            verifyOtpBtn.disabled = false;
+        }
+      });
+
+      // Password and Terms check for enabling submit button
+      function checkFormState() {
+          const passwordsMatch = passwordInput.value === confirmPasswordInput.value;
+          const termsAccepted = termsCheck.checked;
+          const isVerified = submitBtn.style.display === 'block';
+          
+          if (isVerified && passwordsMatch && termsAccepted && passwordInput.value.length > 0) {
+              submitBtn.disabled = false;
+          } else {
+              submitBtn.disabled = true;
+          }
+      }
+
+      passwordInput.addEventListener('input', checkFormState);
+      confirmPasswordInput.addEventListener('input', checkFormState);
+      termsCheck.addEventListener('change', checkFormState);
+
+      // Function to toggle password visibility
+      function togglePasswordVisibility(passwordInput, eyeIcon, eyeOffIcon) {
+          if (passwordInput.type === 'password') {
+              passwordInput.type = 'text';
+              eyeIcon.style.display = 'none';
+              eyeOffIcon.style.display = 'block';
+          } else {
+              passwordInput.type = 'password';
+              eyeIcon.style.display = 'block';
+              eyeOffIcon.style.display = 'none';
+          }
+      }
+
+      // Add event listeners for password toggles
+      togglePassword.addEventListener('click', () => {
+          togglePasswordVisibility(passwordInput, eyeIcon, eyeOffIcon);
+      });
+      toggleConfirmPassword.addEventListener('click', () => {
+          togglePasswordVisibility(confirmPasswordInput, confirmEyeIcon, confirmEyeOffIcon);
+      });
+
+
+      // Handle Form Submission
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-      }
+
+        // Check if passwords match
+        if (passwordInput.value !== confirmPasswordInput.value) {
+          showMessageModal("Passwords don't match.");
+          return;
+        }
+
+        // Check if terms are accepted
+        if (!termsCheck.checked) {
+            showMessageModal("You must accept the Terms & Conditions and Privacy Policy.");
+            return;
+        }
+        
+        // Get all form data
+        const formData = new FormData(form);
+        const data = {};
+        for (const [key, value] of formData.entries()) {
+          data[key] = value;
+        }
+
+        // Collect services
+        const services = Array.from(document.querySelectorAll('#servicesCheckboxes input:checked')).map(cb => cb.value);
+        data.services = services;
+        
+        // Collect bank details into a single object
+        const bankDetails = {
+            accountHolderName: document.getElementById('accountHolderName').value,
+            bankName: document.getElementById('bankName').value,
+            accountNumber: document.getElementById('accountNumber').value,
+            ifscCode: document.getElementById('ifscCode').value,
+            upiId: document.getElementById('upiId').value
+        };
+        data.bankDetails = bankDetails;
+
+        // Collect time fields
+        data.fromTime = document.getElementById('fromTime').value;
+        data.toTime = document.getElementById('toTime').value;
+
+        // Remove file inputs from data
+        delete data['licenseCopy'];
+        delete data['panAadhar'];
+        delete data['priceList'];
+        delete data['upiQrCode'];
+
+        // Get remaining fields not handled by formData
+        data.email = emailInput.value;
+        data.phone = phoneInput.value;
+        data.altPhone = document.getElementById('altPhone').value;
+        data.whatsapp = document.getElementById('whatsapp').value;
+        data.address = document.getElementById('address').value;
+        data.city = document.getElementById('city').value;
+        data.state = document.getElementById('state').value;
+        data.pincode = pincodeInput.value;
+        data.centerName = document.getElementById('centerName').value;
+        data.ownerName = document.getElementById('ownerName').value;
+        data.centerType = document.getElementById('centerType').value;
+        data.mapUrl = document.getElementById('mapUrl').value;
+        data.registrationNumber = document.getElementById('registrationNumber').value;
+        data.gstNumber = document.getElementById('gstNumber').value;
+        data.password = passwordInput.value;
+
+        submitBtn.disabled = true;
+
+        try {
+          const response = await fetch('https://hitaishihealthcare.com/api/diagnostics/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+
+          if (result.success) {
+            showMessageModal(result.message);
+            form.reset();
+            otpSection.style.display = 'none';
+            submitBtn.style.display = 'none';
+            sendOtpBtn.style.display = 'block';
+          } else {
+            showMessageModal(result.error);
+          }
+        } catch (error) {
+          showMessageModal('An error occurred during registration. Please try again.');
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
     });
   </script>
 </body>
