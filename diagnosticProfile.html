@@ -430,13 +430,13 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Patient</th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Test</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Payment</th>
+                <th>Amount</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -800,7 +800,7 @@
       const dateFilter = document.getElementById('appointmentDateFilter').value;
       
       // FIXED: Use backticks for template literal
-      let url = `${API_BASE}/diagnostics/${userId}/appointments`;
+      let url = `https://hitaishihealthcare.com/api/diagnostics/${userId}/appointments`;
       if (dateFilter) {
         url += `?date=${dateFilter}`;
       }
@@ -823,12 +823,12 @@
                 <td>${appointment.id}</td>
                 <td>${appointment.patient_name}</td>
                 <td>${appointment.patient_email || 'N/A'}</td>
-                <td>${appointment.patient_phone}</td>
+                <td>${appointment.patient_mobile}</td>
                 <td>${appointment.test_name}</td>
-                <td>${new Date(appointment.appointment_date).toLocaleDateString()}</td>
-                <td>${appointment.appointment_time}</td>
-                <td>${appointment.payment_status === 'paid' ? 'Paid' : 'Pending'}</td>
-                <td>${appointment.status}</td>
+                <td>${new Date(appointment.test_date).toLocaleDateString()}</td>
+                <td>—</td> <!-- If no time field exists, show placeholder -->
+                <td>₹${appointment.amount}</td>
+                <td>Booked</td> <!-- You can update if a status column exists -->
               `;
               tableBody.appendChild(row);
             });
@@ -839,34 +839,7 @@
         .catch(error => {
           console.error('Error:', error);
           showMessage('Error loading appointments: ' + error.message, 'danger');
-          
-          // For demo purposes, show mock data if API fails
-          const tableBody = document.getElementById('appointmentsTableBody');
-          tableBody.innerHTML = `
-            <tr>
-              <td>1001</td>
-              <td>Rahul Sharma</td>
-              <td>rahul@example.com</td>
-              <td>9876543210</td>
-              <td>Complete Blood Count</td>
-              <td>${new Date().toLocaleDateString()}</td>
-              <td>10:00 AM</td>
-              <td>Paid</td>
-              <td>Scheduled</td>
-            </tr>
-            <tr>
-              <td>1002</td>
-              <td>Priya Patel</td>
-              <td>priya@example.com</td>
-              <td>8765432109</td>
-              <td>Lipid Profile</td>
-              <td>${new Date().toLocaleDateString()}</td>
-              <td>11:30 AM</td>
-              <td>Pending</td>
-              <td>Scheduled</td>
-            </tr>
-          `;
-        });
+        }); 
     }
     
     function addNewTest(e) {

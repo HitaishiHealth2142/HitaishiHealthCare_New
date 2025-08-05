@@ -199,6 +199,8 @@
     const testPrice = parseInt(urlParams.get("price") || "0");
     const testId = urlParams.get("id") || "N/A";
     const centerName = decodeURIComponent(urlParams.get("center") || "Selected Center");
+    const centerId = urlParams.get("centerId") || "";
+
 
     // Display on page
     document.getElementById("test-name").textContent = testName;
@@ -279,6 +281,7 @@
         testName: testName,
         testId: testId,
         centerName: centerName,
+        centerId: centerId,
         amount: testPrice,
         paymentMethod: paymentMethod,
         patientName: patientName,

@@ -6,9 +6,9 @@ const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs');
 
-// ✅ Create diagnostic_tests table if it doesn't exist
+// ✅ Ensure diagnostic_test table exists
 const createTableQuery = `
-CREATE TABLE IF NOT EXISTS diagnostic_tests (
+CREATE TABLE IF NOT EXISTS diagnostic_test (
   id INT AUTO_INCREMENT PRIMARY KEY,
   test_id VARCHAR(6) UNIQUE,
   test_name VARCHAR(255),
@@ -24,25 +24,22 @@ CREATE TABLE IF NOT EXISTS diagnostic_tests (
   final_price DECIMAL(10,2),
   available_from DATE,
   diagnostic_id INT,
+  center_id VARCHAR(10),            -- ✅ NEW
   center_name VARCHAR(255),
   status VARCHAR(50),
   tags TEXT,
   home_collection VARCHAR(10),
   test_image VARCHAR(255),
-  map_url TEXT,  -- ✅ NEW FIELD
+  map_url TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `;
-
 db.query(createTableQuery, (err) => {
-  if (err) {
-    console.error('❌ Error creating diagnostic_tests table:', err.message);
-  } else {
-    console.log('✅ diagnostic_tests table is ready.');
-  }
+  if (err) console.error('❌ Table creation failed:', err.message);
+  else console.log('✅ diagnostic_test table ready');
 });
 
-// ✅ Multer setup for file upload
+// ✅ Multer config for image upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadPath = path.join(__dirname, '..', 'uploads', 'tests');
@@ -57,7 +54,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// ✅ Generate 6-char alphanumeric test ID
+// ✅ Generate test ID
 function generateTestId() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let id = '';
@@ -67,7 +64,7 @@ function generateTestId() {
   return id;
 }
 
-// ✅ Register new test route
+// ✅ Register new test
 router.post('/test/register', upload.single('test_image'), async (req, res) => {
   try {
     const {
@@ -93,9 +90,9 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
       return res.status(400).json({ success: false, error: 'Missing required fields.' });
     }
 
-    // 🔍 Get center name from diagnostic_id
+    // ✅ Get center name & center_id
     const [centerResult] = await db.promise().query(
-      'SELECT center_name FROM diagnostic_centers WHERE id = ?',
+      'SELECT center_name, center_id FROM diagnostic_centers WHERE id = ?',
       [diagnostic_id]
     );
 
@@ -103,44 +100,43 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
       return res.status(404).json({ success: false, error: 'Diagnostic center not found.' });
     }
 
-    const center_name = centerResult[0].center_name;
+    const { center_name, center_id } = centerResult[0];
 
-    // ✅ Generate Google Maps URL
-    const encodedCenterName = encodeURIComponent(center_name);
-    const map_url = `https://www.google.com/maps/search/?api=1&query=${encodedCenterName}`;
+    // ✅ Google Map URL
+    const map_url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center_name)}`;
 
     const test_id = generateTestId();
     const test_image = req.file ? `/uploads/tests/${req.file.filename}` : null;
 
     const insertQuery = `
-      INSERT INTO diagnostic_tests (
+      INSERT INTO diagnostic_test (
         test_id, test_name, test_code, category, sample_required, description,
         pre_test_instructions, test_duration, report_time, price, discount,
-        final_price, available_from, diagnostic_id, center_name, status,
-        tags, home_collection, test_image, map_url
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        final_price, available_from, diagnostic_id, center_id, center_name,
+        status, tags, home_collection, test_image, map_url
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
       test_id, test_name, test_code || null, category, sample_required, description,
       pre_test_instructions, test_duration, report_time, price, discount,
-      final_price, available_from, diagnostic_id, center_name, status,
-      tags, home_collection, test_image, map_url
+      final_price, available_from, diagnostic_id, center_id, center_name,
+      status, tags, home_collection, test_image, map_url
     ];
 
     await db.promise().query(insertQuery, values);
 
     res.json({ success: true, test_id });
   } catch (error) {
-    console.error('Error registering test:', error);
+    console.error('❌ Error registering test:', error.message);
     res.status(500).json({ success: false, error: 'Server error.' });
   }
 });
 
-// GET all tests
+// ✅ Get all tests
 router.get('/test/all', async (req, res) => {
   try {
-    const [rows] = await db.promise().query('SELECT * FROM diagnostic_tests');
+    const [rows] = await db.promise().query('SELECT * FROM diagnostic_test');
     res.json({ success: true, tests: rows });
   } catch (error) {
     console.error('Error fetching all tests:', error);
@@ -148,15 +144,14 @@ router.get('/test/all', async (req, res) => {
   }
 });
 
-// GET tests by diagnostic_id
+// ✅ Get tests for specific diagnostic center
 router.get('/test/center/:diagnostic_id', async (req, res) => {
   const { diagnostic_id } = req.params;
   try {
     const [rows] = await db.promise().query(
-      'SELECT * FROM diagnostic_tests WHERE diagnostic_id = ?',
+      'SELECT * FROM diagnostic_test WHERE diagnostic_id = ?',
       [diagnostic_id]
     );
-
     res.json({ success: true, tests: rows });
   } catch (error) {
     console.error('Error fetching tests for center:', error);
@@ -164,25 +159,22 @@ router.get('/test/center/:diagnostic_id', async (req, res) => {
   }
 });
 
-// GET a single test by test_id
+// ✅ Get single test by ID
 router.get('/test/:test_id', async (req, res) => {
   const { test_id } = req.params;
   try {
     const [rows] = await db.promise().query(
-      'SELECT * FROM diagnostic_tests WHERE test_id = ?',
+      'SELECT * FROM diagnostic_test WHERE test_id = ?',
       [test_id]
     );
-
     if (rows.length === 0) {
       return res.status(404).json({ success: false, error: 'Test not found.' });
     }
-
     res.json({ success: true, test: rows[0] });
   } catch (error) {
     console.error('Error fetching test by ID:', error);
     res.status(500).json({ success: false, error: 'Server error.' });
   }
 });
-
 
 module.exports = router;
