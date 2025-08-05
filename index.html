@@ -1625,9 +1625,15 @@
     <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Find Doctors Near You</h3>
     <p style="font-size: 14px; color: #555;">Confirmed appointments</p>
   </a>
-
   <!-- Card 3 -->
   <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+    <img src="images/g" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px;">
+    <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Find Clinics Near You</h3>
+    <p style="font-size: 14px; color: #555;">Top Rated Clinics a click far from You</p>
+  </a>
+
+  <!-- Card 4 -->
+  <a href="" class="card1"  style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
     <img src="images/surgeries.png" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px;">
     <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Surgeries</h3>
     <p style="font-size: 14px; color: #555;">Safe and trusted surgery centers</p>
@@ -2890,54 +2896,28 @@
 
 <!-- Our Services -->
 <div style="margin: 0 auto; width: 100%; background-color: #f0f0f0;">
-
   <div style="text-align: center; padding: 40px 15px; box-sizing: border-box;">
     <h2 style="color: #000; font-size: 24px; font-weight: bold; margin-bottom: 20px;">Our Services</h2>
 
     <!-- Service Category Buttons -->
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 25px;">
-      <button style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Laboratory Services</button>
-      <button style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Radiology Services</button>
-      <button style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Advanced Radiology</button>
+    <div id="service-buttons" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 25px;">
+      <button class="category-btn" data-category="lab" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Laboratory Services</button>
+      <button class="category-btn" data-category="radiology" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Radiology Services</button>
+      <button class="category-btn" data-category="advanced" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Advanced Radiology</button>
     </div>
 
-    <!-- Scrollable Cards -->
-    <div class="services-cards-container" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 15px; padding: 10px; box-sizing: border-box; scroll-behavior: smooth;">
-      
-      <!-- Card Template -->
-      <div style="flex: 0 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; padding: 20px; width: 250px; text-align: left;">
-        <h3 style="color: #3E2E92; font-size: 18px; font-weight: bold;">CLINICAL PATHOLOGY</h3>
-        <p style="font-size: 14px; color: #333;">Clinical Pathology is a highly specialized branch in health care. Its realm is vast and variegated. Also...</p>
-        <button style="margin-top: 10px; padding: 8px 15px; border: 2px solid #0097A7; background: white; color: #0097A7; border-radius: 20px; cursor: pointer; font-size: 14px;">Know more ></button>
-      </div>
-
-      <div style="flex: 0 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; padding: 20px; width: 250px; text-align: left;">
-        <h3 style="color: #3E2E92; font-size: 18px; font-weight: bold;">MICROBIOLOGY</h3>
-        <p style="font-size: 14px; color: #333;">In the unseen landscape teeming beneath the microscope tip and beyond the naked eye lies the...</p>
-        <button style="margin-top: 10px; padding: 8px 15px; border: 2px solid #0097A7; background: white; color: #0097A7; border-radius: 20px; cursor: pointer; font-size: 14px;">Know more ></button>
-      </div>
-
-      <div style="flex: 0 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; padding: 20px; width: 250px; text-align: left;">
-        <h3 style="color: #3E2E92; font-size: 18px; font-weight: bold;">HAEMATOLOGY</h3>
-        <p style="font-size: 14px; color: #333;">The domain of Hematology is a pivotal field in medical science dedicated to the comprehensive...</p>
-        <button style="margin-top: 10px; padding: 8px 15px; border: 2px solid #0097A7; background: white; color: #0097A7; border-radius: 20px; cursor: pointer; font-size: 14px;">Know more ></button>
-      </div>
-
-      <div style="flex: 0 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; padding: 20px; width: 250px; text-align: left;">
-        <h3 style="color: #3E2E92; font-size: 18px; font-weight: bold;">SEROLOGY</h3>
-        <p style="font-size: 14px; color: #333;">Serology, a cornerstone of diagnostic medicine, meticulously examines antibodies in bodily fluids...</p>
-        <button style="margin-top: 10px; padding: 8px 15px; border: 2px solid #0097A7; background: white; color: #0097A7; border-radius: 20px; cursor: pointer; font-size: 14px;">Know more ></button>
-      </div>
-
+    <!-- Scrollable Cards Container -->
+    <div id="cards-container" class="services-cards-container" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 15px; padding: 10px; box-sizing: border-box; scroll-behavior: smooth;">
+      <!-- Cards will be injected by JavaScript -->
     </div>
 
     <!-- View More -->
     <div style="margin: 0 auto; text-align: center; margin-top: 20px; padding-right: 10px; background-color: #fff; border-radius: 10px; border: 1px solid rgb(230, 230, 230); width: 150px;">
-        <a href="diagnostic-services.html" style="text-decoration: none; color: #0097A7; font-weight: bold; font-size: 16px;">VIEW MORE >></a>
+      <a href="diagnostic-services.html" style="text-decoration: none; color: #0097A7; font-weight: bold; font-size: 16px;">VIEW MORE >></a>
     </div>
-
   </div>
 </div>
+
 <!-- Responsive CSS -->
 <style>
   @media (max-width: 768px) {
@@ -2957,6 +2937,58 @@
     }
   }
 </style>
+
+<!-- Service Cards JS -->
+<script>
+  const cardsData = {
+    lab: [
+      { title: "CLINICAL PATHOLOGY", desc: "A specialized medical branch focused on the detailed analysis of bodily fluids and tissues to diagnose, monitor, and guide treatment of various health conditions.", link: "diagnostic-services.html" },
+      { title: "MICROBIOLOGY", desc: "A focused study of microscopic organisms, including bacteria, viruses, and fungi, and their critical role in diagnosing and managing infectious diseases.", link: "diagnostic-services.html" },
+      { title: "HAEMATOLOGY", desc: "A comprehensive study of blood, its components, and related disorders to support accurate diagnosis and effective treatment strategies.", link: "diagnostic-services.html" },
+      { title: "SEROLOGY", desc: "A diagnostic field focused on detecting antibodies in blood and other body fluids to identify infections, immune responses, and autoimmune conditions.", link: "diagnostic-services.html" },
+    ],
+    radiology: [
+      { title: "X-RAY", desc: "Essential imaging techniques used to visualize bones, lungs, and other structures, aiding in accurate diagnosis of fractures, infections, and chronic conditions.", link: "diagnostic-services.html" },
+      { title: "ULTRASOUND", desc: "A non-invasive imaging method using sound waves to visualize internal organs, assess blood flow, and detect abnormalities in real time.", link: "diagnostic-services.html" },
+      { title: "MAMMOGRAPHY", desc: "A specialized imaging technique designed for early detection and screening of breast cancer, enabling timely diagnosis and intervention.", link: "diagnostic-services.html" },
+      { title: "BONE DENSITY", desc: "A diagnostic procedure used to evaluate bone density and strength, helping to detect osteoporosis and assess fracture risk in patients.", link: "diagnostic-services.html" },
+    ],
+    advanced: [
+      { title: "MRI", desc: "An advanced imaging technique that uses powerful magnetic fields and radio waves to produce high-resolution images of internal organs, tissues, and structures.", link: "diagnostic-services.html" },
+      { title: "CT SCAN", desc: "A cutting-edge diagnostic method that creates detailed 3D images of internal organs, enabling precise visualization for accurate assessment and treatment planning.", link: "diagnostic-services.html" },
+      { title: "PET SCAN", desc: "An advanced imaging technique that highlights metabolic and functional activity within the body to accurately detect and monitor cancerous growths.", link: "diagnostic-services.html" },
+      { title: "ANGIOGRAPHY", desc: "A specialized imaging technique used to visualize blood vessels with high precision, helping detect blockages, aneurysms, and vascular abnormalities.", link: "diagnostic-services.html" },
+    ],
+  };
+
+  const container = document.getElementById("cards-container");
+
+  function renderCards(category) {
+    container.innerHTML = "";
+    cardsData[category].forEach(card => {
+      const cardHTML = `
+        <div style="flex: 0 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; padding: 20px; width: 250px; text-align: left;">
+          <h3 style="color: #3E2E92; font-size: 18px; font-weight: bold;">${card.title}</h3>
+          <p style="font-size: 14px; color: #333;">${card.desc}</p>
+          <button onclick="location.href='${card.link}'" style="margin-top: 10px; padding: 8px 15px; border: 2px solid #0097A7; background: white; color: #0097A7; border-radius: 20px; cursor: pointer; font-size: 14px;">Know more ></button>
+        </div>
+      `;
+      container.insertAdjacentHTML("beforeend", cardHTML);
+    });
+  }
+
+  // Default: load Laboratory cards
+  renderCards("lab");
+
+  // Event listeners
+  document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const category = btn.getAttribute("data-category");
+      renderCards(category);
+    });
+  });
+</script>
+
 
 
 <!-- highlight section -->

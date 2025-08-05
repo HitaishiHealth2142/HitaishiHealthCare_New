@@ -20,11 +20,11 @@
     <form id="loginForm">
       <div class="mb-3">
         <label>Email</label>
-        <input type="email" id="loginEmail" class="form-control" required>
+        <input type="email" name="email" id="loginEmail" class="form-control" required>
       </div>
       <div class="mb-3">
         <label>Password</label>
-        <input type="password" id="loginPassword" class="form-control" required>
+        <input type="password" name="password" id="loginPassword" class="form-control" required>
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
@@ -72,7 +72,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const email = loginEmail.value;
   const password = loginPassword.value;
 
-  const res = await fetch(`${API_BASE}/diagnostics/login`, {
+  const res = await fetch('https://hitaishihealthcare.com/api/diagnostics/login', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
@@ -80,15 +80,15 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
   const data = await res.json();
   if (data.success) {
-    alert("Login Successful!");
-    localStorage.setItem("diagnosticEmail", email);
-    localStorage.setItem("diagnosticPassword", password);
-
-    window.location.href = "diagnosticProfile.html"; // redirect to dashboard
-  } else {
-    alert(data.error || "Login failed");
-  }
-});
+  alert("Login Successful!");
+  localStorage.setItem("diagnosticEmail", email);
+  localStorage.setItem("diagnosticPassword", password);
+  localStorage.setItem("diagnosticId", data.user.id);
+  window.location.href = "diagnosticProfile.html";
+  }else {
+      alert(data.error || "Login failed");
+    }
+  });
 
 // ✅ Forgot Password Workflow
 let userEmail = "";

@@ -3,148 +3,460 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagnostic Profile</title>
+  <title>Diagnostic Center Profile | Hitaishi Healthcare</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    button { margin-top: 20px; padding: 10px 20px; }
-    input, textarea { width: 95%; padding: 6px; }
+    body { background-color: #f8f9fa; }
+    .profile-container { max-width: 900px; margin: 30px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+    .profile-header { border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 30px; }
+    .form-label { font-weight: 500; }
+    .form-control, .form-select { margin-bottom: 15px; }
+    .services-tag { display: inline-block; background: #e9ecef; padding: 3px 8px; margin: 2px; border-radius: 3px; }
+    .btn-edit { width: 120px; }
+    .btn-save { width: 120px; display: none; }
+    .btn-logout { position: absolute; top: 20px; right: 20px; }
+    .section-title { margin-top: 25px; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #eee; color: #0d6efd; }
   </style>
 </head>
 <body>
-  <h2>Diagnostic Center Profile</h2>
-  <div id="profileContainer">
+  <div class="container profile-container">
+    <button class="btn btn-outline-danger btn-logout" id="logoutBtn">Logout</button>
+    
+    <div class="profile-header text-center">
+      <h2>Diagnostic Center Profile</h2>
+      <p class="text-muted" id="centerId"></p>
+    </div>
+    
+    <div id="messageAlert" class="alert" style="display: none;"></div>
+    
     <form id="profileForm">
-      <table id="profileTable"></table>
-      <button type="button" id="editBtn">Edit</button>
-      <button type="submit" id="updateBtn" style="display:none;">Update</button>
+      <!-- Basic Information Section -->
+      <h5 class="section-title">Basic Information</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Center Name</label>
+          <input type="text" class="form-control" name="center_name" id="centerName" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Owner Name</label>
+          <input type="text" class="form-control" name="owner_name" id="ownerName" readonly>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Center Type</label>
+          <input type="text" class="form-control" name="center_type" id="centerType" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" id="email" readonly>
+        </div>
+      </div>
+      
+      <!-- Contact Information Section -->
+      <h5 class="section-title">Contact Information</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Phone</label>
+          <input type="text" class="form-control" name="phone" id="phone" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Alternate Phone</label>
+          <input type="text" class="form-control" name="alt_phone" id="altPhone" readonly>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">WhatsApp Number</label>
+          <input type="text" class="form-control" name="whatsapp" id="whatsapp" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Home Sample Collection</label>
+          <select class="form-select" name="home_sample" id="homeSample" disabled>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Address Information Section -->
+      <h5 class="section-title">Address Information</h5>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="form-label">Address</label>
+          <textarea class="form-control" name="address" id="address" rows="2" readonly></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" name="city" id="city" readonly>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">State</label>
+          <input type="text" class="form-control" name="state" id="state" readonly>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Pincode</label>
+          <input type="text" class="form-control" name="pincode" id="pincode" readonly>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="form-label">Map URL</label>
+          <input type="text" class="form-control" name="map_url" id="mapUrl" readonly>
+        </div>
+      </div>
+      
+      <!-- Operational Information Section -->
+      <h5 class="section-title">Operational Information</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Opening Time</label>
+          <input type="time" class="form-control" name="fromTime" id="fromTime" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Closing Time</label>
+          <input type="time" class="form-control" name="toTime" id="toTime" readonly>
+        </div>
+      </div>
+      
+      <!-- Services Section -->
+      <h5 class="section-title">Services Offered</h5>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="servicesDisplay"></div>
+          <textarea class="form-control" name="services" id="servicesInput" rows="3" style="display: none;" placeholder="Enter services separated by commas"></textarea>
+          <small class="text-muted" id="servicesHelp" style="display: none;">Separate services with commas</small>
+        </div>
+      </div>
+      
+      <!-- Registration Information Section -->
+      <h5 class="section-title">Registration Information</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Registration Number</label>
+          <input type="text" class="form-control" name="registration_number" id="registrationNumber" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">GST Number</label>
+          <input type="text" class="form-control" name="gst_number" id="gstNumber" readonly>
+        </div>
+      </div>
+      
+      <!-- Bank Information Section -->
+      <h5 class="section-title">Bank Information</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Account Holder Name</label>
+          <input type="text" class="form-control" name="account_holder_name" id="accountHolderName" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Bank Name</label>
+          <input type="text" class="form-control" name="bank_name" id="bankName" readonly>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Account Number</label>
+          <input type="text" class="form-control" name="account_number" id="accountNumber" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">IFSC Code</label>
+          <input type="text" class="form-control" name="ifsc_code" id="ifscCode" readonly>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">UPI ID</label>
+          <input type="text" class="form-control" name="upi_id" id="upiId" readonly>
+        </div>
+      </div>
+      
+      <div class="text-center mt-4">
+        <button type="button" class="btn btn-primary btn-edit" id="editBtn">Edit Profile</button>
+        <button type="submit" class="btn btn-success btn-save" id="saveBtn">Save Changes</button>
+      </div>
     </form>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const API_BASE = "https://hitaishihealthcare.com/api";
-    let userData = {};
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const profileTable = document.getElementById("profileTable");
-      const profileForm = document.getElementById("profileForm");
-      const editBtn = document.getElementById("editBtn");
-      const updateBtn = document.getElementById("updateBtn");
-
-      const email = localStorage.getItem("diagnosticEmail");
-      const password = localStorage.getItem("diagnosticPassword");
-
-      if (!email || !password) {
-        document.getElementById("profileContainer").innerHTML = "<p>Please login first.</p>";
+    let originalData = {};
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const userId = localStorage.getItem('diagnosticId');
+      const email = localStorage.getItem('diagnosticEmail');
+      const password = localStorage.getItem('diagnosticPassword');
+      
+      if (!userId || !email || !password) {
+        window.location.href = 'diagnosticLogin.html';
         return;
       }
-
-      fetch(`${API_BASE}/diagnostics/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.user) {
-          userData = data.user;
-          renderProfile(userData);
-        } else {
-          profileTable.innerHTML = `<tr><td colspan='2'>${data.error || "Unable to load profile."}</td></tr>`;
-        }
-      });
-
-      function renderProfile(data, editable = false) {
-        const operational = JSON.parse(data.operational_hours || '{}');
-        const services = JSON.parse(data.services || '[]');
-        profileTable.innerHTML = '';
-
-        const fields = {
-          center_id: "Center ID",
-          center_name: "Center Name",
-          owner_name: "Owner Name",
-          center_type: "Center Type",
-          email: "Email",
-          phone: "Phone",
-          alt_phone: "Alternate Phone",
-          whatsapp: "WhatsApp",
-          address: "Address",
-          city: "City",
-          state: "State",
-          pincode: "Pincode",
-          map_url: "Map URL",
-          registration_number: "Registration Number",
-          gst_number: "GST Number",
-          home_sample: "Home Sample",
-          operational_from: "Operational From",
-          operational_to: "Operational To",
-          services: "Services",
-          bank_name: "Bank Name",
-          account_holder_name: "Account Holder",
-          account_number: "Account Number",
-          ifsc_code: "IFSC Code",
-          upi_id: "UPI ID"
-        };
-
-        for (let key in fields) {
-          let value = "";
-          if (key === 'operational_from') value = operational.from || '';
-          else if (key === 'operational_to') value = operational.to || '';
-          else if (key === 'services') value = services.join(', ');
-          else value = data[key] || '';
-
-          profileTable.innerHTML += `
-            <tr>
-              <th>${fields[key]}</th>
-              <td>
-                ${editable ? `<input type="text" name="${key}" value="${value}">` : value}
-              </td>
-            </tr>
-          `;
-        }
-      }
-
-      editBtn.addEventListener('click', () => {
-        renderProfile(userData, true);
-        editBtn.style.display = 'none';
-        updateBtn.style.display = 'inline-block';
-      });
-
-      profileForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(profileForm);
-        const updatedData = Object.fromEntries(formData.entries());
-
-        // Update operational_hours and services format to match DB
-        const payload = {
-          ...userData,
-          ...updatedData,
-          operational_hours: JSON.stringify({ from: updatedData.operational_from, to: updatedData.operational_to }),
-          services: JSON.stringify(updatedData.services.split(',').map(s => s.trim()))
-        };
-
-        delete payload.operational_from;
-        delete payload.operational_to;
-
-        fetch(`${API_BASE}/diagnostics/update`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            alert("Profile updated successfully.");
-            userData = payload;
-            renderProfile(userData);
-            editBtn.style.display = 'inline-block';
-            updateBtn.style.display = 'none';
-          } else {
-            alert("Update failed: " + result.error);
-          }
-        });
-      });
+      
+      fetchUserProfile(userId);
+      
+      // Edit button click handler
+      document.getElementById('editBtn').addEventListener('click', enableEditing);
+      
+      // Form submit handler
+      document.getElementById('profileForm').addEventListener('submit', saveProfile);
+      
+      // Logout button click handler
+      document.getElementById('logoutBtn').addEventListener('click', logout);
     });
+    
+    function fetchUserProfile(userId) {
+      // FIXED: Use backticks for template literal
+      fetch(`${API_BASE}/diagnostics/${userId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success && data.user) {
+            originalData = data.user;
+            populateProfileForm(data.user);
+          } else {
+            showMessage('Failed to load profile data', 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showMessage('Error loading profile: ' + error.message, 'danger');
+        });
+    }
+    
+    function populateProfileForm(userData) {
+      // Basic Information
+      document.getElementById('centerId').textContent = `Center ID: ${userData.center_id || 'N/A'}`;
+      document.getElementById('centerName').value = userData.center_name || '';
+      document.getElementById('ownerName').value = userData.owner_name || '';
+      document.getElementById('centerType').value = userData.center_type || '';
+      document.getElementById('email').value = userData.email || '';
+      
+      // Contact Information
+      document.getElementById('phone').value = userData.phone || '';
+      document.getElementById('altPhone').value = userData.alt_phone || '';
+      document.getElementById('whatsapp').value = userData.whatsapp || '';
+      document.getElementById('homeSample').value = userData.home_sample || 'No';
+      
+      // Address Information
+      document.getElementById('address').value = userData.address || '';
+      document.getElementById('city').value = userData.city || '';
+      document.getElementById('state').value = userData.state || '';
+      document.getElementById('pincode').value = userData.pincode || '';
+      document.getElementById('mapUrl').value = userData.map_url || '';
+      
+      // Operational Hours
+      let operationalHours = { from: '09:00', to: '18:00' };
+      try {
+        if (userData.operational_hours) {
+          if (typeof userData.operational_hours === 'string') {
+            // Handle string format like "09:00 - 18:00"
+            const parts = userData.operational_hours.split('-').map(part => part.trim());
+            if (parts.length === 2) {
+              operationalHours = { from: parts[0], to: parts[1] };
+            }
+          } else {
+            // Handle JSON format
+            operationalHours = JSON.parse(userData.operational_hours);
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing operational hours:', e);
+      }
+      document.getElementById('fromTime').value = operationalHours.from || '09:00';
+      document.getElementById('toTime').value = operationalHours.to || '18:00';
+      
+      // Services
+      let services = [];
+      try {
+        if (userData.services) {
+          if (typeof userData.services === 'string') {
+            services = JSON.parse(userData.services);
+          } else {
+            services = userData.services;
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing services:', e);
+        // Fallback to comma-separated string if JSON parsing fails
+        services = userData.services ? userData.services.split(',') : [];
+      }
+      
+      const servicesDisplay = document.getElementById('servicesDisplay');
+      servicesDisplay.innerHTML = '';
+      services.forEach(service => {
+        if (service.trim()) {
+          const tag = document.createElement('span');
+          tag.className = 'services-tag';
+          tag.textContent = service.trim();
+          servicesDisplay.appendChild(tag);
+        }
+      });
+      
+      document.getElementById('servicesInput').value = services.join(', ');
+      
+      // Registration Information
+      document.getElementById('registrationNumber').value = userData.registration_number || '';
+      document.getElementById('gstNumber').value = userData.gst_number || '';
+      
+      // Bank Information
+      document.getElementById('accountHolderName').value = userData.account_holder_name || '';
+      document.getElementById('bankName').value = userData.bank_name || '';
+      document.getElementById('accountNumber').value = userData.account_number || '';
+      document.getElementById('ifscCode').value = userData.ifsc_code || '';
+      document.getElementById('upiId').value = userData.upi_id || '';
+    }
+    
+    function enableEditing() {
+      // Enable all editable fields
+      const editableFields = [
+        'center_name', 'owner_name', 'center_type', 'phone', 'alt_phone', 'whatsapp',
+        'address', 'city', 'state', 'pincode', 'map_url', 'registration_number',
+        'gst_number', 'account_holder_name', 'bank_name', 'account_number',
+        'ifsc_code', 'upi_id', 'fromTime', 'toTime'
+      ];
+      
+      editableFields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) {
+          element.readOnly = false;
+          element.classList.add('bg-light');
+        }
+      });
+      
+      // Enable select dropdown
+      document.getElementById('homeSample').disabled = false;
+      document.getElementById('homeSample').classList.add('bg-light');
+      
+      // Show services textarea and hide display
+      document.getElementById('servicesDisplay').style.display = 'none';
+      document.getElementById('servicesInput').style.display = 'block';
+      document.getElementById('servicesHelp').style.display = 'block';
+      
+      // Toggle buttons
+      document.getElementById('editBtn').style.display = 'none';
+      document.getElementById('saveBtn').style.display = 'inline-block';
+    }
+    
+    function saveProfile(e) {
+      e.preventDefault();
+      
+      const userId = localStorage.getItem('diagnosticId');
+      
+      // Prepare the data to send
+      const updatedData = {
+        center_name: document.getElementById('centerName').value,
+        owner_name: document.getElementById('ownerName').value,
+        center_type: document.getElementById('centerType').value,
+        phone: document.getElementById('phone').value,
+        alt_phone: document.getElementById('altPhone').value,
+        whatsapp: document.getElementById('whatsapp').value,
+        home_sample: document.getElementById('homeSample').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        pincode: document.getElementById('pincode').value,
+        map_url: document.getElementById('mapUrl').value,
+        registration_number: document.getElementById('registrationNumber').value,
+        gst_number: document.getElementById('gstNumber').value,
+        account_holder_name: document.getElementById('accountHolderName').value,
+        bank_name: document.getElementById('bankName').value,
+        account_number: document.getElementById('accountNumber').value,
+        ifsc_code: document.getElementById('ifscCode').value,
+        upi_id: document.getElementById('upiId').value,
+        fromTime: document.getElementById('fromTime').value,
+        toTime: document.getElementById('toTime').value,
+        services: document.getElementById('servicesInput').value
+      };
+      
+      // Format operational hours
+      updatedData.operational_hours = JSON.stringify({
+        from: updatedData.fromTime,
+        to: updatedData.toTime
+      });
+      
+      // Format services as JSON array
+      updatedData.services = JSON.stringify(
+        updatedData.services.split(',').map(s => s.trim()).filter(s => s)
+      );
+      
+      // Remove temporary fields
+      delete updatedData.fromTime;
+      delete updatedData.toTime;
+      
+      // Send the update request
+      fetch(`${API_BASE}/diagnostics/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          showMessage('Profile updated successfully!', 'success');
+          fetchUserProfile(userId); // Refresh the data
+          disableEditing(); // Return to view mode
+        } else {
+          showMessage('Failed to update profile: ' + (data.error || 'Unknown error'), 'danger');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showMessage('Error updating profile: ' + error.message, 'danger');
+      });
+    }
+    
+    function disableEditing() {
+      // Disable all fields
+      const inputs = document.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        if (input.id !== 'servicesInput') {
+          input.readOnly = true;
+          input.disabled = input.id === 'homeSample';
+          input.classList.remove('bg-light');
+        }
+      });
+      
+      // Hide services textarea and show display
+      document.getElementById('servicesDisplay').style.display = 'block';
+      document.getElementById('servicesInput').style.display = 'none';
+      document.getElementById('servicesHelp').style.display = 'none';
+      
+      // Toggle buttons
+      document.getElementById('editBtn').style.display = 'inline-block';
+      document.getElementById('saveBtn').style.display = 'none';
+    }
+    
+    function showMessage(message, type) {
+      const alertDiv = document.getElementById('messageAlert');
+      alertDiv.textContent = message;
+      alertDiv.className = `alert alert-${type}`;
+      alertDiv.style.display = 'block';
+      
+      setTimeout(() => {
+        alertDiv.style.display = 'none';
+      }, 5000);
+    }
+    
+    function logout() {
+      localStorage.removeItem('diagnosticId');
+      localStorage.removeItem('diagnosticEmail');
+      localStorage.removeItem('diagnosticPassword');
+      window.location.href = 'diagnosticLogin.html';
+    }
   </script>
 </body>
 </html>

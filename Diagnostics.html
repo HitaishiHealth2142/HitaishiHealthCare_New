@@ -30,14 +30,22 @@
 <section style="position: relative; height: 80vh; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; text-align: center; font-family: 'Segoe UI', Arial, sans-serif; padding-bottom: 30px;">
   <video autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;"><source src="images/ds_herosection-video.mp4" type="video/mp4">Your browser does not support the video tag.</video>
 
-  <div style="animation: fadeInUp 1.2s ease-out;">
-    <p style="font-size: 34px; color: #facc15; background: transparent; padding: 8px 20px; border-radius: 8px; font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); margin-bottom: 6px;">
-      Trusted diagnostics. Fast results. Book your test now with Hitaishi HealthCare.
-    </p>
-    <p style="font-size: 20px; color: #fef9c3; background: transparent; padding: 5px 15px; border-radius: 6px; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
-      Get accurate reports, expert consultations, and home sample collection all in one place.
-    </p>
-  </div>
+<div style="animation: fadeInUp 1.2s ease-out; text-align: center;">
+  <a href="diagnosticRegistration.html" style="display: inline-block; background: linear-gradient(90deg, #facc15, #fbbf24); color: #1f2937; font-size: 18px; font-weight: 600; padding: 12px 30px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s ease;" 
+  onmouseover="this.style.background='linear-gradient(90deg,#fbbf24,#fde047)'; this.style.transform='scale(1.05)';"
+  onmouseout="this.style.background='linear-gradient(90deg,#facc15,#fbbf24)'; this.style.transform='scale(1)';">
+    🚑 Register as Diagnostics
+  </a>
+
+  <p style="font-size: 34px; color: #facc15; background: transparent; padding: 8px 20px; border-radius: 8px; font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); margin-bottom: 6px;">
+    Trusted diagnostics. Fast results. Book your test now with Hitaishi HealthCare.
+  </p>
+
+  <p style="font-size: 20px; color: #fef9c3; background: transparent; padding: 5px 15px; border-radius: 6px; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+    Get accurate reports, expert consultations, and home sample collection all in one place.
+  </p>
+</div>
+
 
   <style>
     @keyframes fadeInUp {
