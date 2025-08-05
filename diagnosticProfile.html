@@ -3,181 +3,715 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagnostic Center Profile | Hitaishi Healthcare</title>
+  <title>Diagnostic Center Dashboard | Hitaishi Healthcare</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background-color: #f8f9fa; }
-    .profile-container { max-width: 900px; margin: 30px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-    .profile-header { border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 30px; }
+    .dashboard-container { 
+      display: flex; 
+      max-width: 90%; 
+      margin: 20px auto; 
+      background: white; 
+      border-radius: 10px; 
+      box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+      min-height: 80vh;
+    }
+    .sidebar { 
+      width: 250px; 
+      padding: 20px; 
+      border-right: 1px solid #eee; 
+      background: #f8f9fa;
+    }
+    .main-content { 
+      flex: 1; 
+      padding: 30px; 
+    }
+    .nav-btn { 
+      width: 100%; 
+      text-align: left; 
+      margin-bottom: 10px; 
+      padding: 10px 15px;
+    }
+    .nav-btn.active { 
+      background-color: #0d6efd; 
+      color: white;
+    }
+    .profile-container { 
+      max-width: 900px; 
+      margin: 0 auto;
+    }
     .form-label { font-weight: 500; }
     .form-control, .form-select { margin-bottom: 15px; }
     .services-tag { display: inline-block; background: #e9ecef; padding: 3px 8px; margin: 2px; border-radius: 3px; }
-    .btn-edit { width: 120px; }
-    .btn-save { width: 120px; display: none; }
-    .btn-logout { position: absolute; top: 20px; right: 20px; }
     .section-title { margin-top: 25px; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #eee; color: #0d6efd; }
+    .appointments-table { width: 100%; overflow-x: auto; }
+    .test-image-preview { max-width: 100px; max-height: 100px; margin-top: 10px; display: none; }
   </style>
 </head>
 <body>
-  <div class="container profile-container">
-    <button class="btn btn-outline-danger btn-logout" id="logoutBtn">Logout</button>
-    
-    <div class="profile-header text-center">
-      <h2>Diagnostic Center Profile</h2>
-      <p class="text-muted" id="centerId"></p>
+<nav class="main-nav">
+  <!-- Logo and Brand Name -->
+  <div class="nav-brand">
+    <img src="images/Hitaishi HealthCare (1).png" alt="Hitaishi Healthcare Logo" class="nav-logo">
+    <span class="brand-name">Hitaishi Healthcare</span>
+  </div>
+
+  <!-- Marquee Announcement -->
+  <div class="announcement-bar">
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <span class="announcement-icon">📢</span>
+        <span class="announcement-text">Welcome to Hitaishi Healthcare – Your trusted partner for diagnostic services, medical checkups, and more! Book your appointment today at +91-99087 93602</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="nav-controls">
+    <!-- Date and Time -->
+    <div class="datetime-container">
+      <span class="date" id="current-date"></span>
+      <span class="time" id="current-time"></span>
     </div>
     
-    <div id="messageAlert" class="alert" style="display: none;"></div>
+    <!-- Notification and Messages -->
+    <div class="nav-icons">
+      <button class="icon-btn notification-btn" aria-label="Notifications">
+        <span class="icon">🔔</span>
+        <span class="badge">3</span>
+      </button>
+      <button class="icon-btn message-btn" aria-label="Messages">
+        <span class="icon">✉️</span>
+        <span class="badge">1</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Base Styles */
+  .main-nav {
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(135deg, #007bff 0%, #0062cc 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  /* Brand Section */
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 220px;
+  }
+
+  .nav-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* Announcement Marquee */
+  .announcement-bar {
+    flex: 1;
+    margin: 0 30px;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .marquee-container {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .marquee-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 20s linear infinite;
+  }
+
+  .announcement-icon {
+    margin-right: 10px;
+    font-size: 1.1rem;
+  }
+
+  .announcement-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Navigation Controls */
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 300px;
+    justify-content: flex-end;
+  }
+
+  .datetime-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8rem;
+  }
+
+  .date {
+    opacity: 0.8;
+  }
+
+  .time {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* Icons */
+  .nav-icons {
+    display: flex;
+    gap: 15px;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+
+  .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  /* User Profile */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+  }
+
+  .user-profile:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .username {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* Dropdown Menu */
+  .dropdown-menu {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    overflow: hidden;
+    display: none;
+    z-index: 1001;
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .dropdown-menu a:hover {
+    background: #f8f9fa;
+    color: #007bff;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .announcement-bar {
+      display: none;
+    }
     
-    <form id="profileForm">
-      <!-- Basic Information Section -->
-      <h5 class="section-title">Basic Information</h5>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Center Name</label>
-          <input type="text" class="form-control" name="center_name" id="centerName" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Owner Name</label>
-          <input type="text" class="form-control" name="owner_name" id="ownerName" readonly>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Center Type</label>
-          <input type="text" class="form-control" name="center_type" id="centerType" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" name="email" id="email" readonly>
-        </div>
-      </div>
-      
-      <!-- Contact Information Section -->
-      <h5 class="section-title">Contact Information</h5>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Phone</label>
-          <input type="text" class="form-control" name="phone" id="phone" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Alternate Phone</label>
-          <input type="text" class="form-control" name="alt_phone" id="altPhone" readonly>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">WhatsApp Number</label>
-          <input type="text" class="form-control" name="whatsapp" id="whatsapp" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Home Sample Collection</label>
-          <select class="form-select" name="home_sample" id="homeSample" disabled>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-      
-      <!-- Address Information Section -->
-      <h5 class="section-title">Address Information</h5>
-      <div class="row">
-        <div class="col-md-12">
-          <label class="form-label">Address</label>
-          <textarea class="form-control" name="address" id="address" rows="2" readonly></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <label class="form-label">City</label>
-          <input type="text" class="form-control" name="city" id="city" readonly>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">State</label>
-          <input type="text" class="form-control" name="state" id="state" readonly>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Pincode</label>
-          <input type="text" class="form-control" name="pincode" id="pincode" readonly>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <label class="form-label">Map URL</label>
-          <input type="text" class="form-control" name="map_url" id="mapUrl" readonly>
-        </div>
-      </div>
-      
-      <!-- Operational Information Section -->
-      <h5 class="section-title">Operational Information</h5>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Opening Time</label>
-          <input type="time" class="form-control" name="fromTime" id="fromTime" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Closing Time</label>
-          <input type="time" class="form-control" name="toTime" id="toTime" readonly>
-        </div>
-      </div>
-      
-      <!-- Services Section -->
-      <h5 class="section-title">Services Offered</h5>
-      <div class="row">
-        <div class="col-md-12">
-          <div id="servicesDisplay"></div>
-          <textarea class="form-control" name="services" id="servicesInput" rows="3" style="display: none;" placeholder="Enter services separated by commas"></textarea>
-          <small class="text-muted" id="servicesHelp" style="display: none;">Separate services with commas</small>
-        </div>
-      </div>
-      
-      <!-- Registration Information Section -->
-      <h5 class="section-title">Registration Information</h5>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Registration Number</label>
-          <input type="text" class="form-control" name="registration_number" id="registrationNumber" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">GST Number</label>
-          <input type="text" class="form-control" name="gst_number" id="gstNumber" readonly>
-        </div>
-      </div>
-      
-      <!-- Bank Information Section -->
-      <h5 class="section-title">Bank Information</h5>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Account Holder Name</label>
-          <input type="text" class="form-control" name="account_holder_name" id="accountHolderName" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Bank Name</label>
-          <input type="text" class="form-control" name="bank_name" id="bankName" readonly>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">Account Number</label>
-          <input type="text" class="form-control" name="account_number" id="accountNumber" readonly>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">IFSC Code</label>
-          <input type="text" class="form-control" name="ifsc_code" id="ifscCode" readonly>
+    .nav-controls {
+      min-width: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-nav {
+      padding: 0 15px;
+    }
+    
+    .brand-name {
+      display: none;
+    }
+    
+    .username {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Enhanced Time and Date Display
+  function updateDateTime() {
+    const now = new Date();
+    
+    // Format date
+    const options = { weekday: 'short', month: 'short', day: 'numeric' };
+    document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, options);
+    
+    // Format time
+    document.getElementById('current-time').textContent = now.toLocaleTimeString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+  
+  // Update immediately and then every second
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  
+  // Dropdown functionality
+  const userProfile = document.querySelector('.user-profile');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  
+  userProfile.addEventListener('click', () => {
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      dropdownMenu.style.display = 'none';
+    }
+  });
+  
+  // Notification and message buttons could have click handlers here
+  document.querySelector('.notification-btn').addEventListener('click', () => {
+    alert('You have 3 new notifications');
+  });
+  
+  document.querySelector('.message-btn').addEventListener('click', () => {
+    alert('You have 1 new message');
+  });
+</script>
+
+  <div class="dashboard-container">
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+      <h4 class="text-center mb-4">DashBoard</h4>
+      <button class="btn btn-outline-primary nav-btn active" id="homeBtn">
+        <i class="bi bi-house"></i> Home
+      </button>
+      <button class="btn btn-outline-primary nav-btn" id="appointmentsBtn">
+        <i class="bi bi-calendar-check"></i> Appointments
+      </button>
+      <button class="btn btn-outline-primary nav-btn" id="addTestsBtn">
+        <i class="bi bi-plus-circle"></i> Add Tests
+      </button>
+      <button class="btn btn-outline-primary nav-btn" id="profileBtn">
+        <i class="bi bi-person"></i> Profile
+      </button>
+      <button class="btn btn-outline-danger nav-btn" id="logoutBtn">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Home Content (Default) -->
+      <div id="homeContent">
+        <h2>Welcome to Hitaishi HealthCare Diagnostic Services</h2>
+        <p class="text-muted">Select an option from the sidebar to manage your center.</p>
+        <div class="mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Quick Stats</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                      <h6 class="card-title">Today's Appointments</h6>
+                      <h2 class="card-text" id="todayAppointments">0</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                      <h6 class="card-title">Completed Tests</h6>
+                      <h2 class="card-text" id="completedTests">0</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="card text-white bg-warning mb-3">
+                    <div class="card-body">
+                      <h6 class="card-title">Pending Payments</h6>
+                      <h2 class="card-text" id="pendingPayments">0</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label">UPI ID</label>
-          <input type="text" class="form-control" name="upi_id" id="upiId" readonly>
+
+      <!-- Appointments Content -->
+      <div id="appointmentsContent" style="display: none;">
+        <h2>Appointments</h2>
+        <div class="mb-3">
+          <label for="appointmentDateFilter" class="form-label">Filter by Date:</label>
+          <input type="date" class="form-control" id="appointmentDateFilter" style="width: 200px;">
+        </div>
+        <div class="appointments-table">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Test</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Payment</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentsTableBody">
+              <!-- Appointments will be loaded here -->
+            </tbody>
+          </table>
         </div>
       </div>
-      
-      <div class="text-center mt-4">
-        <button type="button" class="btn btn-primary btn-edit" id="editBtn">Edit Profile</button>
-        <button type="submit" class="btn btn-success btn-save" id="saveBtn">Save Changes</button>
+
+      <!-- Add Tests Content -->
+      <div id="addTestsContent" style="display: none;">
+        <h2 class="mb-4">Add New Diagnostic Test</h2>
+        <form id="addTestForm" enctype="multipart/form-data">
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Test Name</label>
+              <input type="text" class="form-control" name="test_name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Test Code</label>
+              <input type="text" class="form-control" name="test_code">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Category</label>
+              <input type="text" class="form-control" name="category" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Sample Required</label>
+              <input type="text" class="form-control" name="sample_required" required placeholder="e.g., Blood, Urine">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3" required></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Pre-test Instructions</label>
+              <input type="text" class="form-control" name="pre_test_instructions" placeholder="e.g., Fasting for 12 hours">
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">Test Duration</label>
+              <input type="text" class="form-control" name="test_duration" placeholder="e.g., Same day, 24 hrs">
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">Report Time</label>
+              <input type="text" class="form-control" name="report_time" placeholder="e.g., Within 1 day">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label class="form-label">Price (₹)</label>
+              <input type="number" class="form-control" name="price" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">Discount (%)</label>
+              <input type="number" class="form-control" name="discount" value="0">
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">Final Price (₹)</label>
+              <input type="number" class="form-control" name="final_price" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">Available From</label>
+              <input type="date" class="form-control" name="available_from" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Center Name / ID</label>
+              <input type="text" class="form-control" name="center_id" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" name="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Upcoming">Upcoming</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Tags / Keywords</label>
+              <input type="text" class="form-control" name="tags" placeholder="e.g., diabetes, sugar, fasting">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Home Collection Available?</label>
+              <select class="form-select" name="home_collection">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Test Image</label>
+            <input type="file" class="form-control" name="test_image" id="testImage" accept="image/*">
+            <img id="testImagePreview" class="mt-2" style="max-width: 200px; display: none;">
+          </div>
+
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary px-5">Add Test</button>
+          </div>
+        </form>
       </div>
-    </form>
+
+
+      <!-- Profile Content -->
+      <div id="profileContent" style="display: none;">
+        <div class="profile-container">
+          <div id="messageAlert" class="alert" style="display: none;"></div>
+          
+          <form id="profileForm">
+            <!-- Basic Information Section -->
+            <h5 class="section-title">Basic Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Center Name</label>
+                <input type="text" class="form-control" name="center_name" id="centerName" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Owner Name</label>
+                <input type="text" class="form-control" name="owner_name" id="ownerName" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Center Type</label>
+                <input type="text" class="form-control" name="center_type" id="centerType" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" readonly>
+              </div>
+            </div>
+            
+            <!-- Contact Information Section -->
+            <h5 class="section-title">Contact Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" name="phone" id="phone" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Alternate Phone</label>
+                <input type="text" class="form-control" name="alt_phone" id="altPhone" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">WhatsApp Number</label>
+                <input type="text" class="form-control" name="whatsapp" id="whatsapp" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Home Sample Collection</label>
+                <select class="form-select" name="home_sample" id="homeSample" disabled>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Address Information Section -->
+            <h5 class="section-title">Address Information</h5>
+            <div class="row">
+              <div class="col-md-12">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" name="address" id="address" rows="2" readonly></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" name="city" id="city" readonly>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">State</label>
+                <input type="text" class="form-control" name="state" id="state" readonly>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Pincode</label>
+                <input type="text" class="form-control" name="pincode" id="pincode" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label class="form-label">Map URL</label>
+                <input type="text" class="form-control" name="map_url" id="mapUrl" readonly>
+              </div>
+            </div>
+            
+            <!-- Operational Information Section -->
+            <h5 class="section-title">Operational Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Opening Time</label>
+                <input type="time" class="form-control" name="fromTime" id="fromTime" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Closing Time</label>
+                <input type="time" class="form-control" name="toTime" id="toTime" readonly>
+              </div>
+            </div>
+            
+            <!-- Services Section -->
+            <h5 class="section-title">Services Offered</h5>
+            <div class="row">
+              <div class="col-md-12">
+                <div id="servicesDisplay"></div>
+                <textarea class="form-control" name="services" id="servicesInput" rows="3" style="display: none;" placeholder="Enter services separated by commas"></textarea>
+                <small class="text-muted" id="servicesHelp" style="display: none;">Separate services with commas</small>
+              </div>
+            </div>
+            
+            <!-- Registration Information Section -->
+            <h5 class="section-title">Registration Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Registration Number</label>
+                <input type="text" class="form-control" name="registration_number" id="registrationNumber" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">GST Number</label>
+                <input type="text" class="form-control" name="gst_number" id="gstNumber" readonly>
+              </div>
+            </div>
+            
+            <!-- Bank Information Section -->
+            <h5 class="section-title">Bank Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Account Holder Name</label>
+                <input type="text" class="form-control" name="account_holder_name" id="accountHolderName" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Bank Name</label>
+                <input type="text" class="form-control" name="bank_name" id="bankName" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Account Number</label>
+                <input type="text" class="form-control" name="account_number" id="accountNumber" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">IFSC Code</label>
+                <input type="text" class="form-control" name="ifsc_code" id="ifscCode" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">UPI ID</label>
+                <input type="text" class="form-control" name="upi_id" id="upiId" readonly>
+              </div>
+            </div>
+            
+            <div class="text-center mt-4">
+              <button type="button" class="btn btn-primary" id="editBtn">Edit Profile</button>
+              <button type="submit" class="btn btn-success" id="saveBtn" style="display: none;">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -191,24 +725,218 @@
       const password = localStorage.getItem('diagnosticPassword');
       
       if (!userId || !email || !password) {
-        window.location.href = 'diagnosticLogin.html';
+        window.location.href = 'index.html';
         return;
       }
       
-      fetchUserProfile(userId);
+      // Initialize navigation buttons
+      document.getElementById('homeBtn').addEventListener('click', () => showContent('home'));
+      document.getElementById('appointmentsBtn').addEventListener('click', () => {
+        showContent('appointments');
+        loadAppointments();
+      });
+      document.getElementById('addTestsBtn').addEventListener('click', () => showContent('addTests'));
+      document.getElementById('profileBtn').addEventListener('click', () => {
+        showContent('profile');
+        fetchUserProfile(userId);
+      });
+      document.getElementById('logoutBtn').addEventListener('click', logout);
       
-      // Edit button click handler
+      // Initialize profile form handlers
       document.getElementById('editBtn').addEventListener('click', enableEditing);
-      
-      // Form submit handler
       document.getElementById('profileForm').addEventListener('submit', saveProfile);
       
-      // Logout button click handler
-      document.getElementById('logoutBtn').addEventListener('click', logout);
+      // Initialize test image preview
+      document.getElementById('testImage').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const preview = document.getElementById('testImagePreview');
+            preview.src = event.target.result;
+            preview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      // Initialize add test form
+      document.getElementById('addTestForm').addEventListener('submit', addNewTest);
+      
+      // Show home content by default
+      showContent('home');
+      loadDashboardStats();
     });
     
-    function fetchUserProfile(userId) {
+    function showContent(contentName) {
+      // Hide all content sections
+      document.getElementById('homeContent').style.display = 'none';
+      document.getElementById('appointmentsContent').style.display = 'none';
+      document.getElementById('addTestsContent').style.display = 'none';
+      document.getElementById('profileContent').style.display = 'none';
+      
+      // Show selected content
+      document.getElementById(`${contentName}Content`).style.display = 'block';
+      
+      // Update active button
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.getElementById(`${contentName}Btn`).classList.add('active');
+    }
+    
+    function loadDashboardStats() {
+      const userId = localStorage.getItem('diagnosticId');
+      
+      // In a real app, you would fetch these from your API
+      // For demo purposes, we'll use mock data
+      document.getElementById('todayAppointments').textContent = '12';
+      document.getElementById('completedTests').textContent = '8';
+      document.getElementById('pendingPayments').textContent = '4';
+    }
+    
+    function loadAppointments() {
+      const userId = localStorage.getItem('diagnosticId');
+      const dateFilter = document.getElementById('appointmentDateFilter').value;
+      
       // FIXED: Use backticks for template literal
+      let url = `${API_BASE}/diagnostics/${userId}/appointments`;
+      if (dateFilter) {
+        url += `?date=${dateFilter}`;
+      }
+      
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success && data.appointments) {
+            const tableBody = document.getElementById('appointmentsTableBody');
+            tableBody.innerHTML = '';
+            
+            data.appointments.forEach(appointment => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${appointment.id}</td>
+                <td>${appointment.patient_name}</td>
+                <td>${appointment.patient_email || 'N/A'}</td>
+                <td>${appointment.patient_phone}</td>
+                <td>${appointment.test_name}</td>
+                <td>${new Date(appointment.appointment_date).toLocaleDateString()}</td>
+                <td>${appointment.appointment_time}</td>
+                <td>${appointment.payment_status === 'paid' ? 'Paid' : 'Pending'}</td>
+                <td>${appointment.status}</td>
+              `;
+              tableBody.appendChild(row);
+            });
+          } else {
+            showMessage('Failed to load appointments', 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showMessage('Error loading appointments: ' + error.message, 'danger');
+          
+          // For demo purposes, show mock data if API fails
+          const tableBody = document.getElementById('appointmentsTableBody');
+          tableBody.innerHTML = `
+            <tr>
+              <td>1001</td>
+              <td>Rahul Sharma</td>
+              <td>rahul@example.com</td>
+              <td>9876543210</td>
+              <td>Complete Blood Count</td>
+              <td>${new Date().toLocaleDateString()}</td>
+              <td>10:00 AM</td>
+              <td>Paid</td>
+              <td>Scheduled</td>
+            </tr>
+            <tr>
+              <td>1002</td>
+              <td>Priya Patel</td>
+              <td>priya@example.com</td>
+              <td>8765432109</td>
+              <td>Lipid Profile</td>
+              <td>${new Date().toLocaleDateString()}</td>
+              <td>11:30 AM</td>
+              <td>Pending</td>
+              <td>Scheduled</td>
+            </tr>
+          `;
+        });
+    }
+    
+    function addNewTest(e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const diagnosticId = localStorage.getItem('diagnosticId');
+
+        // Append diagnostic center ID from localStorage
+        if (diagnosticId) {
+          formData.append('diagnostic_id', diagnosticId);
+        }
+
+        fetch('https://hitaishihealthcare.com/api/test/register', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            showMessage('✅ Test added successfully!', 'success');
+            form.reset();
+            const preview = document.getElementById('testImagePreview');
+            if (preview) preview.style.display = 'none';
+          } else {
+            showMessage('❌ Failed to add test: ' + (data.error || 'Unknown error'), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showMessage('❌ Error adding test: ' + error.message, 'danger');
+        });
+      }
+
+      // Attach the form submit handler
+      document.addEventListener('DOMContentLoaded', function () {
+        const addTestForm = document.getElementById('addTestForm');
+        if (addTestForm) {
+          addTestForm.addEventListener('submit', addNewTest);
+        }
+
+        // Optional: image preview
+        const testImageInput = document.getElementById('testImage');
+        const preview = document.getElementById('testImagePreview');
+        if (testImageInput && preview) {
+          testImageInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+              preview.src = URL.createObjectURL(file);
+              preview.style.display = 'block';
+            } else {
+              preview.style.display = 'none';
+            }
+          });
+        }
+      });
+
+      // Dummy showMessage function (you should replace this with your own alert/notification system)
+      function showMessage(message, type) {
+        alert(message); // Replace with your preferred UI method
+      }
+
+
+    function fetchUserProfile(userId) {
       fetch(`${API_BASE}/diagnostics/${userId}`)
         .then(response => {
           if (!response.ok) {
@@ -232,7 +960,6 @@
     
     function populateProfileForm(userData) {
       // Basic Information
-      document.getElementById('centerId').textContent = `Center ID: ${userData.center_id || 'N/A'}`;
       document.getElementById('centerName').value = userData.center_name || '';
       document.getElementById('ownerName').value = userData.owner_name || '';
       document.getElementById('centerType').value = userData.center_type || '';
@@ -256,13 +983,11 @@
       try {
         if (userData.operational_hours) {
           if (typeof userData.operational_hours === 'string') {
-            // Handle string format like "09:00 - 18:00"
             const parts = userData.operational_hours.split('-').map(part => part.trim());
             if (parts.length === 2) {
               operationalHours = { from: parts[0], to: parts[1] };
             }
           } else {
-            // Handle JSON format
             operationalHours = JSON.parse(userData.operational_hours);
           }
         }
@@ -284,7 +1009,6 @@
         }
       } catch (e) {
         console.error('Error parsing services:', e);
-        // Fallback to comma-separated string if JSON parsing fails
         services = userData.services ? userData.services.split(',') : [];
       }
       
@@ -455,8 +1179,9 @@
       localStorage.removeItem('diagnosticId');
       localStorage.removeItem('diagnosticEmail');
       localStorage.removeItem('diagnosticPassword');
-      window.location.href = 'diagnosticLogin.html';
+      window.location.href = 'index.html';
     }
+  
   </script>
 </body>
 </html>

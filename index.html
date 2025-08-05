@@ -1627,7 +1627,7 @@
   </a>
   <!-- Card 3 -->
   <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
-    <img src="images/g" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px;">
+    <img src="images/clinic-image.png" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px;">
     <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Find Clinics Near You</h3>
     <p style="font-size: 14px; color: #555;">Top Rated Clinics a click far from You</p>
   </a>
@@ -2388,6 +2388,94 @@
   </div>
 </div>
 
+<!-- Test cards from backend live data -->
+<section style="padding: 20px; background: #f4f4f4;">
+  <h2 style="text-align: center; color:#0A0A57; font-size: 32px; margin-bottom: 30px;">Available Diagnostic Tests</h2>
+  <div id="test-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">Loading tests...</div>
+</section>
+
+<script>
+  fetch("https://hitaishihealthcare.com/api/test/all")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("test-list");
+      container.innerHTML = '';
+
+      if (!data.success || !data.tests.length) {
+        container.innerHTML = '<p>No tests available.</p>';
+        return;
+      }
+
+      data.tests.forEach(test => {
+        const discount = test.discount || 0;
+        const original = test.price;
+        const final = test.final_price;
+        const percentOff = Math.round((original - final) / original * 100);
+
+        const card = document.createElement('div');
+        card.setAttribute('style', `
+          background-image: url('${test.test_image || "https://via.placeholder.com/300x200?text=Test"}');
+          background-size: cover;
+          background-position: center;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(66, 64, 64, 0.2);
+          padding: 20px;
+          width: 300px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          color: #fff;
+          position: relative;
+          overflow: hidden;
+          background-color: #222;
+        `);
+
+        card.innerHTML = `
+          <div style="
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 0;"></div>
+
+          <div style="position: relative; z-index: 1;">
+            <h3 style="margin: 0 0 10px; color: #fff;">${test.test_name}</h3>
+            <p style="margin: 5px 0; font-size: 14px; color: #ddd;"><strong>Center:</strong> ${test.center_name}</p>
+            <p style="margin: 5px 0; font-size: 13px; color: #ffaaaa; text-decoration: line-through;">Original: ₹${original}</p>
+            <p style="margin: 5px 0; font-size: 14px; color: #ddd;">
+              <strong>Now:</strong> ₹${final} 
+              <span style="color: #ffcc00; font-weight: bold;">(${percentOff}% OFF)</span>
+            </p>
+            <p style="margin: 5px 0; font-size: 13px;">
+              <a href="${test.map_url}" target="_blank" style="color: #00ffff; text-decoration: underline;">View Location on Map</a>
+            </p>
+            <a href="newPayment.html?test=${encodeURIComponent(test.test_name)}&price=${final}&id=${test.test_id}&center=${encodeURIComponent(test.center_name)}"
+              style="
+                margin-top: 15px;
+                background-color: #28a745;
+                color: white;
+                text-align: center;
+                padding: 10px;
+                border-radius: 6px;
+                text-decoration: none;
+                transition: background-color 0.3s;
+                display: inline-block;
+              "
+              onmouseover="this.style.backgroundColor='#218838'"
+              onmouseout="this.style.backgroundColor='#28a745'"
+            >Book Now</a>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    })
+    .catch(error => {
+      document.getElementById("test-list").innerHTML = '<p>Failed to load tests. Please try again later.</p>';
+      console.error(error);
+    });
+</script>
+
 
 <!-- Book Lab Tests -->
 <div style="font-family: Arial, sans-serif; text-align: center;border-radius: 10px 10px 0 0 ; border: 1px solid rgb(216, 216, 216);  background-color: #fff; margin: 30px auto 0; padding: 0; width: 80%;">  
@@ -2901,24 +2989,26 @@
 
     <!-- Service Category Buttons -->
     <div id="service-buttons" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 25px;">
-      <button class="category-btn" data-category="lab" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Laboratory Services</button>
-      <button class="category-btn" data-category="radiology" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Radiology Services</button>
-      <button class="category-btn" data-category="advanced" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Advanced Radiology</button>
+      <button class="category-btn" data-category="pathology" style="border: 2px solid #000; background: #f0f0f0; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Pathology Services</button>
+      <button class="category-btn" data-category="imaging" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Basic Imaging</button>
+      <button class="category-btn" data-category="advanced" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Advanced Imaging</button>
+      <button class="category-btn" data-category="genetics" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Genetics</button>
+      <button class="category-btn" data-category="specialized" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Specialized Tests</button>
+      <button class="category-btn" data-category="radiology" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Radiology</button>
+      <button class="category-btn" data-category="cardiac" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Cardiac Tests</button>
+
     </div>
 
-    <!-- Scrollable Cards Container -->
     <div id="cards-container" class="services-cards-container" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 15px; padding: 10px; box-sizing: border-box; scroll-behavior: smooth;">
       <!-- Cards will be injected by JavaScript -->
     </div>
 
-    <!-- View More -->
     <div style="margin: 0 auto; text-align: center; margin-top: 20px; padding-right: 10px; background-color: #fff; border-radius: 10px; border: 1px solid rgb(230, 230, 230); width: 150px;">
       <a href="diagnostic-services.html" style="text-decoration: none; color: #0097A7; font-weight: bold; font-size: 16px;">VIEW MORE >></a>
     </div>
   </div>
 </div>
 
-<!-- Responsive CSS -->
 <style>
   @media (max-width: 768px) {
     .services-cards-container {
@@ -2941,23 +3031,60 @@
 <!-- Service Cards JS -->
 <script>
   const cardsData = {
-    lab: [
-      { title: "CLINICAL PATHOLOGY", desc: "A specialized medical branch focused on the detailed analysis of bodily fluids and tissues to diagnose, monitor, and guide treatment of various health conditions.", link: "diagnostic-services.html" },
-      { title: "MICROBIOLOGY", desc: "A focused study of microscopic organisms, including bacteria, viruses, and fungi, and their critical role in diagnosing and managing infectious diseases.", link: "diagnostic-services.html" },
-      { title: "HAEMATOLOGY", desc: "A comprehensive study of blood, its components, and related disorders to support accurate diagnosis and effective treatment strategies.", link: "diagnostic-services.html" },
-      { title: "SEROLOGY", desc: "A diagnostic field focused on detecting antibodies in blood and other body fluids to identify infections, immune responses, and autoimmune conditions.", link: "diagnostic-services.html" },
+    pathology: [
+      { title: "CLINICAL PATHOLOGY", desc: "Clinical Pathology is a highly specialized branch in health care. Its realm is vast and variegated. Also known as Laboratory medicine, it is vital for diagnosis of a disease by paving the way to right treatment.", link: "diagnostic-services.html" },
+      { title: "MICROBIOLOGY", desc: "In the unseen landscape teeming beneath the microscope tip and beyond the naked eye lies the captivating world of microbiology, the study of microorganisms – the Unseen Warriors of our ecosystem.", link: "diagnostic-services.html" },
+      { title: "HAEMATOLOGY", desc: "The domain of Hematology is a pivotal field in medical science dedicated to the comprehensive study of blood & its diverse spectrum of disorders.", link: "diagnostic-services.html" },
+      { title: "SEROLOGY", desc: "Serology, a cornerstone of diagnostic medicine, meticulously examines antibodies in bodily fluids, playing a vital role in medical investigations.", link: "diagnostic-services.html" },
+      { title: "HISTOPATHOLOGY", desc: "Pathology, the study of disease, encompasses various specialized fields, including histopathology. Breaking down the term, 'Histo' denotes 'tissue,' emphasizing the focus on studying tissues at microscopic level.", link: "diagnostic-services.html" },
+      { title: "BIOCHEMISTRY", desc: "Biochemistry diagnostic testing involves the analysis of blood and other body fluids to assess the function of organs, detect diseases, and monitor treatment effectiveness.", link: "diagnostic-services.html" }
     ],
-    radiology: [
-      { title: "X-RAY", desc: "Essential imaging techniques used to visualize bones, lungs, and other structures, aiding in accurate diagnosis of fractures, infections, and chronic conditions.", link: "diagnostic-services.html" },
-      { title: "ULTRASOUND", desc: "A non-invasive imaging method using sound waves to visualize internal organs, assess blood flow, and detect abnormalities in real time.", link: "diagnostic-services.html" },
-      { title: "MAMMOGRAPHY", desc: "A specialized imaging technique designed for early detection and screening of breast cancer, enabling timely diagnosis and intervention.", link: "diagnostic-services.html" },
-      { title: "BONE DENSITY", desc: "A diagnostic procedure used to evaluate bone density and strength, helping to detect osteoporosis and assess fracture risk in patients.", link: "diagnostic-services.html" },
+    imaging: [
+        { title: "X-RAY", desc: "X-rays also commonly referred to as radiography are a medical imaging technique used to visualise and capture internal body structures on a film. X-rays employ small and safe doses of ionising radiation.", link: "diagnostic-services.html" },
+        { title: "ULTRASOUND", desc: "An Ultrasound scan is a non-invasive imaging technique that employs high frequency sound waves to construct a real-time video or images of the internal organs and soft tissues in your body.", link: "diagnostic-services.html" },
+        { title: "MAMMOGRAPHY", desc: "Mammography is a specialized medical imaging technique that uses low-dose X-rays to examine the human breast for early detection of breast cancer and other abnormalities.", link: "diagnostic-services.html" },
+        { title: "BONE DENSITOMETRY (DEXA)", desc: "A DEXA scan is a special type of X-ray that measures bone mineral density to assess bone health and detect osteoporosis or risk of fractures.", link: "diagnostic-services.html" },
+        { title: "FLUOROSCOPY", desc: "Fluoroscopy is an imaging technique that uses X-rays to obtain real-time moving images of the internal structures of the body, often used during diagnostic and therapeutic procedures.", link: "diagnostic-services.html" }
     ],
     advanced: [
-      { title: "MRI", desc: "An advanced imaging technique that uses powerful magnetic fields and radio waves to produce high-resolution images of internal organs, tissues, and structures.", link: "diagnostic-services.html" },
-      { title: "CT SCAN", desc: "A cutting-edge diagnostic method that creates detailed 3D images of internal organs, enabling precise visualization for accurate assessment and treatment planning.", link: "diagnostic-services.html" },
-      { title: "PET SCAN", desc: "An advanced imaging technique that highlights metabolic and functional activity within the body to accurately detect and monitor cancerous growths.", link: "diagnostic-services.html" },
-      { title: "ANGIOGRAPHY", desc: "A specialized imaging technique used to visualize blood vessels with high precision, helping detect blockages, aneurysms, and vascular abnormalities.", link: "diagnostic-services.html" },
+        { title: "CT SCAN", desc: "A Computed Tomography Scan more commonly known as a CT scan is a medical imaging technique that provides detailed views of the human body's internal structures. A CT Scanner uses X-rays to create cross-sectional images.", link: "diagnostic-services.html" },
+        { title: "MRI", desc: "Magnetic Resonance Imaging, more commonly referred to as MRI, is a powerful non-invasive medical imaging technique & diagnostic tool that relies on strong magnets & radio waves to produce detailed images.", link: "diagnostic-services.html" },
+        { title: "MRI-3T", desc: "3 Tesla MRI, more commonly referred to as the 3T MRI, is an imaging technique used as a crucial tool in medical diagnostics. MRI stands for Magnetic Resonance Imaging and the T stands for Tesla, the unit of magnetic field strength.", link: "diagnostic-services.html" },
+        { title: "PET CT", desc: "Positron Emission Tomography, also commonly referred to as a PET scan, is a nuclear medicine based imaging technique which uses a radioactive tracer to reveal the health, functioning and metabolism of your tissues and organs.", link: "diagnostic-services.html" },
+        { title: "SPECT SCAN", desc: "Single Photon Emission Computed Tomography (SPECT) is an advanced nuclear imaging technique that uses gamma rays to provide 3D images of internal organs and assess blood flow and activity.", link: "diagnostic-services.html" },
+        { title: "DOPPLER ULTRASOUND", desc: "A Doppler Ultrasound is a specialized imaging technique that evaluates blood flow through blood vessels, identifying blockages, clots, or narrowing of arteries.", link: "diagnostic-services.html" }
+        ],
+    genetics: [
+        { title: "CYTOGENETICS", desc: "Cytogenetics is the study of chromosomes, structures found in the cell nuclei. Chromosomes are intricate packages containing DNA and proteins and they hold the key to understanding genetic disorders.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
+        { title: "MOLECULAR DIAGNOSTICS", desc: "Molecular diagnostics refers to a category of diagnostic tests that evaluate an individual's health at the cellular and molecular level, detecting and measuring specific alterations in cells, genetic material (DNA/RNA), and proteins.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
+        { title: "GENETIC COUNSELING", desc: "Genetic counseling involves evaluating family history and genetic information to assess the risk of inherited conditions and support individuals in making informed healthcare decisions.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
+        { title: "CARRIER SCREENING", desc: "Carrier screening is a genetic test used to determine if a person carries a gene for a recessive inherited condition, often performed before or during pregnancy.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
+        { title: "PHARMACOGENOMICS", desc: "Pharmacogenomics studies how genes affect an individual's response to drugs, enabling personalized medicine by tailoring drug therapy based on genetic profiles.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
+        { title: "NEXT-GENERATION SEQUENCING (NGS)", desc: "NGS is a powerful genetic testing method that allows for rapid sequencing of entire genomes or targeted regions, identifying mutations and aiding in precise disease diagnosis.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" }
+        ],
+    specialized: [
+        { title: "CARDIOLOGY", desc: "Cardiology is a branch of internal medicine dedicated to the diagnosis, treatment, and prevention of diseases affecting your heart and blood vessels, collectively referred to as the cardiovascular system.", link: "diagnostic-services.html" },
+        { title: "GASTROENTEROLOGY", desc: "Gastroenterology encompasses the study, diagnosis, and treatment of conditions affecting the gastrointestinal (GI) tract, liver, gallbladder and pancreas.", link: "diagnostic-services.html" },
+        { title: "NEUROLOGY", desc: "Neurology focuses on diagnosing and treating disorders of the nervous system, including the brain, spinal cord, and peripheral nerves.", link: "diagnostic-services.html" },
+        { title: "ENDOCRINOLOGY", desc: "Endocrinology is the medical specialty dealing with hormone-producing glands and the treatment of hormonal imbalances and metabolic disorders.", link: "diagnostic-services.html" },
+        { title: "PULMONOLOGY", desc: "Pulmonology specializes in diseases of the respiratory system, including conditions like asthma, COPD, pneumonia, and other lung-related disorders.", link: "diagnostic-services.html" },
+        { title: "NEPHROLOGY", desc: "Nephrology deals with the diagnosis and treatment of kidney-related diseases and disorders, including hypertension and electrolyte imbalances.", link: "diagnostic-services.html" }
+        ],
+    radiology: [
+        { title: "RADIOLOGY SERVICES", desc: "Comprehensive radiology services providing diagnostic imaging using various modalities to aid in detection and diagnosis of medical conditions.", link: "diagnostic-services.html" },
+        { title: "ADVANCED RADIOLOGY SERVICES", desc: "State-of-the-art radiology services utilizing cutting-edge technology for precise diagnostic imaging and interventional procedures.", link: "diagnostic-services.html" },
+        { title: "NUCLEAR MEDICINE", desc: "Nuclear medicine is a specialized branch of medicine in which radioactive materials known as radioisotopes or radiopharmaceuticals or radioactive tracers are used to diagnose, monitor and treat various diseases.", link: "diagnostic-services.html" },
+        { title: "INTERVENTIONAL RADIOLOGY", desc: "Interventional radiology involves minimally invasive procedures guided by imaging techniques such as X-ray, CT, or ultrasound for diagnosis and treatment.", link: "diagnostic-services.html" },
+        { title: "DIGITAL X-RAY", desc: "Digital X-ray uses advanced sensors instead of traditional photographic film, offering faster results and reduced radiation exposure for imaging bones and internal structures.", link: "diagnostic-services.html" },
+        { title: "BREAST IMAGING (MAMMOGRAPHY)", desc: "Breast imaging, including mammography, is used to screen for and diagnose breast diseases such as cancer, using low-dose X-rays or other imaging methods.", link: "diagnostic-services.html" }
+        ],
+    cardiac: [
+        { title: "ECG", desc: "Electrocardiogram (ECG) is a test that measures the electrical activity of your heart to detect heart problems and monitor heart health.", link: "diagnostic-services.html" },
+        { title: "2D ECHO", desc: "2D Echocardiography uses sound waves to create real-time images of the heart, helping evaluate heart function and detect abnormalities.", link: "diagnostic-services.html" },
+        { title: "TMT", desc: "Treadmill Test (TMT) assesses how the heart responds to stress or exercise, helping diagnose coronary artery disease and other heart conditions.", link: "diagnostic-services.html" },
+        { title: "3D/4D ULTRASOUND", desc: "3D/4D Ultrasound offers advanced imaging for cardiac and fetal assessments, providing dynamic and detailed real-time visuals.", link: "diagnostic-services.html" },
+        { title: "Holter Monitoring", desc: "Holter Monitoring is a continuous 24- to 48-hour ECG recording to detect irregular heart rhythms and assess heart function over time.",link: "diagnostic-services.html"},
+        {title: "Stress Echocardiography", desc: "Stress Echo combines ultrasound imaging with exercise to evaluate how well your heart and blood vessels are working under stress.", link: "diagnostic-services.html"},
     ],
   };
 
@@ -2977,18 +3104,19 @@
     });
   }
 
-  // Default: load Laboratory cards
-  renderCards("lab");
+  // Default: load Pathology cards
+  renderCards("pathology");
 
   // Event listeners
   document.querySelectorAll(".category-btn").forEach(btn => {
     btn.addEventListener("click", () => {
+      document.querySelectorAll(".category-btn").forEach(b => b.style.background = "white");
+      btn.style.background = "#f0f0f0";
       const category = btn.getAttribute("data-category");
       renderCards(category);
     });
   });
 </script>
-
 
 
 <!-- highlight section -->
