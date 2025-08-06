@@ -980,7 +980,7 @@ function showContent(contentName) {
         return;
       }
 
-      fetch(`${API_BASE}/test/center/${centerId}`)
+      fetch('https://hitaishihealthcare.com/api/test/center/${centerId}')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -991,7 +991,7 @@ function showContent(contentName) {
           const tbody = document.getElementById('ourTestsTableBody');
           tbody.innerHTML = '';
 
-          if (data.success && data.tests.length > 0) {
+          if (data.success && data.tests && data.tests.length > 0) {
             data.tests.forEach(test => {
               const row = document.createElement('tr');
               row.innerHTML = `
@@ -1044,7 +1044,7 @@ function showContent(contentName) {
           alert("Error loading test list. Please try again.");
         });
     }
-
+        
     function getStatusBadgeClass(status) {
       switch(status.toLowerCase()) {
         case 'active': return 'bg-success';
