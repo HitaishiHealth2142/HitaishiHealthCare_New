@@ -369,6 +369,12 @@
       <button class="btn btn-outline-primary nav-btn" id="addTestsBtn">
         <i class="bi bi-plus-circle"></i> Add Tests
       </button>
+      <button class="btn btn-outline-primary nav-btn" id="sendReportsBtn">
+        <i class="bi bi-upload"></i> Send Reports
+      </button>
+      <button class="btn btn-outline-primary nav-btn" id="ourTestsBtn">
+        <i class="bi bi-list-check"></i> Our Tests
+      </button>
       <button class="btn btn-outline-primary nav-btn" id="profileBtn">
         <i class="bi bi-person"></i> Profile
       </button>
@@ -554,6 +560,47 @@
         </form>
       </div>
 
+      <!-- Our Tests Content -->
+      <div id="ourTestsContent" style="display: none;">
+        <h2>Our Test List</h2>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Test Name</th>
+                <th>Category</th>
+                <th>Sample Required</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="ourTestsTableBody">
+              <!-- Tests will be populated here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Send Reports Content -->
+      <div id="sendReportsContent" style="display: none;">
+        <h2>Send Report to Patient</h2>
+        <form id="sendReportForm" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="patientEmail" class="form-label">Patient Email</label>
+            <input type="email" class="form-control" id="patientEmail" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="reportMessage" class="form-label">Message</label>
+            <textarea class="form-control" id="reportMessage" name="message" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="reportFile" class="form-label">Select Report File (PDF)</label>
+            <input type="file" class="form-control" id="reportFile" name="file" accept=".pdf" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Report</button>
+        </form>
+      </div>
+
 
       <!-- Profile Content -->
       <div id="profileContent" style="display: none;">
@@ -735,6 +782,18 @@
         showContent('appointments');
         loadAppointments();
       });
+
+      // our tests
+      document.getElementById('ourTestsBtn').addEventListener('click', () => {
+      showContent('ourTests');
+      loadOurTests();
+      });
+
+      // send reports
+      document.getElementById('sendReportsBtn').addEventListener('click', () => {
+        showContent('sendReports');
+      });
+
       document.getElementById('addTestsBtn').addEventListener('click', () => showContent('addTests'));
       document.getElementById('profileBtn').addEventListener('click', () => {
         showContent('profile');
@@ -768,22 +827,18 @@
       loadDashboardStats();
     });
     
-    function showContent(contentName) {
-      // Hide all content sections
-      document.getElementById('homeContent').style.display = 'none';
-      document.getElementById('appointmentsContent').style.display = 'none';
-      document.getElementById('addTestsContent').style.display = 'none';
-      document.getElementById('profileContent').style.display = 'none';
-      
-      // Show selected content
-      document.getElementById(`${contentName}Content`).style.display = 'block';
-      
-      // Update active button
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      document.getElementById(`${contentName}Btn`).classList.add('active');
-    }
+function showContent(contentName) {
+  const sections = ['home', 'appointments', 'addTests', 'profile', 'ourTests', 'sendReports'];
+  sections.forEach(name => {
+    document.getElementById(`${name}Content`).style.display = 'none';
+  });
+
+  document.getElementById(`${contentName}Content`).style.display = 'block';
+
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`${contentName}Btn`).classList.add('active');
+}
+
     
     function loadDashboardStats() {
       const userId = localStorage.getItem('diagnosticId');
