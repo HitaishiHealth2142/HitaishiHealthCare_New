@@ -81,9 +81,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const data = await res.json();
   if (data.success) {
   alert("Login Successful!");
-  localStorage.setItem("diagnosticEmail", email);
-  localStorage.setItem("diagnosticPassword", password);
-  localStorage.setItem("diagnosticId", data.user.id);
+      localStorage.setItem("diagnosticEmail", email);
+      localStorage.setItem("diagnosticPassword", password);
+      localStorage.setItem("diagnosticId", data.user.id);
+      localStorage.setItem("diagnosticCenterId", data.user.center_id);
+
   window.location.href = "diagnosticProfile.html";
   }else {
       alert(data.error || "Login failed");

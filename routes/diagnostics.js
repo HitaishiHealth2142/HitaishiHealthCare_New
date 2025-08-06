@@ -161,7 +161,11 @@ router.post('/diagnostics/login', (req, res) => {
         if (result.length === 0) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-        res.json({ success: true, message: 'Login successful', user: result[0] });
+        res.json({
+          success: true,
+          message: 'Login successful',
+          user: { id: result[0].id, center_id: result[0].center_id, center_name: result[0].center_name }
+        });
     });
 });
 

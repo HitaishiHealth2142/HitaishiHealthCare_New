@@ -795,53 +795,53 @@
       document.getElementById('pendingPayments').textContent = '4';
     }
     
-    function loadAppointments() {
-      const userId = localStorage.getItem('diagnosticId');
-      const dateFilter = document.getElementById('appointmentDateFilter').value;
-      
-      // FIXED: Use backticks for template literal
-      let url = `https://hitaishihealthcare.com/api/diagnostics/${userId}/appointments`;
-      if (dateFilter) {
-        url += `?date=${dateFilter}`;
+function loadAppointments() {
+  const centerId = localStorage.getItem('diagnosticCenterId'); // ✅ FIX: use center_id
+  if (!centerId) {
+    alert("Center ID not found. Please log in again.");
+    window.location.href = "diagnosticLogin.html";
+    return;
+  }
+
+  const dateFilter = document.getElementById('appointmentDateFilter').value;
+  let url = `${API_BASE}/diagnostics/${centerId}/appointments`;
+  if (dateFilter) url += `?date=${dateFilter}`;
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    })
+    .then(data => {
+      const tableBody = document.getElementById('appointmentsTableBody');
+      tableBody.innerHTML = '';
+
+      if (data.success && data.appointments.length > 0) {
+        data.appointments.forEach(app => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${app.id}</td>
+            <td>${app.patient_name}</td>
+            <td>${app.patient_email || 'N/A'}</td>
+            <td>${app.patient_mobile}</td>
+            <td>${app.test_name}</td>
+            <td>${new Date(app.test_date).toLocaleDateString()}</td>
+            <td>—</td>
+            <td>₹${app.amount}</td>
+            <td>Booked</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } else {
+        tableBody.innerHTML = `<tr><td colspan="9" class="text-center">No appointments found</td></tr>`;
       }
-      
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.success && data.appointments) {
-            const tableBody = document.getElementById('appointmentsTableBody');
-            tableBody.innerHTML = '';
-            
-            data.appointments.forEach(appointment => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                <td>${appointment.id}</td>
-                <td>${appointment.patient_name}</td>
-                <td>${appointment.patient_email || 'N/A'}</td>
-                <td>${appointment.patient_mobile}</td>
-                <td>${appointment.test_name}</td>
-                <td>${new Date(appointment.test_date).toLocaleDateString()}</td>
-                <td>—</td> <!-- If no time field exists, show placeholder -->
-                <td>₹${appointment.amount}</td>
-                <td>Booked</td> <!-- You can update if a status column exists -->
-              `;
-              tableBody.appendChild(row);
-            });
-          } else {
-            showMessage('Failed to load appointments', 'danger');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          showMessage('Error loading appointments: ' + error.message, 'danger');
-        }); 
-    }
-    
+    })
+    .catch(err => {
+      console.error("Error loading appointments:", err);
+      alert("Failed to load appointments");
+    });
+}
+
     function addNewTest(e) {
         e.preventDefault();
 

@@ -146,9 +146,9 @@ router.post('/newpayment/register', (req, res) => {
   });
 });
 
-// ✅ GET appointments for a diagnostic center, with optional date filter
+// ✅ Change API to use VARCHAR center_id
 router.get('/diagnostics/:centerId/appointments', (req, res) => {
-  const centerId = req.params.centerId;
+  const centerId = req.params.centerId; // now it's hex string
   const dateFilter = req.query.date;
 
   let query = `SELECT * FROM newpayment WHERE center_id = ?`;
@@ -160,14 +160,11 @@ router.get('/diagnostics/:centerId/appointments', (req, res) => {
   }
 
   db.query(query, params, (err, results) => {
-    if (err) {
-      console.error('❌ Appointment fetch error:', err);
-      return res.status(500).json({ success: false, error: 'Failed to fetch appointments' });
-    }
-
+    if (err) return res.status(500).json({ success: false, error: 'Failed to fetch appointments' });
     res.json({ success: true, appointments: results });
   });
 });
+
 
 
 // ✅ GET all bookings
