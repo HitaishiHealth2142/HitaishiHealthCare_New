@@ -850,52 +850,52 @@ function showContent(contentName) {
       document.getElementById('pendingPayments').textContent = '4';
     }
     
-function loadAppointments() {
-  const centerId = localStorage.getItem('diagnosticCenterId'); // ✅ FIX: use center_id
-  if (!centerId) {
-    alert("Center ID not found. Please log in again.");
-    window.location.href = "diagnosticLogin.html";
-    return;
-  }
-
-  const dateFilter = document.getElementById('appointmentDateFilter').value;
-  let url = `${API_BASE}/diagnostics/${centerId}/appointments`;
-  if (dateFilter) url += `?date=${dateFilter}`;
-
-  fetch(url)
-    .then(response => {
-      if (!response.ok) throw new Error('Network response was not ok');
-      return response.json();
-    })
-    .then(data => {
-      const tableBody = document.getElementById('appointmentsTableBody');
-      tableBody.innerHTML = '';
-
-      if (data.success && data.appointments.length > 0) {
-        data.appointments.forEach(app => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${app.id}</td>
-            <td>${app.patient_name}</td>
-            <td>${app.patient_email || 'N/A'}</td>
-            <td>${app.patient_mobile}</td>
-            <td>${app.test_name}</td>
-            <td>${new Date(app.test_date).toLocaleDateString()}</td>
-            
-            <td>₹${app.amount}</td>
-            <td>Booked</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } else {
-        tableBody.innerHTML = `<tr><td colspan="9" class="text-center">No appointments found</td></tr>`;
+    function loadAppointments() {
+      const centerId = localStorage.getItem('diagnosticCenterId'); // ✅ FIX: use center_id
+      if (!centerId) {
+        alert("Center ID not found. Please log in again.");
+        window.location.href = "diagnosticLogin.html";
+        return;
       }
-    })
-    .catch(err => {
-      console.error("Error loading appointments:", err);
-      alert("Failed to load appointments");
-    });
-}
+
+      const dateFilter = document.getElementById('appointmentDateFilter').value;
+      let url = `${API_BASE}/diagnostics/${centerId}/appointments`;
+      if (dateFilter) url += `?date=${dateFilter}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
+        .then(data => {
+          const tableBody = document.getElementById('appointmentsTableBody');
+          tableBody.innerHTML = '';
+
+          if (data.success && data.appointments.length > 0) {
+            data.appointments.forEach(app => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${app.id}</td>
+                <td>${app.patient_name}</td>
+                <td>${app.patient_email || 'N/A'}</td>
+                <td>${app.patient_mobile}</td>
+                <td>${app.test_name}</td>
+                <td>${new Date(app.test_date).toLocaleDateString()}</td>
+                
+                <td>₹${app.amount}</td>
+                <td>Booked</td>
+              `;
+              tableBody.appendChild(row);
+            });
+          } else {
+            tableBody.innerHTML = `<tr><td colspan="9" class="text-center">No appointments found</td></tr>`;
+          }
+        })
+        .catch(err => {
+          console.error("Error loading appointments:", err);
+          alert("Failed to load appointments");
+        });
+    }
 
     function addNewTest(e) {
         e.preventDefault();
@@ -963,6 +963,67 @@ function loadAppointments() {
         alert(message); // Replace with your preferred UI method
       }
 
+    function loadOurTests() {
+      const centerId = localStorage.getItem('diagnosticCenterId');
+      if (!centerId) {
+        alert("Center ID not found. Please log in again.");
+        return;
+      }
+
+      fetch(`${API_BASE}/test/center/${centerId}`)
+        .then(response => response.json())
+        .then(data => {
+          const tbody = document.getElementById('ourTestsTableBody');
+          tbody.innerHTML = '';
+
+          if (data.success && data.tests.length > 0) {
+            data.tests.forEach(test => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${test.test_name}</td>
+                <td>${test.category}</td>
+                <td>${test.sample_required}</td>
+                <td>₹${test.final_price}</td>
+                <td>${test.status}</td>
+              `;
+              tbody.appendChild(row);
+            });
+          } else {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No tests found.</td></tr>';
+          }
+        })
+        .catch(err => {
+          console.error("Failed to load tests:", err);
+          alert("Error loading test list.");
+        });
+    }
+
+    function submitReportForm(e) {
+      e.preventDefault();
+
+      const form = document.getElementById('sendReportForm');
+      const formData = new FormData(form);
+      const centerId = localStorage.getItem('diagnosticCenterId');
+      if (centerId) formData.append('center_id', centerId);
+
+      fetch(`${API_BASE}/diagnostics/send-report`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("✅ Report sent successfully!");
+            form.reset();
+          } else {
+            alert("❌ Failed to send report: " + (data.error || 'Unknown error'));
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert("❌ An error occurred while sending the report.");
+        });
+    }
 
     function fetchUserProfile(userId) {
       fetch(`${API_BASE}/diagnostics/${userId}`)
