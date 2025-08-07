@@ -9,13 +9,13 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const router = express.Router();
 
 // Gemini Setup
-const genAI = new GoogleGenerativeAI(AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk);
+const genAI = new GoogleGenerativeAI(process.env.AI_KEY);
 
 // File Upload Setup
 const upload = multer({ dest: 'uploads/' });
 
 // Route: POST /upload
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/report/upload', upload.single('file'), async (req, res) => {
   const filePath = req.file.path;
   const fileExt = path.extname(req.file.originalname).toLowerCase();
 
