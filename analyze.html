@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Report Analyzer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      background-color: #f4f8fb;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    input[type="file"] {
+      padding: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #0a0a57;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .progress-circle {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #ccc;
+      border-top-color: #0a0a57;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .response-box {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <input type="file" id="reportFile" accept=".pdf,.docx,.txt" />
+    <button onclick="analyzeFile()">Submit</button>
+    <div class="progress-circle" id="loader"></div>
+  </div>
+
+  <div class="response-box" id="responseBox"></div>
+
+  <script>
+    async function analyzeFile() {
+      const fileInput = document.getElementById('reportFile');
+      const file = fileInput.files[0];
+      const responseBox = document.getElementById('responseBox');
+      const loader = document.getElementById('loader');
+
+      if (!file) {
+        alert("Please select a file.");
+        return;
+      }
+
+      // Clear previous response
+      responseBox.innerHTML = '';
+      loader.style.display = 'block';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error("Failed to analyze the file.");
+
+        const data = await res.json();
+        loader.style.display = 'none';
+        typeWriter(data.response, responseBox);
+      } catch (err) {
+        loader.style.display = 'none';
+        responseBox.innerText = 'Error: ' + err.message;
+      }
+    }
+
+    function typeWriter(text, element, speed = 25) {
+      let index = 0;
+      function write() {
+        if (index < text.length) {
+          element.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(write, speed);
+        }
+      }
+      write();
+    }
+  </script>
+
+</body>
+</html>

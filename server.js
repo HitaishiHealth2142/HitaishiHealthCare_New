@@ -7,6 +7,8 @@ const cors = require('cors');
 const path = require("path");
 const multer = require("multer");
 const session = require('express-session');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
 
 const app = express(); // ✅ Initialize app first
 
@@ -17,12 +19,16 @@ app.use(cors({
 }));
 
 
+// Gemini Setup
+
+// File Upload Setup
+const upload = multer({ dest: 'uploads/' });
+
 app.use(express.json({ limit: '50mb' }));  
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname))); // Serve static files
 
 
-const upload = multer({ dest: "uploads/" }); // For file uploads
 
 // Configure session middleware
 app.use(session({
@@ -63,6 +69,7 @@ const diagnosticsRoutes = require("./routes/diagnostics");
 const paymentRoutes = require("./routes/payment");
 const testsRoutes = require("./routes/tests");
 const newpaymentRoutes = require("./routes/newpayment");
+const analyzeRoutes = require("./routes/analyze"); // Import the analyze route
 
 // Use Routes - Mount imported routes under the /api path
 app.use("/api", appointment_fertilityRoutes);
@@ -90,7 +97,7 @@ app.use("/api", patientRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api", testsRoutes);
 app.use("/api", newpaymentRoutes);
-
+app.use("/api", analyzeRoutes); // Mount the analyze route
 app.use('/uploads', express.static('uploads'));
 
 
