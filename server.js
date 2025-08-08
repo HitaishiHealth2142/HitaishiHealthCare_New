@@ -121,6 +121,7 @@ const sslOptions = {
   cert: fs.readFileSync('/etc/letsencrypt/live/hitaishihealthcare.com/fullchain.pem')
 };
 
+
 https.createServer(sslOptions, app).listen(HTTPS_PORT, '0.0.0.0', () => {
   console.log(`✅ Secure HTTPS server running on port ${HTTPS_PORT}`);
 });
