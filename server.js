@@ -1,6 +1,6 @@
 const fs = require('fs');
 const http = require('http');
-const https = require('https');
+// const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -104,34 +104,34 @@ app.use('/uploads', express.static('uploads'));
 
 
 // Start HTTP server for redirection (if not already handled by a reverse proxy like Nginx)
-const HTTP_PORT = 80;
+// const HTTP_PORT = 80;
 const HTTPS_PORT = process.env.PORT || 5000; // Use 5000 for local development, 443 for production HTTPS
 
 // Redirect HTTP to HTTPS
-http.createServer((req, res) => {
-  res.writeHead(301, { Location: 'https://' + req.headers.host + req.url });
-  res.end();
-}).listen(HTTP_PORT, () => {
-  console.log(`🌐 Redirecting all HTTP to HTTPS on port ${HTTP_PORT}`);
-});
+// http.createServer((req, res) => {
+//   res.writeHead(301, { Location: 'https://' + req.headers.host + req.url });
+//   res.end();
+// }).listen(HTTP_PORT, () => {
+//   console.log(`🌐 Redirecting all HTTP to HTTPS on port ${HTTP_PORT}`);
+// });
 
 // Start HTTPS server
 // Ensure these paths are correct for your server environment
-const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/hitaishihealthcare.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/hitaishihealthcare.com/fullchain.pem')
-};
+// const sslOptions = {
+//   key: fs.readFileSync('/etc/letsencrypt/live/hitaishihealthcare.com/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/hitaishihealthcare.com/fullchain.pem')
+// };
 
 
-https.createServer(sslOptions, app).listen(HTTPS_PORT, '0.0.0.0', () => {
+http.createServer(app).listen(HTTPS_PORT, '0.0.0.0', () => {
   console.log(`✅ Secure HTTPS server running on port ${HTTPS_PORT}`);
 });
 
 // Fallback for local development or if HTTPS setup is not ready
 // This block will only run if the HTTPS_PORT is not 443 (e.g., 5000 for local testing)
-if (HTTPS_PORT !== 443) {
-  app.listen(HTTPS_PORT, '0.0.0.0', () => {
-    console.log(`✅ Server is also running on HTTP port ${HTTPS_PORT} (for local testing/development)`);
-  });
-}
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '127.0.0.1', () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
+
 
