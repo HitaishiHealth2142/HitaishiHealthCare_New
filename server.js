@@ -9,6 +9,7 @@ const multer = require("multer");
 const session = require('express-session');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+require('dotenv').config();
 
 const app = express(); // ✅ Initialize app first
 
