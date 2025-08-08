@@ -2724,6 +2724,7 @@
         width: 90% !important;
       }
     }
+    
   </style>
 
   <!-- Search Bar -->
@@ -2800,26 +2801,31 @@
 
     // Function to generate star ratings HTML
     function generateStarRating(rating) {
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
         let starsHTML = '';
-        
+        const fullStars = Math.floor(rating);
+        const fraction = rating - fullStars;
+
         // Full stars
         for (let i = 0; i < fullStars; i++) {
             starsHTML += '<span style="color: gold;">★</span>';
         }
-        
-        // Half star
-        if (hasHalfStar) {
-            starsHTML += '<span style="color: gold;">½</span>';
+
+        // Fractional star
+        if (fraction >= 0.75) {
+            // Almost full star
+            starsHTML += '<span style="color: gold;">★</span>';
+        } else if (fraction >= 0.25) {
+            // Half star - using half star icon (you can replace with SVG or font awesome if you want)
+            starsHTML += '<span style="color: gold;">⯨</span>';  // fallback half star symbol, or replace
         }
-        
+        // else less than 0.25 => no partial star
+
         // Empty stars
-        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-        for (let i = 0; i < emptyStars; i++) {
+        let totalStarsUsed = fullStars + (fraction >= 0.25 ? 1 : 0);
+        for (let i = totalStarsUsed; i < 5; i++) {
             starsHTML += '<span style="color: lightgray;">★</span>';
         }
-        
+
         return starsHTML;
     }
 
@@ -3008,8 +3014,6 @@
     renderTests(tests);
 </script>
 </div>
-
-
 
 
 <!-- Our Services -->
