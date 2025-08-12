@@ -57,7 +57,7 @@
 
         <!-- Center: Nav Items -->
         <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px;">
-            <a href="blood.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">❤️ Blood</a>
+            <a href="blood.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold; ">❤️ Blood</a>
             <a href="clinics.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Appointment</a>
             <a href="doctors.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Doctors</a>
             <a href="clinic.html"  class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
@@ -66,14 +66,14 @@
         </div>
 
         <!-- Right: Social Media Icons -->
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-facebook"></i></a>
-            <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px;"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px;"><i class="fab fa-linkedin"></i></a>
-            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-youtube"></i></a>
-            <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-telegram"></i></a>
-            <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-whatsapp"></i></a>
+        <div style="display: flex; gap: 6px; align-items: center;">
+            <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
+            <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-telegram"></i></a>
+            <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-whatsapp"></i></a>
         </div>
 
     </nav>
@@ -84,7 +84,7 @@
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
         </div>
-        <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; margin-top: 10px;">
+        <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; ">
             <div style="position: relative;"><a href="index.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold; ">Home</a></div>
 
             <div style="position: relative;">
@@ -189,14 +189,22 @@
         </div>
     </nav>
     
-    <style>
-        .active-nav-link {
-            background-color: white !important;
-            color: #135597 !important;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-    </style>
+<style>
+    .active-nav-link {
+        background-color: white !important;
+        color: #135597 !important;
+        border-radius: 5px;
+        font-weight: bold;
+        border: 1px solid white;
+    }
+
+    .active-nav-link:hover {
+        background-color: #135597 !important;
+        color: #fff !important;
+        border: 1px solid white;
+    }
+</style>
+
  
     <script>
         // Navbar 1
@@ -322,7 +330,7 @@
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
         
         <!-- Content -->
-        <h1 style="position: relative; z-index: 1; color: #ffffff; margin-bottom: 2rem; padding-bottom: 0.5rem; text-align: center; font-size: 3rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Hitaishi Healthcare Services</h1>
+        <h1 style="position: relative; z-index: 1; color: #ffffff; margin-bottom: 2rem; padding-bottom: 0.5rem; text-align: center; font-size: 52px; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Hitaishi Healthcare Services</h1>
     </main>
 
     <!-- Countries -->
@@ -2425,7 +2433,7 @@
 </section>
 
 <script>
-  fetch("https://hitaishihealthcare.com/api/test/all")
+  fetch('https://www.hitaishihealthcare.com/api/test/all')
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById("test-list");
