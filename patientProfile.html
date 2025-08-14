@@ -1010,9 +1010,21 @@
       }, 5000);
     }
     
-    function logout() {
-      localStorage.clear();
-      window.location.href = 'patientLogin.html';
+    async function logout() {
+      try {
+        // Call the server to destroy the session and release the lock
+        await fetch(`${API_BASE}/logout`, { 
+            method: 'POST',
+            // Include credentials to send the session cookie
+            credentials: 'include' 
+        });
+      } catch (error) {
+        console.error("Logout API call failed, proceeding with client-side cleanup:", error);
+      } finally {
+        // Always clear local storage and redirect
+        localStorage.clear();
+        window.location.href = 'patientLogin.html';
+      }
     }
   
   </script>
