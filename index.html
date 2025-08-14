@@ -189,22 +189,81 @@
         </div>
     </nav>
     
-<style>
-    .active-nav-link {
-        background-color: white !important;
-        color: #135597 !important;
-        border-radius: 5px;
-        font-weight: bold;
-        border: 1px solid white;
-    }
+    <style>
+        /* Your original active link style */
+        .active-nav-link {
+            background-color: white !important;
+            color: #135597 !important;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid white;
+        }
 
-    .active-nav-link:hover {
-        background-color: #135597 !important;
-        color: #fff !important;
-        border: 1px solid white;
-    }
-</style>
+        /* Your original hover effect */
+        .active-nav-link:hover {
+            background-color: #135597 !important;
+            color: #fff !important;
+            border: 1px solid white;
+        }
 
+        /* Current page indicator (added to active-nav-link) */
+        .current-page {
+            border: 1px solid red !important;
+            position: relative;
+        }
+
+        /* Keep hover effect even for current page */
+        .current-page:hover {
+            background-color: #135597 !important;
+            color: #fff !important;
+            border: 1px solid white !important;
+        }
+
+        /* Dropdown items */
+        .dropdown-menu .current-page {
+            border-left: 3px solid red;
+            background-color: white !important;
+        }
+    </style>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '' || currentPath === 'index.html') {
+                currentPath = 'index.html';
+            }
+
+            // Remove current page classes first
+            document.querySelectorAll('.current-page').forEach(link => {
+                link.classList.remove('current-page');
+            });
+
+            // Add current page class
+            document.querySelectorAll('nav a[href]').forEach(link => {
+                const href = link.getAttribute('href').split('?')[0];
+                if (href === currentPath) {
+                    link.classList.add('current-page');
+                    
+                    // Highlight parent dropdown items
+                    const dropdownParent = link.closest('div[id$="Menu"], div[id$="physicians"], div[id$="fertility"]');
+                    if (dropdownParent) {
+                        const parentLink = dropdownParent.previousElementSibling;
+                        if (parentLink && parentLink.classList.contains('active-nav-link')) {
+                            parentLink.classList.add('current-page');
+                        }
+                    }
+                }
+            });
+
+            // Handle dropdown items
+            document.querySelectorAll('.menu-item').forEach(link => {
+                const href = link.getAttribute('href').split('?')[0];
+                if (currentPath.includes(href) || href.includes(currentPath)) {
+                    link.classList.add('current-page');
+                }
+            });
+        });
+    </script>
  
     <script>
         // Navbar 1

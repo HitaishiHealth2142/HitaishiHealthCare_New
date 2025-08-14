@@ -10,7 +10,7 @@ const createTableQuery = `
     payment_id VARCHAR(10) UNIQUE,
     test_name VARCHAR(255),
     test_id VARCHAR(50),
-    center_id INT, -- ✅ Added this
+    center_id VARCHAR(20),
     center_name VARCHAR(255),
     amount INT,
     payment_method VARCHAR(50),

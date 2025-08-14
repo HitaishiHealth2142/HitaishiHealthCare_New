@@ -684,7 +684,7 @@
 
         <!-- Center: Nav Items -->
         <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px;">
-            <a href="blood.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">❤️ Blood</a>
+            <a href="blood.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold; ">❤️ Blood</a>
             <a href="clinics.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Appointment</a>
             <a href="doctors.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Doctors</a>
             <a href="clinic.html"  class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
@@ -693,14 +693,14 @@
         </div>
 
         <!-- Right: Social Media Icons -->
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-facebook"></i></a>
-            <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px;"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px;"><i class="fab fa-linkedin"></i></a>
-            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-youtube"></i></a>
-            <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-telegram"></i></a>
-            <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px;"><i class="fab fa-whatsapp"></i></a>
+        <div style="display: flex; gap: 6px; align-items: center;">
+            <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
+            <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-telegram"></i></a>
+            <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-whatsapp"></i></a>
         </div>
 
     </nav>
@@ -711,7 +711,7 @@
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
         </div>
-        <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; margin-top: 10px;">
+        <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; ">
             <div style="position: relative;"><a href="index.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold; ">Home</a></div>
 
             <div style="position: relative;">
@@ -817,13 +817,80 @@
     </nav>
     
     <style>
+        /* Your original active link style */
         .active-nav-link {
             background-color: white !important;
             color: #135597 !important;
             border-radius: 5px;
             font-weight: bold;
+            border: 1px solid white;
+        }
+
+        /* Your original hover effect */
+        .active-nav-link:hover {
+            background-color: #135597 !important;
+            color: #fff !important;
+            border: 1px solid white;
+        }
+
+        /* Current page indicator (added to active-nav-link) */
+        .current-page {
+            border: 1px solid red !important;
+            position: relative;
+        }
+
+        /* Keep hover effect even for current page */
+        .current-page:hover {
+            background-color: #135597 !important;
+            color: #fff !important;
+            border: 1px solid white !important;
+        }
+
+        /* Dropdown items */
+        .dropdown-menu .current-page {
+            border-left: 3px solid red;
+            background-color: white !important;
         }
     </style>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let currentPath = window.location.pathname.split('/').pop();
+            if (currentPath === '' || currentPath === 'index.html') {
+                currentPath = 'index.html';
+            }
+
+            // Remove current page classes first
+            document.querySelectorAll('.current-page').forEach(link => {
+                link.classList.remove('current-page');
+            });
+
+            // Add current page class
+            document.querySelectorAll('nav a[href]').forEach(link => {
+                const href = link.getAttribute('href').split('?')[0];
+                if (href === currentPath) {
+                    link.classList.add('current-page');
+                    
+                    // Highlight parent dropdown items
+                    const dropdownParent = link.closest('div[id$="Menu"], div[id$="physicians"], div[id$="fertility"]');
+                    if (dropdownParent) {
+                        const parentLink = dropdownParent.previousElementSibling;
+                        if (parentLink && parentLink.classList.contains('active-nav-link')) {
+                            parentLink.classList.add('current-page');
+                        }
+                    }
+                }
+            });
+
+            // Handle dropdown items
+            document.querySelectorAll('.menu-item').forEach(link => {
+                const href = link.getAttribute('href').split('?')[0];
+                if (currentPath.includes(href) || href.includes(currentPath)) {
+                    link.classList.add('current-page');
+                }
+            });
+        });
+    </script>
  
     <script>
         // Navbar 1
@@ -939,6 +1006,7 @@
 
     </script>
 </nav>
+
 <!-- Navbar End -->
 
 
