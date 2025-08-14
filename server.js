@@ -20,7 +20,8 @@ app.use(cors({
 }));
 
 
-// Gemini Setup
+require('dotenv').config();
+app.set('trust proxy', 1);
 
 // File Upload Setup
 const upload = multer({ dest: 'uploads/' });
@@ -32,15 +33,17 @@ app.use(express.static(path.join(__dirname))); // Serve static files
 
 
 // Configure session middleware
-app.use(session({
-  secret: 'hitaishi_secure_key_123', // Replace with a strong, unique secret key
-  resave: false, // Don't save session if unmodified
-  saveUninitialized: false, // Don't create session until something stored
-  rolling: true, // Resets the cookie expiry on every request
+app.use(require('express-session')({
+  name: 'hh.sid',                 // custom cookie name
+  secret: process.env.SESSION_SECRET, // << use the .env secret we generated
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
   cookie: {
-    secure: true, // Must be true for HTTPS
-    sameSite: 'none', // Required for cross-site cookies
-    maxAge: 24 * 60 * 60 * 1000  // Session expiry: 1 day (in milliseconds)
+    httpOnly: true,
+    secure: true,      // true because you’re on HTTPS
+    sameSite: 'none',  // required for cross-site cookies
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
 
@@ -71,6 +74,7 @@ const paymentRoutes = require("./routes/payment");
 const testsRoutes = require("./routes/tests");
 const newpaymentRoutes = require("./routes/newpayment");
 const analyzeRoutes = require("./routes/analyze"); // Import the analyze route
+const sessionRoutes = require("./routes/session"); // Import session routes
 
 // Use Routes - Mount imported routes under the /api path
 app.use("/api", appointment_fertilityRoutes);
@@ -100,6 +104,8 @@ app.use("/api", testsRoutes);
 app.use("/api", newpaymentRoutes);
 app.use("/api", analyzeRoutes); // Mount the analyze route
 app.use('/uploads', express.static('uploads'));
+app.use("/api", sessionRoutes); // Mount session management routes
+console.log("✅ sessionRoutes loaded at /api/");
 
 
 

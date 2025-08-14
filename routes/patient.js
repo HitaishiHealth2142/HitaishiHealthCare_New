@@ -32,53 +32,79 @@ db.query(createPatientsTable, (err) => {
 
 // POST route to add a new patient
 router.post('/patients', (req, res) => {
-    const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, confirm_password } = req.body;
-    
+  const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, confirm_password } = req.body;
+
+  // 🔒 Block registration if someone else is logged in
+  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
+    if (e) return res.status(500).json({ error: 'DB error' });
+    const lock = rows[0];
+    if (lock?.is_locked && lock.session_id !== req.sessionID) {
+      return res.status(423).json({ error: 'The system is currently in use by another user. Please try later.' });
+    }
+
     if (!first_name || !last_name || !email || !mobile || !blood_group || !gender || !dob || !disease || !address || !password || !confirm_password) {
-        return res.status(400).json({ error: 'All fields are required' });
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
     const sql = 'INSERT INTO patients (first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, confirm_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, confirm_password];
 
     db.query(sql, values, (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Database error', details: err.message });
-        }
-        res.status(201).json({ message: 'Patient added successfully', patientId: result.insertId });
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Database error', details: err.message });
+      }
+      res.status(201).json({ message: 'Patient added successfully', patientId: result.insertId });
     });
+  });
 });
 
-// POST route for patient login
-router.post('/patientlogin', (req, res) => {
-    const { username, password } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ error: 'All fields are required' });
+// POST route for patient login (with global lock)
+router.post('/patientlogin', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'All fields are required' });
+
+  // 1) If locked by another session, block
+  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
+    if (e) return res.status(500).json({ error: 'DB error' });
+    const lock = rows[0];
+
+    if (lock?.is_locked && lock.session_id !== req.sessionID) {
+      return res.status(423).json({ error: 'Another user is currently logged in.' });
     }
 
+    // 2) Validate credentials
     const sql = 'SELECT * FROM patients WHERE email = ? AND password = ?';
     db.query(sql, [username, password], (err, results) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
-        if (results.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
+      if (err) return res.status(500).json({ error: 'Database error' });
+      if (results.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
 
-        const user = results[0];
+      const user = results[0];
 
-        res.status(200).json({
+      // 3) Set session and acquire lock
+      req.session.isAuthenticated = true;
+      req.session.user = { type: 'patient', id: user.id, name: `${user.first_name} ${user.last_name}`, email: user.email };
+
+      db.query(
+        "UPDATE session_lock SET is_locked=1, session_id=?, user_type='patient', user_id=?, started_at=NOW() WHERE id=1",
+        [req.sessionID, String(user.id)],
+        (uErr) => {
+          if (uErr) return res.status(500).json({ error: 'DB error acquiring lock' });
+
+          res.status(200).json({
             message: 'Login successful',
             userId: user.id,
-            // first_name: user.first_name,   
-            firstName: user.first_name,    
-            // last_name: user.last_name,
+            firstName: user.first_name,
             lastName: user.last_name,
-            fullName: user.first_name + '' + user.last_name
-            // console.log(fullName),
-        });
-
-        console.log("🔍 Login user data sent:", user);
+            fullName: user.first_name + ' ' + user.last_name
+          });
+        }
+      );
     });
+  });
 });
+
 
 
 router.get('/patients/:id', (req, res) => {

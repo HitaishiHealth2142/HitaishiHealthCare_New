@@ -38,63 +38,82 @@ db.query(createDoctorsTable, (err) => {
   }
 });
 
-// register a new doctor
+// register a new doctor (blocked if system is locked by another session)
 router.post("/doctors", upload.none(), async (req, res) => {
-  const {
-    first_name, last_name, email, mobile, address, clinic, license_number,
-    aadhar_card, experience, degree, university, specialization,
-    availability, from_time, to_time, additional_info, password
-  } = req.body;
-
-  const uid = crypto.randomBytes(3).toString("hex");
-
-  db.query("SELECT * FROM doctors WHERE aadhar_card = ?", [aadhar_card], (err, results) => {
-    if (err) return res.status(500).json({ message: "Error checking Aadhar." });
-
-    if (results.length > 0) {
-      return res.status(400).json({ message: "Aadhar already registered." });
+  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
+    if (e) return res.status(500).json({ message: "DB error" });
+    const lock = rows[0];
+    if (lock?.is_locked && lock.session_id !== req.sessionID) {
+      return res.status(423).json({ message: "The system is currently in use by another user. Please try later." });
     }
 
-    const sql = `INSERT INTO doctors 
-      (uid, first_name, last_name, email, mobile, address, clinic, license_number, aadhar_card,
-      experience, degree, university, specialization, availability, from_time, to_time, additional_info, password) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const {
+      first_name, last_name, email, mobile, address, clinic, license_number,
+      aadhar_card, experience, degree, university, specialization,
+      availability, from_time, to_time, additional_info, password
+    } = req.body;
 
-    const values = [
-      uid, first_name, last_name, email, mobile, address, clinic, license_number, aadhar_card,
-      experience, degree, university, specialization, availability, from_time, to_time, additional_info, password
-    ];
+    const uid = require("crypto").randomBytes(3).toString("hex");
 
-    db.query(sql, values, (err) => {
-      if (err) return res.status(500).json({ message: "Error registering doctor." });
-      res.status(201).json({ message: "Doctor registered successfully!", uid });
+    db.query("SELECT * FROM doctors WHERE aadhar_card = ?", [aadhar_card], (err, results) => {
+      if (err) return res.status(500).json({ message: "Error checking Aadhar." });
+      if (results.length > 0) return res.status(400).json({ message: "Aadhar already registered." });
+
+      const sql = `INSERT INTO doctors 
+        (uid, first_name, last_name, email, mobile, address, clinic, license_number, aadhar_card,
+        experience, degree, university, specialization, availability, from_time, to_time, additional_info, password) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+      const values = [
+        uid, first_name, last_name, email, mobile, address, clinic, license_number, aadhar_card,
+        experience, degree, university, specialization, availability, from_time, to_time, additional_info, password
+      ];
+
+      db.query(sql, values, (err2) => {
+        if (err2) return res.status(500).json({ message: "Error registering doctor." });
+        res.status(201).json({ message: "Doctor registered successfully!", uid });
+      });
     });
   });
 });
 
-// doctor login
+// doctor login with global lock
 router.post("/doctorlogin", async (req, res) => {
   const { email, password } = req.body;
 
-  db.query("SELECT * FROM doctors WHERE email = ?", [email], (err, results) => {
-    if (err) return res.status(500).json({ message: "Database error during login!" });
-    if (results.length === 0) return res.status(404).json({ message: "Doctor not found." });
-
-    const doctor = results[0];
-    if (doctor.password !== password) {
-      return res.status(401).json({ message: "Invalid credentials." });
+  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
+    if (e) return res.status(500).json({ message: "DB error" });
+    const lock = rows[0];
+    if (lock?.is_locked && lock.session_id !== req.sessionID) {
+      return res.status(423).json({ message: "Another user is currently logged in." });
     }
 
-    res.status(200).json({
-      message: "Login successful",
-      user: {
-        uid: doctor.uid,
-        email: doctor.email,
-        name: `${doctor.first_name} ${doctor.last_name}`
-      }
+    db.query("SELECT * FROM doctors WHERE email = ?", [email], (err, results) => {
+      if (err) return res.status(500).json({ message: "Database error during login!" });
+      if (results.length === 0) return res.status(404).json({ message: "Doctor not found." });
+
+      const doctor = results[0];
+      if (doctor.password !== password) return res.status(401).json({ message: "Invalid credentials." });
+
+      // set session + acquire lock
+      req.session.isAuthenticated = true;
+      req.session.user = { type: 'doctor', id: doctor.uid, name: `${doctor.first_name} ${doctor.last_name}`, email: doctor.email };
+
+      db.query(
+        "UPDATE session_lock SET is_locked=1, session_id=?, user_type='doctor', user_id=?, started_at=NOW() WHERE id=1",
+        [req.sessionID, String(doctor.uid)],
+        (uErr) => {
+          if (uErr) return res.status(500).json({ message: 'DB error acquiring lock' });
+          res.status(200).json({
+            message: "Login successful",
+            user: { uid: doctor.uid, email: doctor.email, name: `${doctor.first_name} ${doctor.last_name}` }
+          });
+        }
+      );
     });
   });
 });
+
 
 // get filters for doctors
 router.get("/getfilters", (req, res) => {

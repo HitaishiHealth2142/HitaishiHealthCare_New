@@ -110,64 +110,91 @@ router.post('/diagnostics/verify-otp', (req, res) => {
   });
 });
 
-// ✅ REGISTER ROUTE
+// ✅ REGISTER ROUTE (blocked if locked by another session)
 router.post('/diagnostics/register', (req, res) => {
-  const {
-    email, centerName, ownerName, centerType, phone, altPhone, whatsapp,
-    address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
-    accountHolderName, bankName, accountNumber, ifscCode, upiId,
-    fromTime, toTime, services, homeSample, password
-  } = req.body;
-
-  if (!email || !centerName || !password) {
-    return res.status(400).json({ error: 'Missing required fields.' });
-  }
-
-  const operational_hours = `${fromTime} - ${toTime}`;
-  const center_id = crypto.randomBytes(3).toString('hex').toUpperCase();
-  const sql = `
-    UPDATE diagnostic_centers SET 
-      center_id=?, center_name=?, owner_name=?, center_type=?,
-      phone=?, alt_phone=?, whatsapp=?, address=?, city=?, state=?, pincode=?, map_url=?,
-      registration_number=?, gst_number=?, services=?, home_sample=?, operational_hours=?,
-      account_holder_name=?, bank_name=?, account_number=?, ifsc_code=?, upi_id=?, password=?
-    WHERE email=? AND is_verified=1
-  `;
-  const values = [
-    center_id, centerName, ownerName, centerType,
-    phone, altPhone, whatsapp, address, city, state, pincode, mapUrl,
-    registrationNumber, gstNumber, JSON.stringify(services), homeSample, operational_hours,
-    accountHolderName, bankName, accountNumber, ifscCode, upiId, password, email
-  ];
-
-  db.query(sql, values, (err, result) => {
-    if (err) return res.status(500).json({ error: 'DB error during registration' });
-    if (result.affectedRows === 0) {
-      return res.status(400).json({ error: 'Please verify email before registration.' });
+  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
+    if (e) return res.status(500).json({ error: 'DB error' });
+    const lock = rows[0];
+    if (lock?.is_locked && lock.session_id !== req.sessionID) {
+      return res.status(423).json({ error: 'The system is currently in use by another user. Please try later.' });
     }
-    res.json({ success: true, message: 'Registration successful!' });
+
+    const {
+      email, centerName, ownerName, centerType, phone, altPhone, whatsapp,
+      address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
+      accountHolderName, bankName, accountNumber, ifscCode, upiId,
+      fromTime, toTime, services, homeSample, password
+    } = req.body;
+
+    if (!email || !centerName || !password) {
+      return res.status(400).json({ error: 'Missing required fields.' });
+    }
+
+    const operational_hours = `${fromTime} - ${toTime}`;
+    const center_id = require('crypto').randomBytes(3).toString('hex').toUpperCase();
+    const sql = `
+      UPDATE diagnostic_centers SET 
+        center_id=?, center_name=?, owner_name=?, center_type=?,
+        phone=?, alt_phone=?, whatsapp=?, address=?, city=?, state=?, pincode=?, map_url=?,
+        registration_number=?, gst_number=?, services=?, home_sample=?, operational_hours=?,
+        account_holder_name=?, bank_name=?, account_number=?, ifsc_code=?, upi_id=?, password=?
+      WHERE email=? AND is_verified=1
+    `;
+    const values = [
+      center_id, centerName, ownerName, centerType,
+      phone, altPhone, whatsapp, address, city, state, pincode, mapUrl,
+      registrationNumber, gstNumber, JSON.stringify(services), homeSample, operational_hours,
+      accountHolderName, bankName, accountNumber, ifscCode, upiId, password, email
+    ];
+
+    db.query(sql, values, (err, result) => {
+      if (err) return res.status(500).json({ error: 'DB error during registration' });
+      if (result.affectedRows === 0) {
+        return res.status(400).json({ error: 'Please verify email before registration.' });
+      }
+      res.json({ success: true, message: 'Registration successful!' });
+    });
   });
 });
 
-
-// ✅ Login Route
+// ✅ Login Route with global lock
 router.post('/diagnostics/login', (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
+  const { email, password } = req.body;
+  if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
+
+  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
+    if (e) return res.status(500).json({ error: 'DB error' });
+    const lock = rows[0];
+    if (lock?.is_locked && lock.session_id !== req.sessionID) {
+      return res.status(423).json({ error: 'Another user is currently logged in.' });
+    }
 
     const query = "SELECT * FROM diagnostic_centers WHERE email = ? AND password = ? AND is_verified = 1";
     db.query(query, [email, password], (err, result) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
-        if (result.length === 0) {
-            return res.status(401).json({ error: 'Invalid email or password' });
+      if (err) return res.status(500).json({ error: 'Database error' });
+      if (result.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
+
+      const user = result[0];
+      // set session + acquire lock
+      req.session.isAuthenticated = true;
+      req.session.user = { type: 'diagnostic', id: user.id, name: user.center_name, email: user.email };
+
+      db.query(
+        "UPDATE session_lock SET is_locked=1, session_id=?, user_type='diagnostic', user_id=?, started_at=NOW() WHERE id=1",
+        [req.sessionID, String(user.id)],
+        (uErr) => {
+          if (uErr) return res.status(500).json({ error: 'DB error acquiring lock' });
+          res.json({
+            success: true,
+            message: 'Login successful',
+            user: { id: user.id, center_id: user.center_id, center_name: user.center_name }
+          });
         }
-        res.json({
-          success: true,
-          message: 'Login successful',
-          user: { id: result[0].id, center_id: result[0].center_id, center_name: result[0].center_name }
-        });
+      );
     });
+  });
 });
+
 
 // ✅ Forgot Password - Step 1: Send OTP
 router.post('/diagnostics/forgot-password/send-otp', (req, res) => {
