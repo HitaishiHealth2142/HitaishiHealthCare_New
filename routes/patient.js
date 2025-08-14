@@ -100,6 +100,89 @@ router.get('/patients/:id', (req, res) => {
     });
 });
 
+// GET route to fetch patient profile
+router.get('/patient/profile', (req, res) => {
+    // In a real app, you'd get patientId from session/token
+    const patientId = req.query.patientId; // For now using query param
+    
+    if (!patientId) {
+        return res.status(400).json({ error: 'Patient ID is required' });
+    }
+
+    const sql = 'SELECT id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address FROM patients WHERE id = ?';
+    
+    db.query(sql, [patientId], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+
+        res.status(200).json({ patient: results[0] });
+    });
+});
+
+// PUT route to update patient profile
+router.put('/patient/profile', (req, res) => {
+    const patientId = req.query.patientId;
+    const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address } = req.body;
+    
+    if (!patientId) {
+        return res.status(400).json({ error: 'Patient ID is required' });
+    }
+
+    const sql = `UPDATE patients SET 
+        first_name = ?, 
+        last_name = ?, 
+        email = ?, 
+        mobile = ?, 
+        blood_group = ?, 
+        gender = ?, 
+        dob = ?, 
+        disease = ?, 
+        address = ? 
+        WHERE id = ?`;
+    
+    const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, patientId];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error', details: err.message });
+        }
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+
+        res.status(200).json({ message: 'Profile updated successfully' });
+    });
+});
+
+// GET route to fetch patient appointments
+router.get('/patient/appointments', (req, res) => {
+    const patientId = req.query.patientId;
+    
+    if (!patientId) {
+        return res.status(400).json({ error: 'Patient ID is required' });
+    }
+
+    // In a real app, you'd join with doctors/clinics tables to get more details
+    const sql = 'SELECT * FROM appointments WHERE patient_id = ? ORDER BY appointment_date DESC, appointment_time DESC';
+    
+    db.query(sql, [patientId], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        res.status(200).json({ appointments: results });
+    });
+});
+
 
 
 module.exports = router;
