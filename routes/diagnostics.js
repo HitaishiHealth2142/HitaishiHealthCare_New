@@ -110,7 +110,7 @@ router.post('/diagnostics/verify-otp', (req, res) => {
   });
 });
 
-// ✅ REGISTER ROUTE (blocked if locked by another session)
+// REGISTER ROUTE (blocked if locked by another session)
 router.post('/diagnostics/register', (req, res) => {
   db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
     if (e) return res.status(500).json({ error: 'DB error' });
@@ -157,7 +157,7 @@ router.post('/diagnostics/register', (req, res) => {
   });
 });
 
-// ✅ Login Route with global lock
+// Login Route with global lock
 router.post('/diagnostics/login', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
@@ -184,6 +184,12 @@ router.post('/diagnostics/login', (req, res) => {
         [req.sessionID, String(user.id)],
         (uErr) => {
           if (uErr) return res.status(500).json({ error: 'DB error acquiring lock' });
+
+          // --- NEW: Record Login Time ---
+          const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
+          db.query(loginActivityQuery, [req.sessionID, String(user.id), 'diagnostic']);
+          // --- END NEW ---
+
           res.json({
             success: true,
             message: 'Login successful',
@@ -196,7 +202,7 @@ router.post('/diagnostics/login', (req, res) => {
 });
 
 
-// ✅ Forgot Password - Step 1: Send OTP
+// Forgot Password - Step 1: Send OTP
 router.post('/diagnostics/forgot-password/send-otp', (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ error: 'Email is required' });
@@ -225,7 +231,7 @@ router.post('/diagnostics/forgot-password/send-otp', (req, res) => {
     });
 });
 
-// ✅ Forgot Password - Step 2: Verify OTP
+// Forgot Password - Step 2: Verify OTP
 router.post('/diagnostics/forgot-password/verify-otp', (req, res) => {
     const { email, otp } = req.body;
     if (!email || !otp) return res.status(400).json({ error: 'Email and OTP are required' });
@@ -239,7 +245,7 @@ router.post('/diagnostics/forgot-password/verify-otp', (req, res) => {
     });
 });
 
-// ✅ Forgot Password - Step 3: Reset Password
+// Forgot Password - Step 3: Reset Password
 router.post('/diagnostics/forgot-password/reset', (req, res) => {
     const { email, newPassword } = req.body;
     if (!email || !newPassword) return res.status(400).json({ error: 'Email and new password required' });
@@ -251,7 +257,7 @@ router.post('/diagnostics/forgot-password/reset', (req, res) => {
     });
 });
 
-// ✅ Get All Diagnostic Centers
+// Get All Diagnostic Centers
 router.get('/diagnostics/all', (req, res) => {
     db.query("SELECT * FROM diagnostic_centers", (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
@@ -259,7 +265,7 @@ router.get('/diagnostics/all', (req, res) => {
     });
 });
 
-// ✅ Get User by ID
+// Get User by ID
 router.get('/diagnostics/:id', (req, res) => {
     const { id } = req.params;
     db.query("SELECT * FROM diagnostic_centers WHERE id = ?", [id], (err, result) => {
@@ -269,7 +275,7 @@ router.get('/diagnostics/:id', (req, res) => {
     });
 });
 
-// ✅ Update User Profile by ID
+// Update User Profile by ID
 router.put('/diagnostics/:id', (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
@@ -283,7 +289,7 @@ router.put('/diagnostics/:id', (req, res) => {
     });
 });
 
-// ✅ Delete User by ID
+// Delete User by ID
 router.delete('/diagnostics/:id', (req, res) => {
     const { id } = req.params;
     db.query("DELETE FROM diagnostic_centers WHERE id = ?", [id], (err, result) => {

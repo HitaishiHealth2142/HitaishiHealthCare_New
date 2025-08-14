@@ -104,6 +104,12 @@ router.post("/doctorlogin", async (req, res) => {
         [req.sessionID, String(doctor.uid)],
         (uErr) => {
           if (uErr) return res.status(500).json({ message: 'DB error acquiring lock' });
+
+          // --- NEW: Record Login Time ---
+          const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
+          db.query(loginActivityQuery, [req.sessionID, String(doctor.uid), 'doctor']);
+          // --- END NEW ---
+
           res.status(200).json({
             message: "Login successful",
             user: { uid: doctor.uid, email: doctor.email, name: `${doctor.first_name} ${doctor.last_name}` }
