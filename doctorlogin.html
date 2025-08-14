@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Login | TejVTech</title>
+  <title>Doctor Login | Hitaishi HealthCare</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet" />
-   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <style>
@@ -17,18 +16,10 @@
 
     body {
       height: 100vh;
-      background: linear-gradient(135deg, #667eea, #764ba2, #89f7fe, #66a6ff);
-      background-size: 400% 400%;
-      animation: gradientMove 15s ease infinite;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-    }
-
-    @keyframes gradientMove {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
     }
 
     /* Main Content Container */
@@ -47,35 +38,34 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      background: #ffffff0c;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
     }
 
     /* Left Section */
     .login-left {
       flex: 1;
-      background-color: rgba(221, 230, 230, 0);
-      padding: 30px;
+      padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
+      color: white;
     }
 
     .login-left img {
       width: 100%;
-      max-width: 300px;
+      max-width: 250px;
       margin-bottom: 30px;
     }
 
     .login-left h2 {
-      color: black;
       font-size: 28px;
       margin-bottom: 15px;
     }
 
     .login-left p {
-      color: #333;
       font-size: 16px;
       line-height: 1.6;
     }
@@ -83,22 +73,15 @@
     /* Right Section */
     .login-right {
       flex: 1;
-      padding: 30px;
+      padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background-color: rgba(221, 230, 230, 0);
+      background-color: rgba(255, 255, 255, 0.9);
     }
 
     .login-container {
-      background: rgba(255, 255, 255, 0.767);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 30px;
       width: 100%;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-      color: black;
     }
 
     .login-container h2 {
@@ -106,44 +89,54 @@
       margin-bottom: 25px;
       font-weight: 600;
       font-size: 26px;
-      letter-spacing: 1px;
+      color: #333;
     }
 
     label {
       font-size: 14px;
       margin-bottom: 8px;
       display: block;
+      color: #555;
+    }
+    
+    .input-wrapper {
+        position: relative;
+        margin-bottom: 20px;
     }
 
     input {
       width: 100%;
       padding: 12px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
       color: #333;
       font-size: 15px;
       outline: none;
       transition: 0.3s;
     }
 
-    input::placeholder {
-      color: #666;
-    }
-
     input:focus {
-      background: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 5px #fff5;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    }
+    
+    #togglePassword {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
     }
 
     button {
       width: 100%;
       padding: 14px;
-      background:#007bff;
+      background: #007bff;
       color: #fff;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
@@ -151,14 +144,14 @@
     }
 
     button:hover {
-      background: rgba(255, 255, 255, 0.4);
-      transform: scale(1.03);
+      background: #0056b3;
     }
 
     #message {
       margin-top: 18px;
       text-align: center;
       font-size: 14px;
+      font-weight: 500;
     }
 
     .links {
@@ -170,12 +163,10 @@
     .links a {
       color: #007bff;
       text-decoration: none;
-      margin: 0 10px;
       transition: color 0.3s;
     }
 
     .links a:hover {
-      color: green;
       text-decoration: underline;
     }
 
@@ -183,415 +174,11 @@
     @media (max-width: 768px) {
       .login-main-flex {
         flex-direction: column;
-        height: auto;
-      }
-      
-      .login-left, .login-right {
-        padding: 20px;
-      }
-      
-      .login-left img {
-        width: 200px;
-        margin-bottom: 20px;
-      }
-      
-      .login-container {
-        padding: 25px;
-      }
-      
-      .login-container h2 {
-        font-size: 22px;
-        margin-bottom: 20px;
-      }
-      
-      body {
-        height: auto;
-        min-height: 100vh;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .login-left h2 {
-        font-size: 22px;
-      }
-      
-      .login-left p {
-        font-size: 14px;
-      }
-      
-      .login-container {
-        padding: 20px 15px;
-      }
-      
-      input, button {
-        padding: 10px;
-        font-size: 14px;
-      }
-      
-      .links {
-        font-size: 13px;
       }
     }
   </style>
 </head>
-<body style="font-family: Arial, sans-serif;">
-
-
-<!-- Navbar Code -->
-<nav style="width: 100%;">
-
-    
-    <nav style="display: flex; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
-
-        <!-- Left: Logo & Title -->
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px;">
-            
-            <!-- Wrap title & subtitle together -->
-            <div style="display: flex; flex-direction: column; justify-content: center; line-height: 1;">
-                <span style="color: #fff; font-size: 22px; font-weight: bold;">Hitaishi</span>
-                <span style="color: #fff; font-size: 12px;">HealthCare Service</span>
-            </div>
-
-            <!-- Search Icon After Title -->
-            <div style="position: relative; margin-left: 10px;">
-                <input type="text" placeholder="Search..." 
-                    style="padding: 8px 30px 8px 10px; border-radius: 5px; border: none; font-size: 14px;">
-                <i class="fas fa-search" 
-                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #007bff;"></i>
-            </div>
-        </div>
-
-
-        <!-- Hamburger & Close (Mobile only) -->
-        <div onclick="toggleMenu1()" id="hamburger1" style="font-size: 26px; color: white; cursor: pointer; display: none;">&#9776;</div>
-        <div onclick="toggleMenu1()" id="closeIcon1" style="font-size: 26px; color: white; cursor: pointer; display: none;">&times;</div>
-
-        <!-- Center: Nav Items -->
-        <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px;">
-            <a href="blood.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold; ">❤️ Blood</a>
-            <a href="clinics.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Appointment</a>
-            <a href="doctors.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Doctors</a>
-            <a href="clinic.html"  class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
-            <a href="Eyecare.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Eye Care</a>
-            <a href="tel:108" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">🚑 Ambulance</a>
-        </div>
-
-        <!-- Right: Social Media Icons -->
-        <div style="display: flex; gap: 6px; align-items: center;">
-            <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
-            <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-linkedin"></i></a>
-            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
-            <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-telegram"></i></a>
-            <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-whatsapp"></i></a>
-        </div>
-
-    </nav>
-
-    <!-- Navigation Bar 2 -->
-    <nav style="background-color: #135597; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-            <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
-            <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
-        </div>
-        <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; ">
-            <div style="position: relative;"><a href="index.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold; ">Home</a></div>
-
-            <div style="position: relative;">
-                <a href="healthRecords.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                   onmouseover="document.getElementById('recordsMenu').style.display = 'block';"
-                    onmouseout="document.getElementById('recordsMenu').style.display = 'none';">
-                    Health Records <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="recordsMenu" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 7px; display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                    <a href="bloodtest.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Blood Tests</a>
-                    <a href="donations.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Donations</a>
-                    <a href="inventory.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Inventory</a>
-                </div>
-            </div>
-
-            <div style="position: relative;">
-                <a href="Diagnostics.html" class="active-nav-link"
-                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('diagnosticsMenu').style.display = 'block';"
-                onmouseout="document.getElementById('diagnosticsMenu').style.display = 'none';">
-                    Diagnostics <i class="fas fa-caret-down"></i>
-                </a>
-
-                <div id="diagnosticsMenu" class="active-nav-link"
-                    onmouseover="this.style.display = 'block';"
-                    onmouseout="this.style.display = 'none';"
-                    style="margin-top: 7px;display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                        <a href="xray.html" class="menu-item">X-Ray</a>
-                        <a href="ultrasound.html" class="menu-item">Ultrasound</a>
-                        <a href="mri.html" class="menu-item">MRI</a>
-                        <a href="diagnostic-services.html?category=cbc" class="menu-item">Complete Blood Count</a>
-                        <a href="diagnostic-services.html?category=pathology" class="menu-item">Pathology Tests</a>
-                        <a href="diagnostic-services.html?category=microbiology" class="menu-item">Microbiology Tests</a>
-                        <a href="diagnostic-services.html?category=radiology" class="menu-item">Radiology & Imaging</a>
-                        <a href="diagnostic-services.html?category=cardiology" class="menu-item">Cardiology</a>
-                        <a href="diagnostic-services.html?category=neurology" class="menu-item">Neurology</a>
-                        <a href="diagnostic-services.html?category=ophthalmology" class="menu-item">Ophthalmology</a>
-                        <a href="diagnostic-services.html?category=ent" class="menu-item">ENT</a>
-                        <a href="diagnostic-services.html?category=dental" class="menu-item">Dental</a>
-                        <a href="diagnostic-services.html?category=fertility" class="menu-item">Prenatal & Fertility</a>
-                        <a href="diagnostic-services.html?category=genetic" class="menu-item">Genetic Testing</a>
-                        <a href="diagnostic-services.html?category=packages" class="menu-item">Health Packages</a>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-                .menu-item {
-                    display: block;
-                    padding: 12px;
-                    text-decoration: none;
-                    background: #fff;
-                    border-radius: 6px;
-                    color: #333;
-                    font-weight: 500;
-                    transition: background 0.2s, color 0.2s;
-                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-                }
-
-                .menu-item:hover {
-                    background: #f0f0f0;
-                    color: #000;
-                }
-            </style>
-
-
-            <div style="position: relative;">
-                <a href="Physician.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('physicians').style.display = 'block';"
-                    onmouseout="document.getElementById('physicians').style.display = 'none';">
-                    Physicians <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="physicians" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 7px;display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                    <a href="cardiologist.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Cardiologist</a>
-                    <a href="neuralogist.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Neurologist</a>
-                    <a href="dermatologist.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Dermatologist</a>
-                </div>
-            </div>
-
-            <div style="position: relative;">
-                <a href="fertility.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('fertility').style.display = 'block';"
-                    onmouseout="document.getElementById('fertility').style.display = 'none';">
-                    Fertility <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="fertility" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 7px;display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                    <a href="IVF.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">IVF</a>
-                    <a href="iui.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">IUI</a>
-                    <a href="sarogasi.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Surrogacy</a>
-                </div>
-            </div>
-
-            <a href="ai.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
-            <a href="doctor.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctor Registration</a>
-            <a href="patientLogin.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
-            <a href="Cancer.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Cancer</a>
-            <a href="Dental.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
-            <a href="ENT.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">ENT</a>
-            <a href="contact.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Contact</a>
-        </div>
-    </nav>
-    
-    <style>
-        /* Your original active link style */
-        .active-nav-link {
-            background-color: white !important;
-            color: #135597 !important;
-            border-radius: 5px;
-            font-weight: bold;
-            border: 1px solid white;
-        }
-
-        /* Your original hover effect */
-        .active-nav-link:hover {
-            background-color: #135597 !important;
-            color: #fff !important;
-            border: 1px solid white;
-        }
-
-        /* Current page indicator (added to active-nav-link) */
-        .current-page {
-            border: 1px solid red !important;
-            position: relative;
-        }
-
-        /* Keep hover effect even for current page */
-        .current-page:hover {
-            background-color: #135597 !important;
-            color: #fff !important;
-            border: 1px solid white !important;
-        }
-
-        /* Dropdown items */
-        .dropdown-menu .current-page {
-            border-left: 3px solid red;
-            background-color: white !important;
-        }
-    </style>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let currentPath = window.location.pathname.split('/').pop();
-            if (currentPath === '' || currentPath === 'index.html') {
-                currentPath = 'index.html';
-            }
-
-            // Remove current page classes first
-            document.querySelectorAll('.current-page').forEach(link => {
-                link.classList.remove('current-page');
-            });
-
-            // Add current page class
-            document.querySelectorAll('nav a[href]').forEach(link => {
-                const href = link.getAttribute('href').split('?')[0];
-                if (href === currentPath) {
-                    link.classList.add('current-page');
-                    
-                    // Highlight parent dropdown items
-                    const dropdownParent = link.closest('div[id$="Menu"], div[id$="physicians"], div[id$="fertility"]');
-                    if (dropdownParent) {
-                        const parentLink = dropdownParent.previousElementSibling;
-                        if (parentLink && parentLink.classList.contains('active-nav-link')) {
-                            parentLink.classList.add('current-page');
-                        }
-                    }
-                }
-            });
-
-            // Handle dropdown items
-            document.querySelectorAll('.menu-item').forEach(link => {
-                const href = link.getAttribute('href').split('?')[0];
-                if (currentPath.includes(href) || href.includes(currentPath)) {
-                    link.classList.add('current-page');
-                }
-            });
-        });
-    </script>
- 
-    <script>
-        // Navbar 1
-        function toggleMenu1() {
-            const navItems = document.getElementById('navItems1');
-            const hamburger = document.getElementById('hamburger1');
-            const closeIcon = document.getElementById('closeIcon1');
-            const isHidden = navItems.style.display === 'none' || navItems.style.display === '';
-            if (isHidden) {
-            navItems.style.display = 'flex';
-            navItems.style.flexDirection = 'column';
-            hamburger.style.display = 'none';
-            closeIcon.style.display = 'block';
-            } else {
-            navItems.style.display = 'none';
-            hamburger.style.display = 'block';
-            closeIcon.style.display = 'none';
-            }
-        }
-        function checkScreenWidth1() {
-            const navItems = document.getElementById('navItems1');
-            const hamburger = document.getElementById('hamburger1');
-            const closeIcon = document.getElementById('closeIcon1');
-            if (window.innerWidth <= 768) {
-            navItems.style.display = 'none';
-            hamburger.style.display = 'block';
-            closeIcon.style.display = 'none';
-            } else {
-            navItems.style.display = 'flex';
-            navItems.style.flexDirection = 'row';
-            hamburger.style.display = 'none';
-            closeIcon.style.display = 'none';
-            }
-        }
-        window.addEventListener('resize', checkScreenWidth1);
-        window.addEventListener('DOMContentLoaded', checkScreenWidth1);
-
-        // Navbar 2
-        function toggleMenu2() {
-            const nav = document.getElementById("navLinks2");
-            const ham = document.getElementById("hamburger2");
-            const close = document.getElementById("closeIcon2");
-            if (nav.style.display === "none" || nav.style.display === "") {
-                nav.style.display = "flex";
-                nav.style.flexDirection = "column";
-                nav.style.alignItems = "center";
-                ham.style.display = "none";
-                close.style.display = "block";
-            } else {
-                nav.style.display = "none";
-                ham.style.display = "block";
-                close.style.display = "none";
-            }
-        }
-        function setResponsiveMenu2() {
-            const nav = document.getElementById("navLinks2");
-            const ham = document.getElementById("hamburger2");
-            const close = document.getElementById("closeIcon2");
-            if (window.innerWidth <= 768) {
-                nav.style.display = "none";
-                ham.style.display = "block";
-                close.style.display = "none";
-            } else {
-                nav.style.display = "flex";
-                nav.style.flexDirection = "row";
-                nav.style.justifyContent = "center";
-                ham.style.display = "none";
-                close.style.display = "none";
-            }
-        }
-        window.addEventListener('resize', setResponsiveMenu2);
-        window.addEventListener('DOMContentLoaded', setResponsiveMenu2);
-
-        // Dropdowns on hover (desktop) and tap (mobile) for Navbar 2
-        function setupDropdowns2() {
-            document.querySelectorAll('#navLinks2 > div').forEach(item => {
-                const dropdown = item.querySelector('div');
-                item.onmouseenter = null;
-                item.onmouseleave = null;
-                item.onclick = null;
-                if (dropdown) {
-                    if (window.innerWidth > 768) {
-                        item.addEventListener('mouseenter', () => dropdown.style.display = 'block');
-                        item.addEventListener('mouseleave', () => dropdown.style.display = 'none');
-                    } else {
-                        item.addEventListener('click', function(e) {
-                            if (e.target === item.querySelector('a')) {
-                                e.preventDefault();
-                                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                            }
-                        });
-                    }
-                }
-            });
-        }
-        window.addEventListener('resize', setupDropdowns2);
-        window.addEventListener('DOMContentLoaded', setupDropdowns2);
-
-        window.addEventListener('DOMContentLoaded', () => {
-            let currentPath = window.location.pathname.split('/').pop();
-            if (currentPath === '' || currentPath === 'index.html') {
-            currentPath = 'index.html'; // Normalize home page
-            }
-
-            const links = document.querySelectorAll('nav a[href]');
-            links.forEach(link => {
-            const href = link.getAttribute('href').split('?')[0]; // Strip query if needed
-            if (href === currentPath) {
-                link.classList.add('active-nav-link');
-            }
-            });
-        });
-
-    </script>
-</nav>
-<!-- Navbar End -->
+<body>
 
 <!-- Main Content -->
 <div class="main-content">
@@ -600,9 +187,7 @@
     <div class="login-left">
       <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Doctor Illustration">
       <h2>Welcome, Doctor</h2>
-      <p>
-        Log in to your portal to manage appointments, view patient history, and stay up to date with your clinical workflow.<br><br>
-      </p>
+      <p>Log in to your portal to manage appointments, view patient history, and streamline your clinical workflow.</p>
     </div>
 
     <!-- Right Section with Login Form -->
@@ -611,43 +196,52 @@
         <h2>Doctor Login</h2>
         <form id="loginForm">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Enter email" required />
+          <div class="input-wrapper">
+            <input type="email" id="email" name="email" placeholder="Enter your email" required />
+          </div>
 
           <label for="password">Password</label>
-          <div style="position: relative;">
-            <input type="password" id="password" name="password" placeholder="Enter password" required />
-            <span id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">👁️</span>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" placeholder="Enter your password" required />
+            <i id="togglePassword" class="fa fa-eye"></i>
           </div>
 
           <button type="submit">Login</button>
           <div id="message"></div>
         </form>
         <div class="links">
-          <a href="#">Forgot Password?</a> <br><a href="doctor.html">Don't have an account? Create one</a>
+          <a href="#">Forgot Password?</a><br><br>
+          <a href="doctor.html">Don't have an account? Create one</a>
         </div>
       </div>
     </div>
 
     <script>
+      // Password visibility toggle
       document.getElementById("togglePassword").addEventListener("click", function () {
         const passwordInput = document.getElementById("password");
+        const icon = this;
         const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
         passwordInput.setAttribute("type", type);
-        this.textContent = type === "password" ? "👁️" : "🙈";
+        icon.classList.toggle("fa-eye");
+        icon.classList.toggle("fa-eye-slash");
       });
 
+      // Login form submission handler
       document.getElementById("loginForm").addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
         const messageElement = document.getElementById("message");
+        messageElement.textContent = 'Logging in...';
+        messageElement.style.color = '#555';
 
         try {
           const response = await fetch("https://hitaishihealthcare.com/api/doctorlogin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",
+            credentials: "include", // Important for session cookies
             body: JSON.stringify({ email, password })
           });
 
@@ -655,15 +249,23 @@
 
           if (response.ok) {
             messageElement.style.color = "green";
-            messageElement.innerText = "Login successful. Redirecting...";
+            messageElement.innerText = "Login successful! Redirecting...";
 
-            // Save doctor basic login data
-            localStorage.setItem("doctorUid", data.uid); 
-            localStorage.setItem("doctorToken", "doctor-auth-token");
+            // --- FIX ---
+            // The API returns { user: { uid: '...' } }. Access uid via data.user.uid
+            // Also save the entire user object for a better profile page loading experience.
+            if (data.user && data.user.uid) {
+                localStorage.setItem("doctorUid", data.user.uid); 
+                localStorage.setItem("doctorUser", JSON.stringify(data.user));
+                localStorage.setItem("doctorToken", "doctor-auth-token"); // This is a placeholder, consider real tokens later
 
-            setTimeout(() => {
-              window.location.href = "doctorProfile.html";
-            }, 1000);
+                setTimeout(() => {
+                    window.location.href = "doctorProfile.html";
+                }, 1000);
+            } else {
+                messageElement.style.color = "red";
+                messageElement.innerText = "Login error: Invalid data received from server.";
+            }
           } else {
             messageElement.style.color = "red";
             messageElement.innerText = data.message || "Login failed!";
@@ -671,80 +273,20 @@
         } catch (error) {
           console.error("Login Error:", error);
           messageElement.style.color = "red";
-          messageElement.innerText = "Server error. Please try again.";
+          messageElement.innerText = "A network or server error occurred. Please try again.";
         }
       });
 
       // Auto redirect if already logged in
       window.onload = () => {
-        const doctorData = localStorage.getItem("doctorUser");
-        if (doctorData) {
+        const doctorUid = localStorage.getItem("doctorUid");
+        if (doctorUid) {
           window.location.href = "doctorProfile.html";
         }
       };
     </script>
   </div>
 </div>
-
-
-    <!-- footer -->
-    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; ">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Quick Links</h3>
-                <a href="Diagnostics.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Diagnostics</a>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Test's</a>
-                <a href="doctor.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Doctor</a>
-                <a href="Dental.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find A Tooth Expert</a>
-                <a href="Eyecare.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Eye Care</a>
-                <a href="donations.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Organ Donors</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Services</h3>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
-                <a href="blood.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blood Donations</a>
-                <a href="healthRecords.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">health Reports</a>
-                <a href="fertility.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Fertility</a>
-                <a href="Cancer.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Cancer Care</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
-                <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
-                <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
-                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
-            </div>
-            
-            <div style="flex: 1; min-width: 200px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-phone"></i>
-                    <span>8790170525</span>
-                </div>
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
-                <div>
-                    <a href="https://www.instagram.com/optic.bee/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/share/1CC3vxsppD/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-facebook"></i></a>
-                    <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-twitter"></i> </a>
-                    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-linkedin"></i> </a>
-                    <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-youtube"></i> </a>
-
-                </div>
-            </div>
-        </div>
-        <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
-            <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
-            <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
-            <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
-        </div>
-    </footer>
 
 </body>
 </html>
