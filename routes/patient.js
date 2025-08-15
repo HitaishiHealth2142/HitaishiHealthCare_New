@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db'); // Import the database connection
 
+// --- FIX: Ensure 'otp_code' column exists ---
 const createPatientsTable = `
   CREATE TABLE IF NOT EXISTS patients (
     id INT AUTO_INCREMENT PRIMARY KEY,

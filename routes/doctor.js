@@ -6,6 +6,7 @@ const crypto = require("crypto");
 
 const upload = multer();
 
+// --- FIX: Added 'otp_code' column ---
 const createDoctorsTable = `
   CREATE TABLE IF NOT EXISTS doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,7 +27,8 @@ const createDoctorsTable = `
     from_time VARCHAR(20),
     to_time VARCHAR(20),
     additional_info TEXT,
-    password VARCHAR(255)
+    password VARCHAR(255),
+    otp_code VARCHAR(6) DEFAULT NULL
   )
 `;
 

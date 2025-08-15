@@ -1,210 +1,581 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Unified Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Adding Bootstrap for Modal styling -->
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { padding: 20px; }
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #c7d2fe;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #94a3b8;
+      --gray-light: #e2e8f0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: gradientBG 15s ease infinite;
+      background-size: 400% 400%;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      transform: translateY(0);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .login-container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary), var(--success), var(--warning));
+      animation: rainbow 8s linear infinite;
+      background-size: 400% 400%;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo i {
+      font-size: 48px;
+      color: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--success));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 28px;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+      border-radius: 4px;
+    }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      z-index: 5;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control {
+      padding-left: 45px;
+      height: 50px;
+      border-radius: 12px;
+      border: 2px solid var(--gray-light);
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+    }
+    
+    .form-control:focus ~ i {
+      color: var(--primary);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--gray);
+      z-index: 5;
+      transition: all 0.3s ease;
+    }
+    
+    .password-toggle:hover {
+      color: var(--primary);
+    }
+    
+    .btn-login {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+    
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-login:active {
+      transform: translateY(0);
+    }
+    
+    .btn-login::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.5s ease;
+    }
+    
+    .btn-login:hover::before {
+      left: 100%;
+    }
+    
+    #message {
+      text-align: center;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
+    
+    #message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .forgot-password {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .forgot-password a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .forgot-password a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    
+    /* Modal Styling */
+    .modal-content {
+      border-radius: 15px;
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .modal-header {
+      border-bottom: none;
+      padding-bottom: 0;
+      position: relative;
+    }
+    
+    .modal-header .btn-close {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+    
+    .modal-title {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .modal-body {
+      padding: 25px;
+    }
+    
+    .modal-footer {
+      border-top: none;
+    }
+    
+    /* Loading animation */
+    .loader {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .btn-loading {
+      pointer-events: none;
+    }
+    
+    .btn-loading .loader {
+      display: inline-block;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+      .login-container {
+        padding: 30px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container" style="max-width: 400px;">
-    <h2>Login</h2>
+  <div class="login-container">
+    <div class="logo">
+      <i class="fas fa-user-shield"></i>
+    </div>
+    <h2>Welcome Back</h2>
     <form id="loginForm">
-      <div class="mb-3">
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
         <input type="email" class="form-control" id="email" placeholder="Email" required>
       </div>
-      <div class="mb-3">
+      
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
         <input type="password" class="form-control" id="password" placeholder="Password" required>
+        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
       </div>
-      <button type="submit" class="btn btn-primary w-100">Login</button>
+      
+      <button type="submit" class="btn btn-login" id="submitBtn">
+        Login
+        <span class="loader"></span>
+      </button>
     </form>
-    <p id="message" class="mt-3 text-center"></p>
-    <div class="text-center mt-3">
+    
+    <p id="message"></p>
+    
+    <div class="forgot-password">
       <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
     </div>
   </div>
 
   <!-- Forgot Password Modal -->
-  <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
-    <div class="modal-dialog">
+  <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Reset Password</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div id="reset-message" class="alert" style="display: none;"></div>
           
           <!-- Step 1: Enter Email -->
           <div id="step1">
-            <p>Enter your registered email to receive an OTP.</p>
-            <input type="email" id="resetEmail" class="form-control" placeholder="Your Email Address">
-            <button id="sendOtpBtn" class="btn btn-primary w-100 mt-2">Send OTP</button>
+            <div class="input-group mb-3">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="resetEmail" class="form-control" placeholder="Your Email Address">
+            </div>
+            <button id="sendOtpBtn" class="btn btn-login">
+              Send OTP
+              <span class="loader"></span>
+            </button>
           </div>
 
           <!-- Step 2: Verify OTP -->
           <div id="step2" style="display: none;">
-            <p>Enter the OTP sent to your email.</p>
-            <input type="text" id="otp" class="form-control" placeholder="6-Digit OTP">
-            <button id="verifyOtpBtn" class="btn btn-primary w-100 mt-2">Verify OTP</button>
+            <div class="input-group mb-3">
+              <i class="fas fa-key"></i>
+              <input type="text" id="otp" class="form-control" placeholder="6-Digit OTP">
+            </div>
+            <button id="verifyOtpBtn" class="btn btn-login">
+              Verify OTP
+              <span class="loader"></span>
+            </button>
           </div>
 
           <!-- Step 3: Reset Password -->
           <div id="step3" style="display: none;">
-            <p>Enter your new password.</p>
-            <input type="password" id="newPassword" class="form-control" placeholder="New Password">
-            <button id="resetPasswordBtn" class="btn btn-success w-100 mt-2">Reset Password</button>
+            <div class="input-group mb-3">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="newPassword" class="form-control" placeholder="New Password">
+              <i class="fas fa-eye password-toggle" id="toggleNewPassword"></i>
+            </div>
+            <button id="resetPasswordBtn" class="btn btn-login" style="background: var(--success);">
+              Reset Password
+              <span class="loader"></span>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// --- Standard Login Logic ---
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const message = document.getElementById("message");
-
-  try {
-    const res = await fetch("/api/unified-login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      message.className = 'mt-3 text-center text-success';
-      message.textContent = "Login successful! Redirecting...";
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // --- Standard Login Logic ---
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+      const submitBtn = document.getElementById("submitBtn");
       
-      // Store necessary info in localStorage and redirect
-      if (data.role === "doctor") {
-        localStorage.setItem("doctorUid", data.user.uid);
-        window.location.href = "doctorProfile.html";
-      } else if (data.role === "patient") {
-        localStorage.setItem("userId", data.user.id);
-        window.location.href = "patientProfile.html";
-      } else if (data.role === "diagnostic") {
-        localStorage.setItem("diagnosticId", data.user.id);
-        localStorage.setItem("diagnosticCenterId", data.user.center_id);
-        window.location.href = "diagnosticProfile.html";
+      submitBtn.classList.add("btn-loading");
+      message.classList.remove("show");
+      message.className = '';
+
+      try {
+        const res = await fetch("/api/unified-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          message.classList.add('text-success', 'show');
+          message.textContent = "Login successful! Redirecting...";
+          
+          // Store necessary info in localStorage and redirect
+          if (data.role === "doctor") {
+            localStorage.setItem("doctorUid", data.user.uid);
+            window.location.href = "doctorProfile.html";
+          } else if (data.role === "patient") {
+            localStorage.setItem("userId", data.user.id);
+            localStorage.setItem("firstName", data.user.first_name);
+            localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
+            window.location.href = "patientProfile.html";
+          } else if (data.role === "diagnostic") {
+            localStorage.setItem("diagnosticId", data.user.id);
+            localStorage.setItem("diagnosticCenterId", data.user.center_id);
+            window.location.href = "diagnosticProfile.html";
+          }
+        } else {
+          message.classList.add('text-danger', 'show');
+          message.textContent = data.error || "Login failed";
+        }
+      } catch (err) {
+        console.error(err);
+        message.classList.add('text-danger', 'show');
+        message.textContent = "A network error occurred.";
+      } finally {
+        submitBtn.classList.remove("btn-loading");
       }
-    } else {
-      message.className = 'mt-3 text-center text-danger';
-      message.textContent = data.error || "Login failed";
+    });
+
+    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    
+    togglePassword.addEventListener('click', function() {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('fa-eye');
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    // Toggle new password visibility in modal
+    const toggleNewPassword = document.getElementById('toggleNewPassword');
+    const newPassword = document.getElementById('newPassword');
+    
+    if (toggleNewPassword && newPassword) {
+      toggleNewPassword.addEventListener('click', function() {
+        const type = newPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        newPassword.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
     }
-  } catch (err) {
-    console.error(err);
-    message.className = 'mt-3 text-center text-danger';
-    message.textContent = "A network error occurred.";
-  }
-});
 
+    // --- Forgot Password Logic ---
+    const resetMsg = document.getElementById('reset-message');
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const resetPasswordBtn = document.getElementById('resetPasswordBtn');
 
-// --- Forgot Password Logic ---
-const resetMsg = document.getElementById('reset-message');
-const sendOtpBtn = document.getElementById('sendOtpBtn');
-const verifyOtpBtn = document.getElementById('verifyOtpBtn');
-const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+    let userEmailForReset = ''; // To store the email across steps
 
-let userEmailForReset = ''; // To store the email across steps
+    function showResetMessage(message, type) {
+      resetMsg.textContent = message;
+      resetMsg.className = `alert alert-${type}`;
+      resetMsg.style.display = 'block';
+    }
 
-function showResetMessage(message, type) {
-  resetMsg.textContent = message;
-  resetMsg.className = `alert alert-${type}`;
-  resetMsg.style.display = 'block';
-}
+    // Step 1: Send OTP
+    sendOtpBtn.addEventListener('click', async () => {
+      userEmailForReset = document.getElementById('resetEmail').value;
+      if (!userEmailForReset) return showResetMessage('Please enter an email.', 'danger');
+      
+      sendOtpBtn.classList.add('btn-loading');
+      showResetMessage('Sending OTP...', 'info');
 
-// Step 1: Send OTP
-sendOtpBtn.addEventListener('click', async () => {
-  userEmailForReset = document.getElementById('resetEmail').value;
-  if (!userEmailForReset) return showResetMessage('Please enter an email.', 'danger');
-  
-  sendOtpBtn.disabled = true;
-  sendOtpBtn.textContent = 'Sending...';
+      try {
+        const res = await fetch('/api/unified-password/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: userEmailForReset })
+        });
+        const data = await res.json();
 
-  const res = await fetch('/api/unified-password/send-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: userEmailForReset })
-  });
-  const data = await res.json();
+        if (res.ok) {
+          showResetMessage(data.message, 'success');
+          document.getElementById('step1').style.display = 'none';
+          document.getElementById('step2').style.display = 'block';
+        } else {
+          showResetMessage(data.error, 'danger');
+        }
+      } catch (err) {
+        showResetMessage('Failed to send OTP. Please try again.', 'danger');
+      } finally {
+        sendOtpBtn.classList.remove('btn-loading');
+      }
+    });
 
-  if (res.ok) {
-    showResetMessage(data.message, 'success');
-    document.getElementById('step1').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-  } else {
-    showResetMessage(data.error, 'danger');
-  }
-  sendOtpBtn.disabled = false;
-  sendOtpBtn.textContent = 'Send OTP';
-});
+    // Step 2: Verify OTP
+    verifyOtpBtn.addEventListener('click', async () => {
+      const otp = document.getElementById('otp').value;
+      if (!otp) return showResetMessage('Please enter the OTP.', 'danger');
 
-// Step 2: Verify OTP
-verifyOtpBtn.addEventListener('click', async () => {
-  const otp = document.getElementById('otp').value;
-  if (!otp) return showResetMessage('Please enter the OTP.', 'danger');
+      verifyOtpBtn.classList.add('btn-loading');
+      showResetMessage('Verifying OTP...', 'info');
 
-  verifyOtpBtn.disabled = true;
-  verifyOtpBtn.textContent = 'Verifying...';
+      try {
+        const res = await fetch('/api/unified-password/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: userEmailForReset, otp })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+          showResetMessage(data.message, 'success');
+          document.getElementById('step2').style.display = 'none';
+          document.getElementById('step3').style.display = 'block';
+        } else {
+          showResetMessage(data.error, 'danger');
+        }
+      } catch (err) {
+        showResetMessage('Failed to verify OTP. Please try again.', 'danger');
+      } finally {
+        verifyOtpBtn.classList.remove('btn-loading');
+      }
+    });
 
-  const res = await fetch('/api/unified-password/verify-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: userEmailForReset, otp })
-  });
-  const data = await res.json();
-  
-  if (res.ok) {
-    showResetMessage(data.message, 'success');
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('step3').style.display = 'block';
-  } else {
-    showResetMessage(data.error, 'danger');
-  }
-  verifyOtpBtn.disabled = false;
-  verifyOtpBtn.textContent = 'Verify OTP';
-});
+    // Step 3: Reset Password
+    resetPasswordBtn.addEventListener('click', async () => {
+      const newPassword = document.getElementById('newPassword').value;
+      const otp = document.getElementById('otp').value;
+      if (!newPassword) return showResetMessage('Please enter a new password.', 'danger');
 
-// Step 3: Reset Password
-resetPasswordBtn.addEventListener('click', async () => {
-  const newPassword = document.getElementById('newPassword').value;
-  const otp = document.getElementById('otp').value; // Need OTP for final verification
-  if (!newPassword) return showResetMessage('Please enter a new password.', 'danger');
+      resetPasswordBtn.classList.add('btn-loading');
+      showResetMessage('Resetting password...', 'info');
 
-  resetPasswordBtn.disabled = true;
-  resetPasswordBtn.textContent = 'Resetting...';
-
-  const res = await fetch('/api/unified-password/reset-password', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: userEmailForReset, otp, newPassword })
-  });
-  const data = await res.json();
-  
-  if (res.ok) {
-    showResetMessage(data.message, 'success');
-    setTimeout(() => {
-        // Close modal and reload page
-        const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
-        modal.hide();
-        location.reload();
-    }, 2000);
-  } else {
-    showResetMessage(data.error, 'danger');
-    resetPasswordBtn.disabled = false;
-    resetPasswordBtn.textContent = 'Reset Password';
-  }
-});
-</script>
+      try {
+        const res = await fetch('/api/unified-password/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: userEmailForReset, otp, newPassword })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+          showResetMessage(data.message, 'success');
+          setTimeout(() => {
+              const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+              modal.hide();
+              location.reload();
+          }, 2000);
+        } else {
+          showResetMessage(data.error, 'danger');
+        }
+      } catch (err) {
+        showResetMessage('Failed to reset password. Please try again.', 'danger');
+      } finally {
+        resetPasswordBtn.classList.remove('btn-loading');
+      }
+    });
+  </script>
 </body>
 </html>

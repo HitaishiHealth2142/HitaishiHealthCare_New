@@ -28,7 +28,11 @@ router.post("/unified-login", (req, res) => {
       db.query("SELECT * FROM patients WHERE email = ? AND password = ?", [email, password], (err, patResults) => {
         if (err) return res.status(500).json({ error: "Database error" });
         if (patResults.length > 0) {
-          return res.json({ success: true, role: "patient", user: patResults[0] });
+          const user = patResults[0];
+          // --- FIX: Create a server session for the patient ---
+          req.session.isAuthenticated = true;
+          req.session.user = { type: 'patient', id: user.id, name: `${user.first_name} ${user.last_name}`, email: user.email };
+          return res.json({ success: true, role: "patient", user });
         }
 
         // 4. Not found anywhere
