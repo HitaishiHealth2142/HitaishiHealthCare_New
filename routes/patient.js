@@ -2,11 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db'); // Import the database connection
 
-/**
- * Creates the 'patients' table if it doesn't already exist.
- * This table stores all patient registration information.
- * The 'email' column is set to UNIQUE to prevent duplicate accounts.
- */
 const createPatientsTable = `
   CREATE TABLE IF NOT EXISTS patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,7 +14,8 @@ const createPatientsTable = `
     dob DATE NOT NULL,
     disease VARCHAR(255) NOT NULL,
     address TEXT NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    otp_code VARCHAR(6) DEFAULT NULL
   )
 `;
 
@@ -31,12 +27,6 @@ db.query(createPatientsTable, (err) => {
     console.log("✅ Patients table is ready.");
   }
 });
-
-/**
- * Route to register a new patient.
- * It first checks if the system is locked by another user.
- * It also validates that the provided passwords match.
- */
 
 // Helper: Check email across all roles
 function checkEmailExists(email, callback) {

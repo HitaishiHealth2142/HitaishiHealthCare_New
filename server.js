@@ -75,6 +75,8 @@ const testsRoutes = require("./routes/tests");
 const newpaymentRoutes = require("./routes/newpayment");
 const analyzeRoutes = require("./routes/analyze"); // Import the analyze route
 const sessionRoutes = require("./routes/session"); // Import session routes
+const unifiedLoginRoutes = require("./routes/unifiedLogin"); // Import unified login route
+const unifiedPasswordResetRoutes = require("./routes/unifiedPasswordReset"); // Import unified password reset route
 
 // Use Routes - Mount imported routes under the /api path
 app.use("/api", appointment_fertilityRoutes);
@@ -106,6 +108,8 @@ app.use("/api", analyzeRoutes); // Mount the analyze route
 app.use('/uploads', express.static('uploads'));
 app.use("/api", sessionRoutes); // Mount session management routes
 console.log("✅ sessionRoutes loaded at /api/");
+app.use("/api", unifiedLoginRoutes); // Mount unified login route
+app.use("/api", unifiedPasswordResetRoutes); // Mount unified password reset route
 
 
 
