@@ -44,6 +44,7 @@ db.query(createTable, (err) => {
   else console.log('✅ diagnostic_centers table ready');
 });
 
+
 // EMAIL SETUP
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -62,37 +63,66 @@ async function sendEmail(to, subject, html) {
   }
 }
 
+function checkEmailExists(email, callback) {
+  const queries = [
+    "SELECT email FROM doctors WHERE email = ?",
+    "SELECT email FROM patients WHERE email = ?",
+    "SELECT email FROM diagnostic_centers WHERE email = ?"
+  ];
+
+  let found = false;
+  let checked = 0;
+
+  queries.forEach(q => {
+    db.query(q, [email], (err, results) => {
+      if (err) return callback(err);
+      if (results.length > 0) found = true;
+      checked++;
+      if (checked === queries.length) {
+        callback(null, found);
+      }
+    });
+  });
+}
+
 // CHECK EMAIL ALREADY EXISTS
 router.post('/diagnostics/check-email', (req, res) => {
   const { email } = req.body;
-  db.query("SELECT * FROM diagnostic_centers WHERE email = ?", [email], (err, result) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    if (result.length > 0 && result[0].is_verified === 1) {
-      return res.json({ exists: true, message: 'Email already registered.' });
+  checkEmailExists(email, (err, exists) => {
+    if (err) return res.status(500).json({ error: 'Database error during email check' });
+    if (exists) {
+      return res.json({ exists: true, message: 'Email already registered in another account type.' });
     }
     res.json({ exists: false });
   });
 });
+
 
 // SEND OTP
 router.post('/diagnostics/send-otp', (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ error: 'Email required' });
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  const sql = `
-    INSERT INTO diagnostic_centers (email, otp_code, is_verified)
-    VALUES (?, ?, 0)
-    ON DUPLICATE KEY UPDATE otp_code = ?, is_verified = IF(is_verified = 1, 1, 0)
-  `;
-  db.query(sql, [email, otp, otp], (err) => {
-    if (err) return res.status(500).json({ error: 'DB error during OTP gen' });
+  checkEmailExists(email, (err, exists) => {
+    if (err) return res.status(500).json({ error: 'Database error during email check' });
+    if (exists) return res.status(400).json({ error: 'Email already registered in another account type.' });
 
-    const html = `<p>Your OTP is: <strong>${otp}</strong>. Valid for 10 minutes.</p>`;
-    sendEmail(email, 'Hitaishi OTP Verification', html);
-    res.json({ success: true, message: 'OTP sent successfully.' });
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const sql = `
+      INSERT INTO diagnostic_centers (email, otp_code, is_verified)
+      VALUES (?, ?, 0)
+      ON DUPLICATE KEY UPDATE otp_code = ?, is_verified = IF(is_verified = 1, 1, 0)
+    `;
+    db.query(sql, [email, otp, otp], (err) => {
+      if (err) return res.status(500).json({ error: 'DB error during OTP gen' });
+
+      const html = `<p>Your OTP is: <strong>${otp}</strong>. Valid for 10 minutes.</p>`;
+      sendEmail(email, 'Hitaishi OTP Verification', html);
+      res.json({ success: true, message: 'OTP sent successfully.' });
+    });
   });
 });
+
 
 // VERIFY OTP
 router.post('/diagnostics/verify-otp', (req, res) => {
@@ -110,26 +140,37 @@ router.post('/diagnostics/verify-otp', (req, res) => {
   });
 });
 
-// REGISTER ROUTE (blocked if locked by another session)
-router.post('/diagnostics/register', (req, res) => {
-  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
-    if (e) return res.status(500).json({ error: 'DB error' });
-    const lock = rows[0];
-    if (lock?.is_locked && lock.session_id !== req.sessionID) {
-      return res.status(423).json({ error: 'The system is currently in use by another user. Please try later.' });
+// Local role lock middleware
+function localRoleLock(targetRole) {
+  return (req, res, next) => {
+    if (req.session?.isAuthenticated && req.session?.user?.type && req.session.user.type !== targetRole) {
+      return res.status(409).json({
+        error: `You are already logged in as '${req.session.user.type}' on this device. Please logout to switch to '${targetRole}'.`
+      });
     }
+    next();
+  };
+}
 
-    const {
-      email, centerName, ownerName, centerType, phone, altPhone, whatsapp,
-      address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
-      accountHolderName, bankName, accountNumber, ifscCode, upiId,
-      fromTime, toTime, services, homeSample, password
-    } = req.body;
+// REGISTER ROUTE (local lock only)
+router.post('/diagnostics/register', localRoleLock('diagnostic'), (req, res) => {
+  const {
+    email, centerName, ownerName, centerType, phone, altPhone, whatsapp,
+    address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
+    accountHolderName, bankName, accountNumber, ifscCode, upiId,
+    fromTime, toTime, services, homeSample, password
+  } = req.body;
 
-    if (!email || !centerName || !password) {
-      return res.status(400).json({ error: 'Missing required fields.' });
-    }
+  if (!email || !centerName || !password) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+  }
 
+  // Step 1: Check email across all roles
+  // checkEmailExists(email, (err, exists) => {
+  //   if (err) return res.status(500).json({ error: 'Database error during email check' });
+  //   if (exists) return res.status(400).json({ error: 'Email already registered in another account type.' });
+
+    // Step 2: Continue with registration
     const operational_hours = `${fromTime} - ${toTime}`;
     const center_id = require('crypto').randomBytes(3).toString('hex').toUpperCase();
     const sql = `
@@ -152,51 +193,41 @@ router.post('/diagnostics/register', (req, res) => {
       if (result.affectedRows === 0) {
         return res.status(400).json({ error: 'Please verify email before registration.' });
       }
+
+      // Step 3: Set session so browser is locked as diagnostic
+      req.session.isAuthenticated = true;
+      req.session.user = { type: 'diagnostic', id: center_id, name: centerName, email };
+
       res.json({ success: true, message: 'Registration successful!' });
     });
   });
-});
 
-// Login Route with global lock
-router.post('/diagnostics/login', (req, res) => {
+
+
+// Login Route with local lock
+router.post('/diagnostics/login', localRoleLock('diagnostic'), (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
 
-  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
-    if (e) return res.status(500).json({ error: 'DB error' });
-    const lock = rows[0];
-    if (lock?.is_locked && lock.session_id !== req.sessionID) {
-      return res.status(423).json({ error: 'Another user is currently logged in.' });
-    }
+  const query = "SELECT * FROM diagnostic_centers WHERE email = ? AND password = ? AND is_verified = 1";
+  db.query(query, [email, password], (err, result) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    if (result.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
 
-    const query = "SELECT * FROM diagnostic_centers WHERE email = ? AND password = ? AND is_verified = 1";
-    db.query(query, [email, password], (err, result) => {
-      if (err) return res.status(500).json({ error: 'Database error' });
-      if (result.length === 0) return res.status(401).json({ error: 'Invalid email or password' });
+    const user = result[0];
 
-      const user = result[0];
-      // set session + acquire lock
-      req.session.isAuthenticated = true;
-      req.session.user = { type: 'diagnostic', id: user.id, name: user.center_name, email: user.email };
+    // Set local session
+    req.session.isAuthenticated = true;
+    req.session.user = { type: 'diagnostic', id: user.id, name: user.center_name, email: user.email };
 
-      db.query(
-        "UPDATE session_lock SET is_locked=1, session_id=?, user_type='diagnostic', user_id=?, started_at=NOW() WHERE id=1",
-        [req.sessionID, String(user.id)],
-        (uErr) => {
-          if (uErr) return res.status(500).json({ error: 'DB error acquiring lock' });
+    // Record Login Time (optional but keeps your tracking)
+    const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
+    db.query(loginActivityQuery, [req.sessionID, String(user.id), 'diagnostic']);
 
-          // --- NEW: Record Login Time ---
-          const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
-          db.query(loginActivityQuery, [req.sessionID, String(user.id), 'diagnostic']);
-          // --- END NEW ---
-
-          res.json({
-            success: true,
-            message: 'Login successful',
-            user: { id: user.id, center_id: user.center_id, center_name: user.center_name }
-          });
-        }
-      );
+    res.json({
+      success: true,
+      message: 'Login successful',
+      user: { id: user.id, center_id: user.center_id, center_name: user.center_name }
     });
   });
 });

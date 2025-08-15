@@ -38,27 +38,61 @@ db.query(createDoctorsTable, (err) => {
   }
 });
 
-// register a new doctor (blocked if system is locked by another session)
-router.post("/doctors", upload.none(), async (req, res) => {
-  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
-    if (e) return res.status(500).json({ message: "DB error" });
-    const lock = rows[0];
-    if (lock?.is_locked && lock.session_id !== req.sessionID) {
-      return res.status(423).json({ message: "The system is currently in use by another user. Please try later." });
+function checkEmailExists(email, callback) {
+  const queries = [
+    "SELECT email FROM doctors WHERE email = ?",
+    "SELECT email FROM patients WHERE email = ?",
+    "SELECT email FROM diagnostic_centers WHERE email = ?"
+  ];
+
+  let found = false;
+  let checked = 0;
+
+  queries.forEach(q => {
+    db.query(q, [email], (err, results) => {
+      if (err) return callback(err);
+      if (results.length > 0) found = true;
+      checked++;
+      if (checked === queries.length) {
+        callback(null, found);
+      }
+    });
+  });
+}
+
+function localRoleLock(targetRole) {
+  return (req, res, next) => {
+    if (req.session?.isAuthenticated && req.session?.user?.type && req.session.user.type !== targetRole) {
+      return res.status(409).json({
+        error: `You are already logged in as '${req.session.user.type}' on this device. Please logout to switch to '${targetRole}'.`
+      });
     }
+    next();
+  };
+}
 
-    const {
-      first_name, last_name, email, mobile, address, clinic, license_number,
-      aadhar_card, experience, degree, university, specialization,
-      availability, from_time, to_time, additional_info, password
-    } = req.body;
 
-    const uid = require("crypto").randomBytes(3).toString("hex");
+// Doctor Registration (No lock, but still checks cross-role email)
+router.post("/doctors", upload.none(), async (req, res) => {
+  const {
+    first_name, last_name, email, mobile, address, clinic, license_number,
+    aadhar_card, experience, degree, university, specialization,
+    availability, from_time, to_time, additional_info, password
+  } = req.body;
 
+  const uid = require("crypto").randomBytes(3).toString("hex");
+
+  // ✅ Step 1: Check cross-role email
+  checkEmailExists(email, (err, exists) => {
+    if (err) return res.status(500).json({ message: "Database error during email check." });
+    if (exists) return res.status(400).json({ message: "Email already registered in another account type." });
+
+    // ✅ Step 2: Check Aadhar
     db.query("SELECT * FROM doctors WHERE aadhar_card = ?", [aadhar_card], (err, results) => {
       if (err) return res.status(500).json({ message: "Error checking Aadhar." });
       if (results.length > 0) return res.status(400).json({ message: "Aadhar already registered." });
 
+      // ✅ Step 3: Insert new doctor
       const sql = `INSERT INTO doctors 
         (uid, first_name, last_name, email, mobile, address, clinic, license_number, aadhar_card,
         experience, degree, university, specialization, availability, from_time, to_time, additional_info, password) 
@@ -71,54 +105,36 @@ router.post("/doctors", upload.none(), async (req, res) => {
 
       db.query(sql, values, (err2) => {
         if (err2) return res.status(500).json({ message: "Error registering doctor." });
+
         res.status(201).json({ message: "Doctor registered successfully!", uid });
       });
     });
   });
 });
 
-// doctor login with global lock
+
+// Doctor Login (No lock)
 router.post("/doctorlogin", async (req, res) => {
   const { email, password } = req.body;
 
-  db.query("SELECT is_locked, session_id FROM session_lock WHERE id=1", (e, rows) => {
-    if (e) return res.status(500).json({ message: "DB error" });
-    const lock = rows[0];
-    if (lock?.is_locked && lock.session_id !== req.sessionID) {
-      return res.status(423).json({ message: "Another user is currently logged in." });
-    }
+  db.query("SELECT * FROM doctors WHERE email = ?", [email], (err, results) => {
+    if (err) return res.status(500).json({ message: "Database error during login!" });
+    if (results.length === 0) return res.status(404).json({ message: "Doctor not found." });
 
-    db.query("SELECT * FROM doctors WHERE email = ?", [email], (err, results) => {
-      if (err) return res.status(500).json({ message: "Database error during login!" });
-      if (results.length === 0) return res.status(404).json({ message: "Doctor not found." });
+    const doctor = results[0];
+    if (doctor.password !== password) return res.status(401).json({ message: "Invalid credentials." });
 
-      const doctor = results[0];
-      if (doctor.password !== password) return res.status(401).json({ message: "Invalid credentials." });
+    // Record Login Time
+    const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
+    db.query(loginActivityQuery, [req.sessionID, String(doctor.uid), 'doctor']);
 
-      // set session + acquire lock
-      req.session.isAuthenticated = true;
-      req.session.user = { type: 'doctor', id: doctor.uid, name: `${doctor.first_name} ${doctor.last_name}`, email: doctor.email };
-
-      db.query(
-        "UPDATE session_lock SET is_locked=1, session_id=?, user_type='doctor', user_id=?, started_at=NOW() WHERE id=1",
-        [req.sessionID, String(doctor.uid)],
-        (uErr) => {
-          if (uErr) return res.status(500).json({ message: 'DB error acquiring lock' });
-
-          // --- NEW: Record Login Time ---
-          const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
-          db.query(loginActivityQuery, [req.sessionID, String(doctor.uid), 'doctor']);
-          // --- END NEW ---
-
-          res.status(200).json({
-            message: "Login successful",
-            user: { uid: doctor.uid, email: doctor.email, name: `${doctor.first_name} ${doctor.last_name}` }
-          });
-        }
-      );
+    res.status(200).json({
+      message: "Login successful",
+      user: { uid: doctor.uid, email: doctor.email, name: `${doctor.first_name} ${doctor.last_name}` }
     });
   });
 });
+
 
 
 // get filters for doctors
