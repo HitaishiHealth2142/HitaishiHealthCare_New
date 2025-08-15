@@ -6,6 +6,7 @@ const db = require('../db'); // Corrected path
 /**
  * Creates the session_lock table if it doesn't exist.
  * This table acts as a global lock to ensure only one user is logged in at a time.
+ * It has a single row (id=1) that represents the lock state of the entire application.
  */
 const createSessionLockTable = `
   CREATE TABLE IF NOT EXISTS session_lock (
@@ -21,7 +22,7 @@ db.query(createSessionLockTable, (err) => {
   if (err) {
     console.error('❌ Table creation error (session_lock):', err);
   } else {
-    // Ensure the single lock row exists after creating the table.
+    // Ensure the single lock row exists with a default unlocked state.
     db.query("INSERT IGNORE INTO session_lock (id, is_locked) VALUES (1, 0)", () => {
         console.log('✅ session_lock table ready');
     });
@@ -30,7 +31,7 @@ db.query(createSessionLockTable, (err) => {
 
 /**
  * Creates the login_activity table if it doesn't exist.
- * This table logs every successful login and logout event.
+ * This table logs every successful login and logout event for auditing purposes.
  */
 const createLoginActivityTable = `
   CREATE TABLE IF NOT EXISTS login_activity (
@@ -63,7 +64,10 @@ router.get('/session/status', (req, res) => {
   });
 });
 
-// Route to handle user logout.
+/**
+ * Route to handle user logout.
+ * This is the ONLY way the system lock should be released during normal operation.
+ */
 router.post('/logout', (req, res) => {
   db.query("SELECT session_id FROM session_lock WHERE id=1", (err, rows) => {
     if (err) return res.status(500).json({ error: 'DB error on logout' });
@@ -86,7 +90,7 @@ router.post('/logout', (req, res) => {
         }
     };
 
-    // Releases the global lock if the current session owns it.
+    // Releases the global lock ONLY if the current session is the one that holds the lock.
     const unlockIfOwner = (cb) => {
       if (currentLockSid && currentLockSid === req.sessionID) {
         db.query(
@@ -107,9 +111,10 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// Emergency route to force-unlock the system.
+// Emergency route to force-unlock the system in case a session terminates unexpectedly.
 router.post('/session/force-unlock', (req, res) => {
   const token = req.get('x-admin-token');
+  // You should secure this with a strong, environment-specific token.
   if (token !== process.env.ADMIN_UNLOCK_TOKEN) {
     return res.status(403).json({ error: 'Forbidden' });
   }

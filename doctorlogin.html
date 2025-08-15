@@ -146,6 +146,11 @@
     button:hover {
       background: #0056b3;
     }
+    
+    button:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
 
     #message {
       margin-top: 18px;
@@ -206,7 +211,7 @@
             <i id="togglePassword" class="fa fa-eye"></i>
           </div>
 
-          <button type="submit">Login</button>
+          <button type="submit" id="loginButton">Login</button>
           <div id="message"></div>
         </form>
         <div class="links">
@@ -234,7 +239,12 @@
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
         const messageElement = document.getElementById("message");
-        messageElement.textContent = 'Logging in...';
+        const loginButton = document.getElementById("loginButton");
+
+        // Disable button and show loading message
+        loginButton.disabled = true;
+        loginButton.textContent = 'Logging in...';
+        messageElement.textContent = '';
         messageElement.style.color = '#555';
 
         try {
@@ -251,13 +261,10 @@
             messageElement.style.color = "green";
             messageElement.innerText = "Login successful! Redirecting...";
 
-            // --- FIX ---
-            // The API returns { user: { uid: '...' } }. Access uid via data.user.uid
-            // Also save the entire user object for a better profile page loading experience.
             if (data.user && data.user.uid) {
                 localStorage.setItem("doctorUid", data.user.uid); 
                 localStorage.setItem("doctorUser", JSON.stringify(data.user));
-                localStorage.setItem("doctorToken", "doctor-auth-token"); // This is a placeholder, consider real tokens later
+                localStorage.setItem("doctorToken", "doctor-auth-token"); 
 
                 setTimeout(() => {
                     window.location.href = "doctorProfile.html";
@@ -265,19 +272,26 @@
             } else {
                 messageElement.style.color = "red";
                 messageElement.innerText = "Login error: Invalid data received from server.";
+                loginButton.disabled = false;
+                loginButton.textContent = 'Login';
             }
           } else {
+            // Handle specific "Locked" error and other errors
             messageElement.style.color = "red";
             messageElement.innerText = data.message || "Login failed!";
+            loginButton.disabled = false;
+            loginButton.textContent = 'Login';
           }
         } catch (error) {
           console.error("Login Error:", error);
           messageElement.style.color = "red";
           messageElement.innerText = "A network or server error occurred. Please try again.";
+          loginButton.disabled = false;
+          loginButton.textContent = 'Login';
         }
       });
 
-      // Auto redirect if already logged in
+      // Auto redirect if already logged in (optional, can be confusing with global lock)
       window.onload = () => {
         const doctorUid = localStorage.getItem("doctorUid");
         if (doctorUid) {

@@ -335,13 +335,15 @@
   const userProfile = document.querySelector('.user-profile');
   const dropdownMenu = document.querySelector('.dropdown-menu');
   
-  userProfile.addEventListener('click', () => {
-    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-  });
+  if (userProfile && dropdownMenu) {
+      userProfile.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      });
+  }
   
   // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
-    if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+    if (userProfile && dropdownMenu && !userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
       dropdownMenu.style.display = 'none';
     }
   });
@@ -775,46 +777,71 @@
     const API_BASE = "https://hitaishihealthcare.com/api";
     let originalData = {};
     
-    document.addEventListener('DOMContentLoaded', function() {
-      const userId = localStorage.getItem('diagnosticId');
-      const email = localStorage.getItem('diagnosticEmail');
-      const password = localStorage.getItem('diagnosticPassword');
-      
-      if (!userId || !email || !password) {
-        window.location.href = 'index.html';
-        return;
+    /**
+     * ✅ FIXED: Main entry point after the page loads.
+     * This function now checks the session with the server instead of relying on localStorage.
+     */
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        const res = await fetch(`${API_BASE}/session/status`);
+        if (!res.ok) {
+          // If the server returns an error (e.g., 500), redirect to login.
+          logout(); // Use the logout function to clear everything and redirect.
+          return;
+        }
+
+        const sessionData = await res.json();
+
+        // Check if the user is authenticated as a 'diagnostic' user on the server.
+        if (sessionData.isAuthenticated && sessionData.me?.type === 'diagnostic') {
+          // The user is properly authenticated.
+          const userId = sessionData.me.id;
+          const centerId = sessionData.lock?.user_id; // The user_id in the lock table is the center_id
+
+          // Store IDs in localStorage for convenience for other functions.
+          localStorage.setItem('diagnosticId', userId);
+          if(centerId) localStorage.setItem('diagnosticCenterId', centerId);
+
+          // Initialize the rest of the page.
+          initializePage(userId);
+        } else {
+          // If not authenticated, trigger the full logout process.
+          logout();
+        }
+      } catch (error) {
+        console.error("Session check failed:", error);
+        logout(); // Redirect on any network or parsing error.
       }
-      
-      // Initialize navigation buttons
+    });
+
+    /**
+     * ✅ NEW: Initializes all page event listeners and loads initial data.
+     * This is called only after the session has been successfully verified.
+     * @param {string} userId - The validated user ID from the session.
+     */
+    function initializePage(userId) {
       document.getElementById('homeBtn').addEventListener('click', () => showContent('home'));
       document.getElementById('appointmentsBtn').addEventListener('click', () => {
         showContent('appointments');
         loadAppointments();
       });
-
-      // our tests
       document.getElementById('ourTestsBtn').addEventListener('click', () => {
-      showContent('ourTests');
-      loadOurTests();
+        showContent('ourTests');
+        loadOurTests();
       });
-
-      // send reports
       document.getElementById('sendReportsBtn').addEventListener('click', () => {
         showContent('sendReports');
       });
-
       document.getElementById('addTestsBtn').addEventListener('click', () => showContent('addTests'));
       document.getElementById('profileBtn').addEventListener('click', () => {
         showContent('profile');
-        fetchUserProfile(userId);
+        fetchUserProfile(userId); // Pass the validated userId
       });
       document.getElementById('logoutBtn').addEventListener('click', logout);
       
-      // Initialize profile form handlers
       document.getElementById('editBtn').addEventListener('click', enableEditing);
       document.getElementById('profileForm').addEventListener('submit', saveProfile);
       
-      // Initialize test image preview
       document.getElementById('testImage').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -828,42 +855,37 @@
         }
       });
       
-      // Initialize add test form
       document.getElementById('addTestForm').addEventListener('submit', addNewTest);
       
       // Show home content by default
       showContent('home');
       loadDashboardStats();
-    });
+    }
     
-function showContent(contentName) {
-  const sections = ['home', 'appointments', 'addTests', 'profile', 'ourTests', 'sendReports'];
-  sections.forEach(name => {
-    document.getElementById(`${name}Content`).style.display = 'none';
-  });
+    function showContent(contentName) {
+      const sections = ['home', 'appointments', 'addTests', 'profile', 'ourTests', 'sendReports'];
+      sections.forEach(name => {
+        document.getElementById(`${name}Content`).style.display = 'none';
+      });
 
-  document.getElementById(`${contentName}Content`).style.display = 'block';
+      document.getElementById(`${contentName}Content`).style.display = 'block';
 
-  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById(`${contentName}Btn`).classList.add('active');
-}
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`${contentName}Btn`).classList.add('active');
+    }
 
     
     function loadDashboardStats() {
-      const userId = localStorage.getItem('diagnosticId');
-      
-      // In a real app, you would fetch these from your API
-      // For demo purposes, we'll use mock data
+      // This function can be expanded to fetch real data.
       document.getElementById('todayAppointments').textContent = '12';
       document.getElementById('completedTests').textContent = '8';
       document.getElementById('pendingPayments').textContent = '4';
     }
     
     function loadAppointments() {
-      const centerId = localStorage.getItem('diagnosticCenterId'); // ✅ FIX: use center_id
+      const centerId = localStorage.getItem('diagnosticCenterId');
       if (!centerId) {
-        alert("Center ID not found. Please log in again.");
-        window.location.href = "diagnosticLogin.html";
+        console.error("Center ID not found in localStorage.");
         return;
       }
 
@@ -872,14 +894,10 @@ function showContent(contentName) {
       if (dateFilter) url += `?date=${dateFilter}`;
 
       fetch(url)
-        .then(response => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
           const tableBody = document.getElementById('appointmentsTableBody');
           tableBody.innerHTML = '';
-
           if (data.success && data.appointments.length > 0) {
             data.appointments.forEach(app => {
               const row = document.createElement('tr');
@@ -890,50 +908,41 @@ function showContent(contentName) {
                 <td>${app.patient_mobile}</td>
                 <td>${app.test_name}</td>
                 <td>${new Date(app.test_date).toLocaleDateString()}</td>
-                
                 <td>₹${app.amount}</td>
                 <td>Booked</td>
               `;
               tableBody.appendChild(row);
             });
           } else {
-            tableBody.innerHTML = `<tr><td colspan="9" class="text-center">No appointments found</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="8" class="text-center">No appointments found</td></tr>`;
           }
         })
         .catch(err => {
           console.error("Error loading appointments:", err);
-          alert("Failed to load appointments");
+          document.getElementById('appointmentsTableBody').innerHTML = `<tr><td colspan="8" class="text-center">Failed to load appointments.</td></tr>`;
         });
     }
 
     function addNewTest(e) {
         e.preventDefault();
-
         const form = e.target;
         const formData = new FormData(form);
         const diagnosticId = localStorage.getItem('diagnosticId');
 
-        // Append diagnostic center ID from localStorage
         if (diagnosticId) {
           formData.append('diagnostic_id', diagnosticId);
         }
 
-        fetch('https://hitaishihealthcare.com/api/test/register', {
+        fetch(`${API_BASE}/test/register`, {
           method: 'POST',
           body: formData
         })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
           if (data.success) {
             showMessage('✅ Test added successfully!', 'success');
             form.reset();
-            const preview = document.getElementById('testImagePreview');
-            if (preview) preview.style.display = 'none';
+            document.getElementById('testImagePreview').style.display = 'none';
           } else {
             showMessage('❌ Failed to add test: ' + (data.error || 'Unknown error'), 'danger');
           }
@@ -944,53 +953,16 @@ function showContent(contentName) {
         });
       }
 
-      // Attach the form submit handler
-      document.addEventListener('DOMContentLoaded', function () {
-        const addTestForm = document.getElementById('addTestForm');
-        if (addTestForm) {
-          addTestForm.addEventListener('submit', addNewTest);
-        }
-
-        // Optional: image preview
-        const testImageInput = document.getElementById('testImage');
-        const preview = document.getElementById('testImagePreview');
-        if (testImageInput && preview) {
-          testImageInput.addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-              preview.src = URL.createObjectURL(file);
-              preview.style.display = 'block';
-            } else {
-              preview.style.display = 'none';
-            }
-          });
-        }
-      });
-
-      // Dummy showMessage function (you should replace this with your own alert/notification system)
-      function showMessage(message, type) {
-        alert(message); // Replace with your preferred UI method
-      }
-
     function loadOurTests() {
-          // ✅ FIX 1: Use the correct localStorage key 'diagnosticId'.
           const diagnosticId = localStorage.getItem('diagnosticId'); 
-
           if (!diagnosticId) {
             alert("Center ID not found. Please log in again.");
-            window.location.href = "diagnosticLogin.html";
+            logout();
             return;
           }
 
-          // ✅ FIX 2: Use backticks (`) instead of single quotes (') for the URL.
-          // This allows the ${diagnosticId} variable to be correctly placed in the URL.
-          fetch(`https://hitaishihealthcare.com/api/test/center/${diagnosticId}`)
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.json();
-            })
+          fetch(`${API_BASE}/test/center/${diagnosticId}`)
+            .then(response => response.json())
             .then(data => {
               const tbody = document.getElementById('ourTestsTableBody');
               tbody.innerHTML = '';
@@ -1006,36 +978,20 @@ function showContent(contentName) {
                     <td>₹${test.price}</td>
                     <td>${test.discount}%</td>
                     <td>₹${test.final_price}</td>
-                    <td>
-                      <span class="badge ${getStatusBadgeClass(test.status)}">
-                        ${test.status || 'N/A'}
-                      </span>
-                    </td>
+                    <td><span class="badge ${getStatusBadgeClass(test.status)}">${test.status || 'N/A'}</span></td>
                     <td>${test.home_collection || 'No'}</td>
                   `;
                   tbody.appendChild(row);
                 });
 
-                // Add search functionality
                 document.getElementById('testSearch').addEventListener('input', function() {
                   const searchTerm = this.value.toLowerCase();
-                  const rows = tbody.querySelectorAll('tr');
-                  
-                  rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                  });
-                });
-
-                // Add edit button handlers
-                document.querySelectorAll('.edit-test').forEach(btn => {
-                  btn.addEventListener('click', function() {
-                    const testId = this.getAttribute('data-id');
-                    editTest(testId);
+                  tbody.querySelectorAll('tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
                   });
                 });
               } else {
-                tbody.innerHTML = '<tr><td colspan="10" class="text-center">No tests found for your center.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center">No tests found for your center.</td></tr>';
               }
             })
             .catch(err => {
@@ -1045,30 +1001,17 @@ function showContent(contentName) {
         }   
         
     function getStatusBadgeClass(status) {
-      // This line safely handles null or undefined statuses
       const safeStatus = (status || "").toLowerCase().trim();
-
       switch(safeStatus) {
         case 'active': return 'bg-success';
         case 'inactive': return 'bg-secondary';
         case 'upcoming': return 'bg-warning text-dark';
-        // Use a neutral default for unknown or missing statuses
         default: return 'bg-light text-dark';
       }
     }
-    
-    function editTest(testId) {
-      // You can implement edit functionality here
-      alert(`Edit test with ID: ${testId}`);
-      // In a real implementation, you would:
-      // 1. Fetch the test details
-      // 2. Populate a modal or form
-      // 3. Handle the update submission
-    }
-        
+            
     function submitReportForm(e) {
           e.preventDefault();
-
           const form = document.getElementById('sendReportForm');
           const formData = new FormData(form);
           const centerId = localStorage.getItem('diagnosticCenterId');
@@ -1095,12 +1038,7 @@ function showContent(contentName) {
 
     function fetchUserProfile(userId) {
       fetch(`${API_BASE}/diagnostics/${userId}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
           if (data.success && data.user) {
             originalData = data.user;
@@ -1116,56 +1054,36 @@ function showContent(contentName) {
     }
     
     function populateProfileForm(userData) {
-      // Basic Information
       document.getElementById('centerName').value = userData.center_name || '';
       document.getElementById('ownerName').value = userData.owner_name || '';
       document.getElementById('centerType').value = userData.center_type || '';
       document.getElementById('email').value = userData.email || '';
-      
-      // Contact Information
       document.getElementById('phone').value = userData.phone || '';
       document.getElementById('altPhone').value = userData.alt_phone || '';
       document.getElementById('whatsapp').value = userData.whatsapp || '';
       document.getElementById('homeSample').value = userData.home_sample || 'No';
-      
-      // Address Information
       document.getElementById('address').value = userData.address || '';
       document.getElementById('city').value = userData.city || '';
       document.getElementById('state').value = userData.state || '';
       document.getElementById('pincode').value = userData.pincode || '';
       document.getElementById('mapUrl').value = userData.map_url || '';
       
-      // Operational Hours
       let operationalHours = { from: '09:00', to: '18:00' };
       try {
         if (userData.operational_hours) {
-          if (typeof userData.operational_hours === 'string') {
             const parts = userData.operational_hours.split('-').map(part => part.trim());
             if (parts.length === 2) {
               operationalHours = { from: parts[0], to: parts[1] };
             }
-          } else {
-            operationalHours = JSON.parse(userData.operational_hours);
-          }
         }
-      } catch (e) {
-        console.error('Error parsing operational hours:', e);
-      }
+      } catch (e) { console.error('Error parsing operational hours:', e); }
       document.getElementById('fromTime').value = operationalHours.from || '09:00';
       document.getElementById('toTime').value = operationalHours.to || '18:00';
       
-      // Services
       let services = [];
       try {
-        if (userData.services) {
-          if (typeof userData.services === 'string') {
-            services = JSON.parse(userData.services);
-          } else {
-            services = userData.services;
-          }
-        }
+        if (userData.services) services = JSON.parse(userData.services);
       } catch (e) {
-        console.error('Error parsing services:', e);
         services = userData.services ? userData.services.split(',') : [];
       }
       
@@ -1179,14 +1097,10 @@ function showContent(contentName) {
           servicesDisplay.appendChild(tag);
         }
       });
-      
       document.getElementById('servicesInput').value = services.join(', ');
       
-      // Registration Information
       document.getElementById('registrationNumber').value = userData.registration_number || '';
       document.getElementById('gstNumber').value = userData.gst_number || '';
-      
-      // Bank Information
       document.getElementById('accountHolderName').value = userData.account_holder_name || '';
       document.getElementById('bankName').value = userData.bank_name || '';
       document.getElementById('accountNumber').value = userData.account_number || '';
@@ -1195,14 +1109,12 @@ function showContent(contentName) {
     }
     
     function enableEditing() {
-      // Enable all editable fields
       const editableFields = [
         'center_name', 'owner_name', 'center_type', 'phone', 'alt_phone', 'whatsapp',
         'address', 'city', 'state', 'pincode', 'map_url', 'registration_number',
         'gst_number', 'account_holder_name', 'bank_name', 'account_number',
         'ifsc_code', 'upi_id', 'fromTime', 'toTime'
       ];
-      
       editableFields.forEach(field => {
         const element = document.getElementById(field);
         if (element) {
@@ -1211,26 +1123,21 @@ function showContent(contentName) {
         }
       });
       
-      // Enable select dropdown
       document.getElementById('homeSample').disabled = false;
       document.getElementById('homeSample').classList.add('bg-light');
       
-      // Show services textarea and hide display
       document.getElementById('servicesDisplay').style.display = 'none';
       document.getElementById('servicesInput').style.display = 'block';
       document.getElementById('servicesHelp').style.display = 'block';
       
-      // Toggle buttons
       document.getElementById('editBtn').style.display = 'none';
       document.getElementById('saveBtn').style.display = 'inline-block';
     }
     
     function saveProfile(e) {
       e.preventDefault();
-      
       const userId = localStorage.getItem('diagnosticId');
       
-      // Prepare the data to send
       const updatedData = {
         center_name: document.getElementById('centerName').value,
         owner_name: document.getElementById('ownerName').value,
@@ -1251,45 +1158,21 @@ function showContent(contentName) {
         account_number: document.getElementById('accountNumber').value,
         ifsc_code: document.getElementById('ifscCode').value,
         upi_id: document.getElementById('upiId').value,
-        fromTime: document.getElementById('fromTime').value,
-        toTime: document.getElementById('toTime').value,
-        services: document.getElementById('servicesInput').value
+        operational_hours: `${document.getElementById('fromTime').value} - ${document.getElementById('toTime').value}`,
+        services: JSON.stringify(document.getElementById('servicesInput').value.split(',').map(s => s.trim()).filter(s => s))
       };
       
-      // Format operational hours
-      updatedData.operational_hours = JSON.stringify({
-        from: updatedData.fromTime,
-        to: updatedData.toTime
-      });
-      
-      // Format services as JSON array
-      updatedData.services = JSON.stringify(
-        updatedData.services.split(',').map(s => s.trim()).filter(s => s)
-      );
-      
-      // Remove temporary fields
-      delete updatedData.fromTime;
-      delete updatedData.toTime;
-      
-      // Send the update request
       fetch(`${API_BASE}/diagnostics/${userId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData)
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
         if (data.success) {
           showMessage('Profile updated successfully!', 'success');
-          fetchUserProfile(userId); // Refresh the data
-          disableEditing(); // Return to view mode
+          fetchUserProfile(userId);
+          disableEditing();
         } else {
           showMessage('Failed to update profile: ' + (data.error || 'Unknown error'), 'danger');
         }
@@ -1301,22 +1184,17 @@ function showContent(contentName) {
     }
     
     function disableEditing() {
-      // Disable all fields
-      const inputs = document.querySelectorAll('input, select, textarea');
+      const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
       inputs.forEach(input => {
-        if (input.id !== 'servicesInput') {
           input.readOnly = true;
-          input.disabled = input.id === 'homeSample';
+          input.disabled = true;
           input.classList.remove('bg-light');
-        }
       });
       
-      // Hide services textarea and show display
       document.getElementById('servicesDisplay').style.display = 'block';
       document.getElementById('servicesInput').style.display = 'none';
       document.getElementById('servicesHelp').style.display = 'none';
       
-      // Toggle buttons
       document.getElementById('editBtn').style.display = 'inline-block';
       document.getElementById('saveBtn').style.display = 'none';
     }
@@ -1326,19 +1204,26 @@ function showContent(contentName) {
       alertDiv.textContent = message;
       alertDiv.className = `alert alert-${type}`;
       alertDiv.style.display = 'block';
-      
-      setTimeout(() => {
-        alertDiv.style.display = 'none';
-      }, 5000);
+      setTimeout(() => { alertDiv.style.display = 'none'; }, 5000);
     }
     
-    function logout() {
-      localStorage.removeItem('diagnosticId');
-      localStorage.removeItem('diagnosticEmail');
-      localStorage.removeItem('diagnosticPassword');
-      window.location.href = 'index.html';
+    /**
+     * ✅ FIXED: Proper logout function.
+     * It now calls the server to end the session and clears *all* local storage.
+     */
+    async function logout() {
+      try {
+        // Tell the server to log out and release the session lock.
+        await fetch(`${API_BASE}/logout`, { method: 'POST' });
+      } catch (error) {
+        console.error("Server logout failed, but proceeding with client-side cleanup:", error);
+      } finally {
+        // Clear all session-related data from the browser.
+        localStorage.clear();
+        // Redirect to the main page.
+        window.location.href = 'index.html';
+      }
     }  
-  
   </script>
 </body>
 </html>
