@@ -9,6 +9,7 @@
 </head>
 <body style="margin: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
 
+
 <!-- Navbar Code -->
 <nav style="width: 100%;">
 
@@ -47,6 +48,11 @@
             <a href="clinic.html"  class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
             <a href="Eyecare.html" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Eye Care</a>
             <a href="tel:108" class="active-nav-link" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">🚑 Ambulance</a>
+            <a href="login.html" id="loginNav1" class="active-nav-link"
+            style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px;
+                    font-size: 14px; text-decoration: none; font-weight: bold;">
+            <span id="userName1" style="margin-right: 5px;"></span> Login
+            </a>
         </div>
 
         <!-- Right: Social Media Icons -->
@@ -137,35 +143,74 @@
             </style>
 
 
-            <div style="position: relative;">
-                <a href="Physician.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('physicians').style.display = 'block';"
-                    onmouseout="document.getElementById('physicians').style.display = 'none';">
-                    Physicians <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="physicians" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 9px;display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                    <a href="cardiologist.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Cardiologist</a>
-                    <a href="neuralogist.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Neurologist</a>
-                    <a href="dermatologist.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Dermatologist</a>
-                </div>
-            </div>
+<!-- Physicians Dropdown (styled like Diagnostics) -->
+<div style="position: relative;">
+    <a href="Physician.html" class="active-nav-link"
+    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+    onmouseover="document.getElementById('physicians').style.display = 'block';"
+    onmouseout="document.getElementById('physicians').style.display = 'none';">
+        Physicians <i class="fas fa-caret-down"></i>
+    </a>
 
-            <div style="position: relative;">
-                <a href="fertility.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('fertility').style.display = 'block';"
-                    onmouseout="document.getElementById('fertility').style.display = 'none';">
-                    Fertility <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="fertility" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 9px;display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                    <a href="IVF.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">IVF</a>
-                    <a href="iui.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">IUI</a>
-                    <a href="sarogasi.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Surrogacy</a>
-                </div>
-            </div>
+    <div id="physicians"
+        onmouseover="this.style.display = 'block';"
+        onmouseout="this.style.display = 'none';"
+        style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <a href="cardiologist.html" class="menu-item">Cardiologist</a>
+            <a href="neurologist.html" class="menu-item">Neurologist</a>
+            <a href="dermatologist.html" class="menu-item">Dermatologist</a>
+            <a href="orthopedic.html" class="menu-item">Orthopedic</a>
+            <a href="pediatrician.html" class="menu-item">Pediatrician</a>
+            <a href="gynecologist.html" class="menu-item">Gynecologist</a>
+            <a href="urologist.html" class="menu-item">Urologist</a>
+            <a href="oncologist.html" class="menu-item">Oncologist</a>
+            <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
+            <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
+            <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
+            <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
+            <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
+            <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
+            <a href="general-physician.html" class="menu-item">General Physician</a>
+        </div>
+    </div>
+</div>
+
+<!-- Fertility Dropdown (styled like Diagnostics) -->
+<div style="position: relative;">
+    <a href="fertility.html" class="active-nav-link" 
+    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+    onmouseover="document.getElementById('fertility').style.display = 'block';"
+    onmouseout="document.getElementById('fertility').style.display = 'none';">
+        Fertility <i class="fas fa-caret-down"></i>
+    </a>
+    <div id="fertility" 
+        onmouseover="this.style.display = 'block';" 
+        onmouseout="this.style.display = 'none';" 
+        style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <a href="IVF.html" class="menu-item">IVF</a>
+            <a href="iui.html" class="menu-item">IUI</a>
+            <a href="sarogasi.html" class="menu-item">Surrogacy</a>
+            <a href="fertility.html#egg-donation" class="menu-item">Egg Donation</a>
+            <a href="fertility.html#sperm-donation" class="menu-item">Sperm Donation</a>
+            <a href="fertility.html#embryo-transfer" class="menu-item">Embryo Transfer</a>
+            <a href="fertility.html#fertility-preservation" class="menu-item">Fertility Preservation</a>
+            <a href="fertility.html#pcos-treatment" class="menu-item">PCOS Treatment</a>
+            <a href="fertility.html#male-infertility" class="menu-item">Male Infertility</a>
+            <a href="fertility.html#female-infertility" class="menu-item">Female Infertility</a>
+            <a href="fertility.html#prenatal-care" class="menu-item">Prenatal Care</a>
+            <a href="fertility.html#genetic-testing" class="menu-item">Genetic Testing</a>
+        </div>
+    </div>
+</div>
+
 
             <a href="ai.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
             <a href="doctor.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctor Registration</a>
-            <a href="patientLogin.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
+            <a href="patient.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
             <a href="Cancer.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Cancer</a>
             <a href="Dental.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
             <a href="ENT.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">ENT</a>
@@ -361,7 +406,46 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", () => {
+            // --- Detect User ---
+            const userName1 = document.getElementById("userName1");
+            const loginLink1 = document.getElementById("loginNav1");
+
+            // Check different roles from localStorage
+            const doctorName = localStorage.getItem("doctorName");
+            const patientName = localStorage.getItem("fullName");
+            const diagnosticName = localStorage.getItem("diagnosticName")
+
+            let currentUser = null;
+
+            if (patientName) {
+                currentUser = patientName;
+            } else if (doctorName) {
+                currentUser = doctorName;
+            } else if (diagnosticName) {
+                currentUser = diagnosticName;
+            }
+
+            // --- Update Navbar 1 ---
+            if (currentUser) {
+                userName1.textContent = currentUser;
+                loginLink1.innerHTML = `<span style="margin-right:5px;">${currentUser}</span> Logout`;
+                loginLink1.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    // clear all user keys
+                    localStorage.removeItem("doctorUid");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("firstName");
+                    localStorage.removeItem("fullName");
+                    localStorage.removeItem("diagnosticId");
+                    localStorage.removeItem("diagnosticCenterId");
+                    window.location.href = "index.html";
+                });
+            }
+        });
+
     </script>
+
 </nav>
 <!-- Navbar End -->
 
