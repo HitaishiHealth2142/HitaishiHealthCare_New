@@ -429,16 +429,18 @@
           // Store necessary info in localStorage and redirect
           if (data.role === "doctor") {
             localStorage.setItem("doctorUid", data.user.uid);
-            window.location.href = "doctorProfile.html";
+            localStorage.setItem("doctorName", data.user.first_name);
+            window.location.href = "index.html";
           } else if (data.role === "patient") {
             localStorage.setItem("userId", data.user.id);
             localStorage.setItem("firstName", data.user.first_name);
             localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
-            window.location.href = "patientProfile.html";
+            window.location.href = "index.html";
           } else if (data.role === "diagnostic") {
             localStorage.setItem("diagnosticId", data.user.id);
             localStorage.setItem("diagnosticCenterId", data.user.center_id);
-            window.location.href = "diagnosticProfile.html";
+            localStorage.setItem("diagnosticName", data.user.center_name);
+            window.location.href = "index.html";
           }
         } else {
           message.classList.add('text-danger', 'show');
