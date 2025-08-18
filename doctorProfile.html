@@ -332,7 +332,7 @@
 
     if (!doctorUid) {
       displayPageMessage("You are not logged in. Redirecting...", 'error');
-      setTimeout(() => window.location.href = "doctorlogin.html", 1500);
+      setTimeout(() => window.location.href = "login.html", 1500);
       return;
     }
 
@@ -353,7 +353,7 @@
       displayPageMessage("Could not load your profile. Please log in again.", 'error');
       // Optional: Clear broken login data
       // localStorage.clear();
-      // setTimeout(() => window.location.href = 'doctorlogin.html', 2000);
+      // setTimeout(() => window.location.href = 'login.html', 2000);
       showLoading(false);
     }
   }
