@@ -378,7 +378,34 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if user data exists in localStorage (you already store it after login)
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            // Find the Login link
+            const loginLink = document.querySelector('#navItems1 a[href="login.html"]');
+
+            if (user && loginLink) {
+            // Change text to Logout
+            loginLink.textContent = "Logout";
+
+            // Add user name next to it
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = " (" + user.name + ")";
+            nameSpan.style.color = "white";
+            nameSpan.style.marginLeft = "8px";
+            loginLink.insertAdjacentElement("afterend", nameSpan);
+
+            // Make it work as logout
+            loginLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                localStorage.removeItem("user");
+                window.location.href = "index.html"; // Redirect to home after logout
+            });
+            }
+        });
     </script>
+
 </nav>
 <!-- Navbar End -->
 
