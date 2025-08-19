@@ -19,6 +19,50 @@
         }
     </script>
     <script src="auth.js"></script>
+    <!-- Google Translate Widget -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+        {
+            pageLanguage: 'en',   // Default page language
+            includedLanguages: 'en,hi,fr,de', // Languages you allow
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        },
+        'google_translate_element'
+        );
+
+        // Auto detect by browser country/language
+        const userLang = navigator.language || navigator.userLanguage; // e.g. "en-US"
+        if (!localStorage.getItem("language")) {
+        if (userLang.startsWith("hi")) setLanguage("hi");
+        else if (userLang.startsWith("fr")) setLanguage("fr");
+        else if (userLang.startsWith("de")) setLanguage("de");
+        else setLanguage("en");
+        } else {
+        setLanguage(localStorage.getItem("language"));
+        }
+    }
+
+    // Switch language
+    function setLanguage(lang) {
+        localStorage.setItem("language", lang);
+        const select = document.querySelector(".goog-te-combo");
+        if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event("change"));
+        }
+    }
+
+    function toggleLanguageMenu() {
+        const menu = document.getElementById("languageMenu");
+        menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+    </script>
+    <script type="text/javascript" 
+            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
+
 
 </head>
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #fff;">
@@ -72,6 +116,55 @@
 
         <!-- Right: Social Media Icons -->
         <div style="display: flex; gap: 6px; align-items: center;">
+            <!-- Language Selector -->
+            <div style="position: relative;">
+            <i class="fas fa-globe" onclick="toggleLanguageMenu()" 
+                style="color: white; font-size: 20px; cursor: pointer; padding: 5px;"></i>
+            
+            <div id="languageMenu" 
+                style="display: none; position: absolute; right: 0; top: 30px; background: white; 
+                        border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); min-width: 150px; z-index: 1100;">
+                <div onclick="setLanguage('en')" style="padding: 8px; cursor: pointer;">🇺🇸 English</div>
+                <div onclick="setLanguage('hi')" style="padding: 8px; cursor: pointer;">🇮🇳 हिंदी</div>
+                <div onclick="setLanguage('fr')" style="padding: 8px; cursor: pointer;">🇫🇷 Français</div>
+                <div onclick="setLanguage('de')" style="padding: 8px; cursor: pointer;">🇩🇪 Deutsch</div>
+            </div>
+            </div>
+            <script>
+            function toggleLanguageMenu() {
+                const menu = document.getElementById("languageMenu");
+                menu.style.display = (menu.style.display === "block") ? "none" : "block";
+            }
+
+            function setLanguage(lang) {
+                localStorage.setItem("language", lang);
+                alert("Language set to: " + lang);
+                document.getElementById("languageMenu").style.display = "none";
+                // Here you can trigger page translation logic or reload
+            }
+
+            // Auto-detect country via IP and set default language
+            async function detectLanguageByLocation() {
+                try {
+                const res = await fetch("https://ipapi.co/json/");
+                const data = await res.json();
+                let lang = "en"; // default
+                if (data.country_code === "IN") lang = "hi";
+                if (data.country_code === "FR") lang = "fr";
+                if (data.country_code === "DE") lang = "de";
+
+                if (!localStorage.getItem("language")) {
+                    setLanguage(lang);
+                }
+                } catch (err) {
+                console.error("Location detection failed", err);
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                detectLanguageByLocation();
+            });
+            </script>
             <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
             <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
             <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
