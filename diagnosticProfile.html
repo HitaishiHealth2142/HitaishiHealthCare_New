@@ -362,6 +362,11 @@
     <!-- Left Sidebar -->
     <div class="sidebar">
       <h4 class="text-center mb-4">DashBoard</h4>
+      <div class="text-center mb-4">
+        <img id="profileImageSidebar" src="images/default.png" class="rounded-circle mb-2" style="width:100px;height:100px;object-fit:cover;">
+        <h5 id="sidebarCenterName"></h5>
+      </div>
+
       <button class="btn btn-outline-primary nav-btn active" id="homeBtn">
         <i class="bi bi-house"></i> Home
       </button>
@@ -439,11 +444,12 @@
               <tr>
                 <th>ID</th>
                 <th>Patient</th>
+                <th>Patient ID</th>
+                <th>Collection Type</th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Test</th>
                 <th>Date</th>
-                
                 <th>Amount</th>
                 <th>Status</th>
               </tr>
@@ -621,6 +627,10 @@
           <form id="profileForm">
             <!-- Basic Information Section -->
             <h5 class="section-title">Basic Information</h5>
+            <div class="mb-3">
+              <label class="form-label">Profile Image</label>
+              <input type="file" class="form-control" id="profileImageUpload" accept="image/*">
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <label class="form-label">Center Name</label>
@@ -836,6 +846,9 @@
       document.getElementById('profileBtn').addEventListener('click', () => {
         showContent('profile');
         fetchUserProfile(userId); // Pass the validated userId
+        document.getElementById('profileImageSidebar').src = userData.profile_image || 'images/default.png';
+        document.getElementById('sidebarCenterName').textContent = userData.center_name || '';
+
       });
       document.getElementById('logoutBtn').addEventListener('click', logout);
       
@@ -906,6 +919,8 @@
                 <td>${app.patient_name}</td>
                 <td>${app.patient_email || 'N/A'}</td>
                 <td>${app.patient_mobile}</td>
+                <td>${app.patient_id || 'N/A'}</td>
+                <td>${app.collection_type || 'center'}</td>
                 <td>${app.test_name}</td>
                 <td>${new Date(app.test_date).toLocaleDateString()}</td>
                 <td>₹${app.amount}</td>
@@ -928,6 +943,17 @@
         const form = e.target;
         const formData = new FormData(form);
         const diagnosticId = localStorage.getItem('diagnosticId');
+
+        // calculate price and final price
+        document.querySelector("input[name='price']").addEventListener("input", calculateFinalPrice);
+        document.querySelector("input[name='discount']").addEventListener("input", calculateFinalPrice);
+
+        function calculateFinalPrice() {
+          const price = parseFloat(document.querySelector("input[name='price']").value) || 0;
+          const discount = parseFloat(document.querySelector("input[name='discount']").value) || 0;
+          const finalPrice = price - (price * discount / 100);
+          document.querySelector("input[name='final_price']").value = finalPrice.toFixed(2);
+        }
 
         if (diagnosticId) {
           formData.append('diagnostic_id', diagnosticId);

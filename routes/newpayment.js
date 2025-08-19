@@ -15,6 +15,8 @@ const createTableQuery = `
     amount INT,
     payment_method VARCHAR(50),
     patient_name VARCHAR(255),
+    patient_id VARCHAR(50),
+    collection_type ENUM('Home','Center'),
     patient_email VARCHAR(255),
     patient_mobile VARCHAR(20),
     test_date DATE,
@@ -48,15 +50,18 @@ router.post('/newpayment/register', (req, res) => {
   const { 
     testName, 
     testId, 
-    centerId, // ✅ Newly added
+    centerId, 
     centerName, 
     amount, 
     paymentMethod, 
     patientName, 
     patientEmail, 
     patientMobile,
+    patientId,            // ✅ add
+    collectionType,       // ✅ add
     testDate 
   } = req.body;
+
 
   if (!testName || !amount || !paymentMethod || !patientName || !patientEmail || !patientMobile || !testDate || !centerId) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -77,13 +82,16 @@ router.post('/newpayment/register', (req, res) => {
   const insertQuery = `
     INSERT INTO newpayment (
       payment_id, test_name, test_id, center_id, center_name, amount,
-      payment_method, patient_name, patient_email, patient_mobile, test_date, timestamp
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      payment_method, patient_name, patient_email, patient_mobile, patient_id, collection_type,
+      test_date, timestamp
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(insertQuery, [
-    paymentID, testName, testId, centerId, centerName, amount,
-    paymentMethod, patientName, patientEmail, patientMobile, testDate, formattedTime
+
+db.query(insertQuery, [
+  paymentID, testName, testId, centerId, centerName, amount,
+  paymentMethod, patientName, patientEmail, patientMobile, patientId, collectionType,
+  testDate, formattedTime
   ], (err) => {
     if (err) {
       console.error('❌ Insert Error:', err.sqlMessage || err);
