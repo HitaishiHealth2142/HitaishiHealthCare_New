@@ -4,7 +4,7 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require("path");
+const path = require("path"); // <-- DECLARED ONCE, CORRECTLY
 const multer = require("multer");
 const session = require('express-session');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
@@ -25,6 +25,11 @@ app.set('trust proxy', 1);
 
 // File Upload Setup
 const upload = multer({ dest: 'uploads/' });
+// const path = require('path'); // <-- DUPLICATE REMOVED
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// This makes the 'uploads' folder publically accessible
+app.use('/uploads', express.static('uploads'));
 
 app.use(express.json({ limit: '50mb' }));  
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -143,5 +148,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '127.0.0.1', () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
-
-

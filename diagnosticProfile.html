@@ -363,7 +363,8 @@
     <div class="sidebar">
       <h4 class="text-center mb-4">DashBoard</h4>
       <div class="text-center mb-4">
-        <img id="profileImageSidebar" src="images/default.png" class="rounded-circle mb-2" style="width:100px;height:100px;object-fit:cover;">
+        <!-- FIXED: Default image path -->
+        <img id="profileImageSidebar" src="https://placehold.co/100x100/EFEFEF/AAAAAA&text=No+Image" class="rounded-circle mb-2" style="width:100px;height:100px;object-fit:cover;">
         <h5 id="sidebarCenterName"></h5>
       </div>
 
@@ -624,13 +625,19 @@
         <div class="profile-container">
           <div id="messageAlert" class="alert" style="display: none;"></div>
           
-          <form id="profileForm">
+          <form id="profileForm" enctype="multipart/form-data">
             <!-- Basic Information Section -->
             <h5 class="section-title">Basic Information</h5>
-            <div class="mb-3">
-              <label class="form-label">Profile Image</label>
-              <input type="file" class="form-control" id="profileImageUpload" accept="image/*">
+
+            <div class="text-center mb-4">
+              <!-- FIXED: Default image path -->
+              <img id="profileImagePreview" src="https://placehold.co/150x150/EFEFEF/AAAAAA&text=No+Image" class="rounded-circle mb-3" style="width:150px;height:150px;object-fit:cover;border: 3px solid #eee;">
+              <div class="mb-3">
+                  <label for="profileImageUpload" class="form-label">Update Profile Image</label>
+                  <input type="file" class="form-control" name="profile_image" id="profileImageUpload" accept="image/*" style="display: none;">
+              </div>
             </div>
+
             <div class="row">
               <div class="col-md-6">
                 <label class="form-label">Center Name</label>
@@ -787,48 +794,33 @@
     const API_BASE = "https://hitaishihealthcare.com/api";
     let originalData = {};
     
-    /**
-     * ✅ FIXED: Main entry point after the page loads.
-     * This function now checks the session with the server instead of relying on localStorage.
-     */
     document.addEventListener('DOMContentLoaded', async function() {
       try {
         const res = await fetch(`${API_BASE}/session/status`);
         if (!res.ok) {
-          // If the server returns an error (e.g., 500), redirect to login.
-          logout(); // Use the logout function to clear everything and redirect.
+          logout();
           return;
         }
 
         const sessionData = await res.json();
 
-        // Check if the user is authenticated as a 'diagnostic' user on the server.
         if (sessionData.isAuthenticated && sessionData.me?.type === 'diagnostic') {
-          // The user is properly authenticated.
           const userId = sessionData.me.id;
-          const centerId = sessionData.lock?.user_id; // The user_id in the lock table is the center_id
+          const centerId = sessionData.lock?.user_id; 
 
-          // Store IDs in localStorage for convenience for other functions.
           localStorage.setItem('diagnosticId', userId);
           if(centerId) localStorage.setItem('diagnosticCenterId', centerId);
 
-          // Initialize the rest of the page.
           initializePage(userId);
         } else {
-          // If not authenticated, trigger the full logout process.
           logout();
         }
       } catch (error) {
         console.error("Session check failed:", error);
-        logout(); // Redirect on any network or parsing error.
+        logout();
       }
     });
 
-    /**
-     * ✅ NEW: Initializes all page event listeners and loads initial data.
-     * This is called only after the session has been successfully verified.
-     * @param {string} userId - The validated user ID from the session.
-     */
     function initializePage(userId) {
       document.getElementById('homeBtn').addEventListener('click', () => showContent('home'));
       document.getElementById('appointmentsBtn').addEventListener('click', () => {
@@ -845,16 +837,15 @@
       document.getElementById('addTestsBtn').addEventListener('click', () => showContent('addTests'));
       document.getElementById('profileBtn').addEventListener('click', () => {
         showContent('profile');
-        fetchUserProfile(userId); // Pass the validated userId
-        document.getElementById('profileImageSidebar').src = userData.profile_image || 'images/default.png';
-        document.getElementById('sidebarCenterName').textContent = userData.center_name || '';
-
+        fetchUserProfile(userId);
       });
       document.getElementById('logoutBtn').addEventListener('click', logout);
       
       document.getElementById('editBtn').addEventListener('click', enableEditing);
       document.getElementById('profileForm').addEventListener('submit', saveProfile);
       
+      document.getElementById('profileImageUpload').addEventListener('change', previewImage);
+
       document.getElementById('testImage').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -870,9 +861,19 @@
       
       document.getElementById('addTestForm').addEventListener('submit', addNewTest);
       
-      // Show home content by default
       showContent('home');
       loadDashboardStats();
+    }
+
+    function previewImage(event) {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            const imageField = document.getElementById('profileImagePreview');
+            reader.onload = function(e){
+                imageField.src = e.target.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
     }
     
     function showContent(contentName) {
@@ -889,7 +890,6 @@
 
     
     function loadDashboardStats() {
-      // This function can be expanded to fetch real data.
       document.getElementById('todayAppointments').textContent = '12';
       document.getElementById('completedTests').textContent = '8';
       document.getElementById('pendingPayments').textContent = '4';
@@ -944,7 +944,6 @@
         const formData = new FormData(form);
         const diagnosticId = localStorage.getItem('diagnosticId');
 
-        // calculate price and final price
         document.querySelector("input[name='price']").addEventListener("input", calculateFinalPrice);
         document.querySelector("input[name='discount']").addEventListener("input", calculateFinalPrice);
 
@@ -1080,6 +1079,15 @@
     }
     
     function populateProfileForm(userData) {
+      // FIXED: Use a reliable placeholder and handle uploaded images correctly.
+      const placeholder = 'https://placehold.co/150x150/EFEFEF/AAAAAA&text=No+Image';
+      const profileImageUrl = userData.profile_image_url ? `https://hitaishihealthcare.com${userData.profile_image_url}` : placeholder;
+
+      
+      document.getElementById('profileImageSidebar').src = profileImageUrl;
+      document.getElementById('profileImagePreview').src = profileImageUrl;
+      document.getElementById('sidebarCenterName').textContent = userData.center_name || '';
+
       document.getElementById('centerName').value = userData.center_name || '';
       document.getElementById('ownerName').value = userData.owner_name || '';
       document.getElementById('centerType').value = userData.center_type || '';
@@ -1155,6 +1163,8 @@
       document.getElementById('servicesDisplay').style.display = 'none';
       document.getElementById('servicesInput').style.display = 'block';
       document.getElementById('servicesHelp').style.display = 'block';
+
+      document.getElementById('profileImageUpload').style.display = 'block';
       
       document.getElementById('editBtn').style.display = 'none';
       document.getElementById('saveBtn').style.display = 'inline-block';
@@ -1163,35 +1173,19 @@
     function saveProfile(e) {
       e.preventDefault();
       const userId = localStorage.getItem('diagnosticId');
+      const form = document.getElementById('profileForm');
       
-      const updatedData = {
-        center_name: document.getElementById('centerName').value,
-        owner_name: document.getElementById('ownerName').value,
-        center_type: document.getElementById('centerType').value,
-        phone: document.getElementById('phone').value,
-        alt_phone: document.getElementById('altPhone').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        home_sample: document.getElementById('homeSample').value,
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value,
-        state: document.getElementById('state').value,
-        pincode: document.getElementById('pincode').value,
-        map_url: document.getElementById('mapUrl').value,
-        registration_number: document.getElementById('registrationNumber').value,
-        gst_number: document.getElementById('gstNumber').value,
-        account_holder_name: document.getElementById('accountHolderName').value,
-        bank_name: document.getElementById('bankName').value,
-        account_number: document.getElementById('accountNumber').value,
-        ifsc_code: document.getElementById('ifscCode').value,
-        upi_id: document.getElementById('upiId').value,
-        operational_hours: `${document.getElementById('fromTime').value} - ${document.getElementById('toTime').value}`,
-        services: JSON.stringify(document.getElementById('servicesInput').value.split(',').map(s => s.trim()).filter(s => s))
-      };
+      const formData = new FormData(form);
+
+      const services = document.getElementById('servicesInput').value.split(',').map(s => s.trim()).filter(Boolean);
+      formData.set('services', JSON.stringify(services));
+
+      const operational_hours = `${document.getElementById('fromTime').value} - ${document.getElementById('toTime').value}`;
+      formData.append('operational_hours', operational_hours);
       
       fetch(`${API_BASE}/diagnostics/${userId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData)
+        body: formData
       })
       .then(response => response.json())
       .then(data => {
@@ -1212,10 +1206,16 @@
     function disableEditing() {
       const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
       inputs.forEach(input => {
-          input.readOnly = true;
-          input.disabled = true;
+          if (input.type === 'text' || input.type === 'email' || input.type === 'time' || input.tagName.toLowerCase() === 'textarea') {
+              input.readOnly = true;
+          }
+          if (input.tagName.toLowerCase() === 'select' || input.type === 'file') {
+              input.disabled = true;
+          }
           input.classList.remove('bg-light');
       });
+      
+      document.getElementById('profileImageUpload').style.display = 'none';
       
       document.getElementById('servicesDisplay').style.display = 'block';
       document.getElementById('servicesInput').style.display = 'none';
@@ -1233,20 +1233,13 @@
       setTimeout(() => { alertDiv.style.display = 'none'; }, 5000);
     }
     
-    /**
-     * ✅ FIXED: Proper logout function.
-     * It now calls the server to end the session and clears *all* local storage.
-     */
     async function logout() {
       try {
-        // Tell the server to log out and release the session lock.
         await fetch(`${API_BASE}/logout`, { method: 'POST' });
       } catch (error) {
         console.error("Server logout failed, but proceeding with client-side cleanup:", error);
       } finally {
-        // Clear all session-related data from the browser.
         localStorage.clear();
-        // Redirect to the main page.
         window.location.href = 'login.html';
       }
     }  

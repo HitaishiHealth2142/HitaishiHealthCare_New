@@ -3,6 +3,29 @@ const router = express.Router();
 const db = require('../db');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const multer = require('multer');
+const path = require('path'); // Assuming path is needed here and not declared in server.js
+
+// --- MULTER CONFIGURATION FOR FILE UPLOADS ---
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/profiles/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Not an image! Please upload only images.'), false);
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // TABLE SETUP
 const createTable = `
@@ -34,6 +57,7 @@ CREATE TABLE IF NOT EXISTS diagnostic_centers (
   pan_aadhar_jpeg TEXT,
   license_copy_jpeg TEXT,
   upi_qr_code_jpeg TEXT,
+  profile_image_url VARCHAR(255),
   password VARCHAR(255),
   is_verified TINYINT DEFAULT 0,
   otp_code VARCHAR(6),
@@ -165,12 +189,6 @@ router.post('/diagnostics/register', localRoleLock('diagnostic'), (req, res) => 
     return res.status(400).json({ error: 'Missing required fields.' });
   }
 
-  // Step 1: Check email across all roles
-  // checkEmailExists(email, (err, exists) => {
-  //   if (err) return res.status(500).json({ error: 'Database error during email check' });
-  //   if (exists) return res.status(400).json({ error: 'Email already registered in another account type.' });
-
-    // Step 2: Continue with registration
     const operational_hours = `${fromTime} - ${toTime}`;
     const center_id = require('crypto').randomBytes(3).toString('hex').toUpperCase();
     const sql = `
@@ -194,7 +212,6 @@ router.post('/diagnostics/register', localRoleLock('diagnostic'), (req, res) => 
         return res.status(400).json({ error: 'Please verify email before registration.' });
       }
 
-      // Step 3: Set session so browser is locked as diagnostic
       req.session.isAuthenticated = true;
       req.session.user = { type: 'diagnostic', id: center_id, name: centerName, email };
 
@@ -216,11 +233,9 @@ router.post('/diagnostics/login', localRoleLock('diagnostic'), (req, res) => {
 
     const user = result[0];
 
-    // Set local session
     req.session.isAuthenticated = true;
     req.session.user = { type: 'diagnostic', id: user.id, name: user.center_name, email: user.email };
 
-    // Record Login Time (optional but keeps your tracking)
     const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
     db.query(loginActivityQuery, [req.sessionID, String(user.id), 'diagnostic']);
 
@@ -307,18 +322,46 @@ router.get('/diagnostics/:id', (req, res) => {
 });
 
 // Update User Profile by ID
-router.put('/diagnostics/:id', (req, res) => {
+router.put('/diagnostics/:id', upload.single('profile_image'), (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
-    const fields = Object.keys(updatedData).map(key => `${key} = ?`).join(', ');
-    const values = Object.values(updatedData);
+
+    if (req.file) {
+        updatedData.profile_image_url = `/uploads/profiles/${req.file.filename}`;
+    }
+
+    const allowedColumns = [
+        'center_name', 'owner_name', 'center_type', 'phone', 'alt_phone', 'whatsapp',
+        'address', 'city', 'state', 'pincode', 'map_url', 'registration_number',
+        'gst_number', 'account_holder_name', 'bank_name', 'account_number',
+        'ifsc_code', 'upi_id', 'operational_hours', 'services', 'home_sample',
+        'profile_image_url'
+    ];
+
+    const validUpdates = {};
+    for (const key of allowedColumns) {
+        if (updatedData[key] !== undefined && updatedData[key] !== null) {
+            validUpdates[key] = updatedData[key];
+        }
+    }
+    
+    if (Object.keys(validUpdates).length === 0) {
+        return res.json({ success: true, message: 'No data to update.' });
+    }
+
+    const fields = Object.keys(validUpdates).map(key => `${key} = ?`).join(', ');
+    const values = Object.values(validUpdates);
 
     const updateQuery = `UPDATE diagnostic_centers SET ${fields} WHERE id = ?`;
     db.query(updateQuery, [...values, id], (err, result) => {
-        if (err) return res.status(500).json({ error: 'Database error' });
+        if (err) {
+            console.error('DB Update Error:', err);
+            return res.status(500).json({ error: 'Database error during profile update' });
+        }
         res.json({ success: true, message: 'User updated successfully' });
     });
 });
+
 
 // Delete User by ID
 router.delete('/diagnostics/:id', (req, res) => {
