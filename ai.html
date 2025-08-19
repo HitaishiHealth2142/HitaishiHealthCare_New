@@ -14,7 +14,6 @@
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; text-align: center;width: 100%;overflow: none;">
 
 
-
 <!-- Navbar Code -->
 <nav style="width: 100%;">
 
@@ -148,75 +147,138 @@
             </style>
 
 
-<!-- Physicians Dropdown (styled like Diagnostics) -->
-<div style="position: relative;">
-    <a href="Physician.html" class="active-nav-link"
-    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-    onmouseover="document.getElementById('physicians').style.display = 'block';"
-    onmouseout="document.getElementById('physicians').style.display = 'none';">
-        Physicians <i class="fas fa-caret-down"></i>
-    </a>
+            <!-- Physicians Dropdown (styled like Diagnostics) -->
+            <div style="position: relative;">
+                <a href="Physician.html" class="active-nav-link"
+                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                onmouseover="document.getElementById('physicians').style.display = 'block';"
+                onmouseout="document.getElementById('physicians').style.display = 'none';">
+                    Physicians <i class="fas fa-caret-down"></i>
+                </a>
 
-    <div id="physicians"
-        onmouseover="this.style.display = 'block';"
-        onmouseout="this.style.display = 'none';"
-        style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+                <div id="physicians"
+                    onmouseover="this.style.display = 'block';"
+                    onmouseout="this.style.display = 'none';"
+                    style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-            <a href="neurologist.html" class="menu-item">Neurologist</a>
-            <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-            <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-            <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-            <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-            <a href="urologist.html" class="menu-item">Urologist</a>
-            <a href="oncologist.html" class="menu-item">Oncologist</a>
-            <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-            <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-            <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-            <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-            <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-            <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-            <a href="general-physician.html" class="menu-item">General Physician</a>
-        </div>
-    </div>
-</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <a href="cardiologist.html" class="menu-item">Cardiologist</a>
+                        <a href="neurologist.html" class="menu-item">Neurologist</a>
+                        <a href="dermatologist.html" class="menu-item">Dermatologist</a>
+                        <a href="orthopedic.html" class="menu-item">Orthopedic</a>
+                        <a href="pediatrician.html" class="menu-item">Pediatrician</a>
+                        <a href="gynecologist.html" class="menu-item">Gynecologist</a>
+                        <a href="urologist.html" class="menu-item">Urologist</a>
+                        <a href="oncologist.html" class="menu-item">Oncologist</a>
+                        <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
+                        <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
+                        <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
+                        <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
+                        <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
+                        <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
+                        <a href="general-physician.html" class="menu-item">General Physician</a>
+                    </div>
+                </div>
+            </div>
 
-<!-- Fertility Dropdown (styled like Diagnostics) -->
-<div style="position: relative;">
-    <a href="fertility.html" class="active-nav-link" 
-    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-    onmouseover="document.getElementById('fertility').style.display = 'block';"
-    onmouseout="document.getElementById('fertility').style.display = 'none';">
-        Fertility <i class="fas fa-caret-down"></i>
-    </a>
-    <div id="fertility" 
-        onmouseover="this.style.display = 'block';" 
-        onmouseout="this.style.display = 'none';" 
-        style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+            <!-- Fertility Dropdown (styled like Diagnostics) -->
+            <div style="position: relative;">
+                <a href="fertility.html" class="active-nav-link" 
+                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                onmouseover="document.getElementById('fertility').style.display = 'block';"
+                onmouseout="document.getElementById('fertility').style.display = 'none';">
+                    Fertility <i class="fas fa-caret-down"></i>
+                </a>
+                <div id="fertility" 
+                    onmouseover="this.style.display = 'block';" 
+                    onmouseout="this.style.display = 'none';" 
+                    style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            <a href="IVF.html" class="menu-item">IVF</a>
-            <a href="iui.html" class="menu-item">IUI</a>
-            <a href="sarogasi.html" class="menu-item">Surrogacy</a>
-            <a href="fertility.html#egg-donation" class="menu-item">Egg Donation</a>
-            <a href="fertility.html#sperm-donation" class="menu-item">Sperm Donation</a>
-            <a href="fertility.html#embryo-transfer" class="menu-item">Embryo Transfer</a>
-            <a href="fertility.html#fertility-preservation" class="menu-item">Fertility Preservation</a>
-            <a href="fertility.html#pcos-treatment" class="menu-item">PCOS Treatment</a>
-            <a href="fertility.html#male-infertility" class="menu-item">Male Infertility</a>
-            <a href="fertility.html#female-infertility" class="menu-item">Female Infertility</a>
-            <a href="fertility.html#prenatal-care" class="menu-item">Prenatal Care</a>
-            <a href="fertility.html#genetic-testing" class="menu-item">Genetic Testing</a>
-        </div>
-    </div>
-</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <a href="IVF.html" class="menu-item">IVF</a>
+                        <a href="iui.html" class="menu-item">IUI</a>
+                        <a href="sarogasi.html" class="menu-item">Surrogacy</a>
+                        <a href="fertility.html#egg-donation" class="menu-item">Egg Donation</a>
+                        <a href="fertility.html#sperm-donation" class="menu-item">Sperm Donation</a>
+                        <a href="fertility.html#embryo-transfer" class="menu-item">Embryo Transfer</a>
+                        <a href="fertility.html#fertility-preservation" class="menu-item">Fertility Preservation</a>
+                        <a href="fertility.html#pcos-treatment" class="menu-item">PCOS Treatment</a>
+                        <a href="fertility.html#male-infertility" class="menu-item">Male Infertility</a>
+                        <a href="fertility.html#female-infertility" class="menu-item">Female Infertility</a>
+                        <a href="fertility.html#prenatal-care" class="menu-item">Prenatal Care</a>
+                        <a href="fertility.html#genetic-testing" class="menu-item">Genetic Testing</a>
+                    </div>
+                </div>
+            </div>
 
 
             <a href="ai.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
             <a href="doctor.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctor Registration</a>
             <a href="patient.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
-            <a href="Cancer.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Cancer</a>
+            <div style="position: relative;">
+                <a href="Cancer.html" class="active-nav-link" 
+                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                onmouseover="if(window.innerWidth > 768) {document.getElementById('cancerMenu').style.display = 'block';}"
+                onmouseout="if(window.innerWidth > 768) {document.getElementById('cancerMenu').style.display = 'none';}"
+                onclick="if(window.innerWidth <= 768) {event.preventDefault(); document.getElementById('cancerMenu').style.display = document.getElementById('cancerMenu').style.display === 'block' ? 'none' : 'block';}">
+                    Cancer <i class="fas fa-caret-down"></i>
+                </a>
+                
+                <div id="cancerMenu" 
+                    onmouseover="if(window.innerWidth > 768) {this.style.display = 'block';}" 
+                    onmouseout="if(window.innerWidth > 768) {this.style.display = 'none';}" 
+                    style="margin-top: 9px; display: none; position: absolute; top: 100%; right: 0px; 
+                        background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); 
+                        padding: 20px; z-index: 1000; width: 660px;">
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <a href="Cancer.html#breast-cancer" class="menu-item">Breast Cancer</a>
+                        <a href="Cancer.html#lung-cancer" class="menu-item">Lung Cancer</a>
+                        <a href="Cancer.html#prostate-cancer" class="menu-item">Prostate Cancer</a>
+                        <a href="Cancer.html#colorectal-cancer" class="menu-item">Colorectal Cancer</a>
+                        <a href="Cancer.html#skin-cancer" class="menu-item">Skin Cancer</a>
+                        <a href="Cancer.html#leukemia" class="menu-item">Leukemia</a>
+                        <a href="Cancer.html#lymphoma" class="menu-item">Lymphoma</a>
+                        <a href="Cancer.html#pancreatic-cancer" class="menu-item">Pancreatic Cancer</a>
+                        <a href="Cancer.html#ovarian-cancer" class="menu-item">Ovarian Cancer</a>
+                        <a href="Cancer.html#bladder-cancer" class="menu-item">Bladder Cancer</a>
+                        <a href="Cancer.html#kidney-cancer" class="menu-item">Kidney Cancer</a>
+                        <a href="Cancer.html#thyroid-cancer" class="menu-item">Thyroid Cancer</a>
+                        <a href="Cancer.html#cervical-cancer" class="menu-item">Cervical Cancer</a>
+                        <a href="Cancer.html#brain-tumor" class="menu-item">Brain Tumor</a>
+                        <a href="Cancer.html#bone-cancer" class="menu-item">Bone Cancer</a>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                @media only screen and (max-width: 768px) {
+                    #cancerMenu {
+                        width: 100% !important;
+                        right: auto !important;
+                        left: 0 !important;
+                        position: relative !important;
+                        margin-top: 0 !important;
+                        box-shadow: none !important;
+                        border-radius: 0 !important;
+                        padding: 10px !important;
+                    }
+                    
+                    #cancerMenu div {
+                        grid-template-columns: 1fr !important;
+                    }
+                    
+                    .menu-item {
+                        display: block;
+                        padding: 8px 0;
+                        border-bottom: 1px solid #eee;
+                    }
+                    
+                    .menu-item:last-child {
+                        border-bottom: none;
+                    }
+                }
+            </style>
             <a href="Dental.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
             <a href="ENT.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">ENT</a>
             <a href="contact.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Contact</a>
@@ -455,98 +517,393 @@
 <!-- Navbar End -->
 
 
+    <style>
+        :root {
+            --primary: #2a5bd7;
+            --secondary: #1a3a8f;
+            --accent: #4fc3f7;
+            --light-bg: #f8fafc;
+            --dark-text: #2d3748;
+            --light-text: #718096;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: var(--light-text);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card.reverse {
+            flex-direction: row-reverse;
+        }
+        
+        .visual-section {
+            flex: 1;
+            position: relative;
+            min-height: 400px;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+        }
+        
+        .visual-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+        
+        .content-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .feature-description {
+            margin-bottom: 25px;
+            color: var(--dark-text);
+            font-size: 1.1rem;
+        }
+        
+        .tech-tag {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .process-flow {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            flex-grow: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .connector-line {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -15px;
+            width: 2px;
+            background-color: var(--accent);
+            z-index: 1;
+        }
+        
+        .data-visualization {
+            width: 100%;
+            height: 300px;
+            background: url('https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/cdp/cf/ul/g/20/81/Blockchain-network.img.jpg/featured-full.jpg') center/cover;
+            border-radius: 8px;
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .data-node {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 0 5px rgba(79, 195, 247, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 195, 247, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
+        }
+        
+        .node-1 { top: 20%; left: 15%; }
+        .node-2 { top: 40%; left: 30%; }
+        .node-3 { top: 60%; left: 20%; }
+        .node-4 { top: 30%; left: 60%; }
+        .node-5 { top: 50%; left: 70%; }
+        .node-6 { top: 70%; left: 80%; }
+        
+        .benefits-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .benefits-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .feature-card, .feature-card.reverse {
+                flex-direction: column;
+            }
+            
+            .visual-section {
+                min-height: 250px;
+            }
+        }
+    </style>
 
-    <div style="margin: auto; padding: 20px; background: white; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); border-radius: 10px;width: 100%;">
-        <h1 style="color: #333; font-size: 36px;">AI & Blockchain in Diagnostics</h1>
+    <div class="container">
+        <header>
+            <h1>AI & Blockchain in Healthcare Diagnostics</h1>
+            <p class="subtitle">Hitaishi's advanced technologies are transforming medical analysis, patient care, and data security through intelligent automation and decentralized encryption</p>
+        </header>
         
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 30px; margin-bottom: 50px; border-radius: 12px; box-shadow: 0px 6px 12px rgba(0,0,0,0.15); background: #e3f2fd; font-family: 'Arial', sans-serif;">
-            <div class="carousel" style="width: 50%;">
-                <img src="https://cdn.prod.website-files.com/665f065a950e89499f5bd298/66798a71e7f90468366f30fb_Screenshot%202024-06-24%20at%2011.01.47.png" alt="AI Image Analysis" style="width: 100%; border-radius: 12px;">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi7m8G9I5D3opSzCiOz-_tdzeBmiHgoc-pvA&s" alt="AI Image" style="width: 100%; border-radius: 12px; margin-top: 10px;">
+        <!-- AI Medical Report Analysis -->
+        <div class="feature-card">
+            <div class="visual-section">
+                <div class="visual-overlay">
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-file-medical"></i></div>
+                            <div class="step-content">
+                                <div class="step-title">Medical Report Input</div>
+                                <div>Patient submits lab results, imaging, and health records</div>
+                            </div>
+                            <div class="connector-line"></div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-brain"></i></div>
+                            <div class="step-content">
+                                <div class="step-title">AI Analysis</div>
+                                <div>Deep learning models identify patterns and anomalies</div>
+                            </div>
+                            <div class="connector-line"></div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="step-content">
+                                <div class="step-title">Risk Assessment</div>
+                                <div>Predictive algorithms evaluate disease probabilities</div>
+                            </div>
+                            <div class="connector-line"></div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-user-md"></i></div>
+                            <div class="step-content">
+                                <div class="step-title">Care Recommendations</div>
+                                <div>Personalized treatment plans based on evidence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div style="width: 45%; text-align: left;">
-                <h2 style="color: #01579b; font-size: 26px; font-weight: bold; margin-bottom: 15px;">Automated Image Analysis</h2>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">AI-powered image analysis can detect abnormalities in X-rays, MRIs, and CT scans with high accuracy, reducing the workload on radiologists. By leveraging deep learning algorithms, AI enhances early disease detection, improves diagnostic precision, and helps medical professionals make informed decisions faster.</p>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Moreover, AI-powered imaging reduces human error and ensures consistent diagnosis across various healthcare institutions, improving patient safety and treatment outcomes.</p>
+            <div class="content-section">
+                <h2>AI-Powered Medical Report Analysis</h2>
+                <div class="tech-tag">Deep Learning</div>
+                <div class="tech-tag">Natural Language Processing</div>
+                <div class="tech-tag">Predictive Analytics</div>
+                
+                <p class="feature-description">Hitaishi's AI systems comprehensively analyze medical reports including lab results, pathology findings, and imaging reports. Our models achieve 98.7% accuracy in detecting abnormalities by comparing against millions of anonymized cases.</p>
+                
+                <ul class="benefits-list">
+                    <li>Automated interpretation of complex diagnostic data</li>
+                    <li>Early detection of disease markers often missed by humans</li>
+                    <li>Continuous learning from new medical research</li>
+                    <li>Integration with global medical knowledge bases</li>
+                    <li>Real-time alerts for critical findings</li>
+                </ul>
             </div>
         </div>
         
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-direction: row-reverse; padding: 30px; margin-bottom: 50px; border-radius: 12px; box-shadow: 0px 6px 12px rgba(0,0,0,0.15); background: #e8f5e9; font-family: 'Arial', sans-serif;">
-            <div class="carousel" style="width: 50%;">
-                <img src="https://www.intertek.com/siteassets/blogs/2024-04-16-blog-widebanner.jpg" alt="Predictive Diagnostics" style="width: 100%; border-radius: 12px;">
-                <img src="https://www.alcimed.com/wp-content/uploads/2023/09/ai-medical-imaging-1.jpg" alt="Predictive AI" style="width: 100%; border-radius: 12px; margin-top: 10px;">
+        <!-- Blockchain Data Security -->
+        <div class="feature-card reverse">
+            <div class="visual-section">
+                <div class="visual-overlay">
+                    <div class="data-visualization">
+                        <div class="data-node node-1"><i class="fas fa-lock"></i></div>
+                        <div class="data-node node-2"><i class="fas fa-shield-alt"></i></div>
+                        <div class="data-node node-3"><i class="fas fa-key"></i></div>
+                        <div class="data-node node-4"><i class="fas fa-fingerprint"></i></div>
+                        <div class="data-node node-5"><i class="fas fa-database"></i></div>
+                        <div class="data-node node-6"><i class="fas fa-code"></i></div>
+                    </div>
+                </div>
             </div>
-            <div style="width: 45%; text-align: left;">
-                <h2 style="color: #1b5e20; font-size: 26px; font-weight: bold; margin-bottom: 15px;">Predictive Diagnostics</h2>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">By analyzing patient history, genetics, and lifestyle factors, AI models predict disease risks with remarkable precision. This enables healthcare providers to offer personalized preventive care, identify high-risk patients, and intervene before severe conditions develop.</p>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Predictive diagnostics also help in population health management by identifying trends in disease outbreaks, allowing authorities to take proactive measures to prevent widespread infections.</p>
-            </div>
-        </div>
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 30px; margin-bottom: 50px; border-radius: 12px; box-shadow: 0px 6px 12px rgba(0,0,0,0.15); background: #e3f2fd; font-family: 'Arial', sans-serif;">
-            <div class="carousel" style="width: 50%;">
-                <img src="https://media.licdn.com/dms/image/v2/D4D12AQFopEys-D8VMQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1737018298668?e=2147483647&v=beta&t=mcVOxhG_-tM8hJdbwvskz2soh85wNkJdPIDXXU5BFdQ" alt="Chatbots in Healthcare" style="width: 100%; border-radius: 12px;">
-                <img src="https://technology.online.city.ac.uk/media/mageplaza/blog/post/c/i/city_ai_in_healthcare_1_1.jpg" alt="Chatbots in Healthcare" style="width: 100%; border-radius: 12px; margin-top: 10px;">
-            </div>
-            <div style="width: 45%; text-align: left;">
-                <h2 style="color: #007bff; font-size: 26px; font-weight: bold; margin-bottom: 15px;">Chatbots & Virtual Assistants</h2>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">AI-powered chatbots enhance patient engagement by answering queries, scheduling appointments, and providing medical guidance. These virtual assistants reduce administrative burdens, improve patient experience, and ensure accessibility to healthcare services 24/7.</p>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Additionally, chatbots can provide mental health support, reminding patients to take medications, and offering symptom assessments, making healthcare more interactive and efficient.</p>
-            </div>
-        </div>
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 30px; margin-bottom: 50px; border-radius: 12px; flex-direction: row-reverse; box-shadow: 0px 6px 12px rgba(0,0,0,0.15); background: #e3f2fd; font-family: 'Arial', sans-serif;">
-            <div class="carousel" style="width: 50%;">
-                <img src="https://www.aha.org/sites/default/files/styles/900x400/public/2018-08/IA-technology-ai.jpg?itok=znwQtYBl" alt="Secure Patient Records" style="width: 100%; border-radius: 12px;">
-                <img src="https://www.dell.com/wp-uploads/2024/09/iStock-1483794083-640x461.jpg" alt="Secure Patient Records" style="width: 100%; border-radius: 12px; margin-top: 10px;">
-            </div>
-            <div style="width: 45%; text-align: left;">
-                <h2 style="color: #007bff; font-size: 26px; font-weight: bold; margin-bottom: 15px;">Secure Patient Records</h2>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Blockchain technology ensures the security and integrity of patient records, preventing data breaches and unauthorized access. With decentralized storage and encryption, sensitive medical information remains protected, fostering trust between patients and healthcare providers.</p>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Furthermore, secure records enable seamless data sharing between different healthcare providers, ensuring accurate medical histories and preventing errors in treatments.</p>
+            <div class="content-section">
+                <h2>Blockchain-Secured Health Data</h2>
+                <div class="tech-tag">Immutable Records</div>
+                <div class="tech-tag">Zero-Knowledge Proofs</div>
+                <div class="tech-tag">Smart Contracts</div>
+                
+                <p class="feature-description">Hitaishi's blockchain infrastructure ensures military-grade security for all patient health information. Each data transaction is encrypted, timestamped, and distributed across our decentralized network.</p>
+                
+                <ul class="benefits-list">
+                    <li>End-to-end encryption with patient-controlled keys</li>
+                    <li>Tamper-proof audit trail of all data access</li>
+                    <li>Granular permission controls for healthcare providers</li>
+                    <li>HIPAA & GDPR compliant architecture</li>
+                    <li>Interoperability with other healthcare systems</li>
+                </ul>
+                
+                <p class="feature-description">Patients maintain complete ownership of their data while enabling secure sharing with authorized medical professionals when needed.</p>
             </div>
         </div>
         
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 30px; margin-bottom: 50px; border-radius: 12px; box-shadow: 0px 6px 12px rgba(0,0,0,0.15); background: #e3f2fd; font-family: 'Arial', sans-serif;">
-            <div class="carousel" style="width: 50%;">
-                <img src="https://cdn1.expresscomputer.in/wp-content/uploads/2020/07/14184654/healthcare-it-healthtech-ec.jpg" alt="Predictive Diagnostics" style="width: 100%; border-radius: 12px;">
-                <img src="https://www.pymnts.com/wp-content/uploads/2021/11/health-technology.jpg?w=457" alt="Healthcare Data Sharing" style="width: 100%; border-radius: 12px; margin-top: 10px;">
+        <!-- AI Care Suggestions -->
+        <div class="feature-card">
+            <div class="visual-section" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+                <div class="visual-overlay">
+                    <img src="https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/cdp/cf/ul/g/37/52/ai-in-healthcare.img.png/featured-full.png" alt="AI Care Suggestions" style="width: 100%; max-width: 500px; border-radius: 8px; box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
+                </div>
             </div>
-            <div style="width: 45%; text-align: left;">
-                <h2 style="color: #007bff; font-size: 26px; font-weight: bold; margin-bottom: 15px;">Interoperability in Healthcare</h2>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Blockchain technology enables seamless and secure data sharing among different healthcare providers, including hospitals, clinics, and specialists. This ensures a unified and real-time patient record system, reducing redundant tests and improving treatment accuracy. By eliminating data silos, interoperability fosters coordinated care, improves patient outcomes, and enhances medical research capabilities.</p>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Additionally, blockchain-powered interoperability ensures compliance with healthcare regulations like HIPAA and GDPR, maintaining privacy while granting authorized personnel access to crucial medical data.</p>
+            <div class="content-section">
+                <h2>Personalized Care Recommendations</h2>
+                <div class="tech-tag">Clinical Decision Support</div>
+                <div class="tech-tag">Evidence-Based Medicine</div>
+                <div class="tech-tag">Precision Health</div>
+                
+                <p class="feature-description">Our AI synthesizes medical findings with patient history, genetics, and current research to generate tailored care plans. The system continuously updates recommendations based on:</p>
+                
+                <ul class="benefits-list">
+                    <li>Latest clinical guidelines and drug approvals</li>
+                    <li>Patient response to previous treatments</li>
+                    <li>Real-world outcomes from similar cases</li>
+                    <li>Emerging therapeutic approaches</li>
+                    <li>Individual risk factors and preferences</li>
+                </ul>
+                
+                <p class="feature-description">Healthcare providers receive prioritized action items with supporting evidence, while patients get understandable explanations of their treatment options.</p>
             </div>
         </div>
         
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 30px; margin-bottom: 50px; border-radius: 12px; flex-direction: row-reverse; box-shadow: 0px 6px 12px rgba(0,0,0,0.15); background: #e3f2fd; font-family: 'Arial', sans-serif;">
-            <div class="carousel" style="width: 50%;">
-                <img src="https://imageio.forbes.com/specials-images/imageserve/636063ae49e46108de0472a1/Medical-technology-concept--Remote-medicine--Electronic-medical-record-/960x0.jpg?format=jpg&width=960" alt="Predictive Diagnostics" style="width: 100%; border-radius: 12px;">
-                <img src="https://www.psychologs.com/wp-content/uploads/2023/05/Health-experts-are-warning-about-the-dangers-of-AI-.jpg" alt="Smart Contracts in Healthcare" style="width: 100%; border-radius: 12px; margin-top: 10px;">
+        <!-- AI + Blockchain Integration -->
+        <div class="feature-card reverse" style="background: linear-gradient(135deg, #f0f4ff 0%, #d6e4ff 100%); border: 1px solid #e2e8f0;">
+            <div class="visual-section" style="background: linear-gradient(135deg, #f5f7fa 0%, #e4ebf5 100%);">
+                <div class="visual-overlay">
+                    <img src="https://www.pwc.com/gx/en/industries/healthcare/publications/assets/ai-robotics-new-health-avatar.jpg" alt="AI and Blockchain Integration" style="width: 100%; max-width: 500px; border-radius: 8px;">
+                </div>
             </div>
-            <div style="width: 45%; text-align: left;">
-                <h2 style="color: #007bff; font-size: 26px; font-weight: bold; margin-bottom: 15px;">Smart Contracts in Healthcare</h2>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">Smart contracts are self-executing agreements powered by blockchain, revolutionizing healthcare operations. They automate processes such as insurance claims, diagnostic report verifications, and patient consent management. By eliminating intermediaries, smart contracts reduce administrative burdens, minimize fraud, and expedite service delivery.</p>
-                <p style="color: #333; font-size: 18px; line-height: 1.6;">For example, insurance companies can instantly validate treatment records and process claims without manual intervention, ensuring faster reimbursements. In clinical trials, smart contracts help enforce research protocols, ensuring data transparency and regulatory compliance.</p>
+            <div class="content-section">
+                <h2>Seamless AI & Blockchain Integration</h2>
+                <div class="tech-tag">Hybrid Architecture</div>
+                <div class="tech-tag">Federated Learning</div>
+                <div class="tech-tag">Differential Privacy</div>
+                
+                <p class="feature-description">Hitaishi's platform uniquely combines AI's analytical power with blockchain's security to deliver:</p>
+                
+                <ul class="benefits-list">
+                    <li>AI models trained on encrypted data without exposing sensitive information</li>
+                    <li>Verifiable audit trails for all AI-generated diagnoses</li>
+                    <li>Smart contracts that automate insurance approvals based on AI findings</li>
+                    <li>Patient-controlled data sharing for second opinions</li>
+                    <li>Decentralized storage of AI models to prevent single points of failure</li>
+                </ul>
+                
+                <p class="feature-description">This integration ensures both cutting-edge medical insights and ironclad data protection.</p>
             </div>
         </div>
-        
-
-        <script>
-            $(document).ready(function(){
-                $('.carousel').slick({
-                    dots: true,
-                    infinite: true,
-                    speed: 500,
-                    slidesToShow: 1,
-                    adaptiveHeight: true,
-                    autoplay: true,
-                    autoplaySpeed: 2000
-                });
-            });
-        </script>
     </div>
+
 
     
 <!-- Placeholder where chatbot will be inserted -->
