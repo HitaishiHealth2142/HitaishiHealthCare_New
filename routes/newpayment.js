@@ -188,6 +188,8 @@ router.post("/newpayment/register", (req, res) => {
   );
 });
 
+
+
 // ✅ GET all appointments for a center (with optional date filter)
 router.get("/diagnostics/:centerId/appointments", (req, res) => {
   const centerId = req.params.centerId;

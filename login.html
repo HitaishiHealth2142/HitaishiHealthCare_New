@@ -1187,10 +1187,10 @@
             localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
             window.location.href = "index.html";
           } else if (data.role === "diagnostic") {
-            localStorage.setItem("diagnosticId", data.user.id);
+            localStorage.removeItem("diagnosticId"); // Remove old numeric ID if it exists
             localStorage.setItem("diagnosticCenterId", data.user.center_id);
             localStorage.setItem("diagnosticName", data.user.center_name);
-            window.location.href = "index.html";
+            window.location.href = "diagnosticProfile.html"; // Redirect to profile page;
           }
         } else {
           message.classList.add('text-danger', 'show');

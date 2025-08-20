@@ -3017,8 +3017,8 @@
 
 
 
-    <!-- Search a Test -->
-    <div style="width: 80%; margin: auto; border: 1px solid rgb(226, 226, 226);">
+<!-- Search a Test -->
+<div style="width: 80%; margin: auto; border: 1px solid rgb(226, 226, 226);">
 
     <style>
         .test-price-item {
@@ -3108,84 +3108,46 @@
     <div id="test-prices-grid" style="background-color: #fff; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 10px 15px 20px 15px; border-radius: 10px;">
         <!-- Test items will be rendered here by JavaScript -->
     </div>
+    
+    <!-- Show More/Less Button Container -->
+    <div id="show-more-container" style="background-color: #fff; text-align: center; padding-bottom: 20px; display: none;">
+        <button id="show-more-btn" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">Show More</button>
+    </div>
+
 
     <!-- Modal Overlay -->
     <div id="booking-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
-    <div id="booking-modal" style="position: relative; background: #fff; max-width: 500px; width: 100%; padding: 25px 20px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; font-family: 'Arial', sans-serif;">
+        <div id="booking-modal" style="position: relative; background: #fff; max-width: 500px; width: 100%; padding: 25px 20px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; font-family: 'Arial', sans-serif;">
 
-        <!-- Close Icon -->
-        <button onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 22px; font-weight: bold; color: #999; cursor: pointer;">&times;</button>
+            <!-- Close Icon -->
+            <button onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 22px; font-weight: bold; color: #999; cursor: pointer;">&times;</button>
 
-        <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Book Test</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Book Test</h2>
 
-        <form id="booking-form" onsubmit="submitForm(event)" style="display: flex; flex-direction: column; gap: 12px;">
-        <input type="text" id="test-name" readonly placeholder="Test Name" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9f9f9;">
+            <form id="booking-form" onsubmit="submitForm(event)" style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="text" id="test-name" readonly placeholder="Test Name" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9f9f9;">
+                <input type="text" id="name" placeholder="Your Name" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="phone" placeholder="Phone Number" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="email" id="email" placeholder="E-Mail Address" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="floor" placeholder="Floor" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="house-number" placeholder="House Number" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="area" placeholder="Area" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="mandal" placeholder="Mandal" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="district" placeholder="District" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                <input type="text" id="pincode" placeholder="Pincode" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
 
-        <input type="text" id="name" placeholder="Your Name" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="phone" placeholder="Phone Number" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="email" id="email" placeholder="E-Mail Address" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-
-        <input type="text" id="floor" placeholder="Floor" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="house-number" placeholder="House Number" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="area" placeholder="Area" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="mandal" placeholder="Mandal" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="district" placeholder="District" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="pincode" placeholder="Pincode" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-
-        <!-- Action Buttons -->
-        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
-            <button type="submit" style="flex: 1; background: #28a745; color: #fff; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Confirm Booking</button>
-            <button type="button" onclick="closeModal()" style="flex: 1; background: #dc3545; color: #fff; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Cancel</button>
+                <!-- Action Buttons -->
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <button type="submit" style="flex: 1; background: #28a745; color: #fff; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Confirm Booking</button>
+                    <button type="button" onclick="closeModal()" style="flex: 1; background: #dc3545; color: #fff; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Cancel</button>
+                </div>
+            </form>
         </div>
-        </form>
-    </div>
     </div>
 
 
     <script>
-        // Function to open the booking form with the selected test name
-        function openBookingForm(testName) {
-            document.getElementById("test-name").value = testName;
-            document.getElementById("booking-modal-overlay").style.display = "flex";
-        }
-
-        // Function to close the modal
-        function closeModal() {
-            document.getElementById("booking-form").reset();
-            document.getElementById("booking-modal-overlay").style.display = "none";
-        }
-
-        // Function to generate star ratings HTML
-        function generateStarRating(rating) {
-            let starsHTML = '';
-            const fullStars = Math.floor(rating);
-            const fraction = rating - fullStars;
-
-            // Full stars
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<span style="color: gold;">★</span>';
-            }
-
-            // Fractional star
-            if (fraction >= 0.75) {
-                // Almost full star
-                starsHTML += '<span style="color: gold;">★</span>';
-            } else if (fraction >= 0.25) {
-                // Half star - using half star icon (you can replace with SVG or font awesome if you want)
-                starsHTML += '<span style="color: gold;">⯨</span>';  // fallback half star symbol, or replace
-            }
-            // else less than 0.25 => no partial star
-
-            // Empty stars
-            let totalStarsUsed = fullStars + (fraction >= 0.25 ? 1 : 0);
-            for (let i = totalStarsUsed; i < 5; i++) {
-                starsHTML += '<span style="color: lightgray;">★</span>';
-            }
-
-            return starsHTML;
-        }
-
-        // Sample data for tests with categories
+        // --- DATA & STATE MANAGEMENT ---
         const tests = [
             { name: "FASTING PLASMA GLUCOSE", price: 120, rating: 4.5, category: "Diabetes" },
             { name: "COMPLETE BLOOD PICTURE (CBP)", price: 390, rating: 4.2, category: "General" },
@@ -3235,45 +3197,63 @@
             { name: "CANCER MARKERS PANEL", price: 2500, rating: 4.5, category: "Cancer" },
             { name: "LUNG FUNCTION TEST (PFT)", price: 1200, rating: 4.3, category: "Lungs" }
         ];
+        
+        // State variables
+        const INITIAL_DISPLAY_COUNT = 8;
+        let displayedItemsCount = INITIAL_DISPLAY_COUNT;
+        let currentDisplayList = [...tests];
 
-        // Function to filter tests by category
-        function filterTests(category) {
-            const filteredTests = tests.filter(test => test.category === category);
-            renderTests(filteredTests);
-            document.getElementById("search-box").value = ""; // Clear search box
-            document.getElementById("sort-by").value = "popular"; // Reset sort
+        // --- DOM ELEMENTS ---
+        const grid = document.getElementById("test-prices-grid");
+        const searchBox = document.getElementById("search-box");
+        const sortBy = document.getElementById("sort-by");
+        const showMoreContainer = document.getElementById("show-more-container");
+        const showMoreBtn = document.getElementById("show-more-btn");
+
+        // --- UTILITY FUNCTIONS ---
+
+        function openBookingForm(testName) {
+            document.getElementById("test-name").value = testName;
+            document.getElementById("booking-modal-overlay").style.display = "flex";
         }
 
-        // Function to render test items
-        function renderTests(testList) {
-            const grid = document.getElementById("test-prices-grid");
+        function closeModal() {
+            document.getElementById("booking-form").reset();
+            document.getElementById("booking-modal-overlay").style.display = "none";
+        }
+
+        function generateStarRating(rating) {
+            let starsHTML = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<span style="color: gold;">★</span>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<span style="color: gold;">⯨</span>';
+            }
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += '<span style="color: lightgray;">★</span>';
+            }
+            return starsHTML;
+        }
+
+        // --- CORE RENDERING LOGIC ---
+
+        function renderTests() {
             grid.innerHTML = ""; // Clear the grid
 
-            testList.forEach(test => {
+            const testsToRender = currentDisplayList.slice(0, displayedItemsCount);
+
+            testsToRender.forEach(test => {
                 const item = document.createElement("div");
+                const discount = Math.floor(Math.random() * (85 - 10 + 1)) + 10;
+                const originalPrice = Math.round(test.price / (1 - discount / 100));
 
-                // Calculate original price with consistent 60% discount
-                const discount = Math.floor(Math.random() * (85 - 10 + 1)) + 10; // Random between 10% to 85%
-            const originalPrice = Math.round(test.price / (1 - discount / 100));
-
-
-                // Apply styles to the card itself
-                item.style.background = "#f9f9f9";
-                item.style.padding = "15px";
-                item.style.borderRadius = "10px";
-                item.style.transition = "box-shadow 0.3s ease";
-                item.style.border = "1px solid black";
-                item.style.display = "flex";
-                item.style.flexDirection = "column";
-                item.style.height = "100%";
-
-                // Hover shadow
-                item.onmouseover = function () {
-                    this.style.boxShadow = "6px 6px 110px rgba(0,0,0,0.2)";
-                };
-                item.onmouseout = function () {
-                    this.style.boxShadow = "none";
-                };
+                item.style.cssText = "background: #f9f9f9; padding: 15px; border-radius: 10px; transition: box-shadow 0.3s ease; border: 1px solid #ddd; display: flex; flex-direction: column; height: 100%;";
+                item.onmouseover = () => { item.style.boxShadow = "0 6px 12px rgba(0,0,0,0.1)"; };
+                item.onmouseout = () => { item.style.boxShadow = "none"; };
 
                 item.innerHTML = `
                     <div style="font-weight: bold; margin-bottom: 10px; flex-grow: 1;">${test.name}</div>
@@ -3287,70 +3267,95 @@
                         <span style="color: green; margin-left: 8px; font-size: 14px;">${discount}% off</span>
                     </div>
                     <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: auto;">
-                        <button onclick="openBookingForm('${test.name}')" 
+                        <button onclick="openBookingForm('${test.name.replace(/'/g, "\\'")}')" 
                                 style="background: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; border: none; cursor: pointer;">
                             BOOK
                         </button>
                     </div>
                 `;
-
                 grid.appendChild(item);
             });
+
+            // Manage the "Show More" / "Show Less" button state
+            if (currentDisplayList.length > INITIAL_DISPLAY_COUNT) {
+                showMoreContainer.style.display = "block";
+                if (displayedItemsCount < currentDisplayList.length) {
+                    showMoreBtn.textContent = "Show More";
+                } else {
+                    showMoreBtn.textContent = "Show Less";
+                }
+            } else {
+                showMoreContainer.style.display = "none";
+            }
         }
 
-        // Search functionality
-        const searchBox = document.getElementById("search-box");
-        searchBox.addEventListener("input", () => {
+        // --- EVENT LISTENERS ---
+
+        function handleFilterOrSort() {
             const searchTerm = searchBox.value.toLowerCase();
-            const filteredTests = tests.filter(test => 
+            const sortValue = sortBy.value;
+
+            let filteredTests = tests.filter(test => 
                 test.name.toLowerCase().includes(searchTerm)
             );
-            renderTests(filteredTests);
-        });
-
-        // Sort functionality
-        const sortBy = document.getElementById("sort-by");
-        sortBy.addEventListener("change", () => {
-            const sortValue = sortBy.value;
-            let sortedTests = [...tests]; // Create a copy of the original array
 
             switch (sortValue) {
                 case "price-low-to-high":
-                    sortedTests.sort((a, b) => a.price - b.price);
+                    filteredTests.sort((a, b) => a.price - b.price);
                     break;
                 case "price-high-to-low":
-                    sortedTests.sort((a, b) => b.price - a.price);
+                    filteredTests.sort((a, b) => b.price - a.price);
                     break;
                 case "ratings":
-                    sortedTests.sort((a, b) => b.rating - a.rating);
-                    break;
-                case "popular":
-                default:
-                    // Default sorting (by popularity or original order)
+                    filteredTests.sort((a, b) => b.rating - a.rating);
                     break;
             }
+            
+            currentDisplayList = filteredTests;
+            displayedItemsCount = INITIAL_DISPLAY_COUNT; // Reset count
+            renderTests();
+        }
 
-            renderTests(sortedTests);
+        searchBox.addEventListener("input", handleFilterOrSort);
+        sortBy.addEventListener("change", handleFilterOrSort);
+
+        // Show More/Less button functionality
+        showMoreBtn.addEventListener('click', () => {
+            // If not all items are shown, show all. Otherwise, show initial count.
+            if (displayedItemsCount < currentDisplayList.length) {
+                displayedItemsCount = currentDisplayList.length;
+            } else {
+                displayedItemsCount = INITIAL_DISPLAY_COUNT;
+            }
+            renderTests();
         });
 
+        // Form submission
         function submitForm(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
+            const requiredFields = ['name', 'phone', 'email'];
+            let isFormValid = true;
+            
+            requiredFields.forEach(id => {
+                const field = document.getElementById(id);
+                if (field.value.trim() === '') {
+                    isFormValid = false;
+                    field.style.borderColor = 'red';
+                } else {
+                    field.style.borderColor = '#ccc';
+                }
+            });
 
-            let name = document.getElementById('name').value.trim();
-            let phone = document.getElementById('phone').value.trim();
-            let email = document.getElementById('email').value.trim();
-
-            // Validate required fields
-            if (name === '' || phone === '' || email === '') {
-                alert('Please fill in all required fields (Name, Phone, Email).');
+            if (!isFormValid) {
+                console.error('Please fill in all required fields.');
                 return;
             }
 
             const formData = {
                 testName: document.getElementById('test-name').value,
-                name: name,
-                phone: phone,
-                email: email,
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
                 floor: document.getElementById('floor').value.trim(),
                 houseNumber: document.getElementById('house-number').value.trim(),
                 area: document.getElementById('area').value.trim(),
@@ -3360,17 +3365,14 @@
             };
 
             console.log('Form Data:', formData);
-
-            alert('Booking confirmed!');
-            document.getElementById("booking-form").reset();
             closeModal();
+            console.log('Booking confirmed!');
         }
 
-        // Initial render - show all tests
-        renderTests(tests);
+        // --- INITIAL RENDER ---
+        renderTests();
     </script>
-    </div>
-
+</div>
 
     <!-- Our Services -->
     <div style="margin: 0 auto; width: 100%; background-color: #f0f0f0;">

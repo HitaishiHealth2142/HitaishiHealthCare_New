@@ -1,22 +1,37 @@
-app.post("/translate", async (req, res) => {
-  try {
-    const { text, targetLang } = req.body;
+// This file should be inside a 'routes' directory if it isn't already.
+const { TranslationServiceClient } = require('@google-cloud/translate');
 
-    // Split by ||| if multiple
-    const parts = text.split("|||");
+// These should be defined in your environment (.env file)
+const projectId = process.env.GOOGLE_PROJECT_ID;
+const location = 'global';
 
-    const [response] = await translationClient.translateText({
-      parent: `projects/${projectId}/locations/${location}`,
-      contents: parts,
-      mimeType: "text/plain",
-      targetLanguageCode: targetLang,
-    });
+// Creates a client
+const translationClient = new TranslationServiceClient();
 
-    const translations = response.translations.map(t => t.translatedText);
-    res.json({ translatedText: translations.join("|||") });
+module.exports = function(app) {
+  app.post("/api/translate", async (req, res) => {
+    try {
+      const { text, targetLang } = req.body;
 
-  } catch (err) {
-    console.error("Error in /translate:", err);
-    res.status(500).json({ error: "Translation failed" });
-  }
-});
+      if (!text || !targetLang) {
+        return res.status(400).json({ error: "Missing 'text' or 'targetLang' in request body." });
+      }
+
+      const parts = text.split("|||");
+
+      const [response] = await translationClient.translateText({
+        parent: `projects/${projectId}/locations/${location}`,
+        contents: parts,
+        mimeType: "text/plain",
+        targetLanguageCode: targetLang,
+      });
+
+      const translations = response.translations.map(t => t.translatedText);
+      res.json({ translatedText: translations.join("|||") });
+
+    } catch (err) {
+      console.error("Error in /api/translate:", err);
+      res.status(500).json({ error: "Translation failed" });
+    }
+  });
+};

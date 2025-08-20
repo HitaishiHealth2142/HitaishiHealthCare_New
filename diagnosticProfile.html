@@ -794,25 +794,31 @@
     const API_BASE = "https://hitaishihealthcare.com/api";
     let originalData = {};
     
+    // =================================================================
+    // ✅ FIXED: Use the correct ID for all operations.
+    // =================================================================
     document.addEventListener('DOMContentLoaded', async function() {
       try {
+        // Use the alphanumeric 'diagnosticCenterId' as requested.
+        const diagnosticCenterId = localStorage.getItem('diagnosticCenterId');
+        if (!diagnosticCenterId) {
+          console.error("Diagnostic Center ID not found in storage. Redirecting to login.");
+          logout();
+          return;
+        }
+
         const res = await fetch(`${API_BASE}/session/status`);
         if (!res.ok) {
           logout();
           return;
         }
-
         const sessionData = await res.json();
 
         if (sessionData.isAuthenticated && sessionData.me?.type === 'diagnostic') {
-          const userId = sessionData.me.id;
-          const centerId = sessionData.lock?.user_id; 
-
-          localStorage.setItem('diagnosticId', userId);
-          if(centerId) localStorage.setItem('diagnosticCenterId', centerId);
-
-          initializePage(userId);
+          // Pass the correct alphanumeric ID to initialize the page.
+          initializePage(diagnosticCenterId);
         } else {
+          console.error("Session is not authenticated or not for a diagnostic user.");
           logout();
         }
       } catch (error) {
@@ -821,7 +827,7 @@
       }
     });
 
-    function initializePage(userId) {
+    function initializePage(centerId) {
       document.getElementById('homeBtn').addEventListener('click', () => showContent('home'));
       document.getElementById('appointmentsBtn').addEventListener('click', () => {
         showContent('appointments');
@@ -837,7 +843,8 @@
       document.getElementById('addTestsBtn').addEventListener('click', () => showContent('addTests'));
       document.getElementById('profileBtn').addEventListener('click', () => {
         showContent('profile');
-        fetchUserProfile(userId);
+        // Pass the correct centerId to the profile fetch function.
+        fetchUserProfile(centerId);
       });
       document.getElementById('logoutBtn').addEventListener('click', logout);
       
@@ -888,11 +895,33 @@
       document.getElementById(`${contentName}Btn`).classList.add('active');
     }
 
-    
     function loadDashboardStats() {
-      document.getElementById('todayAppointments').textContent = '12';
-      document.getElementById('completedTests').textContent = '8';
-      document.getElementById('pendingPayments').textContent = '4';
+      const centerId = localStorage.getItem('diagnosticCenterId');
+      if (!centerId) {
+        console.error("Center ID not found in localStorage for loading stats.");
+        return;
+      }
+
+      fetch(`${API_BASE}/diagnostics/${centerId}/stats`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success && data.stats) {
+            document.getElementById('todayAppointments').textContent = data.stats.todayAppointments || '0';
+            document.getElementById('completedTests').textContent = data.stats.completedTests || '0';
+            document.getElementById('pendingPayments').textContent = data.stats.pendingPayments || '0';
+          } else {
+            console.error("Failed to load dashboard stats:", data.error || 'Unknown error');
+            document.getElementById('todayAppointments').textContent = 'N/A';
+            document.getElementById('completedTests').textContent = 'N/A';
+            document.getElementById('pendingPayments').textContent = 'N/A';
+          }
+        })
+        .catch(err => {
+          console.error("Error fetching dashboard stats:", err);
+          document.getElementById('todayAppointments').textContent = 'N/A';
+          document.getElementById('completedTests').textContent = 'N/A';
+          document.getElementById('pendingPayments').textContent = 'N/A';
+        });
     }
     
     function loadAppointments() {
@@ -942,7 +971,7 @@
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
-        const diagnosticId = localStorage.getItem('diagnosticId');
+        const diagnosticId = localStorage.getItem('diagnosticId'); // This might be needed for other purposes
 
         document.querySelector("input[name='price']").addEventListener("input", calculateFinalPrice);
         document.querySelector("input[name='discount']").addEventListener("input", calculateFinalPrice);
@@ -979,14 +1008,14 @@
       }
 
     function loadOurTests() {
-          const diagnosticId = localStorage.getItem('diagnosticId'); 
-          if (!diagnosticId) {
+          const diagnosticCenterId = localStorage.getItem('diagnosticCenterId'); 
+          if (!diagnosticCenterId) {
             alert("Center ID not found. Please log in again.");
             logout();
             return;
           }
 
-          fetch(`${API_BASE}/test/center/${diagnosticId}`)
+          fetch(`${API_BASE}/test/center/${diagnosticCenterId}`)
             .then(response => response.json())
             .then(data => {
               const tbody = document.getElementById('ourTestsTableBody');
@@ -1061,25 +1090,37 @@
             });
         }
 
-    function fetchUserProfile(userId) {
-      fetch(`${API_BASE}/diagnostics/${userId}`)
-        .then(response => response.json())
+    function fetchUserProfile(centerId) {
+      if (!centerId) {
+        showMessage('Could not verify center ID. Please log in again.', 'danger');
+        return;
+      }
+      
+      const url = `${API_BASE}/diagnostics/${centerId}`;
+
+      fetch(url)
+        .then(response => {
+          const contentType = response.headers.get("content-type");
+          if (response.ok && contentType && contentType.includes("application/json")) {
+            return response.json();
+          }
+          throw new Error(`Server returned a non-JSON response. Status: ${response.status}`);
+        })
         .then(data => {
           if (data.success && data.user) {
             originalData = data.user;
             populateProfileForm(data.user);
           } else {
-            showMessage('Failed to load profile data', 'danger');
+            showMessage('Failed to load profile data: ' + (data.error || 'User not found'), 'danger');
           }
         })
         .catch(error => {
-          console.error('Error:', error);
+          console.error('Error fetching or parsing profile data:', error);
           showMessage('Error loading profile: ' + error.message, 'danger');
         });
     }
     
     function populateProfileForm(userData) {
-      // FIXED: Use a reliable placeholder and handle uploaded images correctly.
       const placeholder = 'https://placehold.co/150x150/EFEFEF/AAAAAA&text=No+Image';
       const profileImageUrl = userData.profile_image_url ? `https://hitaishihealthcare.com${userData.profile_image_url}` : placeholder; 
 
@@ -1172,7 +1213,7 @@
     
     function saveProfile(e) {
       e.preventDefault();
-      const userId = localStorage.getItem('diagnosticId');
+      const centerId = localStorage.getItem('diagnosticCenterId');
       const form = document.getElementById('profileForm');
       
       const formData = new FormData(form);
@@ -1183,7 +1224,7 @@
       const operational_hours = `${document.getElementById('fromTime').value} - ${document.getElementById('toTime').value}`;
       formData.append('operational_hours', operational_hours);
       
-      fetch(`${API_BASE}/diagnostics/${userId}`, {
+      fetch(`${API_BASE}/diagnostics/${centerId}`, {
         method: 'PUT',
         body: formData
       })
@@ -1191,7 +1232,7 @@
       .then(data => {
         if (data.success) {
           showMessage('Profile updated successfully!', 'success');
-          fetchUserProfile(userId);
+          fetchUserProfile(centerId);
           disableEditing();
         } else {
           showMessage('Failed to update profile: ' + (data.error || 'Unknown error'), 'danger');

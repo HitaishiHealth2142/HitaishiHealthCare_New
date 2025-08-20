@@ -4,7 +4,7 @@ const db = require('../db');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const multer = require('multer');
-const path = require('path'); // Assuming path is needed here and not declared in server.js
+const path = require('path');
 
 // --- MULTER CONFIGURATION FOR FILE UPLOADS ---
 const storage = multer.diskStorage({
@@ -234,15 +234,15 @@ router.post('/diagnostics/login', localRoleLock('diagnostic'), (req, res) => {
     const user = result[0];
 
     req.session.isAuthenticated = true;
-    req.session.user = { type: 'diagnostic', id: user.id, name: user.center_name, email: user.email };
+    req.session.user = { type: 'diagnostic', id: user.center_id, name: user.center_name, email: user.email };
 
     const loginActivityQuery = "INSERT INTO login_activity (session_id, user_id, user_type, login_time) VALUES (?, ?, ?, NOW())";
-    db.query(loginActivityQuery, [req.sessionID, String(user.id), 'diagnostic']);
+    db.query(loginActivityQuery, [req.sessionID, String(user.center_id), 'diagnostic']);
 
     res.json({
       success: true,
       message: 'Login successful',
-      user: { id: user.id, center_id: user.center_id, center_name: user.center_name }
+      user: { center_id: user.center_id, center_name: user.center_name }
     });
   });
 });
@@ -311,19 +311,23 @@ router.get('/diagnostics/all', (req, res) => {
     });
 });
 
-// Get User by ID
-router.get('/diagnostics/:id', (req, res) => {
-    const { id } = req.params;
-    db.query("SELECT * FROM diagnostic_centers WHERE id = ?", [id], (err, result) => {
+// =================================================================
+// ✅ FIXED: Get User by Center ID instead of numeric ID
+// =================================================================
+router.get('/diagnostics/:centerId', (req, res) => {
+    const { centerId } = req.params;
+    db.query("SELECT * FROM diagnostic_centers WHERE center_id = ?", [centerId], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         if (result.length === 0) return res.status(404).json({ error: 'User not found' });
         res.json({ success: true, user: result[0] });
     });
 });
 
-// Update User Profile by ID
-router.put('/diagnostics/:id', upload.single('profile_image'), (req, res) => {
-    const { id } = req.params;
+// =================================================================
+// ✅ FIXED: Update User Profile by Center ID instead of numeric ID
+// =================================================================
+router.put('/diagnostics/:centerId', upload.single('profile_image'), (req, res) => {
+    const { centerId } = req.params;
     const updatedData = req.body;
 
     if (req.file) {
@@ -352,8 +356,8 @@ router.put('/diagnostics/:id', upload.single('profile_image'), (req, res) => {
     const fields = Object.keys(validUpdates).map(key => `${key} = ?`).join(', ');
     const values = Object.values(validUpdates);
 
-    const updateQuery = `UPDATE diagnostic_centers SET ${fields} WHERE id = ?`;
-    db.query(updateQuery, [...values, id], (err, result) => {
+    const updateQuery = `UPDATE diagnostic_centers SET ${fields} WHERE center_id = ?`;
+    db.query(updateQuery, [...values, centerId], (err, result) => {
         if (err) {
             console.error('DB Update Error:', err);
             return res.status(500).json({ error: 'Database error during profile update' });
@@ -363,10 +367,52 @@ router.put('/diagnostics/:id', upload.single('profile_image'), (req, res) => {
 });
 
 
-// Delete User by ID
-router.delete('/diagnostics/:id', (req, res) => {
-    const { id } = req.params;
-    db.query("DELETE FROM diagnostic_centers WHERE id = ?", [id], (err, result) => {
+// Get Dashboard Stats
+router.get('/diagnostics/:centerId/stats', (req, res) => {
+    const { centerId } = req.params;
+    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+
+    const queries = {
+        todayAppointments: `SELECT COUNT(*) as count FROM newpayment WHERE center_id = ? AND test_date = ?`,
+        completedTests: `SELECT COUNT(*) as count FROM newpayment WHERE center_id = ? AND test_date < ?`,
+        pendingPayments: `SELECT COUNT(*) as count FROM newpayment WHERE center_id = ? AND test_date > ?`
+    };
+
+    const stats = {};
+    const promises = [];
+
+    for (const [key, query] of Object.entries(queries)) {
+        const promise = new Promise((resolve, reject) => {
+            db.query(query, [centerId, today], (err, result) => {
+                if (err) {
+                    console.error(`Error fetching ${key}:`, err);
+                    return reject(err);
+                }
+                resolve({ key, count: result[0].count });
+            });
+        });
+        promises.push(promise);
+    }
+
+    Promise.all(promises)
+        .then(results => {
+            results.forEach(result => {
+                stats[result.key] = result.count;
+            });
+            res.json({ success: true, stats });
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, error: 'Failed to fetch dashboard stats' });
+        });
+});
+
+
+// =================================================================
+// ✅ FIXED: Delete User by Center ID instead of numeric ID
+// =================================================================
+router.delete('/diagnostics/:centerId', (req, res) => {
+    const { centerId } = req.params;
+    db.query("DELETE FROM diagnostic_centers WHERE center_id = ?", [centerId], (err, result) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         if (result.affectedRows === 0) return res.status(404).json({ error: 'User not found' });
         res.json({ success: true, message: 'User deleted successfully' });
