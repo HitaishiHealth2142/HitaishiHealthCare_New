@@ -29,14 +29,17 @@
       padding: 0;
     }
     
+    html, body {
+        height: 100%;
+        width: 100%;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      flex-direction: column; /* Changed to column to stack nav and content */
       animation: gradientBG 15s ease infinite;
       background-size: 400% 400%;
     }
@@ -47,25 +50,38 @@
       100% { background-position: 0% 50%; }
     }
     
-    .login-container {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      padding: 40px;
-      width: 100%;
-      max-width: 450px;
-      transform: translateY(0);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
+    /* NEW: Wrapper to center the login box */
+    .content-wrapper {
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
-    .login-container:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+
+    /* --- NEW STYLES FOR TWO-COLUMN LAYOUT --- */
+    .main-login-wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        margin: 20px;
+        position: relative;
+        transform: translateY(0);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
-    .login-container::before {
+
+    .main-login-wrapper:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-login-wrapper::before {
       content: '';
       position: absolute;
       top: 0;
@@ -76,10 +92,72 @@
       animation: rainbow 8s linear infinite;
       background-size: 400% 400%;
     }
-    
+
     @keyframes rainbow {
       0% { background-position: 0% 50%; }
       100% { background-position: 100% 50%; }
+    }
+
+    .info-panel {
+        flex: 1;
+        padding: 40px;
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        color: var(--light);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .info-panel h3 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .info-panel h4 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid var(--primary-light);
+        padding-bottom: 5px;
+    }
+
+    .info-panel p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--primary-light);
+    }
+
+    .login-form-wrapper {
+        flex: 1.1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+    }
+    
+    /* --- ADJUSTMENTS TO ORIGINAL STYLES --- */
+    .login-container {
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      width: 100%;
+      max-width: 450px;
+      transform: none;
+      transition: none;
+      overflow: visible;
+      position: static; /* Reset position */
+    }
+    
+    .login-container:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .login-container::before {
+        display: none; /* Hide the original top bar */
     }
     
     .logo {
@@ -300,8 +378,18 @@
     }
     
     /* Responsive adjustments */
+    @media (max-width: 860px) {
+        .main-login-wrapper {
+            flex-direction: column;
+            max-width: 500px;
+        }
+        .info-panel {
+            border-radius: 20px 20px 0 0;
+        }
+    }
+
     @media (max-width: 576px) {
-      .login-container {
+      .login-form-wrapper {
         padding: 30px;
       }
       
@@ -313,12 +401,8 @@
 </head>
 <body>
 
-
-
 <!-- Navbar Code -->
-<nav style="width: 100%;">
-
-    
+<nav style="width: 100%; position: sticky; top: 0; z-index: 2000;">
     <!-- 🌐 Navigation -->
     <nav style="display: flex; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
 
@@ -516,7 +600,7 @@
 
 
     <!-- Navigation Bar 2 -->
-    <nav style="background-color: #135597; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
+    <nav style="background-color: #135597; padding: 1rem 2rem; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
@@ -959,39 +1043,57 @@
 </nav>
 <!-- Navbar End -->
 
-  <div class="login-container">
-    <div class="logo">
-      <i class="fas fa-user-shield"></i>
-    </div>
-    <h2>Welcome Back</h2>
-    <form id="loginForm">
-      <div class="input-group">
-        <i class="fas fa-envelope"></i>
-        <input type="email" class="form-control" id="email" placeholder="Email" required>
-      </div>
-      
-      <div class="input-group">
-        <i class="fas fa-lock"></i>
-        <input type="password" class="form-control" id="password" placeholder="Password" required>
-        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
-      </div>
-      
-      <button type="submit" class="btn btn-login" id="submitBtn">
-        Login
-        <span class="loader"></span>
-      </button>
-    </form>
-    
-    <p id="message"></p>
-    
-    <div class="forgot-password">
-      <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
-    </div>
+  <!-- NEW CONTENT WRAPPER -->
+  <div class="content-wrapper">
+      <!-- TWO-COLUMN WRAPPER -->
+      <div class="main-login-wrapper">
+        <!-- Left Info Panel -->
+        <div class="info-panel">
+            <h3>Unified Login </h3>
+            <p>This is the central login point for all Hitaishi Healthcare services. Access patient records, doctor portals, and diagnostic center information securely.</p>
+            <h4>About Hitaishi Healthcare</h4>
+            <p>Hitaishi Healthcare is dedicated to providing comprehensive and accessible medical services through innovative technology and a patient-first approach. Our integrated platform ensures seamless communication and care coordination.</p>
+        </div>
 
-    <div class="text-center mt-3">
-      <p>Don't have an account? <a href="patient.html" class="text-primary">Create one</a></p>
-    </div>
+        <!-- Right Login Form Wrapper -->
+        <div class="login-form-wrapper">
+          <div class="login-container">
+            <div class="logo">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>Welcome Back</h2>
+            <form id="loginForm">
+              <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" class="form-control" id="email" placeholder="Email" required>
+              </div>
+              
+              <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+              </div>
+              
+              <button type="submit" class="btn btn-login" id="submitBtn">
+                Login
+                <span class="loader"></span>
+              </button>
+            </form>
+            
+            <p id="message"></p>
+            
+            <div class="forgot-password">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
+            </div>
+
+            <div class="text-center mt-3">
+              <p>Don't have an account? <a href="patient.html" class="text-primary">Create one</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
+
 
   <!-- Forgot Password Modal -->
   <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
@@ -1047,7 +1149,8 @@
 
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+
+<script>
     // --- Standard Login Logic ---
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
