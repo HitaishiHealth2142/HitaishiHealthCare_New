@@ -1,21 +1,22 @@
-// translate.js
-const { TranslationServiceClient } = require("@google-cloud/translate").v3;
+app.post("/translate", async (req, res) => {
+  try {
+    const { text, targetLang } = req.body;
 
-const translationClient = new TranslationServiceClient({
-  keyFilename: "./config/service-account.json"
+    // Split by ||| if multiple
+    const parts = text.split("|||");
+
+    const [response] = await translationClient.translateText({
+      parent: `projects/${projectId}/locations/${location}`,
+      contents: parts,
+      mimeType: "text/plain",
+      targetLanguageCode: targetLang,
+    });
+
+    const translations = response.translations.map(t => t.translatedText);
+    res.json({ translatedText: translations.join("|||") });
+
+  } catch (err) {
+    console.error("Error in /translate:", err);
+    res.status(500).json({ error: "Translation failed" });
+  }
 });
-
-const projectId = "hitaishihealthcare-16099";
-const location = "global";
-
-async function translateText(text, targetLang) {
-  const [response] = await translationClient.translateText({
-    parent: `projects/${projectId}/locations/${location}`,
-    contents: [text],
-    mimeType: "text/plain",
-    targetLanguageCode: targetLang,
-  });
-  return response.translations[0].translatedText;
-}
-
-module.exports = translateText;
