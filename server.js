@@ -8,6 +8,7 @@ const path = require("path"); // <-- DECLARED ONCE, CORRECTLY
 const multer = require("multer");
 const session = require('express-session');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const translateText = require('./translate'); // Import the translation function
 
 require('dotenv').config();
 
@@ -51,6 +52,17 @@ app.use(require('express-session')({
     maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
+
+app.post("/translate", async (req, res) => {
+  try {
+    const { text, targetLang } = req.body;
+    const translated = await translateText(text, targetLang);
+    res.json({ translatedText: translated });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Translation failed" });
+  }
+});
 
 
 // Routes Import - Ensure all necessary routes are imported

@@ -1081,7 +1081,7 @@
     function populateProfileForm(userData) {
       // FIXED: Use a reliable placeholder and handle uploaded images correctly.
       const placeholder = 'https://placehold.co/150x150/EFEFEF/AAAAAA&text=No+Image';
-      const profileImageUrl = userData.profile_image_url ? `https://hitaishihealthcare.com${userData.profile_image_url}` : placeholder;
+      const profileImageUrl = userData.profile_image_url ? `https://hitaishihealthcare.com${userData.profile_image_url}` : placeholder; 
 
       
       document.getElementById('profileImageSidebar').src = profileImageUrl;

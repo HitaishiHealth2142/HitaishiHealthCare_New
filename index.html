@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
     <script>
         const user = localStorage.getItem("uid");
         if (user && window.location.pathname.includes("doctorlogin")) {
@@ -26,7 +25,6 @@
 
 </head>
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #fff;">
-
 
 
 <!-- Navbar Code -->
@@ -74,100 +72,142 @@
             </a>
         </div>
 
+
         <!-- Right: Social Media Icons -->
         <div style="display: flex; gap: 6px; align-items: center;">
-            <!-- 🌐 Language Icon + Dropdown -->
-            <div style="position: relative;">
-            <i class="fas fa-globe" onclick="toggleLanguageMenu()" style="font-size: 24px; cursor: pointer;"></i>
-            <div id="languageMenu" style="display:none; position:absolute; right:0; top:30px; background:#fff; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.15); z-index: 1100;">
-                <div onclick="setLanguage('en')">English</div>
-                <div onclick="setLanguage('hi')">हिंदी</div>
-                <div onclick="setLanguage('fr')">Français</div>
-                <div onclick="setLanguage('de')">Deutsch</div>
+
+            <!-- Language + Flag -->
+            <div id="languageTab" onclick="toggleLanguageMenu()" 
+                style="display:flex;align-items:center;cursor:pointer;padding:4px 10px;
+                        background:#fff;border-radius:6px;color:#000;font-size:14px;position:relative;">
+            <img id="countryFlag" src="https://flagcdn.com/16x12/gb.png" 
+                style="width:20px;height:14px;margin-right:6px;border-radius:2px;">
+            <span id="currentLang">English</span>
+
+            <!-- Dropdown -->
+            <div id="languageMenu" 
+                style="display:none;position:absolute;top:36px;left:0;background:#fff;border-radius:6px;
+                        box-shadow:0 2px 6px rgba(0,0,0,0.15);min-width:140px;z-index:2000;">
+                <div onclick="setLanguage('en','English','gb',event)">English</div>
+                <div onclick="setLanguage('hi','हिंदी','in',event)">हिंदी</div>
+                <div onclick="setLanguage('te','తెలుగు','in',event)">తెలుగు</div>
+                <div onclick="setLanguage('ta','தமிழ்','in',event)">தமிழ்</div>
+                <div onclick="setLanguage('kn','ಕನ್ನಡ','in',event)">ಕನ್ನಡ</div>
+                <div onclick="setLanguage('ml','മലയാളം','in',event)">മലയാളം</div>
+                <div onclick="setLanguage('mr','मराठी','in',event)">मराठी</div>
+                <div onclick="setLanguage('gu','ગુજરાતી','in',event)">ગુજરાતી</div>
+                <div onclick="setLanguage('bn','বাংলা','in',event)">বাংলা</div>
+                <div onclick="setLanguage('ur','اردو','in',event)">اردو</div>
+                <div onclick="setLanguage('fr','Français','fr')">Français</div>
+                <div onclick="setLanguage('de','Deutsch','de')">Deutsch</div>
+                </div>
+
             </div>
-            </div>
-
-            <!-- Google Translate Widget (TEMP visible) -->
-            <div id="google_translate_element"></div>
-
-            <script>
-            function toggleLanguageMenu() {
-                const menu = document.getElementById('languageMenu');
-                menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-            }
-
-            function setLanguage(lang) {
-                localStorage.setItem('language', lang);
-                changeLanguage(lang);
-                document.getElementById('languageMenu').style.display = "none";
-            }
-
-            function changeLanguage(lang) {
-                const interval = setInterval(() => {
-                const select = document.querySelector(".goog-te-combo");
-                if (select) {
-                    select.value = lang;
-                    select.dispatchEvent(new Event("change"));
-                    clearInterval(interval);
-                    console.log("✅ Language applied:", lang);
-                }
-                }, 500);
-            }
-
-            async function detectCountryLanguage() {
-                let lang = "en"; 
-                try {
-                const res = await fetch("https://ipapi.co/json/");
-                const data = await res.json();
-                if (data.country_code === "IN") lang = "hi";
-                else if (data.country_code === "FR") lang = "fr";
-                else if (data.country_code === "DE") lang = "de";
-                } catch (e) {
-                const userLang = (navigator.language || "en").toLowerCase();
-                if (userLang.startsWith("hi")) lang = "hi";
-                else if (userLang.startsWith("fr")) lang = "fr";
-                else if (userLang.startsWith("de")) lang = "de";
-                }
-
-                const saved = localStorage.getItem("language");
-                if (saved) lang = saved;
-
-                changeLanguage(lang);
-            }
-
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,hi,fr,de',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                }, 'google_translate_element');
-
-                // Wait a bit so widget builds
-                setTimeout(() => {
-                detectCountryLanguage();
-
-                // Now hide the widget completely
-                document.querySelector("#google_translate_element").style.display = "none";
-                const style = document.createElement("style");
-                style.innerHTML = `
-                    .goog-logo-link, .goog-te-gadget, .goog-te-banner-frame.skiptranslate { display: none !important; }
-                    body { top: 0px !important; }
-                `;
-                document.head.appendChild(style);
-                }, 2000);
-            }
-            </script>
-
-            <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
             <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
             <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
             <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-linkedin"></i></a>
-            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
+                <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
             <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-telegram"></i></a>
             <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-whatsapp"></i></a>
         </div>
+
+        <!-- Hidden Google Translate -->
+        <div id="google_translate_element" style="display:none;"></div>
+
+        
+        <script>
+            function toggleLanguageMenu() {
+            const menu = document.getElementById("languageMenu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+            }
+
+            // set language + update flag + save
+            function setLanguage(lang, label, flagCode, event) {
+                if (event) event.stopPropagation(); // prevent parent click
+                localStorage.setItem("language", lang);
+                document.getElementById("currentLang").innerText = label;
+                document.getElementById("countryFlag").src = `https://flagcdn.com/16x12/${flagCode}.png`;
+                applyLanguage(lang);
+                document.getElementById("languageMenu").style.display = "none";
+            }
+
+
+            // apply selected language to Google Translate
+            function applyLanguage(lang) {
+                const tryApply = setInterval(() => {
+                    const select = document.querySelector(".goog-te-combo");
+                    if (select) {
+                    select.value = lang;
+                    select.dispatchEvent(new Event("change"));
+                    clearInterval(tryApply);
+                    }
+                }, 300);
+            }
+
+            // detect country → set default flag + language
+            async function detectCountry() {
+                try {
+                    const res = await fetch(`https://ipapi.co/json/`);
+                    const geo = await res.json();
+                    const countryCode = geo.country_code ? geo.country_code.toLowerCase() : "gb";
+                    document.getElementById("countryFlag").src = `https://flagcdn.com/16x12/${countryCode}.png`;
+
+                    let savedLang = localStorage.getItem("language");
+                    if (savedLang) {
+                    setLanguage(savedLang, getLabel(savedLang), countryCode);
+                    } else {
+                    // default by country
+                    if (countryCode === "in") setLanguage("hi","हिंदी","in");
+                    else if (countryCode === "fr") setLanguage("fr","Français","fr");
+                    else if (countryCode === "de") setLanguage("de","Deutsch","de");
+                    else setLanguage("en","English","gb");
+                    }
+                } catch (e) {
+                    console.error("Country detection failed", e);
+                }
+            }
+
+            function getLabel(lang) {
+                const map = {
+                    en:"English", hi:"हिंदी", te:"తెలుగు", ta:"தமிழ்", kn:"ಕನ್ನಡ",
+                    ml:"മലയാളം", mr:"मराठी", gu:"ગુજરાતી", bn:"বাংলা", ur:"اردو",
+                    fr:"Français", de:"Deutsch"
+                };
+                return map[lang] || "English";
+            }
+
+            // Google init
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,hi,te,ta,kn,ml,mr,gu,bn,ur,fr,de'
+                }, 'google_translate_element');
+
+                // wait until widget is ready
+                setTimeout(() => {
+                    let savedLang = localStorage.getItem("language");
+                    if (savedLang) {
+                    setLanguage(savedLang, getLabel(savedLang), "gb");
+                    } else {
+                    detectCountry();
+                    }
+
+                    // hide google UI
+                    const style = document.createElement("style");
+                    style.innerHTML = `
+                    .goog-logo-link, .goog-te-gadget, .goog-te-banner-frame.skiptranslate {display:none!important;}
+                    body {top:0px!important;}
+                    `;
+                    document.head.appendChild(style);
+                }, 2000);
+            }
+        </script>
+
+        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
 
     </nav>
 
@@ -614,6 +654,7 @@
 
 </nav>
 <!-- Navbar End -->
+
 
     <!-- Main Section -->
     <main style="position: relative; padding: 6rem 2rem; max-width: 100%; margin: 0 auto; background-image: url(https://img.freepik.com/premium-photo/futuristic-hospital-radiology-room-with-mri-scanner-xray-machine-robotic-surgical-equipment-concept-medical-technology-radiology-room-futuristic-healthcare-mri-xray-machines_864588-70800.jpg); background-size: cover; background-position: center; color: #fff;">
