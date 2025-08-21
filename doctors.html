@@ -869,7 +869,7 @@ async function submitBooking(date) {
   const patientInfo = JSON.parse(sessionStorage.getItem('patientUser'));
   if (!patientInfo) {
     alert("Please login to book an appointment.");
-    // Optionally, redirect to login page: window.location.href = '/login.html';
+    window.location.href = 'login.html';
     return;
   }
 
