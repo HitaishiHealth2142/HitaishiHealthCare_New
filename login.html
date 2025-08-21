@@ -1189,10 +1189,19 @@
             localStorage.setItem("doctorName", data.user.first_name);
             window.location.href = "doctorProfile.html";
           } else if (data.role === "patient") {
-            localStorage.setItem("userId", data.user.id);
-            localStorage.setItem("firstName", data.user.first_name);
-            localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
-            window.location.href = "index.html";
+            // 1. Create an object with the patient's details from the 'data' variable
+            const patientData = {
+                id: data.user.id,
+                firstName: data.user.first_name,
+                lastName: data.user.last_name,
+                email: data.user.email,
+                mobile: data.user.mobile
+            };
+            // 2. Store the entire object in sessionStorage as a single JSON string
+            sessionStorage.setItem('patientUser', JSON.stringify(patientData));
+            // 3. Redirect to the doctors page
+            window.location.href = '/doctors.html';
+        
           } else if (data.role === "diagnostic") {
             localStorage.removeItem("diagnosticId"); 
             localStorage.removeItem("diagnosticCenterId"); 
