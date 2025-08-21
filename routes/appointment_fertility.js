@@ -4,7 +4,7 @@ const dbFertility = require("../db");
 
 // Ensure the database table exists
 const createTableQuery = `
-  CREATE TABLE IF NOT EXISTS appointments (
+  CREATE TABLE IF NOT EXISTS appointments_fertility (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,

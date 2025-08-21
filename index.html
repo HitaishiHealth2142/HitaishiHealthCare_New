@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <script>
         const user = localStorage.getItem("uid");
         if (user && window.location.pathname.includes("doctorlogin")) {
@@ -32,7 +34,7 @@
 
     
     <!-- 🌐 Navigation -->
-    <nav style="display: flex; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
+    <nav style="display: flex; gap: 30px; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
 
         <!-- Left: Logo & Title -->
         <div style="display: flex; align-items: center; gap: 10px;">
@@ -42,6 +44,33 @@
                 <span style="color: #fff; font-size: 16px;">HEALTHCARE</span>
             </div>
         </div>
+
+        <!-- Search Box with Icon -->
+        <div style="position: relative; width: 100%; max-width: 249px;">
+        <!-- Search Input -->
+        <input type="text" id="searchInput" 
+                placeholder="Search doctors, clinics, hospitals, etc." 
+                autocomplete="off"
+                style="padding: 10px 40px 10px 15px; width: 100%; font-size: 16px; 
+                        border-radius: 25px; border: 1px solid #ccc; box-sizing: border-box;"/>
+
+        <!-- Search Icon (right side inside input) -->
+        <i class="fas fa-search" 
+            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+                    color: #888; font-size: 18px; cursor: pointer;"></i>
+
+        <!-- Suggestions Dropdown -->
+        <div id="suggestionsBox"
+            style="position: absolute; top: 110%; left: 0; right: 0; 
+                    background: white; border: 1px solid #ccc; 
+                    max-height: 300px; overflow-y: auto; 
+                    z-index: 1000; display: none; 
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+                    border-radius: 8px;">
+        </div>
+        </div>
+
+
 
         <!-- Center: Nav Items -->
         <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px; min-width: 200px;">

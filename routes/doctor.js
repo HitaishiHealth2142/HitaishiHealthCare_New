@@ -205,4 +205,40 @@ router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => 
   });
 });
 
+// =================================================================
+// ✅ NEW & FIXED: GET ALL DOCTORS (Removed 'gender' from query)
+// =================================================================
+router.get("/getdoctors", (req, res) => {
+    // The 'gender' column has been removed from this SELECT statement to match the table schema.
+    const sql = "SELECT id, first_name, last_name, email, experience, specialization, clinic, address, degree, university, availability, from_time, to_time FROM doctors";
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("Error fetching doctors:", err);
+            return res.status(500).json({ error: "Database query failed" });
+        }
+        res.status(200).json(results);
+    });
+});
+
+// =================================================================
+// ✅ NEW: GET BOOKED SLOTS FOR A DOCTOR ON A SPECIFIC DATE
+// =================================================================
+router.get("/getBookedSlots", (req, res) => {
+    const { doctorId, date } = req.query;
+    if (!doctorId || !date) {
+        return res.status(400).json({ error: "Doctor ID and date are required." });
+    }
+
+    const sql = "SELECT time_slot FROM appointments WHERE doctor_id = ? AND appointment_date = ?";
+    db.query(sql, [doctorId, date], (err, results) => {
+        if (err) {
+            console.error("Error fetching booked slots:", err);
+            return res.status(500).json({ error: "Database query failed" });
+        }
+        const bookedSlots = results.map(row => row.time_slot);
+        res.status(200).json(bookedSlots);
+    });
+});
+
+
 module.exports = router;
