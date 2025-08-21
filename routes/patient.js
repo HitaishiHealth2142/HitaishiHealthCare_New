@@ -66,10 +66,10 @@ function localRoleLock(targetRole) {
 
 // Register a new patient
 router.post('/patients', (req, res) => {
-  const { 
-    first_name, last_name, email, mobile, 
-    blood_group, gender, dob, disease, address, 
-    password, confirm_password 
+  const {
+    first_name, last_name, email, mobile,
+    blood_group, gender, dob, disease, address,
+    password, confirm_password
   } = req.body;
 
   // ✅ Step 1: Confirm password check
@@ -85,8 +85,8 @@ router.post('/patients', (req, res) => {
 
     // ✅ Step 3: Insert patient (confirm_password is NOT stored)
     const sql = `
-      INSERT INTO patients 
-        (first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password) 
+      INSERT INTO patients
+        (first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
@@ -104,16 +104,16 @@ router.post('/patients', (req, res) => {
 
       // ✅ Step 4: Set session
       req.session.isAuthenticated = true;
-      req.session.user = { 
-        type: 'patient', 
-        id: result.insertId, 
-        name: `${first_name} ${last_name}`, 
-        email 
+      req.session.user = {
+        type: 'patient',
+        id: result.insertId,
+        name: `${first_name} ${last_name}`,
+        email
       };
 
-      res.status(201).json({ 
-        message: 'Patient added successfully', 
-        patientId: result.insertId 
+      res.status(201).json({
+        message: 'Patient added successfully',
+        patientId: result.insertId
       });
     });
   });
@@ -151,12 +151,16 @@ router.post('/patientlogin', localRoleLock('patient'), (req, res) => {
       if (logErr) console.error("Error logging login activity:", logErr);
     });
 
+    // ✅ UPDATED: Send back more user details to the frontend
     res.status(200).json({
       message: 'Login successful',
-      userId: user.id,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      fullName: user.first_name + ' ' + user.last_name
+      user: {
+        id: user.id,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email,
+        mobile: user.mobile
+      }
     });
   });
 });
@@ -188,9 +192,9 @@ router.put('/patient/profile', (req, res) => {
     if (!patientId) {
         return res.status(400).json({ error: 'Patient ID is required' });
     }
-    const sql = `UPDATE patients SET 
-        first_name = ?, last_name = ?, email = ?, mobile = ?, 
-        blood_group = ?, gender = ?, dob = ?, disease = ?, address = ? 
+    const sql = `UPDATE patients SET
+        first_name = ?, last_name = ?, email = ?, mobile = ?,
+        blood_group = ?, gender = ?, dob = ?, disease = ?, address = ?
         WHERE id = ?`;
     const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, patientId];
     db.query(sql, values, (err, result) => {
@@ -213,6 +217,7 @@ router.get('/patient/appointments', (req, res) => {
     if (!patientId) {
         return res.status(400).json({ error: 'Patient ID is required' });
     }
+    // ✅ UPDATED: Query the new 'appointments' table
     const sql = 'SELECT * FROM appointments WHERE patient_id = ? ORDER BY appointment_date DESC, appointment_time DESC';
     db.query(sql, [patientId], (err, results) => {
         if (err) {

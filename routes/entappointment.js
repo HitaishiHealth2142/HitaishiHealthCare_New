@@ -6,7 +6,7 @@ require('dotenv').config();
 
 // Create table if not exists
 const createTable = `
-  CREATE TABLE IF NOT EXISTS appointments (
+  CREATE TABLE IF NOT EXISTS appointments_ent (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
@@ -18,7 +18,7 @@ const createTable = `
 
 db.query(createTable, (err) => {
   if (err) console.error('❌ Table create error:', err.message);
-  else console.log('✅ appointments table is ready.');
+  else console.log('✅ appointments_ent table is ready.');
 });
 
 // Setup Nodemailer
@@ -38,7 +38,7 @@ router.post('/appointment', (req, res) => {
     return res.status(400).json({ status: false, message: 'All fields are required.' });
   }
 
-  const sql = 'INSERT INTO appointments (name, email, date, time_slot) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT INTO appointments_ent (name, email, date, time_slot) VALUES (?, ?, ?, ?)';
   db.query(sql, [name, email, date, time_slot], (err, result) => {
     if (err) {
       console.error('❌ SQL error:', err.message);

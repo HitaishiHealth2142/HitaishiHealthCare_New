@@ -3,89 +3,97 @@ const router = express.Router();
 const db = require("../db");
 
 // =================================================================
-// ✅ UPDATED: appointments_doctors table schema
+// ✅ UPDATED: Appointments table schema with more details
 // =================================================================
-const createappointments_doctorsTable = `
-CREATE TABLE IF NOT EXISTS appointments_doctors (
+const createAppointmentsTable = `
+CREATE TABLE IF NOT EXISTS appointments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   patient_id INT,
   patient_name VARCHAR(255),
   patient_email VARCHAR(255),
+  patient_mobile VARCHAR(20),
   doctor_id INT,
+  doctor_uid VARCHAR(10),
   doctor_name VARCHAR(255),
   doctor_email VARCHAR(255),
+  doctor_mobile VARCHAR(20),
   doctor_specialization VARCHAR(255),
   appointment_date DATE,
-  time_slot VARCHAR(50),
+  appointment_time VARCHAR(50),
   status VARCHAR(50) DEFAULT 'Scheduled',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (patient_id) REFERENCES patients(id),
+  FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 )
 `;
 
-db.query(createappointments_doctorsTable, (err) => {
+db.query(createAppointmentsTable, (err) => {
   if (err) {
-    console.error("❌ Failed to create appointments_doctors table:", err);
+    console.error("❌ Failed to create appointments table:", err);
   } else {
-    console.log("✅ appointments_doctors table is ready.");
+    console.log("✅ Appointments table is ready.");
   }
 });
 
 
 // =================================================================
-// ✅ UPDATED: POST route to book an appointment
+// ✅ UPDATED: POST route to book an appointment with detailed info
 // =================================================================
-router.post("/appointments_doctors", (req, res) => {
+router.post("/appointments", (req, res) => {
   const {
     patientId,
     patientName,
     patientEmail,
+    patientMobile,
     doctorId,
+    doctorUid,
     doctorName,
     doctorEmail,
+    doctorMobile,
     doctorSpecialization,
     appointmentDate,
-    timeSlot
+    appointmentTime
   } = req.body;
 
   // --- Server-side validation ---
-  if (!patientId || !doctorId || !appointmentDate || !timeSlot) {
-      return res.status(400).json({ error: "Missing required appointment details." });
+  if (!patientId || !doctorId || !appointmentDate || !appointmentTime) {
+      return res.status(400).json({ success: false, message: "Missing required appointment details." });
   }
 
   // --- Check for existing booking at the same time slot ---
-  const checkQuery = "SELECT id FROM appointments_doctors WHERE doctor_id = ? AND appointment_date = ? AND time_slot = ?";
-  db.query(checkQuery, [doctorId, appointmentDate, timeSlot], (checkErr, checkResult) => {
+  const checkQuery = "SELECT id FROM appointments WHERE doctor_id = ? AND appointment_date = ? AND appointment_time = ?";
+  db.query(checkQuery, [doctorId, appointmentDate, appointmentTime], (checkErr, checkResult) => {
       if (checkErr) {
           console.error("❌ Error checking for existing appointment:", checkErr);
-          return res.status(500).json({ error: "Database error while checking for appointment." });
+          return res.status(500).json({ success: false, message: "Database error while checking for appointment." });
       }
 
       if (checkResult.length > 0) {
-          return res.status(409).json({ error: "This time slot has just been booked. Please select another one." });
+          return res.status(409).json({ success: false, message: "This time slot has just been booked. Please select another one." });
       }
 
       // --- Insert new appointment ---
       const insertQuery = `
-        INSERT INTO appointments_doctors (
-          patient_id, patient_name, patient_email,
-          doctor_id, doctor_name, doctor_email, doctor_specialization,
-          appointment_date, time_slot
+        INSERT INTO appointments (
+          patient_id, patient_name, patient_email, patient_mobile,
+          doctor_id, doctor_uid, doctor_name, doctor_email, doctor_mobile, doctor_specialization,
+          appointment_date, appointment_time
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const values = [
-        patientId, patientName, patientEmail,
-        doctorId, doctorName, doctorEmail, doctorSpecialization,
-        appointmentDate, timeSlot
+        patientId, patientName, patientEmail, patientMobile,
+        doctorId, doctorUid, doctorName, doctorEmail, doctorMobile, doctorSpecialization,
+        appointmentDate, appointmentTime
       ];
 
       db.query(insertQuery, values, (insertErr, insertResult) => {
         if (insertErr) {
           console.error("❌ Error inserting appointment:", insertErr);
-          return res.status(500).json({ error: "Database error while booking appointment" });
+          return res.status(500).json({ success: false, message: "Database error while booking appointment." });
         }
-        res.status(201).json({ message: "Appointment booked successfully!", appointmentId: insertResult.insertId });
+        res.status(201).json({ success: true, message: "Appointment booked successfully!", appointmentId: insertResult.insertId });
       });
   });
 });
