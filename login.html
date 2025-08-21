@@ -101,7 +101,8 @@
     .info-panel {
         flex: 1;
         padding: 40px;
-        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        /* background: linear-gradient(135deg, var(--primary-dark), var(--primary)); */
+        background-color: #e1edff;
         color: var(--light);
         display: flex;
         flex-direction: column;
@@ -109,12 +110,14 @@
     }
 
     .info-panel h3 {
+        color: black;
         font-size: 28px;
         font-weight: 700;
         margin-bottom: 20px;
     }
 
     .info-panel h4 {
+        color: black;
         font-size: 20px;
         font-weight: 600;
         margin-top: 30px;
@@ -124,9 +127,10 @@
     }
 
     .info-panel p {
+        color: black;
         font-size: 16px;
         line-height: 1.6;
-        color: var(--primary-light);
+        /* color: var(--primary-light); */
     }
 
     .login-form-wrapper {
@@ -397,12 +401,15 @@
         font-size: 24px;
       }
     }
+
   </style>
 </head>
 <body>
 
 <!-- Navbar Code -->
-<nav style="width: 100%; position: sticky; top: 0; z-index: 2000;">
+<nav style="width: 100%;">
+
+    
     <!-- 🌐 Navigation -->
     <nav style="display: flex; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
 
@@ -600,7 +607,7 @@
 
 
     <!-- Navigation Bar 2 -->
-    <nav style="background-color: #135597; padding: 1rem 2rem; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+    <nav style="background-color: #135597; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
             <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
@@ -1180,17 +1187,18 @@
           if (data.role === "doctor") {
             localStorage.setItem("doctorUid", data.user.uid);
             localStorage.setItem("doctorName", data.user.first_name);
-            window.location.href = "index.html";
+            window.location.href = "doctorProfile.html";
           } else if (data.role === "patient") {
             localStorage.setItem("userId", data.user.id);
             localStorage.setItem("firstName", data.user.first_name);
             localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
             window.location.href = "index.html";
           } else if (data.role === "diagnostic") {
-            localStorage.removeItem("diagnosticId"); // Remove old numeric ID if it exists
+            localStorage.removeItem("diagnosticId"); 
+            localStorage.removeItem("diagnosticCenterId"); 
             localStorage.setItem("diagnosticCenterId", data.user.center_id);
             localStorage.setItem("diagnosticName", data.user.center_name);
-            window.location.href = "diagnosticProfile.html"; // Redirect to profile page;
+            window.location.href = "diagnosticProfile.html";
           }
         } else {
           message.classList.add('text-danger', 'show');

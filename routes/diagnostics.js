@@ -312,7 +312,7 @@ router.get('/diagnostics/all', (req, res) => {
 });
 
 // =================================================================
-// ✅ FIXED: Get User by Center ID instead of numeric ID
+// ✅ CORRECTED: Get User by Center ID
 // =================================================================
 router.get('/diagnostics/:centerId', (req, res) => {
     const { centerId } = req.params;
@@ -323,8 +323,11 @@ router.get('/diagnostics/:centerId', (req, res) => {
     });
 });
 
+
+
+
 // =================================================================
-// ✅ FIXED: Update User Profile by Center ID instead of numeric ID
+// ✅ CORRECTED: Update User Profile by Center ID
 // =================================================================
 router.put('/diagnostics/:centerId', upload.single('profile_image'), (req, res) => {
     const { centerId } = req.params;
@@ -408,7 +411,7 @@ router.get('/diagnostics/:centerId/stats', (req, res) => {
 
 
 // =================================================================
-// ✅ FIXED: Delete User by Center ID instead of numeric ID
+// ✅ CORRECTED: Delete User by Center ID
 // =================================================================
 router.delete('/diagnostics/:centerId', (req, res) => {
     const { centerId } = req.params;

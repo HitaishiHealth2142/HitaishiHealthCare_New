@@ -3,166 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Profile - Hitaishi</title>
+  <title>Doctor Dashboard - Hitaishi</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <style>
+    :root {
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --light-color: #f8f9fa;
+      --white-color: #ffffff;
+      --dark-color: #343a40;
+      --text-muted: #6c757d;
+      --border-color: #dee2e6;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --border-radius: 12px;
+    }
     body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background-color: #f5f7fa;
       font-family: 'Poppins', sans-serif;
+      background-color: var(--light-color);
       margin: 0;
+      color: var(--dark-color);
     }
     .main-container {
       display: flex;
-      flex: 1;
-      gap: 20px;
-      padding: 20px;
-      margin-top: 20px;
+      gap: 24px;
+      padding: 24px;
+      max-width: 1400px;
+      margin: auto;
     }
     .sidebar {
-      width: 280px;
-      background: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border-radius: 16px;
-      padding: 20px;
+      width: 300px;
+      flex-shrink: 0;
+      background: var(--white-color);
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      padding: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      align-self: flex-start;
       position: sticky;
-      top: 20px;
-      height: fit-content;
+      top: 24px;
     }
     .content-area {
       flex: 1;
     }
     .section {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      padding: 25px;
-      margin-bottom: 20px;
+      background: var(--white-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
     }
-    .card-button {
-      width: 100%;
-      padding: 12px;
-      text-align: left;
-      font-size: 16px;
-      background-color: #f8f9fa;
-      color: #333;
-      border: 1px solid #e9ecef;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-    .card-button:hover, .card-button.active {
-      background-color: #007bff;
-      color: white;
-      border-color: #007bff;
-    }
-    .card-button.logout {
-        background-color: #ff4d4f;
-        color: white;
-        border-color: #ff4d4f;
-    }
-    .card-button.logout:hover {
-        background-color: #d9363e;
-        border-color: #d9363e;
-    }
-    .profile-card {
-      padding: 25px;
-    }
-    .profile-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 25px;
-    }
-    .profile-image {
-      width: 100px;
-      height: 100px;
+    .sidebar-profile-img {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      margin-right: 20px;
-      border: 3px solid #007bff;
+      margin-bottom: 16px;
+      border: 4px solid var(--primary-color);
     }
-    .profile-info h2 {
-      margin: 0;
-      color: #333;
-      font-size: 24px;
+    .sidebar h2 {
+      margin: 0 0 4px 0;
+      font-size: 1.25rem;
+      text-align: center;
     }
-    .profile-info p {
-      margin: 5px 0 0;
-      color: #666;
+    .sidebar p {
+      margin: 0 0 24px 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: center;
     }
-    .profile-details {
+    .nav-button {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      background-color: transparent;
+      color: var(--dark-color);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 8px;
+      font-weight: 500;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-button i {
+      width: 20px;
+      text-align: center;
+    }
+    .nav-button:hover {
+      background-color: var(--light-color);
+      color: var(--primary-color);
+    }
+    .nav-button.active {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      font-weight: 600;
+    }
+    .nav-button.logout {
+      margin-top: 16px;
+      color: var(--danger-color);
+    }
+    .nav-button.logout:hover {
+      background-color: var(--danger-color);
+      color: var(--white-color);
+    }
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
-    .detail-item strong {
-      display: block;
-      color: #555;
-      font-size: 14px;
-      margin-bottom: 4px;
+    .stat-card {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      border-left: 5px solid var(--primary-color);
     }
-    .detail-item span {
-      color: #333;
-      font-size: 16px;
+    .stat-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      color: var(--text-muted);
     }
-    #pageMessage {
-      padding: 15px;
+    .stat-card p {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+    .stat-card.completed { border-color: var(--success-color); }
+    .stat-card.pending { border-color: #ffc107; }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    th {
+      background-color: var(--light-color);
+      font-weight: 600;
+    }
+    tbody tr:hover {
+      background-color: #f1f3f5;
+    }
+    .status-paid {
+      color: var(--success-color);
+      font-weight: 500;
+    }
+    .status-pending {
+      color: var(--danger-color);
+      font-weight: 500;
+    }
+    #updateForm {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    #updateForm input, #updateForm select, #updateForm textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-      display: none;
-      margin-bottom: 20px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    #updateForm .full-width {
+      grid-column: 1 / -1;
+    }
+    .profile-image-updater {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border: 2px dashed var(--border-color);
+      border-radius: var(--border-radius);
+    }
+    #imagePreview {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #updateForm button {
+      grid-column: 1 / -1;
+      padding: 14px;
+      background: var(--success-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #updateForm button:hover { background: #218838; }
+    #pageMessage {
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        display: none;
+        margin-bottom: 20px;
     }
     #pageMessage.success { background-color: #d4edda; color: #155724; }
     #pageMessage.error { background-color: #f8d7da; color: #721c24; }
-    #loadingIndicator {
-        text-align: center; padding: 40px; font-size: 1.2em; color: #555;
-    }
-    
-    /* Update Form Styles */
-    #updateForm {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    #updateForm input, #updateForm select, #updateForm textarea {
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 15px;
-    }
-    #updateForm .full-width {
-        grid-column: 1 / -1;
-    }
-    #updateForm button {
-        grid-column: 1 / -1;
-        padding: 14px;
-        background: #28a745;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-     #updateForm button:hover {
-         background: #218838;
-     }
+    #loadingIndicator { text-align: center; padding: 40px; font-size: 1.2em; color: #555; }
 
     @media (max-width: 992px) {
-        .main-container { flex-direction: column; }
-        .sidebar { width: 100%; position: static; }
-        #updateForm { grid-template-columns: 1fr; }
+      .main-container { flex-direction: column; }
+      .sidebar { width: 100%; position: static; box-sizing: border-box; }
+      #updateForm { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -171,17 +237,16 @@
   <div class="main-container">
     <!-- Sidebar -->
     <div class="sidebar">
-      <img id="sidebarDoctorImage" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Doctor" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; background: #eee;">
-      <h2 id="sidebarDoctorName" style="margin: 10px 0; font-size: 20px; color: #333; text-align: center;">Loading...</h2>
-      <p id="sidebarDoctorSpecialization" style="color: #666; font-size: 14px; text-align: center;"></p>
+      <img id="sidebarDoctorImage" src="https://placehold.co/120x120/007BFF/FFFFFF?text=Dr" alt="Doctor" class="sidebar-profile-img">
+      <h2 id="sidebarDoctorName">Loading...</h2>
+      <p id="sidebarDoctorSpecialization"></p>
       
-      <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-        <button onclick="showSection('profile')" class="card-button active" data-section="profile">👨‍⚕️ My Profile</button>
-        <button onclick="showSection('appointments')" class="card-button" data-section="appointments">📅 Appointments</button>
-        <button onclick="showSection('patients')" class="card-button" data-section="patients">👥 Patients</button>
-        <button onclick="showSection('history')" class="card-button" data-section="history">📖 History</button>
-        <button onclick="showSection('update')" class="card-button" data-section="update">📝 Update Profile</button>
-        <button onclick="logout()" class="card-button logout">🚪 Logout</button>
+      <div style="width: 100%;">
+        <button onclick="showSection('dashboard')" class="nav-button active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+        <button onclick="showSection('appointments')" class="nav-button" data-section="appointments"><i class="fas fa-calendar-check"></i> Appointments</button>
+        <button onclick="showSection('history')" class="nav-button" data-section="history"><i class="fas fa-history"></i> Treatment History</button>
+        <button onclick="showSection('update')" class="nav-button" data-section="update"><i class="fas fa-user-edit"></i> Update Profile</button>
+        <button onclick="logout()" class="nav-button logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
       </div>
     </div>
   
@@ -190,40 +255,79 @@
       <div id="pageMessage"></div>
       <div id="loadingIndicator" class="section">Loading profile data...</div>
 
-      <!-- Profile Section -->
-      <div id="profile" class="section">
-        <div class="profile-card">
-          <div class="profile-header">
-            <img id="profileImage" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Doctor" class="profile-image">
-            <div class="profile-info">
-              <h2 id="profileName">Dr. Loading...</h2>
-              <p id="profileSpecialization"></p>
-              <p id="profileClinic"></p>
-            </div>
+      <!-- Dashboard Section -->
+      <div id="dashboard" class="section">
+        <h2>Dashboard</h2>
+        <p>Welcome back, <span id="welcomeName">Dr. ...</span>! Here's a quick overview of your day.</p>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Today's Appointments</h3>
+            <p id="todayAppointments">0</p>
           </div>
-          <div class="profile-details">
-            <div class="detail-item"><strong>Email</strong><span id="profileEmail">...</span></div>
-            <div class="detail-item"><strong>Mobile</strong><span id="profileMobile">...</span></div>
-            <div class="detail-item"><strong>Address</strong><span id="profileAddress">...</span></div>
-            <div class="detail-item"><strong>License Number</strong><span id="profileLicense">...</span></div>
-            <div class="detail-item"><strong>Aadhar Card</strong><span id="profileAadhar">...</span></div>
-            <div class="detail-item"><strong>Experience</strong><span id="profileExperience">...</span></div>
-            <div class="detail-item"><strong>Education</strong><span id="profileEducation">...</span></div>
-            <div class="detail-item"><strong>Availability</strong><span id="profileAvailability">...</span></div>
-            <div class="detail-item"><strong>Working Hours</strong><span id="profileHours">...</span></div>
+          <div class="stat-card completed">
+            <h3>Completed Treatments</h3>
+            <p id="completedAppointments">0</p>
+          </div>
+          <div class="stat-card pending">
+            <h3>Pending Appointments</h3>
+            <p id="pendingAppointments">0</p>
           </div>
         </div>
       </div>
 
-      <!-- Other sections (hidden by default) -->
-      <div id="appointments" class="section" style="display: none;"><h2>Appointments</h2><div id="appointmentList"></div></div>
-      <div id="patients" class="section" style="display: none;"><h2>Patients</h2><div id="patientList"></div></div>
-      <div id="history" class="section" style="display: none;"><h2>Treatment History</h2><div id="historyContent"></div></div>
+      <!-- Appointments Section -->
+      <div id="appointments" class="section" style="display: none;">
+        <h2>Today's Appointments</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Email</th>
+                <th>Patient ID</th>
+                <th>Mode</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Payment Status</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentTableBody">
+              <!-- JS will populate this -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- History Section -->
+      <div id="history" class="section" style="display: none;">
+        <h2>Treatment History</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Email</th>
+                <th>Patient ID</th>
+                <th>Last Visit Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- JS will populate this -->
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <!-- Update Profile Section -->
       <div id="update" class="section" style="display: none;">
-          <h2 style="text-align: center; color: #333; margin-bottom: 25px;">Update Profile</h2>
-          <form id="updateForm">
+          <h2>Update Profile</h2>
+          <form id="updateForm" enctype="multipart/form-data">
+            <div class="profile-image-updater">
+                <img id="imagePreview" src="https://placehold.co/150x150/007BFF/FFFFFF?text=Dr" alt="Profile Preview">
+                <input type="file" id="profile_image" name="profile_image" accept="image/*" style="display: none;">
+                <button type="button" onclick="document.getElementById('profile_image').click()">Change Profile Picture</button>
+            </div>
             <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
             <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
             <input type="email" id="email" name="email" placeholder="Email" required>
@@ -245,162 +349,177 @@
             <input type="time" id="from_time" name="from_time" required>
             <input type="time" id="to_time" name="to_time" required>
             <textarea id="additional_info" name="additional_info" placeholder="Additional Info" class="full-width"></textarea>
-            <button type="submit">Update Profile</button>
+            <button type="submit">Save Changes</button>
           </form>
       </div>
     </div>
   </div>
 
 <script>
-  // --- SCRIPT START ---
-
-  // Global variable to hold doctor UID
   let doctorUid = null;
+  const API_BASE = '/api'; // Use relative path
 
-  // Function to display a message at the top of the page
   function displayPageMessage(message, type = 'success') {
     const msgDiv = document.getElementById('pageMessage');
     msgDiv.textContent = message;
-    msgDiv.className = type; // 'success' or 'error'
+    msgDiv.className = type;
     msgDiv.style.display = 'block';
-    setTimeout(() => { msgDiv.style.display = 'none'; }, 5000);
+    setTimeout(() => { msgDiv.style.display = 'none'; }, 4000);
   }
 
-  // Function to show/hide loading indicator and content
   function showLoading(isLoading) {
     document.getElementById('loadingIndicator').style.display = isLoading ? 'block' : 'none';
-    document.querySelectorAll('.section:not(#loadingIndicator)').forEach(sec => {
-        sec.style.display = isLoading ? 'none' : sec.style.display;
+    const sections = ['dashboard', 'appointments', 'history', 'update'];
+    sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = isLoading ? 'none' : el.style.display;
     });
   }
 
-  // Function to switch between content sections
   function showSection(sectionId) {
     document.querySelectorAll('.content-area .section').forEach(sec => sec.style.display = 'none');
     document.getElementById(sectionId).style.display = 'block';
 
-    document.querySelectorAll('.sidebar .card-button').forEach(btn => {
+    document.querySelectorAll('.sidebar .nav-button').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.section === sectionId);
     });
     
-    // Load data for the section if needed
+    // Dynamically load data when a section is shown
     if (sectionId === 'appointments') loadAppointments();
-    if (sectionId === 'patients') loadPatients();
     if (sectionId === 'history') loadHistory();
   }
-
-  // Function to populate all profile fields from doctor data
+  
   function populateProfileData(doctor) {
     const fullName = `Dr. ${doctor.first_name || ''} ${doctor.last_name || ''}`;
-    const education = `${doctor.degree || ''}${doctor.university ? `, ${doctor.university}` : ''}`;
-    const workingHours = `${doctor.from_time || ''} to ${doctor.to_time || ''}`;
-    const defaultImage = 'https://cdn-icons-png.flaticon.com/512/3774/3774299.png';
+    const defaultImage = 'https://placehold.co/120x120/007BFF/FFFFFF?text=Dr';
+    const profileImageUrl = doctor.profile_image_url ? doctor.profile_image_url : defaultImage;
 
-    // Sidebar
-    document.getElementById("sidebarDoctorImage").src = doctor.imageUrl || defaultImage;
+    // Sidebar & Welcome Message
+    document.getElementById("sidebarDoctorImage").src = profileImageUrl;
     document.getElementById("sidebarDoctorName").innerText = fullName;
     document.getElementById("sidebarDoctorSpecialization").innerText = doctor.specialization || '';
+    document.getElementById("welcomeName").innerText = fullName;
     
-    // Main Profile Card
-    document.getElementById("profileImage").src = doctor.imageUrl || defaultImage;
-    document.getElementById("profileName").innerText = fullName;
-    document.getElementById("profileSpecialization").innerText = doctor.specialization || '';
-    document.getElementById("profileClinic").innerText = doctor.clinic || '';
-    document.getElementById("profileEmail").innerText = doctor.email || 'N/A';
-    document.getElementById("profileMobile").innerText = doctor.mobile || 'N/A';
-    document.getElementById("profileAddress").innerText = doctor.address || 'N/A';
-    document.getElementById("profileLicense").innerText = doctor.license_number || 'N/A';
-    document.getElementById("profileAadhar").innerText = doctor.aadhar_card || 'N/A';
-    document.getElementById("profileExperience").innerText = doctor.experience ? `${doctor.experience} years` : 'N/A';
-    document.getElementById("profileEducation").innerText = education || 'N/A';
-    document.getElementById("profileAvailability").innerText = doctor.availability || 'N/A';
-    document.getElementById("profileHours").innerText = workingHours.includes('to') ? workingHours : 'N/A';
-
-    // Update Form
+    // Update Form Pre-fill
     for (const key in doctor) {
         const element = document.getElementById(key);
         if (element) {
-            element.value = doctor[key];
+            element.value = doctor[key] || '';
         }
     }
+    // Update image preview in the form
+    document.getElementById("imagePreview").src = profileImageUrl;
   }
 
-  // Main function to load doctor data on page load
   async function initializeProfile() {
     showLoading(true);
     doctorUid = localStorage.getItem("doctorUid");
 
     if (!doctorUid) {
-      displayPageMessage("You are not logged in. Redirecting...", 'error');
+      displayPageMessage("Authentication error. Redirecting to login...", 'error');
       setTimeout(() => window.location.href = "login.html", 1500);
       return;
     }
 
     try {
-      const response = await fetch(`https://hitaishihealthcare.com/api/gdoctors/${doctorUid}`);
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status}`);
-      }
-      const doctorData = await response.json();
+      const response = await fetch(`${API_BASE}/gdoctors/${doctorUid}`);
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
       
+      const doctorData = await response.json();
       populateProfileData(doctorData);
+      loadDashboardStats(); // Load stats after getting profile
+      
       showLoading(false);
-      showSection('profile'); // Show the profile section by default
-      displayPageMessage('Profile loaded successfully!', 'success');
-
+      showSection('dashboard');
     } catch (error) {
       console.error("Failed to load profile:", error);
       displayPageMessage("Could not load your profile. Please log in again.", 'error');
-      // Optional: Clear broken login data
-      // localStorage.clear();
-      // setTimeout(() => window.location.href = 'login.html', 2000);
       showLoading(false);
     }
   }
 
-  // --- FIX ---
-  // Corrected logout function
-  function logout() {
-    // Clear all session-related data from localStorage
-    localStorage.removeItem("doctorUid");
-    localStorage.removeItem("doctorUser");
-    localStorage.removeItem("doctorToken");
-
-    // Call the correct backend endpoint for logging out
-    fetch("https://hitaishihealthcare.com/api/logout", { 
-        method: "POST",
-        credentials: "include" // Important for session cookies
-    })
-    .finally(() => {
-        // Always redirect to login page, even if the fetch fails
-        console.log("Logged out. Redirecting to login page.");
-        window.location.href = "login.html";
-    });
+  async function loadDashboardStats() {
+    try {
+        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/stats`);
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('todayAppointments').textContent = data.stats.today || 0;
+            document.getElementById('completedAppointments').textContent = data.stats.completed || 0;
+            document.getElementById('pendingAppointments').textContent = data.stats.pending || 0;
+        }
+    } catch (error) {
+        console.error("Failed to load stats:", error);
+    }
   }
 
-  // --- DYNAMIC DATA LOADING FOR OTHER SECTIONS ---
   async function loadAppointments() {
-    const list = document.getElementById("appointmentList");
-    list.innerHTML = "Loading appointments...";
-    // API call would go here, e.g., fetch(`/api/appointments/doctor/${doctorUid}`)
-    setTimeout(() => list.innerHTML = "<p>No appointments found.</p>", 1000); // Placeholder
-  }
-
-  async function loadPatients() {
-    const list = document.getElementById("patientList");
-    list.innerHTML = "Loading patients...";
-    // API call would go here
-    setTimeout(() => list.innerHTML = "<p>No patient records found.</p>", 1000); // Placeholder
+    const tableBody = document.getElementById("appointmentTableBody");
+    tableBody.innerHTML = '<tr><td colspan="7">Loading appointments...</td></tr>';
+    try {
+        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/appointments`);
+        const data = await res.json();
+        tableBody.innerHTML = ''; // Clear loading message
+        if (data.success && data.appointments.length > 0) {
+            data.appointments.forEach(app => {
+                const row = `
+                    <tr>
+                        <td>${app.patient_name || 'N/A'}</td>
+                        <td>${app.patient_email || 'N/A'}</td>
+                        <td>${app.patient_id || 'N/A'}</td>
+                        <td>${app.mode || 'N/A'}</td>
+                        <td>${new Date(app.date).toLocaleDateString()}</td>
+                        <td>${app.time || 'N/A'}</td>
+                        <td><span class="status-${app.payment_status?.toLowerCase()}">${app.payment_status || 'N/A'}</span></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No appointments found.</td></tr>';
+        }
+    } catch (error) {
+        console.error("Failed to load appointments:", error);
+        tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Error loading data.</td></tr>';
+    }
   }
 
   async function loadHistory() {
-    const content = document.getElementById("historyContent");
-    content.innerHTML = "Loading treatment history...";
-    // API call would go here
-    setTimeout(() => content.innerHTML = "<p>No history found.</p>", 1000); // Placeholder
+    const tableBody = document.getElementById("historyTableBody");
+    tableBody.innerHTML = '<tr><td colspan="5">Loading history...</td></tr>';
+    try {
+        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/history`);
+        const data = await res.json();
+        tableBody.innerHTML = '';
+        if (data.success && data.history.length > 0) {
+            data.history.forEach(item => {
+                const row = `
+                    <tr>
+                        <td>${item.patient_name || 'N/A'}</td>
+                        <td>${item.patient_email || 'N/A'}</td>
+                        <td>${item.patient_id || 'N/A'}</td>
+                        <td>${new Date(item.last_visit_date).toLocaleDateString()}</td>
+                        <td>${item.status || 'Completed'}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No treatment history found.</td></tr>';
+        }
+    } catch (error) {
+        console.error("Failed to load history:", error);
+        tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Error loading data.</td></tr>';
+    }
   }
 
-  // --- UPDATE FORM SUBMISSION ---
+  function logout() {
+    localStorage.clear();
+    fetch(`${API_BASE}/logout`, { method: "POST" })
+      .finally(() => {
+        window.location.href = "login.html";
+      });
+  }
+
   document.getElementById("updateForm").addEventListener("submit", async function (e) {
     e.preventDefault();
     if (!doctorUid) {
@@ -409,20 +528,20 @@
     }
 
     const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-
+    // Note: FormData will automatically set the correct Content-Type for file uploads
+    
     try {
-      const response = await fetch(`https://hitaishihealthcare.com/api/updatedoctors/${doctorUid}`, {
+      const response = await fetch(`${API_BASE}/updatedoctors/${doctorUid}`, {
         method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: formData // Send FormData directly
       });
 
       const result = await response.json();
-      if (response.ok) {
+      if (response.ok && result.success) {
         displayPageMessage("Profile updated successfully!", 'success');
-        populateProfileData(data); // Immediately update UI with new data
-        showSection('profile'); // Switch back to profile view
+        // The result should contain the updated doctor data, including the new image URL
+        populateProfileData(result.updatedDoctor);
+        showSection('dashboard');
       } else {
         throw new Error(result.message || "Update failed.");
       }
@@ -432,9 +551,18 @@
     }
   });
 
-  // Initialize the page when the DOM is fully loaded
-  document.addEventListener('DOMContentLoaded', initializeProfile);
+  // Image preview logic
+  document.getElementById('profile_image').addEventListener('change', function(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('imagePreview').src = e.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  });
 
+  document.addEventListener('DOMContentLoaded', initializeProfile);
 </script>
 
 </body>

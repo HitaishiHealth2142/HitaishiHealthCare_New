@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS diagnostic_test (
   final_price DECIMAL(10,2),
   available_from DATE,
   diagnostic_id INT,
-  center_id VARCHAR(10),            -- ✅ NEW
+  center_id VARCHAR(10),       
   center_name VARCHAR(255),
   status VARCHAR(50),
   tags TEXT,
@@ -39,7 +39,7 @@ db.query(createTableQuery, (err) => {
   else console.log('✅ diagnostic_test table ready');
 });
 
-// ✅ Multer config for image upload
+// (Multer config and other functions remain the same)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadPath = path.join(__dirname, '..', 'uploads', 'tests');
@@ -54,7 +54,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// ✅ Generate test ID
 function generateTestId() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let id = '';
@@ -64,33 +63,20 @@ function generateTestId() {
   return id;
 }
 
-// ✅ Register new test
+
+// ✅ Register new test (No changes needed here, it already saves both IDs)
 router.post('/test/register', upload.single('test_image'), async (req, res) => {
   try {
     const {
-      test_name,
-      test_code,
-      category,
-      sample_required,
-      description,
-      pre_test_instructions,
-      test_duration,
-      report_time,
-      price,
-      discount,
-      final_price,
-      available_from,
-      diagnostic_id,
-      status,
-      tags,
-      home_collection
+      test_name, test_code, category, sample_required, description,
+      pre_test_instructions, test_duration, report_time, price, discount,
+      final_price, available_from, diagnostic_id, status, tags, home_collection
     } = req.body;
 
     if (!diagnostic_id || !test_name || !price || !category) {
       return res.status(400).json({ success: false, error: 'Missing required fields.' });
     }
-
-    // ✅ Get center name & center_id
+    
     const [centerResult] = await db.promise().query(
       'SELECT center_name, center_id FROM diagnostic_centers WHERE id = ?',
       [diagnostic_id]
@@ -101,10 +87,7 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
     }
 
     const { center_name, center_id } = centerResult[0];
-
-    // ✅ Google Map URL
     const map_url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center_name)}`;
-
     const test_id = generateTestId();
     const test_image = req.file ? `/uploads/tests/${req.file.filename}` : null;
 
@@ -116,7 +99,6 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
         status, tags, home_collection, test_image, map_url
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-
     const values = [
       test_id, test_name, test_code || null, category, sample_required, description,
       pre_test_instructions, test_duration, report_time, price, discount,
@@ -125,13 +107,13 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
     ];
 
     await db.promise().query(insertQuery, values);
-
     res.json({ success: true, test_id });
   } catch (error) {
     console.error('❌ Error registering test:', error.message);
     res.status(500).json({ success: false, error: 'Server error.' });
   }
 });
+
 
 // ✅ Get all tests
 router.get('/test/all', async (req, res) => {
@@ -144,20 +126,27 @@ router.get('/test/all', async (req, res) => {
   }
 });
 
-// ✅ Get tests for specific diagnostic center
-router.get('/test/center/:diagnostic_id', async (req, res) => {
-  const { diagnostic_id } = req.params;
+// =================================================================
+// ✅ FIXED: Get tests for a center using the alphanumeric center_id
+// =================================================================
+// ✅ Fetch tests by either numeric diagnostic_id OR string center_id
+router.get('/test/center/:id', async (req, res) => {
   try {
-    const [rows] = await db.promise().query(
-      'SELECT * FROM diagnostic_test WHERE diagnostic_id = ?',
-      [diagnostic_id]
-    );
+    const { id } = req.params;
+    const isNumeric = /^\d+$/.test(id);
+
+    const sql = isNumeric
+      ? 'SELECT * FROM diagnostic_test WHERE diagnostic_id = ?'
+      : 'SELECT * FROM diagnostic_test WHERE center_id = ?';
+
+    const [rows] = await db.promise().query(sql, [id]);
     res.json({ success: true, tests: rows });
-  } catch (error) {
-    console.error('Error fetching tests for center:', error);
-    res.status(500).json({ success: false, error: 'Server error.' });
+  } catch (err) {
+    console.error("Error fetching tests:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 // ✅ Get single test by ID
 router.get('/test/:test_id', async (req, res) => {

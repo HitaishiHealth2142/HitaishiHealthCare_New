@@ -79,7 +79,9 @@ const diagnosticsRoutes = require("./routes/diagnostics");
 const newpaymentRoutes = require("./routes/newpayment");
 const testsRoutes = require("./routes/tests");
 
-// Use Routes
+app.use("/api", diagnosticsRoutes);
+app.use("/api", newpaymentRoutes);
+app.use("/api", testsRoutes);
 app.use("/api", appointment_fertilityRoutes);
 app.use("/api", appointmentsRoutes);
 app.use("/api", bookappointmentRoutes);
@@ -104,9 +106,7 @@ app.use("/api", analyzeRoutes);
 app.use("/api", sessionRoutes);
 app.use("/api", unifiedLoginRoutes);
 app.use("/api", unifiedPasswordResetRoutes);
-app.use("/api/diagnostics", diagnosticsRoutes);
-app.use("/api/newpayment", newpaymentRoutes);
-app.use("/api/test", testsRoutes);
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;
