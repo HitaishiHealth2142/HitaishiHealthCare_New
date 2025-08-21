@@ -27,7 +27,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 
-// --- MODIFIED DOCTORS TABLE with profile_image_url ---
+// --- DOCTORS TABLE ---
 const createDoctorsTable = `
   CREATE TABLE IF NOT EXISTS doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -60,7 +60,7 @@ db.query(createDoctorsTable, (err) => {
 });
 
 
-// --- GET DOCTOR BY UID (No changes) ---
+// --- GET DOCTOR BY UID ---
 router.get("/gdoctors/:uid", (req, res) => {
   const { uid } = req.params;
   db.query("SELECT * FROM doctors WHERE uid = ?", [uid], (err, rows) => {
@@ -70,14 +70,11 @@ router.get("/gdoctors/:uid", (req, res) => {
   });
 });
 
-
-// --- NEW: GET DOCTOR STATS ---
+// --- GET DOCTOR STATS ---
 router.get("/doctors/:uid/stats", (req, res) => {
     const { uid } = req.params;
     const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
-    // NOTE: These queries assume an 'appointments' table exists.
-    // You will need to create this table in your database.
     const queries = {
         today: `SELECT COUNT(*) as count FROM appointments WHERE doctor_uid = ? AND appointment_date = ?`,
         completed: `SELECT COUNT(*) as count FROM appointments WHERE doctor_uid = ? AND status = 'Completed'`,
@@ -103,10 +100,9 @@ router.get("/doctors/:uid/stats", (req, res) => {
 });
 
 
-// --- NEW: GET DOCTOR APPOINTMENTS ---
+// --- GET DOCTOR APPOINTMENTS ---
 router.get("/doctors/:uid/appointments", (req, res) => {
     const { uid } = req.params;
-    // This query assumes you have 'appointments' and 'patients' tables.
     const sql = `
         SELECT 
             p.name as patient_name,
@@ -130,7 +126,7 @@ router.get("/doctors/:uid/appointments", (req, res) => {
     });
 });
 
-// --- NEW: GET DOCTOR TREATMENT HISTORY ---
+// --- GET DOCTOR TREATMENT HISTORY ---
 router.get("/doctors/:uid/history", (req, res) => {
     const { uid } = req.params;
     const sql = `
@@ -155,14 +151,12 @@ router.get("/doctors/:uid/history", (req, res) => {
 });
 
 
-// --- MODIFIED: UPDATE DOCTOR PROFILE (with image upload) ---
+// --- UPDATE DOCTOR PROFILE ---
 router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => {
   const { uid } = req.params;
   const doctorData = req.body;
 
-  // If a new file was uploaded, add its path to the data
   if (req.file) {
-    // Store a web-accessible path, e.g., '/uploads/doctor_profiles/filename.jpg'
     doctorData.profile_image_url = `/uploads/doctor_profiles/${req.file.filename}`;
   }
 
@@ -178,7 +172,7 @@ router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => 
     doctorData.address, doctorData.clinic, doctorData.license_number, doctorData.aadhar_card, 
     doctorData.experience, doctorData.degree, doctorData.university, doctorData.specialization,
     doctorData.availability, doctorData.from_time, doctorData.to_time, doctorData.additional_info,
-    doctorData.profile_image_url, // This will be the new URL or NULL if no file was uploaded
+    doctorData.profile_image_url,
     uid
   ];
 
@@ -191,7 +185,6 @@ router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => 
         return res.status(404).json({ success: false, message: "Doctor not found!" });
     }
     
-    // Fetch the updated doctor profile to send back to the client
     db.query("SELECT * FROM doctors WHERE uid = ?", [uid], (err, rows) => {
         if (err || rows.length === 0) {
             return res.status(500).json({ success: false, message: "Could not retrieve updated profile." });
@@ -205,36 +198,31 @@ router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => 
   });
 });
 
-// =================================================================
-// ✨ NEW: GET DOCTOR SPECIALIZATIONS FOR SEARCH SUGGESTIONS
-// =================================================================
+// --- GET DOCTOR SPECIALIZATIONS FOR SEARCH SUGGESTIONS ---
 router.get("/specializations", (req, res) => {
-    const query = req.query.q || ''; // Get search query from URL parameter 'q'
+    const query = req.query.q || '';
     if (!query) {
-        return res.json([]); // Return empty array if no query
+        return res.json([]);
     }
 
-    // Use LIKE to find specializations that start with the query text, limit to 10 results
     const sql = "SELECT DISTINCT specialization FROM doctors WHERE specialization LIKE ? LIMIT 10";
-    const searchTerm = `${query}%`; // Add wildcard for "starts with" search
+    const searchTerm = `${query}%`;
 
     db.query(sql, [searchTerm], (err, results) => {
         if (err) {
             console.error("Error fetching specializations:", err);
             return res.status(500).json({ error: "Database query failed" });
         }
-        // Map the result to return an array of strings, e.g., ["Cardiology", "Dermatology"]
         const specializations = results.map(row => row.specialization);
         res.status(200).json(specializations);
     });
 });
 
 // =================================================================
-// ✅ NEW & FIXED: GET ALL DOCTORS (Removed 'gender' from query)
+// ✅ MODIFIED: GET ALL DOCTORS (Now includes uid)
 // =================================================================
 router.get("/getdoctors", (req, res) => {
-    // The 'gender' column has been removed from this SELECT statement to match the table schema.
-    const sql = "SELECT id, first_name, last_name, email, experience, specialization, clinic, address, degree, university, availability, from_time, to_time FROM doctors";
+    const sql = "SELECT id, uid, first_name, last_name, email, experience, specialization, clinic, address, degree, university, availability, from_time, to_time FROM doctors";
     db.query(sql, (err, results) => {
         if (err) {
             console.error("Error fetching doctors:", err);
@@ -245,16 +233,18 @@ router.get("/getdoctors", (req, res) => {
 });
 
 // =================================================================
-// ✅ NEW: GET BOOKED SLOTS FOR A DOCTOR ON A SPECIFIC DATE
+// ✅ FIXED: GET BOOKED SLOTS (Reverted to use doctorUid)
 // =================================================================
 router.get("/getBookedSlots", (req, res) => {
-    const { doctorId, date } = req.query;
-    if (!doctorId || !date) {
-        return res.status(400).json({ error: "Doctor ID and date are required." });
+    // Reverted to use doctorUid as the appointments table expects it
+    const { doctorUid, date } = req.query; 
+    if (!doctorUid || !date) {
+        return res.status(400).json({ error: "Doctor UID and date are required." });
     }
 
-    const sql = "SELECT time_slot FROM appointments WHERE doctor_id = ? AND appointment_date = ?";
-    db.query(sql, [doctorId, date], (err, results) => {
+    // The SQL query now correctly uses doctor_uid
+    const sql = "SELECT time_slot FROM appointments WHERE doctor_uid = ? AND appointment_date = ?";
+    db.query(sql, [doctorUid, date], (err, results) => { 
         if (err) {
             console.error("Error fetching booked slots:", err);
             return res.status(500).json({ error: "Database query failed" });
@@ -263,6 +253,7 @@ router.get("/getBookedSlots", (req, res) => {
         res.status(200).json(bookedSlots);
     });
 });
+
 
 
 module.exports = router;

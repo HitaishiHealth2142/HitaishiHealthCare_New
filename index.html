@@ -96,7 +96,7 @@
                 async function fetchSuggestions(query) {
                     try {
                         // Fetch from the new '/api/specializations' endpoint
-                        const response = await fetch(`/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
