@@ -206,6 +206,30 @@ router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => 
 });
 
 // =================================================================
+// ✨ NEW: GET DOCTOR SPECIALIZATIONS FOR SEARCH SUGGESTIONS
+// =================================================================
+router.get("/specializations", (req, res) => {
+    const query = req.query.q || ''; // Get search query from URL parameter 'q'
+    if (!query) {
+        return res.json([]); // Return empty array if no query
+    }
+
+    // Use LIKE to find specializations that start with the query text, limit to 10 results
+    const sql = "SELECT DISTINCT specialization FROM doctors WHERE specialization LIKE ? LIMIT 10";
+    const searchTerm = `${query}%`; // Add wildcard for "starts with" search
+
+    db.query(sql, [searchTerm], (err, results) => {
+        if (err) {
+            console.error("Error fetching specializations:", err);
+            return res.status(500).json({ error: "Database query failed" });
+        }
+        // Map the result to return an array of strings, e.g., ["Cardiology", "Dermatology"]
+        const specializations = results.map(row => row.specialization);
+        res.status(200).json(specializations);
+    });
+});
+
+// =================================================================
 // ✅ NEW & FIXED: GET ALL DOCTORS (Removed 'gender' from query)
 // =================================================================
 router.get("/getdoctors", (req, res) => {

@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg&libraries=places"></script>
+    
+    
+  <style>
         :root {
             --primary: #1a73e8;
             --primary-dark: #1557b1;
@@ -465,7 +468,7 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-    </style>
+  </style>
 </head>
 <body>
 
@@ -611,23 +614,13 @@ function initMap() {
   });
 }
 
+// MODIFIED: This function now populates filters and applies the URL search query
 async function fetchDoctors() {
   try {
-    // Dynamically build base URL depending on current site
-    const baseUrl = `${window.location.origin}/api`;
     const url = 'https://www.hitaishihealthcare.com/api/getdoctors';
-
     console.log("📡 Fetching doctors from:", url);
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-
-    console.log("🔍 Raw response:", response);
-
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status} - ${response.statusText}`);
     }
@@ -635,26 +628,55 @@ async function fetchDoctors() {
     const data = await response.json();
     console.log("✅ Doctors data received:", data);
 
-    if (!Array.isArray(data) || data.length === 0) {
-      console.warn("⚠ No doctors returned. Check if database is empty or API filtering.");
-    }
-
     allDoctors = data;
-    displayDoctors(allDoctors);
-    updateMapMarkers(allDoctors);
+
+    // ✨ NEW: Populate the specialization filter dropdown dynamically
+    populateSpecializationFilter();
+
+    // ✨ NEW: Check for a specialization in the URL and apply it
+    const urlParams = new URLSearchParams(window.location.search);
+    const specializationFromUrl = urlParams.get('specialization');
+
+    if (specializationFromUrl) {
+        // Set the dropdown to the value from the URL
+        document.getElementById('specializationFilter').value = specializationFromUrl;
+        
+        // Trigger the filter function to show the correct doctors
+        filterDoctors();
+    } else {
+        // If no filter in URL, display all doctors as before
+        displayDoctors(allDoctors);
+        updateMapMarkers(allDoctors);
+    }
 
   } catch (error) {
     console.error("❌ Error fetching doctors:", error);
-
-    // More detailed browser error hints
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      console.error("💡 This might be a CORS error or network issue. Check browser console for blocked requests.");
-    }
-
     document.getElementById('doctorsList').innerHTML =
       `<p style="color: red; padding: 20px; text-align: center;">Failed to load doctors: ${error.message}</p>`;
   }
 }
+
+// ✨ NEW: This function populates the specialization dropdown from the doctor list
+function populateSpecializationFilter() {
+    const specializationFilter = document.getElementById('specializationFilter');
+    if (!specializationFilter) return;
+
+    // Get a unique, sorted list of specializations from all doctors
+    const specializations = [...new Set(allDoctors.map(doc => doc.specialization))].sort();
+
+    // Clear existing options except the first "All Specializations" one
+    specializationFilter.innerHTML = '<option value="">All Specializations</option>';
+
+    specializations.forEach(spec => {
+        if(spec) { // Ensure specialization is not null or empty
+            const option = document.createElement('option');
+            option.value = spec;
+            option.textContent = spec;
+            specializationFilter.appendChild(option);
+        }
+    });
+}
+
 
 function displayDoctors(doctors) {
   const doctorsList = document.getElementById('doctorsList');
@@ -943,7 +965,7 @@ function useCurrentLocation() {
 }
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg&libraries=places"></script>
+
   
 </body>
 </html>
