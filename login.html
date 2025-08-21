@@ -1188,19 +1188,27 @@
             localStorage.setItem("doctorUid", data.user.uid);
             localStorage.setItem("doctorName", data.user.first_name);
             window.location.href = "doctorProfile.html";
-          } else if (data.role === "patient") {
-            // 1. Create an object with the patient's details from the 'data' variable
-            const patientData = {
-                id: data.user.id,
-                firstName: data.user.first_name,
-                lastName: data.user.last_name,
-                email: data.user.email,
-                mobile: data.user.mobile
-            };
-            // 2. Store the entire object in sessionStorage as a single JSON string
-            sessionStorage.setItem('patientUser', JSON.stringify(patientData));
-            // 3. Redirect to the doctors page
-            window.location.href = '/doctors.html';
+            } else if (data.role === "patient") {
+                // --- For Local Storage (Long-term memory) ---
+                // You can keep this if you need to remember the user ID for other parts of your site.
+                localStorage.setItem("userId", data.user.id);
+                localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
+
+                // --- For Session Storage (Required for the booking page) ---
+                // 1. Create the object the booking page is looking for.
+                const patientData = {
+                    id: data.user.id,
+                    firstName: data.user.first_name,
+                    lastName: data.user.last_name,
+                    email: data.user.email,
+                    mobile: data.user.mobile
+                };
+
+                // 2. Store the object in sessionStorage.
+                sessionStorage.setItem('patientUser', JSON.stringify(patientData));
+
+                // 3. Redirect to the correct page.
+                window.location.href = '/doctors.html';
         
           } else if (data.role === "diagnostic") {
             localStorage.removeItem("diagnosticId"); 
