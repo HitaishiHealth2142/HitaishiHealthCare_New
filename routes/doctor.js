@@ -235,24 +235,30 @@ router.get("/getdoctors", (req, res) => {
 // =================================================================
 // ✅ FIXED: GET BOOKED SLOTS (Reverted to use doctorUid)
 // =================================================================
+// GET BOOKED SLOTS by doctorUid + date (joins through doctors to map uid -> id)
 router.get("/getBookedSlots", (req, res) => {
-    // Reverted to use doctorUid as the appointments table expects it
-    const { doctorUid, date } = req.query; 
-    if (!doctorUid || !date) {
-        return res.status(400).json({ error: "Doctor UID and date are required." });
-    }
+  const { doctorUid, date } = req.query;
+  if (!doctorUid || !date) {
+    return res.status(400).json({ error: "Doctor UID and date are required." });
+  }
 
-    // The SQL query now correctly uses doctor_uid
-    const sql = "SELECT time_slot FROM appointments WHERE doctor_uid = ? AND appointment_date = ?";
-    db.query(sql, [doctorUid, date], (err, results) => { 
-        if (err) {
-            console.error("Error fetching booked slots:", err);
-            return res.status(500).json({ error: "Database query failed" });
-        }
-        const bookedSlots = results.map(row => row.time_slot);
-        res.status(200).json(bookedSlots);
-    });
+  const sql = `
+    SELECT ad.time_slot
+    FROM appointments_doctors ad
+    JOIN doctors d ON d.id = ad.doctor_id
+    WHERE d.uid = ? AND ad.appointment_date = ?
+  `;
+
+  db.query(sql, [doctorUid, date], (err, results) => {
+    if (err) {
+      console.error("Error fetching booked slots:", err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+    const bookedSlots = results.map(r => r.time_slot);
+    res.status(200).json(bookedSlots);
+  });
 });
+
 
 
 
