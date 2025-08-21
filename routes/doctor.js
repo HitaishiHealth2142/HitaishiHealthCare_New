@@ -242,11 +242,11 @@ router.get("/getBookedSlots", (req, res) => {
     return res.status(400).json({ error: "Doctor UID and date are required." });
   }
 
+  // UPDATED SQL: Query the 'appointments' table and select 'appointment_time'
   const sql = `
-    SELECT ad.time_slot
-    FROM appointments_doctors ad
-    JOIN doctors d ON d.id = ad.doctor_id
-    WHERE d.uid = ? AND ad.appointment_date = ?
+    SELECT a.appointment_time
+    FROM appointments a
+    WHERE a.doctor_uid = ? AND a.appointment_date = ?
   `;
 
   db.query(sql, [doctorUid, date], (err, results) => {
@@ -254,7 +254,8 @@ router.get("/getBookedSlots", (req, res) => {
       console.error("Error fetching booked slots:", err);
       return res.status(500).json({ error: "Database query failed" });
     }
-    const bookedSlots = results.map(r => r.time_slot);
+    // Send back just the time strings in an array
+    const bookedSlots = results.map(row => row.appointment_time);
     res.status(200).json(bookedSlots);
   });
 });

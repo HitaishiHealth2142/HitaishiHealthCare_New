@@ -824,7 +824,7 @@ function loadTimeSlots(doctorUid, fromTime, toTime) {
         const isBooked = bookedSlots.includes(slotTime);
 
         const slotBtn = document.createElement('div');
-        slotBtn.className = isBooked ? 'time-slot booked' : 'time-slot';
+        slotBtn.className = isBooked ? 'time-slot booked' : 'time-slot available';
         slotBtn.textContent = slotTime;
 
         if (!isBooked) {
