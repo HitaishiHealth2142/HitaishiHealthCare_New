@@ -1299,12 +1299,15 @@
                 // --- For Local Storage (Long-term memory) ---
                 // You can keep this if you need to remember the user ID for other parts of your site.
                 localStorage.setItem("userId", data.user.id);
+                // store patient unique id unique_id
+                localStorage.setItem("uniqueId", data.user.unique_id);
                 localStorage.setItem("fullName", `${data.user.first_name} ${data.user.last_name}`);
 
                 // --- For Session Storage (Required for the booking page) ---
                 // 1. Create the object the booking page is looking for.
                 const patientData = {
                     id: data.user.id,
+                    uniqueId: data.user.unique_id,
                     firstName: data.user.first_name,
                     lastName: data.user.last_name,
                     email: data.user.email,

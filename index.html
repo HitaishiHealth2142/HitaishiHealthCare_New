@@ -764,12 +764,16 @@
                 loginLink1.addEventListener("click", (e) => {
                     e.preventDefault();
                     // clear all user keys
-                    localStorage.removeItem("doctorUid");
-                    localStorage.removeItem("userId");
-                    localStorage.removeItem("firstName");
-                    localStorage.removeItem("fullName");
-                    localStorage.removeItem("diagnosticId");
-                    localStorage.removeItem("diagnosticCenterId");
+                    // localStorage.removeItem("doctorUid");
+                    // localStorage.removeItem("userId");
+                    // localStorage.removeItem("firstName");
+                    // localStorage.removeItem("fullName");
+                    // localStorage.removeItem("diagnosticId");
+                    // localStorage.removeItem("diagnosticName")
+                    // localStorage.removeItem("diagnosticCenterId");
+                    localStorage.clear();
+                    // session storage also cleared
+                    sessionStorage.clear();
                     window.location.href = "index.html";
                 });
             }

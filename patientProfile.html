@@ -52,7 +52,7 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 0 auto 20px;
+            margin: 0 auto 10px;
             display: block;
             border: 3px solid #0d6efd;
         }
@@ -367,13 +367,15 @@
   const userProfile = document.querySelector('.user-profile');
   const dropdownMenu = document.querySelector('.dropdown-menu');
   
-  userProfile.addEventListener('click', () => {
-    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-  });
+  if (userProfile && dropdownMenu) {
+      userProfile.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      });
+  }
   
   // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
-    if (!userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
+    if (userProfile && dropdownMenu && !userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
       dropdownMenu.style.display = 'none';
     }
   });
@@ -573,7 +575,13 @@
             <!-- Profile Picture and Basic Info -->
             <div class="text-center mb-4">
               <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture" class="profile-pic" id="profilePicture">
-              <h4 id="patientName">Loading...</h4>
+              <!-- --- NEW: File input for changing photo --- -->
+              <label for="photoUpload" class="btn btn-sm btn-outline-primary" id="photoUploadLabel" style="display: none;">Change Photo</label>
+              <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+              
+              <h4 id="patientName" class="mt-2">Loading...</h4>
+              <!-- --- NEW: Display for Unique ID --- -->
+              <p class="text-muted" id="patientUniqueId" style="font-weight: bold; color: #0d6efd;"></p>
               <p class="text-muted" id="patientEmail">user@example.com</p>
             </div>
             
@@ -613,7 +621,7 @@
               </div>
               <div class="col-md-4">
                 <label class="form-label">Date of Birth</label>
-                <input type="text" class="form-control" name="dob" id="dob" readonly>
+                <input type="date" class="form-control" name="dob" id="dob" readonly>
               </div>
             </div>
             <div class="row">
@@ -650,6 +658,7 @@
     
     document.addEventListener('DOMContentLoaded', function() {
       const userId = localStorage.getItem('userId');
+      const uniqueId = localStorage.getItem('uniqueId');
       const firstName = localStorage.getItem('firstName');
       const fullName = localStorage.getItem('fullName');
       
@@ -687,6 +696,17 @@
       document.getElementById('cancelBtn').addEventListener('click', cancelEditing);
       document.getElementById('profileForm').addEventListener('submit', saveProfile);
       
+      // --- NEW: Handle profile photo preview on change ---
+      document.getElementById('photoUpload').addEventListener('change', function(event) {
+          if (event.target.files && event.target.files[0]) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  document.getElementById('profilePicture').src = e.target.result;
+              }
+              reader.readAsDataURL(event.target.files[0]);
+          }
+      });
+
       // Initialize new appointment button
       document.getElementById('newAppointmentBtn').addEventListener('click', () => {
         alert('Redirect to appointment booking page');
@@ -844,9 +864,11 @@
     }
     
     function populateProfileForm(patientData) {
-      // Update profile picture and name
+      // --- UPDATE: Populate new fields ---
+      document.getElementById('profilePicture').src = patientData.profile_photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
       document.getElementById('patientName').textContent = `${patientData.first_name} ${patientData.last_name}`;
       document.getElementById('patientEmail').textContent = patientData.email;
+      document.getElementById('patientUniqueId').textContent = `Patient ID: ${patientData.unique_id}`;
       
       // Basic Information
       document.getElementById('firstName').value = patientData.first_name;
@@ -857,7 +879,9 @@
       // Medical Information
       document.getElementById('bloodGroup').value = patientData.blood_group;
       document.getElementById('gender').value = patientData.gender;
-      document.getElementById('dob').value = patientData.dob;
+      // Format date for input type="date"
+      const dob = new Date(patientData.dob).toISOString().split('T')[0];
+      document.getElementById('dob').value = dob;
       document.getElementById('disease').value = patientData.disease;
       
       // Address Information
@@ -868,7 +892,7 @@
       // Enable all editable fields
       const editableFields = [
         'firstName', 'lastName', 'mobile',
-        'bloodGroup', 'gender', 'dob', 'disease', 'address'
+        'dob', 'disease', 'address'
       ];
       
       editableFields.forEach(field => {
@@ -878,6 +902,9 @@
           element.classList.add('bg-light');
         }
       });
+      
+      // --- NEW: Show photo upload button ---
+      document.getElementById('photoUploadLabel').style.display = 'inline-block';
       
       // Change form controls to editable versions
       document.getElementById('bloodGroup').outerHTML = `
@@ -915,10 +942,13 @@
       // Restore original data
       populateProfileForm(originalData);
       
+      // --- NEW: Hide photo upload button ---
+      document.getElementById('photoUploadLabel').style.display = 'none';
+
       // Disable all fields
       const fields = [
         'firstName', 'lastName', 'mobile',
-        'bloodGroup', 'gender', 'dob', 'disease', 'address'
+        'dob', 'disease', 'address'
       ];
       
       fields.forEach(field => {
@@ -952,18 +982,21 @@
       const userId = localStorage.getItem('userId');
       const saveBtn = document.getElementById('saveBtn');
       const originalBtnText = saveBtn.innerHTML;
-      saveBtn.innerHTML = '<i class="fas fa-spinner spinner"></i> Saving...';
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
       saveBtn.disabled = true;
       
       const updatedData = {
         first_name: document.getElementById('firstName').value,
         last_name: document.getElementById('lastName').value,
+        email: document.getElementById('email').value, // Email is readonly but good to send it back
         mobile: document.getElementById('mobile').value,
         blood_group: document.getElementById('bloodGroup').value,
         gender: document.getElementById('gender').value,
         dob: document.getElementById('dob').value,
         disease: document.getElementById('disease').value,
-        address: document.getElementById('address').value
+        address: document.getElementById('address').value,
+        // --- UPDATE: Send the potentially new photo data ---
+        profile_photo: document.getElementById('profilePicture').src
       };
       
       fetch(`${API_BASE}/patient/profile?patientId=${userId}`, {
@@ -982,6 +1015,7 @@
       .then(data => {
         if (data.message) {
           showMessage('Profile updated successfully!', 'success');
+          // Update original data with the new saved data
           originalData = {...originalData, ...updatedData};
           document.getElementById('patientName').textContent = 
             `${updatedData.first_name} ${updatedData.last_name}`;
@@ -1021,8 +1055,9 @@
       } catch (error) {
         console.error("Logout API call failed, proceeding with client-side cleanup:", error);
       } finally {
-        // Always clear local storage and redirect
+        // --- UPDATE: Clear both localStorage and sessionStorage ---
         localStorage.clear();
+        sessionStorage.clear();
         window.location.href = 'login.html';
       }
     }

@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db'); // Import the database connection
 
-// --- FIX: Ensure 'otp_code' column exists ---
+// --- UPDATE: Added unique_id and profile_photo columns ---
 const createPatientsTable = `
   CREATE TABLE IF NOT EXISTS patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    unique_id VARCHAR(6) NOT NULL UNIQUE,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -16,6 +17,7 @@ const createPatientsTable = `
     disease VARCHAR(255) NOT NULL,
     address TEXT NOT NULL,
     password VARCHAR(255) NOT NULL,
+    profile_photo TEXT,
     otp_code VARCHAR(6) DEFAULT NULL
   )
 `;
@@ -52,6 +54,17 @@ function checkEmailExists(email, callback) {
   });
 }
 
+// --- NEW: Helper function to generate a unique 6-character ID ---
+function generateUniqueId() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+
 // Local role lock middleware
 function localRoleLock(targetRole) {
   return (req, res, next) => {
@@ -64,12 +77,42 @@ function localRoleLock(targetRole) {
   };
 }
 
+// --- NEW: TEMPORARY ROUTE TO UPDATE EXISTING USERS ---
+// Run this ONCE by going to /api/patients/update-ids in your browser
+router.get('/patients/update-ids', (req, res) => {
+    db.query('SELECT id FROM patients WHERE unique_id IS NULL', (err, results) => {
+        if (err) {
+            return res.status(500).send('Error fetching patients');
+        }
+
+        if (results.length === 0) {
+            return res.send('No patients needed updating.');
+        }
+
+        let updatedCount = 0;
+        results.forEach(patient => {
+            const unique_id = generateUniqueId();
+            db.query('UPDATE patients SET unique_id = ? WHERE id = ?', [unique_id, patient.id], (updateErr) => {
+                if (updateErr) {
+                    console.error(`Failed to update patient ${patient.id}:`, updateErr);
+                }
+                updatedCount++;
+                if (updatedCount === results.length) {
+                    res.send(`Successfully updated ${updatedCount} patients.`);
+                }
+            });
+        });
+    });
+});
+// --- END OF TEMPORARY ROUTE ---
+
+
 // Register a new patient
 router.post('/patients', (req, res) => {
   const {
     first_name, last_name, email, mobile,
     blood_group, gender, dob, disease, address,
-    password, confirm_password
+    password, confirm_password, profile_photo
   } = req.body;
 
   // ✅ Step 1: Confirm password check
@@ -83,20 +126,24 @@ router.post('/patients', (req, res) => {
     if (err) return res.status(500).json({ error: 'Database error during email check' });
     if (exists) return res.status(400).json({ error: 'Email already registered in another account type.' });
 
-    // ✅ Step 3: Insert patient (confirm_password is NOT stored)
+    // --- UPDATE: Generate unique ID and handle profile photo ---
+    const unique_id = generateUniqueId();
+    const photo = profile_photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'; // Default photo
+
     const sql = `
       INSERT INTO patients
-        (first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (unique_id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, profile_photo)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
-      first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password
+      unique_id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, password, photo
     ];
 
     db.query(sql, values, (err, result) => {
       if (err) {
         if (err.code === 'ER_DUP_ENTRY') {
-          return res.status(409).json({ error: 'Email already registered.' });
+          // This could be for email or the generated unique_id
+          return res.status(409).json({ error: 'Email or generated ID already exists. Please try again.' });
         }
         console.error('Database error:', err);
         return res.status(500).json({ error: 'Database error on registration' });
@@ -151,11 +198,12 @@ router.post('/patientlogin', localRoleLock('patient'), (req, res) => {
       if (logErr) console.error("Error logging login activity:", logErr);
     });
 
-    // ✅ UPDATED: Send back more user details to the frontend
+    // --- UPDATE: Send back unique_id with other user details ---
     res.status(200).json({
       message: 'Login successful',
       user: {
         id: user.id,
+        unique_id: user.unique_id, // <-- ADDED THIS LINE
         firstName: user.first_name,
         lastName: user.last_name,
         email: user.email,
@@ -170,7 +218,8 @@ router.post('/patientlogin', localRoleLock('patient'), (req, res) => {
  */
 router.get('/patients/:id', (req, res) => {
     const patientId = req.params.id;
-    const sql = 'SELECT id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address FROM patients WHERE id = ?';
+    // --- UPDATE: Select new columns ---
+    const sql = 'SELECT id, unique_id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo FROM patients WHERE id = ?';
     db.query(sql, [patientId], (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -188,15 +237,16 @@ router.get('/patients/:id', (req, res) => {
  */
 router.put('/patient/profile', (req, res) => {
     const patientId = req.query.patientId;
-    const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address } = req.body;
+    // --- UPDATE: Include profile_photo in the update ---
+    const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo } = req.body;
     if (!patientId) {
         return res.status(400).json({ error: 'Patient ID is required' });
     }
     const sql = `UPDATE patients SET
         first_name = ?, last_name = ?, email = ?, mobile = ?,
-        blood_group = ?, gender = ?, dob = ?, disease = ?, address = ?
+        blood_group = ?, gender = ?, dob = ?, disease = ?, address = ?, profile_photo = ?
         WHERE id = ?`;
-    const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, patientId];
+    const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo, patientId];
     db.query(sql, values, (err, result) => {
         if (err) {
             console.error('Database error:', err);
