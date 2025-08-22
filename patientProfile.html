@@ -662,10 +662,22 @@
       const firstName = localStorage.getItem('firstName');
       const fullName = localStorage.getItem('fullName');
       
-      if (!userId || !firstName) {
-        window.location.href = 'login.html';
-        return;
-      }
+      if (uniqueId) {
+        fetch(`${API_BASE}/patient/profile/${uniqueId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.patient) {
+              document.getElementById("patientName").textContent =
+                data.patient.first_name + " " + data.patient.last_name;
+              document.getElementById("patientUniqueId").textContent =
+                "ID: " + data.patient.unique_id;
+              document.getElementById("patientEmail").textContent = data.patient.email;
+              // ...fill other fields
+            }
+          });
+      } else {
+        alert("Patient Unique ID not found. Please login again.");
+ 
       
       // Initialize navigation buttons
       document.getElementById('homeBtn').addEventListener('click', () => showContent('home'));
@@ -887,6 +899,7 @@
       // Address Information
       document.getElementById('address').value = patientData.address;
     }
+    
     
     function enableEditing() {
       // Enable all editable fields

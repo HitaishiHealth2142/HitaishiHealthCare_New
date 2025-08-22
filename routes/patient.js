@@ -203,7 +203,7 @@ router.post('/patientlogin', localRoleLock('patient'), (req, res) => {
       message: 'Login successful',
       user: {
         id: user.id,
-        unique_id: user.unique_id, // <-- ADDED THIS LINE
+        unique_id: user.unique_id,
         firstName: user.first_name,
         lastName: user.last_name,
         email: user.email,
