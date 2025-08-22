@@ -232,21 +232,41 @@ router.get('/patients/:id', (req, res) => {
     });
 });
 
+// --- NEW: Get Patient Profile by UNIQUE ID ---
+router.get('/patient/profile/:uniqueId', (req, res) => {
+    const uniqueId = req.params.uniqueId;
+    const sql = 'SELECT id, unique_id, first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo FROM patients WHERE unique_id = ?';
+    
+    db.query(sql, [uniqueId], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Patient not found' });
+        }
+        res.status(200).json({ patient: results[0] });
+    });
+});
+
 /**
  * Route to update a patient's profile information.
  */
-router.put('/patient/profile', (req, res) => {
-    const patientId = req.query.patientId;
-    // --- UPDATE: Include profile_photo in the update ---
+// --- UPDATE: Update Patient Profile by UNIQUE ID ---
+router.put('/patient/profile/:uniqueId', (req, res) => {
+    const uniqueId = req.params.uniqueId;
     const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo } = req.body;
-    if (!patientId) {
-        return res.status(400).json({ error: 'Patient ID is required' });
+    
+    if (!uniqueId) {
+        return res.status(400).json({ error: 'Patient Unique ID is required' });
     }
+
     const sql = `UPDATE patients SET
         first_name = ?, last_name = ?, email = ?, mobile = ?,
         blood_group = ?, gender = ?, dob = ?, disease = ?, address = ?, profile_photo = ?
-        WHERE id = ?`;
-    const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo, patientId];
+        WHERE unique_id = ?`;
+    const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo, uniqueId];
+    
     db.query(sql, values, (err, result) => {
         if (err) {
             console.error('Database error:', err);
