@@ -3,1079 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Dashboard | Hitaishi Healthcare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Patient Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .dashboard-container { 
-            display: flex; 
-            max-width: 90%; 
-            margin: 20px auto; 
-            background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
-            min-height: 80vh;
+        body {
+            font-family: 'Poppins', sans-serif;
         }
-        .sidebar { 
-            width: 250px; 
-            padding: 20px; 
-            border-right: 1px solid #eee; 
-            background: #f8f9fa;
-        }
-        .main-content { 
-            flex: 1; 
-            padding: 30px; 
-        }
-        .nav-btn { 
-            width: 100%; 
-            text-align: left; 
-            margin-bottom: 10px; 
-            padding: 10px 15px;
-        }
-        .nav-btn.active { 
-            background-color: #0d6efd; 
-            color: white;
-        }
-        .profile-container { 
-            max-width: 900px; 
-            margin: 0 auto;
-        }
-        .form-label { font-weight: 500; }
-        .form-control, .form-select { margin-bottom: 15px; }
-        .services-tag { display: inline-block; background: #e9ecef; padding: 3px 8px; margin: 2px; border-radius: 3px; }
-        .section-title { margin-top: 25px; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #eee; color: #0d6efd; }
-        .appointments-table { width: 100%; overflow-x: auto; }
-        .test-image-preview { max-width: 100px; max-height: 100px; margin-top: 10px; display: none; }
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 10px;
-            display: block;
-            border: 3px solid #0d6efd;
-        }
-        .badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
             font-weight: 500;
+            color: #4b5563; /* gray-600 */
+            transition: all 0.2s ease;
+            border: none;
+            background-color: transparent;
+            text-align: left;
         }
-        .badge-primary {
-            background-color: #0d6efd;
+        .sidebar-btn:hover {
+            background-color: #f3f4f6; /* gray-100 */
+            color: #1f2937; /* gray-800 */
+        }
+        .sidebar-btn.active {
+            background-color: #4f46e5; /* indigo-600 */
             color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .badge-success {
-            background-color: #198754;
-            color: white;
+        .sidebar-btn i {
+            width: 1.5rem;
+            margin-right: 0.75rem;
+            text-align: center;
         }
-        .badge-warning {
-            background-color: #ffc107;
-            color: #212529;
+        .content-section {
+            display: none;
         }
-        .badge-danger {
-            background-color: #dc3545;
-            color: white;
+        .content-section.active {
+            display: block;
+        }
+        .form-input {
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .form-label {
+            font-weight: 500;
+            color: #374151; /* gray-700 */
+        }
+        .gemini-response h3 {
+            font-size: 1.125rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #1e3a8a;
+        }
+        .gemini-response ul {
+            list-style-type: disc; margin-left: 1.5rem; space-y: 0.25rem;
+        }
+        .gemini-response p {
+            margin-bottom: 0.75rem;
         }
     </style>
 </head>
-<body>
-<nav class="main-nav">
-  <!-- Logo and Brand Name -->
-  <div class="nav-brand">
-    <img src="images/Hitaishi HealthCare (1).png" alt="Hitaishi Healthcare Logo" class="nav-logo">
-    <span class="brand-name">Hitaishi Healthcare</span>
-  </div>
+<body class="bg-gray-50">
 
-  <!-- Marquee Announcement -->
-  <div class="announcement-bar">
-    <div class="marquee-container">
-      <div class="marquee-content">
-        <span class="announcement-icon">📢</span>
-        <span class="announcement-text">Welcome to Hitaishi Healthcare – Your trusted partner for healthcare services! Book your appointment today at +91-99087 93602</span>
-      </div>
-    </div>
-  </div>
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+            <div class="h-16 flex items-center justify-center border-b border-gray-200">
+                 <img class="h-8 w-auto" src="https://placehold.co/200x50/4f46e5/white?text=Hitaishi" alt="Logo">
+            </div>
+            <div class="flex flex-col items-center p-6 border-b border-gray-200">
+                <img id="sidebar_photo_display" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-indigo-100">
+                <h3 id="sidebar_full_name" class="text-lg font-semibold text-gray-800 mt-3"></h3>
+                <p class="text-gray-500 text-sm" id="sidebar_unique_id"></p>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <button id="show-home-btn" class="sidebar-btn active"><i class="fas fa-home"></i>Home</button>
+                <button id="show-doctor-appointments-btn" class="sidebar-btn"><i class="fas fa-user-doctor"></i>Doctor Appointments</button>
+                <button id="show-diagnostic-appointments-btn" class="sidebar-btn"><i class="fas fa-microscope"></i>Diagnostic Appointments</button>
+                <button id="show-history-btn" class="sidebar-btn"><i class="fas fa-history"></i>History</button>
+                <button id="show-profile-btn" class="sidebar-btn"><i class="fas fa-user-circle"></i>Profile</button>
+            </nav>
+            <div class="p-4 border-t border-gray-200">
+                 <button id="logout-button" class="sidebar-btn hover:bg-red-50 hover:text-red-600"><i class="fas fa-sign-out-alt"></i>Logout</button>
+            </div>
+        </aside>
 
-  <!-- Navigation Controls -->
-  <div class="nav-controls">
-    <!-- Date and Time -->
-    <div class="datetime-container">
-      <span class="date" id="current-date"></span>
-      <span class="time" id="current-time"></span>
-    </div>
-    
-    <!-- Notification and Messages -->
-    <div class="nav-icons">
-      <button class="icon-btn notification-btn" aria-label="Notifications">
-        <span class="icon">🔔</span>
-        <span class="badge">3</span>
-      </button>
-      <button class="icon-btn message-btn" aria-label="Messages">
-        <span class="icon">✉️</span>
-        <span class="badge">1</span>
-      </button>
-    </div>
-  </div>
-</nav>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <div id="loading-state" class="text-center pt-20">
+                <i class="fas fa-spinner fa-spin text-4xl text-indigo-600"></i>
+                <p class="mt-2 text-lg text-gray-600">Loading Dashboard...</p>
+            </div>
 
-<style>
-  /* Base Styles */
-  .main-nav {
-    width: 100%;
-    height: 70px;
-    background: linear-gradient(135deg, #007bff 0%, #0062cc 100%);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    position: relative;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-
-  /* Brand Section */
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 220px;
-  }
-
-  .nav-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .brand-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-
-  /* Announcement Marquee */
-  .announcement-bar {
-    flex: 1;
-    margin: 0 30px;
-    overflow: hidden;
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  .marquee-container {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .marquee-content {
-    display: inline-block;
-    padding-left: 100%;
-    animation: marquee 20s linear infinite;
-  }
-
-  .announcement-icon {
-    margin-right: 10px;
-    font-size: 1.1rem;
-  }
-
-  .announcement-text {
-    font-size: 0.9rem;
-    opacity: 0.9;
-  }
-
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-  }
-
-  /* Navigation Controls */
-  .nav-controls {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    min-width: 300px;
-    justify-content: flex-end;
-  }
-
-  .datetime-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 0.8rem;
-  }
-
-  .date {
-    opacity: 0.8;
-  }
-
-  .time {
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-
-  /* Icons */
-  .nav-icons {
-    display: flex;
-    gap: 15px;
-  }
-
-  .icon-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    position: relative;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-  }
-
-  .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
-  }
-
-  .badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #ff4757;
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 0.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-  }
-
-  /* User Profile */
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 20px;
-    transition: all 0.2s ease;
-  }
-
-  .user-profile:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .profile-img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-  }
-
-  .username {
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-
-  /* Dropdown Menu */
-  .dropdown-menu {
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 180px;
-    overflow: hidden;
-    display: none;
-    z-index: 1001;
-  }
-
-  .dropdown-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: #333;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  .dropdown-menu a:hover {
-    background: #f8f9fa;
-    color: #007bff;
-  }
-
-  /* Responsive Adjustments */
-  @media (max-width: 992px) {
-    .announcement-bar {
-      display: none;
-    }
-    
-    .nav-controls {
-      min-width: auto;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .main-nav {
-      padding: 0 15px;
-    }
-    
-    .brand-name {
-      display: none;
-    }
-    
-    .username {
-      display: none;
-    }
-  }
-</style>
-
-<script>
-  // Enhanced Time and Date Display
-  function updateDateTime() {
-    const now = new Date();
-    
-    // Format date
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
-    document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, options);
-    
-    // Format time
-    document.getElementById('current-time').textContent = now.toLocaleTimeString(undefined, {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    });
-  }
-  
-  // Update immediately and then every second
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
-  
-  // Dropdown functionality
-  const userProfile = document.querySelector('.user-profile');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  
-  if (userProfile && dropdownMenu) {
-      userProfile.addEventListener('click', () => {
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-      });
-  }
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (userProfile && dropdownMenu && !userProfile.contains(e.target) && !dropdownMenu.contains(e.target)) {
-      dropdownMenu.style.display = 'none';
-    }
-  });
-  
-  // Notification and message buttons could have click handlers here
-  document.querySelector('.notification-btn').addEventListener('click', () => {
-    alert('You have 3 new notifications');
-  });
-  
-  document.querySelector('.message-btn').addEventListener('click', () => {
-    alert('You have 1 new message');
-  });
-</script>
-
-  <div class="dashboard-container">
-    <!-- Left Sidebar -->
-    <div class="sidebar">
-      <h4 class="text-center mb-4">Patient Dashboard</h4>
-      <button class="btn btn-outline-primary nav-btn active" id="homeBtn">
-        <i class="bi bi-house"></i> Home
-      </button>
-      <button class="btn btn-outline-primary nav-btn" id="appointmentsBtn">
-        <i class="bi bi-calendar-check"></i> Appointments
-      </button>
-      <button class="btn btn-outline-primary nav-btn" id="medicalRecordsBtn">
-        <i class="bi bi-file-earmark-medical"></i> Medical Records
-      </button>
-      <button class="btn btn-outline-primary nav-btn" id="prescriptionsBtn">
-        <i class="bi bi-prescription"></i> Prescriptions
-      </button>
-      <button class="btn btn-outline-primary nav-btn" id="billingBtn">
-        <i class="bi bi-credit-card"></i> Billing
-      </button>
-      <button class="btn btn-outline-primary nav-btn" id="profileBtn">
-        <i class="bi bi-person"></i> Profile
-      </button>
-      <button class="btn btn-outline-danger nav-btn" id="logoutBtn">
-        <i class="bi bi-box-arrow-right"></i> Logout
-      </button>
-    </div>
-
-    <!-- Main Content Area -->
-    <div class="main-content">
-      <!-- Home Content (Default) -->
-      <div id="homeContent">
-        <h2>Welcome to Hitaishi HealthCare Patient Portal</h2>
-        <p class="text-muted">Select an option from the sidebar to manage your health records.</p>
-        <div class="mt-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Quick Stats</h5>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="card text-white bg-primary mb-3">
-                    <div class="card-body">
-                      <h6 class="card-title">Upcoming Appointments</h6>
-                      <h2 class="card-text" id="upcomingAppointments">0</h2>
+            <!-- Home Section -->
+            <section id="home-view" class="content-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Home</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Today's Appointments -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-semibold text-lg mb-4">Today's Appointments</h3>
+                        <div id="todays-appointments-list" class="space-y-3"></div>
+                        <div id="no-todays-appointments" class="text-center py-8 text-gray-500 hidden">
+                            <i class="fas fa-check-circle text-3xl mb-2"></i><p>No appointments for today.</p>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card text-white bg-success mb-3">
-                    <div class="card-body">
-                      <h6 class="card-title">Completed Tests</h6>
-                      <h2 class="card-text" id="completedTests">0</h2>
+                    <!-- Upcoming Appointments -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-semibold text-lg mb-4">Upcoming Appointments</h3>
+                        <div id="upcoming-appointments-list" class="space-y-3"></div>
+                        <div id="no-upcoming-appointments" class="text-center py-8 text-gray-500 hidden">
+                            <i class="fas fa-calendar-alt text-3xl mb-2"></i><p>No upcoming appointments.</p>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="card text-white bg-warning mb-3">
-                    <div class="card-body">
-                      <h6 class="card-title">Pending Payments</h6>
-                      <h2 class="card-text" id="pendingPayments">0</h2>
+                 <!-- AI Health Insights -->
+                <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                    <h3 class="font-semibold text-lg mb-4">✨ AI Health Insights</h3>
+                    <div class="text-center">
+                        <p class="mb-4 text-gray-600">Get personalized wellness tips based on your health profile.</p>
+                        <button id="generate-insights-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700">
+                            <i class="fas fa-wand-magic-sparkles mr-2"></i>Generate My Health Summary
+                        </button>
                     </div>
-                  </div>
+                    <div id="insights-result" class="mt-6 hidden">
+                        <div id="insights-loading" class="text-center"><i class="fas fa-spinner fa-spin text-2xl text-indigo-500"></i><p class="mt-2 text-gray-500">Generating...</p></div>
+                        <div id="insights-content" class="gemini-response p-4 bg-indigo-50 rounded-lg border border-indigo-200"></div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </section>
 
-      <!-- Appointments Content -->
-      <div id="appointmentsContent" style="display: none;">
-        <h2>My Appointments</h2>
-        <div class="mb-3">
-          <label for="appointmentDateFilter" class="form-label">Filter by Date:</label>
-          <input type="date" class="form-control" id="appointmentDateFilter" style="width: 200px;">
-        </div>
-        <div class="appointments-table">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Provider</th>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="appointmentsTableBody">
-              <!-- Appointments will be loaded here -->
-            </tbody>
-          </table>
-        </div>
-        <button class="btn btn-primary mt-3" id="newAppointmentBtn">
-          <i class="bi bi-plus-circle"></i> New Appointment
-        </button>
-      </div>
-
-      <!-- Medical Records Content -->
-      <div id="medicalRecordsContent" style="display: none;">
-        <h2>Medical Records</h2>
-        <div class="mb-3">
-          <label for="recordSearch" class="form-label">Search Records:</label>
-          <input type="text" class="form-control" id="recordSearch" placeholder="Search by test name or date" style="width: 300px;">
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="table-primary">
-              <tr>
-                <th>Date</th>
-                <th>Test Name</th>
-                <th>Type</th>
-                <th>Result</th>
-                <th>Status</th>
-                <th>Report</th>
-              </tr>
-            </thead>
-            <tbody id="medicalRecordsTableBody">
-              <!-- Records will be populated here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Prescriptions Content -->
-      <div id="prescriptionsContent" style="display: none;">
-        <h2>Prescriptions</h2>
-        <div class="mb-3">
-          <label for="prescriptionSearch" class="form-label">Search Prescriptions:</label>
-          <input type="text" class="form-control" id="prescriptionSearch" placeholder="Search by doctor or date" style="width: 300px;">
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="table-primary">
-              <tr>
-                <th>Date</th>
-                <th>Doctor</th>
-                <th>Medication</th>
-                <th>Dosage</th>
-                <th>Instructions</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="prescriptionsTableBody">
-              <!-- Prescriptions will be populated here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Billing Content -->
-      <div id="billingContent" style="display: none;">
-        <h2>Billing</h2>
-        <div class="mb-3">
-          <label for="billingSearch" class="form-label">Search Bills:</label>
-          <input type="text" class="form-control" id="billingSearch" placeholder="Search by date or amount" style="width: 300px;">
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="table-primary">
-              <tr>
-                <th>Date</th>
-                <th>Service</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Payment Method</th>
-                <th>Receipt</th>
-              </tr>
-            </thead>
-            <tbody id="billingTableBody">
-              <!-- Bills will be populated here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Profile Content -->
-      <div id="profileContent" style="display: none;">
-        <div class="profile-container">
-          <div id="messageAlert" class="alert" style="display: none;"></div>
-          
-          <form id="profileForm">
-            <!-- Profile Picture and Basic Info -->
-            <div class="text-center mb-4">
-              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture" class="profile-pic" id="profilePicture">
-              <!-- --- NEW: File input for changing photo --- -->
-              <label for="photoUpload" class="btn btn-sm btn-outline-primary" id="photoUploadLabel" style="display: none;">Change Photo</label>
-              <input type="file" id="photoUpload" accept="image/*" style="display: none;">
-              
-              <h4 id="patientName" class="mt-2">Loading...</h4>
-              <!-- --- NEW: Display for Unique ID --- -->
-              <p class="text-muted" id="patientUniqueId" style="font-weight: bold; color: #0d6efd;"></p>
-              <p class="text-muted" id="patientEmail">user@example.com</p>
-            </div>
+            <!-- Doctor Appointments Section -->
+            <section id="doctor-appointments-view" class="content-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Doctor Appointments</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div id="all-doctor-appointments-list" class="space-y-4"></div>
+                    <div id="no-doctor-appointments" class="text-center py-8 text-gray-500 hidden"><i class="fas fa-user-doctor text-3xl mb-2"></i><p>No doctor appointments found.</p></div>
+                </div>
+            </section>
             
-            <!-- Basic Information Section -->
-            <h5 class="section-title">Basic Information</h5>
-            <div class="row">
-              <div class="col-md-6">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-control" name="first_name" id="firstName" readonly>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-control" name="last_name" id="lastName" readonly>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="email" readonly>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Mobile</label>
-                <input type="text" class="form-control" name="mobile" id="mobile" readonly>
-              </div>
-            </div>
-            
-            <!-- Medical Information Section -->
-            <h5 class="section-title">Medical Information</h5>
-            <div class="row">
-              <div class="col-md-4">
-                <label class="form-label">Blood Group</label>
-                <input type="text" class="form-control" name="blood_group" id="bloodGroup" readonly>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Gender</label>
-                <input type="text" class="form-control" name="gender" id="gender" readonly>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Date of Birth</label>
-                <input type="date" class="form-control" name="dob" id="dob" readonly>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <label class="form-label">Medical Condition</label>
-                <input type="text" class="form-control" name="disease" id="disease" readonly>
-              </div>
-            </div>
-            
-            <!-- Address Information Section -->
-            <h5 class="section-title">Address Information</h5>
-            <div class="row">
-              <div class="col-md-12">
-                <label class="form-label">Address</label>
-                <textarea class="form-control" name="address" id="address" rows="2" readonly></textarea>
-              </div>
-            </div>
-            
-            <div class="text-center mt-4">
-              <button type="button" class="btn btn-primary" id="editBtn">Edit Profile</button>
-              <button type="submit" class="btn btn-success" id="saveBtn" style="display: none;">Save Changes</button>
-              <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none;">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
+            <!-- Diagnostic Appointments Section -->
+            <section id="diagnostic-appointments-view" class="content-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Diagnostic Appointments</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div id="all-diagnostic-appointments-list" class="space-y-4"></div>
+                    <div id="no-diagnostic-appointments" class="text-center py-8 text-gray-500"><i class="fas fa-microscope text-3xl mb-2"></i><p>No diagnostic appointments found.</p></div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="history-view" class="content-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Appointment History</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div id="history-list" class="space-y-4"></div>
+                    <div id="no-history" class="text-center py-8 text-gray-500 hidden"><i class="fas fa-history text-3xl mb-2"></i><p>No past appointments found.</p></div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-view" class="content-section">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">My Profile</h2>
+                    <button id="edit-profile-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700"><i class="fas fa-edit mr-2"></i>Edit Profile</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><p class="text-sm text-gray-500">First Name</p><p id="view_first_name" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Last Name</p><p id="view_last_name" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Email</p><p id="view_email" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Mobile</p><p id="view_mobile" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Date of Birth</p><p id="view_dob" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Gender</p><p id="view_gender" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Blood Group</p><p id="view_blood_group" class="font-semibold text-lg"></p></div>
+                        <div><p class="text-sm text-gray-500">Known Conditions</p><p id="view_disease" class="font-semibold text-lg"></p></div>
+                        <div class="md:col-span-2"><p class="text-sm text-gray-500">Address</p><p id="view_address" class="font-semibold text-lg"></p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Edit Profile Section -->
+            <section id="edit-profile-view" class="content-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h2>
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div id="message-container" class="mb-6"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><label for="first_name" class="form-label">First Name</label><input type="text" id="first_name" class="form-input"></div>
+                        <div><label for="last_name" class="form-label">Last Name</label><input type="text" id="last_name" class="form-input"></div>
+                        <div><label for="mobile" class="form-label">Mobile</label><input type="tel" id="mobile" class="form-input"></div>
+                        <div><label for="dob" class="form-label">Date of Birth</label><input type="date" id="dob" class="form-input"></div>
+                        <div><label for="gender" class="form-label">Gender</label><select id="gender" class="form-input"><option>Male</option><option>Female</option><option>Other</option></select></div>
+                        <div><label for="blood_group" class="form-label">Blood Group</label><select id="blood_group" class="form-input"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+                        <div class="md:col-span-2"><label for="disease" class="form-label">Known Conditions/Diseases</label><input type="text" id="disease" class="form-input"></div>
+                        <div class="md:col-span-2"><label for="address" class="form-label">Address</label><textarea id="address" class="form-input" rows="3"></textarea></div>
+                        <div class="md:col-span-2"><label for="profile_photo_input" class="form-label">Update Profile Photo</label><input type="file" id="profile_photo_input" accept="image/*" class="form-input"></div>
+                    </div>
+                    <div class="mt-8 flex justify-end space-x-3">
+                        <button id="cancel-edit-btn" class="px-6 py-2 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300">Cancel</button>
+                        <button id="save-changes-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700">Save Changes</button>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const API_BASE = "https://hitaishihealthcare.com/api";
-    let originalData = {};
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      const userId = localStorage.getItem('userId');
-      const uniqueId = localStorage.getItem('uniqueId');
-      const firstName = localStorage.getItem('firstName');
-      const fullName = localStorage.getItem('fullName');
-      
-      if (uniqueId) {
-        fetch(`${API_BASE}/patient/profile/${uniqueId}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.patient) {
-              document.getElementById("patientName").textContent =
-                data.patient.first_name + " " + data.patient.last_name;
-              document.getElementById("patientUniqueId").textContent =
-                "ID: " + data.patient.unique_id;
-              document.getElementById("patientEmail").textContent = data.patient.email;
-              // ...fill other fields
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Global Variables ---
+            let originalProfileData = {};
+            let allAppointments = [];
+            let base64PhotoData = null;
+
+            // --- DOM Elements ---
+            const loadingState = document.getElementById('loading-state');
+            const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            const logoutButton = document.getElementById('logout-button');
+            const photoInput = document.getElementById('profile_photo_input');
+            const saveBtn = document.getElementById('save-changes-btn');
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+            const editProfileBtn = document.getElementById('edit-profile-btn');
+            const generateInsightsBtn = document.getElementById('generate-insights-btn');
+            const insightsResult = document.getElementById('insights-result');
+            const insightsLoading = document.getElementById('insights-loading');
+            const insightsContent = document.getElementById('insights-content');
+            
+            // --- 1. Authentication & Initial Data Fetch ---
+            const uniqueId = localStorage.getItem('uniqueId');
+            if (!uniqueId) {
+                window.location.href = 'login.html';
+                return;
             }
-          });
-      } else {
-        alert("Patient Unique ID not found. Please login again.");
- 
-      
-      // Initialize navigation buttons
-      document.getElementById('homeBtn').addEventListener('click', () => showContent('home'));
-      document.getElementById('appointmentsBtn').addEventListener('click', () => {
-        showContent('appointments');
-        loadAppointments(userId);
-      });
-      document.getElementById('medicalRecordsBtn').addEventListener('click', () => {
-        showContent('medicalRecords');
-        loadMedicalRecords(userId);
-      });
-      document.getElementById('prescriptionsBtn').addEventListener('click', () => {
-        showContent('prescriptions');
-        loadPrescriptions(userId);
-      });
-      document.getElementById('billingBtn').addEventListener('click', () => {
-        showContent('billing');
-        loadBilling(userId);
-      });
-      document.getElementById('profileBtn').addEventListener('click', () => {
-        showContent('profile');
-        fetchPatientProfile(userId);
-      });
-      document.getElementById('logoutBtn').addEventListener('click', logout);
-      
-      // Initialize profile form handlers
-      document.getElementById('editBtn').addEventListener('click', enableEditing);
-      document.getElementById('cancelBtn').addEventListener('click', cancelEditing);
-      document.getElementById('profileForm').addEventListener('submit', saveProfile);
-      
-      // --- NEW: Handle profile photo preview on change ---
-      document.getElementById('photoUpload').addEventListener('change', function(event) {
-          if (event.target.files && event.target.files[0]) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                  document.getElementById('profilePicture').src = e.target.result;
-              }
-              reader.readAsDataURL(event.target.files[0]);
-          }
-      });
 
-      // Initialize new appointment button
-      document.getElementById('newAppointmentBtn').addEventListener('click', () => {
-        alert('Redirect to appointment booking page');
-        // window.location.href = 'book-appointment.html';
-      });
-      
-      // Show home content by default
-      showContent('home');
-      loadDashboardStats(userId);
-    });
-    
-    function showContent(contentName) {
-      const sections = ['home', 'appointments', 'medicalRecords', 'prescriptions', 'billing', 'profile'];
-      sections.forEach(name => {
-        document.getElementById(`${name}Content`).style.display = 'none';
-      });
+            async function fetchAllData() {
+                try {
+                    const profileResponse = await fetch(`https://www.hitaishihealthcare.com/api/patient/profile/${uniqueId}`);
+                    if (!profileResponse.ok) throw new Error('Could not fetch profile data.');
+                    const profileData = await profileResponse.json();
+                    
+                    if (profileData.patient) {
+                        originalProfileData = profileData.patient;
+                        populateAllViews(originalProfileData);
 
-      document.getElementById(`${contentName}Content`).style.display = 'block';
+                        const appointmentsResponse = await fetch(`https://www.hitaishihealthcare.com/api/patient/appointments?patientId=${originalProfileData.id}`);
+                        const appointmentData = await appointmentsResponse.json();
+                        allAppointments = appointmentData.appointments || [];
+                        
+                        populateAllAppointmentViews();
+                        
+                        loadingState.style.display = 'none';
+                        switchView('home-view');
+                    } else {
+                        throw new Error('Patient data not found.');
+                    }
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    loadingState.innerHTML = `<p class="text-red-500">Failed to load dashboard. Please <a href="login.html" class="underline">log in</a> again.</p>`;
+                }
+            }
 
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(`${contentName}Btn`).classList.add('active');
-    }
-    
-    function loadDashboardStats(userId) {
-      // In a real app, you would fetch these from your API
-      // For demo purposes, we'll use mock data
-      document.getElementById('upcomingAppointments').textContent = '3';
-      document.getElementById('completedTests').textContent = '5';
-      document.getElementById('pendingPayments').textContent = '1';
-    }
-    
-    function loadAppointments(userId) {
-      fetch(`${API_BASE}/patient/appointments?patientId=${userId}`)
-        .then(response => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
-        .then(data => {
-          const tableBody = document.getElementById('appointmentsTableBody');
-          tableBody.innerHTML = '';
+            // --- 2. Populate Views ---
+            function populateAllViews(patient) {
+                // Sidebar, Profile View, Edit Form
+                document.getElementById('sidebar_photo_display').src = patient.profile_photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+                document.getElementById('sidebar_full_name').textContent = `${patient.first_name} ${patient.last_name}`;
+                document.getElementById('sidebar_unique_id').textContent = `ID: ${patient.unique_id}`;
+                
+                const fields = {
+                    'view_first_name': patient.first_name, 'view_last_name': patient.last_name,
+                    'view_email': patient.email, 'view_mobile': patient.mobile,
+                    'view_dob': patient.dob ? new Date(patient.dob).toLocaleDateString() : 'N/A',
+                    'view_gender': patient.gender, 'view_blood_group': patient.blood_group,
+                    'view_disease': patient.disease, 'view_address': patient.address,
+                    'first_name': patient.first_name, 'last_name': patient.last_name,
+                    'mobile': patient.mobile, 'gender': patient.gender,
+                    'blood_group': patient.blood_group, 'disease': patient.disease, 'address': patient.address
+                };
+                for (const id in fields) {
+                    const el = document.getElementById(id);
+                    if (el) el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA' ? el.value = fields[id] : el.textContent = fields[id];
+                }
+                document.getElementById('dob').value = patient.dob ? new Date(patient.dob).toISOString().split('T')[0] : '';
+            }
 
-          if (data.appointments && data.appointments.length > 0) {
-            data.appointments.forEach(app => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                <td>${app.id}</td>
-                <td>${app.provider_name || 'N/A'}</td>
-                <td>${app.type || 'N/A'}</td>
-                <td>${new Date(app.appointment_date).toLocaleDateString()}</td>
-                <td>${app.appointment_time || 'N/A'}</td>
-                <td><span class="badge ${getStatusBadgeClass(app.status)}">${app.status || 'N/A'}</span></td>
-                <td>
-                  <button class="btn btn-sm btn-outline-primary">View</button>
-                  ${app.status === 'Scheduled' ? '<button class="btn btn-sm btn-outline-danger ms-1">Cancel</button>' : ''}
-                </td>
-              `;
-              tableBody.appendChild(row);
+            function populateAllAppointmentViews() {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const todaysAppointments = allAppointments.filter(a => new Date(a.appointment_date).setHours(0, 0, 0, 0) === today.getTime());
+                const upcomingAppointments = allAppointments.filter(a => new Date(a.appointment_date) > today);
+                const pastAppointments = allAppointments.filter(a => new Date(a.appointment_date) < today);
+
+                // For now, assuming all appointments are 'doctor' appointments.
+                // This can be changed if a type field is added to the appointment data.
+                const doctorAppointments = allAppointments; 
+                const diagnosticAppointments = []; // Placeholder
+
+                renderAppointments(todaysAppointments, 'todays-appointments-list', 'no-todays-appointments');
+                renderAppointments(upcomingAppointments, 'upcoming-appointments-list', 'no-upcoming-appointments');
+                renderAppointments(pastAppointments, 'history-list', 'no-history');
+                renderAppointments(doctorAppointments, 'all-doctor-appointments-list', 'no-doctor-appointments');
+                renderAppointments(diagnosticAppointments, 'all-diagnostic-appointments-list', 'no-diagnostic-appointments');
+            }
+
+            function renderAppointments(appointmentArray, listId, emptyMsgId) {
+                const listEl = document.getElementById(listId);
+                const emptyMsgEl = document.getElementById(emptyMsgId);
+                listEl.innerHTML = '';
+
+                if (appointmentArray.length > 0) {
+                    emptyMsgEl.classList.add('hidden');
+                    appointmentArray.forEach(appt => {
+                        const apptDate = new Date(appt.appointment_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        const apptElement = document.createElement('div');
+                        apptElement.className = 'p-4 border rounded-lg flex justify-between items-center bg-gray-50';
+                        apptElement.innerHTML = `
+                            <div>
+                                <p class="font-semibold text-gray-800">${appt.doctor_name || 'N/A'}</p>
+                                <p class="text-sm text-gray-600">${appt.specialization || 'Diagnostic Test'}</p>
+                                <p class="text-xs text-gray-500">${apptDate} at ${appt.appointment_time}</p>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-medium rounded-full ${appt.status === 'Confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${appt.status}</span>
+                        `;
+                        listEl.appendChild(apptElement);
+                    });
+                } else {
+                    emptyMsgEl.classList.remove('hidden');
+                }
+            }
+
+            // --- 3. View Switching Logic ---
+            function switchView(viewId) {
+                contentSections.forEach(section => section.classList.remove('active'));
+                document.getElementById(viewId).classList.add('active');
+                sidebarBtns.forEach(btn => btn.classList.remove('active'));
+                const activeBtn = document.getElementById(`show-${viewId.split('-')[0]}-btn`);
+                if(activeBtn) activeBtn.classList.add('active');
+            }
+            
+            sidebarBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const viewId = btn.id.replace('show-', '').replace('-btn', '-view');
+                    if (document.getElementById(viewId)) {
+                        switchView(viewId);
+                    }
+                });
             });
-          } else {
-            tableBody.innerHTML = `<tr><td colspan="7" class="text-center">No appointments found</td></tr>`;
-          }
-        })
-        .catch(err => {
-          console.error("Error loading appointments:", err);
-          document.getElementById('appointmentsTableBody').innerHTML = 
-            `<tr><td colspan="7" class="text-center text-danger">Failed to load appointments</td></tr>`;
-        });
-    }
-    
-    function loadMedicalRecords(userId) {
-      // In a real app, fetch from API
-      const tableBody = document.getElementById('medicalRecordsTableBody');
-      tableBody.innerHTML = `
-        <tr>
-          <td>2023-05-15</td>
-          <td>Complete Blood Count</td>
-          <td>Blood Test</td>
-          <td>Normal</td>
-          <td><span class="badge bg-success">Completed</span></td>
-          <td><button class="btn btn-sm btn-outline-primary">Download</button></td>
-        </tr>
-        <tr>
-          <td>2023-04-10</td>
-          <td>X-Ray Chest</td>
-          <td>Radiology</td>
-          <td>No abnormalities</td>
-          <td><span class="badge bg-success">Completed</span></td>
-          <td><button class="btn btn-sm btn-outline-primary">Download</button></td>
-        </tr>
-      `;
-    }
-    
-    function loadPrescriptions(userId) {
-      // In a real app, fetch from API
-      const tableBody = document.getElementById('prescriptionsTableBody');
-      tableBody.innerHTML = `
-        <tr>
-          <td>2023-05-15</td>
-          <td>Dr. Smith</td>
-          <td>Amoxicillin</td>
-          <td>500mg</td>
-          <td>Take twice daily for 7 days</td>
-          <td><span class="badge bg-success">Active</span></td>
-        </tr>
-      `;
-    }
-    
-    function loadBilling(userId) {
-      // In a real app, fetch from API
-      const tableBody = document.getElementById('billingTableBody');
-      tableBody.innerHTML = `
-        <tr>
-          <td>2023-05-15</td>
-          <td>Consultation</td>
-          <td>₹500</td>
-          <td><span class="badge bg-success">Paid</span></td>
-          <td>Credit Card</td>
-          <td><button class="btn btn-sm btn-outline-primary">View</button></td>
-        </tr>
-      `;
-    }
-    
-    function getStatusBadgeClass(status) {
-      if (!status) return 'bg-secondary';
-      switch(status.toLowerCase()) {
-        case 'scheduled': return 'bg-primary';
-        case 'completed': return 'bg-success';
-        case 'cancelled': return 'bg-danger';
-        case 'active': return 'bg-success';
-        case 'paid': return 'bg-success';
-        default: return 'bg-secondary';
-      }
-    }
-    
-    function fetchPatientProfile(userId) {
-      fetch(`${API_BASE}/patients/${userId}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.patient) {
-            originalData = data.patient;
-            populateProfileForm(data.patient);
-          } else {
-            showMessage('Failed to load profile data', 'danger');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          showMessage('Error loading profile: ' + error.message, 'danger');
-        });
-    }
-    
-    function populateProfileForm(patientData) {
-      // --- UPDATE: Populate new fields ---
-      document.getElementById('profilePicture').src = patientData.profile_photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-      document.getElementById('patientName').textContent = `${patientData.first_name} ${patientData.last_name}`;
-      document.getElementById('patientEmail').textContent = patientData.email;
-      document.getElementById('patientUniqueId').textContent = `Patient ID: ${patientData.unique_id}`;
-      
-      // Basic Information
-      document.getElementById('firstName').value = patientData.first_name;
-      document.getElementById('lastName').value = patientData.last_name;
-      document.getElementById('email').value = patientData.email;
-      document.getElementById('mobile').value = patientData.mobile;
-      
-      // Medical Information
-      document.getElementById('bloodGroup').value = patientData.blood_group;
-      document.getElementById('gender').value = patientData.gender;
-      // Format date for input type="date"
-      const dob = new Date(patientData.dob).toISOString().split('T')[0];
-      document.getElementById('dob').value = dob;
-      document.getElementById('disease').value = patientData.disease;
-      
-      // Address Information
-      document.getElementById('address').value = patientData.address;
-    }
-    
-    
-    function enableEditing() {
-      // Enable all editable fields
-      const editableFields = [
-        'firstName', 'lastName', 'mobile',
-        'dob', 'disease', 'address'
-      ];
-      
-      editableFields.forEach(field => {
-        const element = document.getElementById(field);
-        if (element) {
-          element.readOnly = false;
-          element.classList.add('bg-light');
-        }
-      });
-      
-      // --- NEW: Show photo upload button ---
-      document.getElementById('photoUploadLabel').style.display = 'inline-block';
-      
-      // Change form controls to editable versions
-      document.getElementById('bloodGroup').outerHTML = `
-        <select class="form-select bg-light" id="bloodGroup" name="blood_group" required>
-          <option value="">Select Blood Group</option>
-          <option value="A+">A+</option>
-          <option value="A-">A-</option>
-          <option value="B+">B+</option>
-          <option value="B-">B-</option>
-          <option value="O+">O+</option>
-          <option value="O-">O-</option>
-          <option value="AB+">AB+</option>
-          <option value="AB-">AB-</option>
-        </select>
-      `;
-      document.getElementById('bloodGroup').value = originalData.blood_group;
-      
-      document.getElementById('gender').outerHTML = `
-        <select class="form-select bg-light" id="gender" name="gender" required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      `;
-      document.getElementById('gender').value = originalData.gender;
-      
-      // Toggle buttons
-      document.getElementById('editBtn').style.display = 'none';
-      document.getElementById('saveBtn').style.display = 'inline-block';
-      document.getElementById('cancelBtn').style.display = 'inline-block';
-    }
-    
-    function cancelEditing() {
-      // Restore original data
-      populateProfileForm(originalData);
-      
-      // --- NEW: Hide photo upload button ---
-      document.getElementById('photoUploadLabel').style.display = 'none';
+            editProfileBtn.addEventListener('click', () => switchView('edit-profile-view'));
 
-      // Disable all fields
-      const fields = [
-        'firstName', 'lastName', 'mobile',
-        'dob', 'disease', 'address'
-      ];
-      
-      fields.forEach(field => {
-        const element = document.getElementById(field);
-        if (element) {
-          element.readOnly = true;
-          element.classList.remove('bg-light');
-        }
-      });
-      
-      // Change back to input fields
-      document.getElementById('bloodGroup').outerHTML = `
-        <input type="text" class="form-control" name="blood_group" id="bloodGroup" readonly>
-      `;
-      document.getElementById('bloodGroup').value = originalData.blood_group;
-      
-      document.getElementById('gender').outerHTML = `
-        <input type="text" class="form-control" name="gender" id="gender" readonly>
-      `;
-      document.getElementById('gender').value = originalData.gender;
-      
-      // Toggle buttons
-      document.getElementById('editBtn').style.display = 'inline-block';
-      document.getElementById('saveBtn').style.display = 'none';
-      document.getElementById('cancelBtn').style.display = 'none';
-    }
-    
-    function saveProfile(e) {
-      e.preventDefault();
-      
-      const userId = localStorage.getItem('userId');
-      const saveBtn = document.getElementById('saveBtn');
-      const originalBtnText = saveBtn.innerHTML;
-      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-      saveBtn.disabled = true;
-      
-      const updatedData = {
-        first_name: document.getElementById('firstName').value,
-        last_name: document.getElementById('lastName').value,
-        email: document.getElementById('email').value, // Email is readonly but good to send it back
-        mobile: document.getElementById('mobile').value,
-        blood_group: document.getElementById('bloodGroup').value,
-        gender: document.getElementById('gender').value,
-        dob: document.getElementById('dob').value,
-        disease: document.getElementById('disease').value,
-        address: document.getElementById('address').value,
-        // --- UPDATE: Send the potentially new photo data ---
-        profile_photo: document.getElementById('profilePicture').src
-      };
-      
-      fetch(`${API_BASE}/patient/profile?patientId=${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData)
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.message) {
-          showMessage('Profile updated successfully!', 'success');
-          // Update original data with the new saved data
-          originalData = {...originalData, ...updatedData};
-          document.getElementById('patientName').textContent = 
-            `${updatedData.first_name} ${updatedData.last_name}`;
-          cancelEditing();
-        } else {
-          throw new Error(data.error || 'Failed to update profile');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        showMessage('Error updating profile: ' + error.message, 'danger');
-      })
-      .finally(() => {
-        saveBtn.innerHTML = originalBtnText;
-        saveBtn.disabled = false;
-      });
-    }
+            // --- 4. Gemini API Health Insights ---
+            generateInsightsBtn.addEventListener('click', async () => {
+                insightsResult.classList.remove('hidden');
+                insightsLoading.classList.remove('hidden');
+                insightsContent.classList.add('hidden');
+                insightsContent.innerHTML = '';
 
-    function showMessage(message, type) {
-      const messageAlert = document.getElementById('messageAlert');
-      messageAlert.className = `alert alert-${type}`;
-      messageAlert.textContent = message;
-      messageAlert.style.display = 'block';
-      setTimeout(() => {
-        messageAlert.style.display = 'none';
-      }, 5000);
-    }
-    
-    async function logout() {
-      try {
-        // Call the server to destroy the session and release the lock
-        await fetch(`${API_BASE}/logout`, { 
-            method: 'POST',
-            // Include credentials to send the session cookie
-            credentials: 'include' 
+                const { dob, gender, blood_group, disease } = originalProfileData;
+                const age = dob ? new Date().getFullYear() - new Date(dob).getFullYear() : 'not provided';
+
+                const prompt = `Based on the following anonymous patient data, provide a brief health summary and some general wellness tips in markdown format. - Age: ${age}, Gender: ${gender}, Blood Group: ${blood_group}, Known Conditions: ${disease || 'None'}. Structure the response with these sections: **General Wellness Tips**, **Things to Discuss with Your Doctor**, and **Lifestyle Considerations**.`;
+
+                try {
+                    let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                    const payload = { contents: chatHistory };
+                    const apiKey = process.env.AI_KEY; // Provided by environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error('API request failed');
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates[0].content.parts[0].text) {
+                        const rawText = result.candidates[0].content.parts[0].text;
+                        let htmlText = rawText.replace(/\*\*(.*?)\*\*/g, '<h3>$1</h3>').replace(/\* (.*?)(?=\n\* |\n\n|$)/g, '<li>$1</li>').replace(/\n/g, '<br>');
+                        insightsContent.innerHTML = htmlText.replace(/<br><li>/g, '<li>').replace(/<\/li><br>/g, '</li>');
+                    } else { throw new Error('Invalid response from AI.'); }
+                } catch (error) {
+                    console.error("Gemini API Error:", error);
+                    insightsContent.innerHTML = '<p class="text-red-500">Sorry, could not generate insights. Please try again later.</p>';
+                } finally {
+                    insightsLoading.classList.add('hidden');
+                    insightsContent.classList.remove('hidden');
+                }
+            });
+
+            // --- 5. Edit and Save Logic ---
+            photoInput.addEventListener('change', (event) => {
+                if (event.target.files && event.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => { base64PhotoData = e.target.result; };
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+            });
+            
+            cancelBtn.addEventListener('click', () => {
+                populateAllViews(originalProfileData);
+                switchView('profile-view');
+                document.getElementById('message-container').innerHTML = '';
+            });
+
+            saveBtn.addEventListener('click', async () => {
+                const updatedData = {
+                    first_name: document.getElementById('first_name').value,
+                    last_name: document.getElementById('last_name').value,
+                    mobile: document.getElementById('mobile').value,
+                    dob: document.getElementById('dob').value,
+                    gender: document.getElementById('gender').value,
+                    blood_group: document.getElementById('blood_group').value,
+                    disease: document.getElementById('disease').value,
+                    address: document.getElementById('address').value,
+                    profile_photo: base64PhotoData || originalProfileData.profile_photo
+                    // 🚫 removed email
+                };
+
+                try {
+                    const response = await fetch(`https://www.hitaishihealthcare.com/api/patient/profile/${uniqueId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updatedData)
+                    });
+
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error || 'Failed to update.');
+
+                    document.getElementById('message-container').innerHTML =
+                        `<div class="border bg-green-100 border-green-400 text-green-700 px-4 py-3 rounded" role="alert">
+                            Profile updated successfully!
+                        </div>`;
+
+                    base64PhotoData = null;
+                    await fetchAllData();
+                    setTimeout(() => {
+                        switchView('profile-view');
+                        document.getElementById('message-container').innerHTML = '';
+                    }, 1500);
+                } catch (error) {
+                    document.getElementById('message-container').innerHTML =
+                        `<div class="border bg-red-100 border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                            ${error.message}
+                        </div>`;
+                }
+            });
+
+
+            // --- 6. Logout ---
+            logoutButton.addEventListener('click', () => {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            });
+
+            // --- Initial Load ---
+            fetchAllData();
         });
-      } catch (error) {
-        console.error("Logout API call failed, proceeding with client-side cleanup:", error);
-      } finally {
-        // --- UPDATE: Clear both localStorage and sessionStorage ---
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.href = 'login.html';
-      }
-    }
-  
-  </script>
+    </script>
 
-</body> 
+</body>
 </html>

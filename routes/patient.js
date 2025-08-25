@@ -255,18 +255,19 @@ router.get('/patient/profile/:uniqueId', (req, res) => {
 // --- UPDATE: Update Patient Profile by UNIQUE ID ---
 router.put('/patient/profile/:uniqueId', (req, res) => {
     const uniqueId = req.params.uniqueId;
-    const { first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo } = req.body;
-    
+    const { first_name, last_name, mobile, blood_group, gender, dob, disease, address, profile_photo } = req.body;
+
     if (!uniqueId) {
         return res.status(400).json({ error: 'Patient Unique ID is required' });
     }
 
     const sql = `UPDATE patients SET
-        first_name = ?, last_name = ?, email = ?, mobile = ?,
+        first_name = ?, last_name = ?, mobile = ?,
         blood_group = ?, gender = ?, dob = ?, disease = ?, address = ?, profile_photo = ?
         WHERE unique_id = ?`;
-    const values = [first_name, last_name, email, mobile, blood_group, gender, dob, disease, address, profile_photo, uniqueId];
-    
+
+    const values = [first_name, last_name, mobile, blood_group, gender, dob, disease, address, profile_photo, uniqueId];
+
     db.query(sql, values, (err, result) => {
         if (err) {
             console.error('Database error:', err);
@@ -278,6 +279,7 @@ router.put('/patient/profile/:uniqueId', (req, res) => {
         res.status(200).json({ message: 'Profile updated successfully' });
     });
 });
+
 
 /**
  * Route to fetch all appointments for a specific patient.
