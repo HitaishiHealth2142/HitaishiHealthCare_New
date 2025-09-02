@@ -15,6 +15,10 @@
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         const user = localStorage.getItem("uid");
@@ -48,7 +52,7 @@
         <div style="position: relative; width: 100%; max-width: 249px;">
             <!-- Search Input -->
             <input type="text" id="searchInput" 
-                placeholder="Search by specialization..." 
+                placeholder="Search Doctors, Diagnostics, Test'S" 
                 autocomplete="off"
                 style="padding: 10px 40px 10px 15px; width: 100%; font-size: 16px; 
                         border-radius: 15px; border: 1px solid #ccc; box-sizing: border-box;"/>
@@ -787,13 +791,267 @@
 
 
     <!-- Main Section -->
-    <main style="position: relative; padding: 6rem 2rem; max-width: 100%; margin: 0 auto; background-image: url(https://img.freepik.com/premium-photo/futuristic-hospital-radiology-room-with-mri-scanner-xray-machine-robotic-surgical-equipment-concept-medical-technology-radiology-room-futuristic-healthcare-mri-xray-machines_864588-70800.jpg); background-size: cover; background-position: center; color: #fff;">
+    <main style="position: relative; padding: 6rem 2rem; max-width: 100%; height: 60vh; margin: 0 auto; background-image: url(https://img.freepik.com/premium-photo/futuristic-hospital-radiology-room-with-mri-scanner-xray-machine-robotic-surgical-equipment-concept-medical-technology-radiology-room-futuristic-healthcare-mri-xray-machines_864588-70800.jpg); background-size: cover; background-position: center; color: #fff;">
         <!-- Overlay -->
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
         
         <!-- Content -->
         <h1 style="position: relative; z-index: 1; color: #ffffff; margin-bottom: 2rem; padding-bottom: 0.5rem; text-align: center; font-size: 52px; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Hitaishi Healthcare Services</h1>
     </main>
+
+<section class="bg-gray-50" style="font-family: 'Inter', sans-serif;">
+
+    <!-- Search Section -->
+    <div class="relative flex items-center justify-center w-full text-white min-h-[60vh]" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1920x1080/334155/ffffff?text=Healthcare') no-repeat center center/cover;">
+        <div class="relative z-10 w-full max-w-5xl px-6 text-center">
+            <div class="mb-10">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-fade-in-down" style="color: #ffffff;">Your Home for Health</h2>
+                <p class="text-xl md:text-2xl mb-8 opacity-90 animate-fade-in-up">Find and Book the Best Healthcare Providers</p>
+            </div>
+            <div class="search-container bg-white rounded-xl border border-gray-200 flex flex-col lg:flex-row items-center shadow-lg overflow-hidden transition-all duration-300 mx-auto hover:shadow-xl">
+                <div class="location-section flex items-center gap-3 p-5 w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full">
+                        <div class="relative w-full">
+                            <select id="country" class="w-full bg-white text-gray-800 font-medium rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none" disabled><option value="">Country</option></select>
+                        </div>
+                        <div class="relative w-full">
+                            <select id="state" class="w-full bg-white text-gray-800 font-medium rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none" disabled><option value="">State</option></select>
+                        </div>
+                        <div class="relative w-full">
+                            <input type="text" id="city" placeholder="City" class="w-full bg-white text-gray-800 font-medium rounded-lg border border-gray-300 px-4 py-3 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-section flex items-center p-5 w-full lg:w-1/2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-600 mr-3 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input id="search-input" type="text" placeholder="Search doctors, specializations, services..." class="w-full bg-transparent text-gray-800 text-lg placeholder-gray-500 focus:outline-none">
+                    <button id="search-button" class="ml-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">Search</button>
+                </div>
+            </div>
+            <div id="popular-searches" class="mt-8 flex flex-wrap justify-center gap-3 text-sm md:text-base">
+                <span class="cursor-pointer bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-all hover:shadow-md">Dermatologist</span>
+                <span class="cursor-pointer bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-all hover:shadow-md">X-Ray</span>
+                <span class="cursor-pointer bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition-all hover:shadow-md">Cardiologist</span>
+            </div>
+        </div>
+    </div>
+    <style>
+        /* Custom styles to supplement Tailwind */
+        .search-container:focus-within {
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1em;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in-down { animation: fadeInDown 0.6s ease-out forwards; }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out 0.2s forwards; opacity: 0; }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6; /* Blue color */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <!-- Results Section -->
+    <main class="container mx-auto p-4 md:p-8">
+        <div id="results-count" class="text-lg font-medium text-gray-700 mb-6"></div>
+        <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Search results will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <script>
+        if (!window.searchSectionScriptLoaded) {
+            window.searchSectionScriptLoaded = true;
+
+            document.addEventListener('DOMContentLoaded', () => {
+                let allProviders = [];
+                let locationData = {};
+
+                const countrySelect = document.getElementById('country');
+                const stateSelect = document.getElementById('state');
+                const cityInput = document.getElementById('city');
+                const searchInput = document.getElementById('search-input');
+                const searchButton = document.getElementById('search-button');
+                const resultsContainer = document.getElementById('results-container');
+                const resultsCount = document.getElementById('results-count');
+                const popularSearchesContainer = document.getElementById('popular-searches');
+
+                const showLoading = () => {
+                    resultsCount.textContent = '';
+                    resultsContainer.innerHTML = `<div class="loader col-span-full"></div>`;
+                };
+
+                // Fetch data only when location is selected
+                const fetchProviders = async () => {
+                    const country = countrySelect.value;
+                    const state = stateSelect.value;
+                    const city = cityInput.value.trim();
+
+                    if (!country && !state && !city) {
+                        resultsContainer.innerHTML = `<p class="text-center text-gray-500 col-span-full">Please select a location to see results.</p>`;
+                        resultsCount.textContent = '';
+                        return;
+                    }
+
+                    showLoading();
+                    try {
+                        const [doctorsRes, diagnosticsRes] = await Promise.all([
+                            fetch('/api/getdoctors'),
+                            fetch('/api/diagnostics/all')
+                        ]);
+
+                        if (!doctorsRes.ok) throw new Error(`Failed to fetch doctors: ${doctorsRes.status}`);
+                        if (!diagnosticsRes.ok) throw new Error(`Failed to fetch diagnostics: ${diagnosticsRes.status}`);
+
+                        const doctorsData = await doctorsRes.json();
+                        const diagnosticsData = await diagnosticsRes.json();
+
+                        const doctors = (Array.isArray(doctorsData) ? doctorsData : []).map(d => ({
+                            id: d.uid, type: 'doctor', name: `Dr. ${d.first_name} ${d.last_name}`,
+                            specialization: d.specialization, clinic: d.clinic, address: d.address,
+                            city: d.city, state: d.state, country: d.country
+                        }));
+
+                        const diagnostics = (diagnosticsData.users || []).map(d => ({
+                            id: d.center_id, type: 'diagnostic', name: d.center_name,
+                            services: d.services ? JSON.parse(d.services) : [],
+                            address: d.address, city: d.city, state: d.state, country: d.country
+                        }));
+
+                        allProviders = [...doctors, ...diagnostics];
+                        populateLocationFilters(allProviders);
+                        filterAndDisplayProviders();
+                    } catch (error) {
+                        console.error("Failed to fetch providers:", error);
+                        resultsContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">Could not load provider data. Please ensure the backend server is running.</p>`;
+                    }
+                };
+
+                const populateLocationFilters = (providers) => {
+                    locationData = providers.reduce((acc, provider) => {
+                        if (provider.country && provider.state) {
+                            if (!acc[provider.country]) acc[provider.country] = new Set();
+                            acc[provider.country].add(provider.state);
+                        }
+                        return acc;
+                    }, {});
+
+                    countrySelect.innerHTML = '<option value="">Select Country</option>';
+                    Object.keys(locationData).sort().forEach(country => {
+                        const option = new Option(country, country);
+                        countrySelect.add(option);
+                    });
+                    countrySelect.disabled = false;
+                };
+
+                const displayProviders = (providers) => {
+                    resultsContainer.innerHTML = '';
+                    resultsCount.textContent = `${providers.length} result(s) found.`;
+
+                    if (providers.length === 0) {
+                        resultsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No providers match your search criteria.</p>';
+                        return;
+                    }
+
+                    providers.forEach(provider => {
+                        const card = document.createElement('div');
+                        card.className = 'bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-all duration-300';
+
+                        const detailsHtml = provider.type === 'doctor' ? `
+                            <div class="p-2 bg-blue-500 text-white text-sm font-semibold">Doctor</div>
+                            <div class="p-5">
+                                <h3 class="text-xl font-bold text-gray-800">${provider.name}</h3>
+                                <p class="text-blue-600 font-semibold">${provider.specialization || 'N/A'}</p>
+                                <p class="text-gray-600 mt-2">${provider.clinic || 'N/A'}</p>
+                                <p class="text-gray-500 text-sm mt-1">${provider.city}, ${provider.state}</p>
+                            </div>` : `
+                            <div class="p-2 bg-green-500 text-white text-sm font-semibold">Diagnostic Center</div>
+                            <div class="p-5">
+                                <h3 class="text-xl font-bold text-gray-800">${provider.name}</h3>
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    ${(provider.services || []).map(s => `<span class="bg-gray-200 text-gray-700 px-2 py-1 text-xs rounded-full">${s}</span>`).join('')}
+                                </div>
+                                <p class="text-gray-500 text-sm mt-3">${provider.city}, ${provider.state}</p>
+                            </div>`;
+                        card.innerHTML = detailsHtml;
+                        resultsContainer.appendChild(card);
+                    });
+                };
+
+                const filterAndDisplayProviders = () => {
+                    const country = countrySelect.value;
+                    const state = stateSelect.value;
+                    const city = cityInput.value.toLowerCase();
+                    const searchTerm = searchInput.value.toLowerCase();
+
+                    if (!country && !state && !city) {
+                        resultsContainer.innerHTML = `<p class="text-center text-gray-500 col-span-full">Please select a location to search.</p>`;
+                        resultsCount.textContent = '';
+                        return;
+                    }
+
+                    const filtered = allProviders.filter(p => {
+                        const matchCountry = !country || (p.country && p.country === country);
+                        const matchState = !state || (p.state && p.state === state);
+                        const matchCity = !city || (p.city && p.city.toLowerCase().includes(city));
+                        const matchSearch = !searchTerm ||
+                            p.name.toLowerCase().includes(searchTerm) ||
+                            (p.specialization && p.specialization.toLowerCase().includes(searchTerm)) ||
+                            (p.services && p.services.some(s => s.toLowerCase().includes(searchTerm)));
+                        return matchCountry && matchState && matchCity && matchSearch;
+                    });
+                    displayProviders(filtered);
+                };
+
+                countrySelect.addEventListener('change', fetchProviders);
+                stateSelect.addEventListener('change', filterAndDisplayProviders);
+                cityInput.addEventListener('input', filterAndDisplayProviders);
+                searchInput.addEventListener('input', filterAndDisplayProviders);
+                searchButton.addEventListener('click', filterAndDisplayProviders);
+
+                popularSearchesContainer.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'SPAN') {
+                        searchInput.value = e.target.textContent;
+                        filterAndDisplayProviders();
+                    }
+                });
+            });
+        }
+    </script>
+</section>
+
+
+
+
 
     <!-- Countries -->
     <div>
