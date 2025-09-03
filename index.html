@@ -3233,6 +3233,127 @@
     </div>
     </div>
 
+    <!-- our qualified doctor -->
+    <section id="doctors-section" style="padding: 40px 20px; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50; font-size: 38px; font-weight: bolder;">Our Qualified Doctors</h2>
+        
+        <div id="doctors-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+            <!-- Doctors will be populated here -->
+        </div>
+
+        <div id="loading-message" style="text-align: center; padding: 30px; color: #666; font-size: 18px;">
+            Loading doctors...
+        </div>
+
+        <div id="error-message" style="text-align: center; padding: 20px; color: #e74c3c; display: none;">
+            Failed to load doctors. Please try again later.
+        </div>
+
+        <script>
+            // Function to fetch doctors data from the server
+            function fetchDoctors() {
+                fetch('/api/getdoctors')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(doctors => {
+                        // Hide loading message
+                        document.getElementById('loading-message').style.display = 'none';
+                        
+                        if (!doctors || doctors.length === 0) {
+                            document.getElementById('error-message').textContent = 'No doctors available at the moment.';
+                            document.getElementById('error-message').style.display = 'block';
+                            return;
+                        }
+                        
+                        // Render doctor cards
+                        renderDoctors(doctors);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching doctors:', error);
+                        document.getElementById('loading-message').style.display = 'none';
+                        document.getElementById('error-message').style.display = 'block';
+                    });
+            }
+
+            // Function to render doctor cards
+            function renderDoctors(doctors) {
+                const container = document.getElementById('doctors-container');
+                container.innerHTML = ''; // Clear previous content
+                
+                doctors.forEach(doctor => {
+                    const card = document.createElement('div');
+                    card.style.background = 'white';
+                    card.style.borderRadius = '12px';
+                    card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                    card.style.padding = '20px';
+                    card.style.textAlign = 'center';
+                    card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'column';
+                    card.style.justifyContent = 'space-between';
+                    
+                    card.innerHTML = `
+                    <div>
+                        <div style="width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #7f8c8d; font-weight: bold;">
+                            ${doctor.first_name ? doctor.first_name.charAt(0) : 'D'}${doctor.last_name ? doctor.last_name.charAt(0) : ''}
+                        </div>
+                        <h3 style="margin: 10px 0 5px; color: #2c3e50;">Dr. ${doctor.first_name || ''} ${doctor.last_name || ''}</h3>
+                        <p style="color: #3498db; font-weight: 600; margin: 5px 0;">${doctor.specialization || 'General Practitioner'}</p>
+                        <p style="color: #7f8c8d; margin: 5px 0;">${doctor.experience || '0'} years of experience</p>
+                        <p style="color: #7f8c8d; margin: 5px 0; font-size: 14px;">${doctor.clinic || 'Medical Center'}</p>
+                    </div>
+                    <button class="video-call-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s; align-self: center; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M15.6 11.6L22 7v10l-6.4-4.6v-1.8zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"></path></svg>
+                        Call
+                    </button>
+                    `;
+                    
+                    // Add hover effect for the card
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-5px)';
+                        card.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                        card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                    });
+                    
+                    // Add click event to the video call button
+                    const videoBtn = card.querySelector('.video-call-btn');
+                    videoBtn.addEventListener('click', () => {
+                        // Redirect to meet.html with doctor's UID as parameter for everyone
+                        window.location.href = `meet.html?doctor=${doctor.uid}`;
+                    });
+                    
+                    container.appendChild(card);
+                });
+            }
+
+            // Add responsive behavior
+            function handleResize() {
+                const container = document.getElementById('doctors-container');
+                if (window.innerWidth < 768) {
+                    container.style.gridTemplateColumns = '1fr';
+                } else {
+                    container.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+                }
+            }
+            
+            // Fetch doctors when the DOM is ready and handle resize events
+            document.addEventListener('DOMContentLoaded', () => {
+                fetchDoctors();
+                handleResize();
+                window.addEventListener('resize', handleResize);
+            });
+        </script>
+    </section>
+
+
     <!-- Test cards from backend live data -->
     <section style="padding: 20px; background: #f4f4f4;">
     <h2 style="text-align: center; color:#0A0A57; font-size: 32px; margin-bottom: 30px;">Available Diagnostic Tests</h2>

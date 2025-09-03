@@ -1,5 +1,6 @@
 const fs = require('fs');
 const http = require('http');
+const https = require('https');
 // const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -7,10 +8,23 @@ const cors = require('cors');
 const path = require("path");
 const multer = require("multer");
 const session = require('express-session');
+const { Server } = require('socket.io');
 
 require('dotenv').config();
 
-const app = express(); // ✅ Initialize app first
+const app = express(); // Initialize app
+
+// Create the HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO and attach it to the server
+const io = new Server(server, {
+  cors: {
+    origin: "https://hitaishihealthcare.com",
+    credentials: true
+  }
+});
+
 
 // Middleware setup
 app.use(cors({
@@ -44,34 +58,45 @@ app.use(require('express-session')({
   }
 }));
 
-// websocket implementation
-const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+// websocket implementation ================================================================
+// WebSocket / Video Call Signaling
+const peersInRoom = {};
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
+  socket.on('join-room', (roomId) => {
+    if (!peersInRoom[roomId]) peersInRoom[roomId] = {};
 
-  socket.on('join-room', ({ roomId, userId }) => {
+    socket.emit('existing-peers', Object.keys(peersInRoom[roomId]));
+
+    peersInRoom[roomId][socket.id] = true;
     socket.join(roomId);
-    socket.to(roomId).emit('peer-joined', { socketId: socket.id, userId });
-  });
 
+    socket.to(roomId).emit('new-peer', socket.id);
+
+    console.log(`${socket.id} joined room ${roomId}`);
+  });
 
   socket.on('signal', ({ to, payload }) => {
     io.to(to).emit('signal', { from: socket.id, payload });
   });
 
-
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
+    for (const roomId in peersInRoom) {
+      if (peersInRoom[roomId][socket.id]) {
+        delete peersInRoom[roomId][socket.id];
+        io.to(roomId).emit('peer-left', socket.id);
+      }
+    }
   });
 });
 
-// websocket ends
+// websocket ends=======================================================================================================
 
 // =================================================================
-// ✅ FIXED: Pass the 'app' object to the translate routes
+// Pass the 'app' object to the translate routes
 // =================================================================
 require('./translate')(app);
 
@@ -136,6 +161,6 @@ app.use("/api", unifiedPasswordResetRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-http.createServer(app).listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });

@@ -1,80 +1,332 @@
 <!DOCTYPE html>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-const socket = io();
-const localVideo = document.getElementById('localVideo');
-const remoteVideo = document.getElementById('remoteVideo');
-const leaveBtn = document.getElementById('leaveBtn');
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call with Controls</title>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #videos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .video-container {
+            background-color: black;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 4 / 3;
+            transition: transform 0.2s ease-in-out;
+        }
+        .video-container:hover {
+            transform: translateY(-5px);
+        }
+        video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-label {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        #controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .control-btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 50px;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+        #toggleAudioBtn { background-color: #28a745; }
+        #toggleVideoBtn { background-color: #007bff; }
+        #leaveBtn { background-color: #dc3545; }
+        #toggleAudioBtn.off { background-color: #6c757d; }
+        #toggleVideoBtn.off { background-color: #6c757d; }
 
+        /* Custom Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            max-width: 400px;
+        }
+        .modal-content p {
+            margin: 0 0 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .modal-content button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
 
-const doctorUid = new URLSearchParams(window.location.search).get('doctorUid');
-const patientUid = new URLSearchParams(window.location.search).get('patientUid');
-const roomId = doctorUid + patientUid;
-const userId = localStorage.getItem('doctorUid') || localStorage.getItem('uniqueId');
+    <script>
+        // --- Login Check ---
+        (function() {
+            // Updated to check for 'patientUser' which is what your app seems to use for login state
+            const userIsLoggedIn = localStorage.getItem('patientUser') || sessionStorage.getItem('patientUser');
+            
+            if (!userIsLoggedIn) {
+                // Create and show a custom modal
+                const modalBackdrop = document.createElement('div');
+                modalBackdrop.className = 'modal-backdrop';
+                
+                const modalContent = document.createElement('div');
+                modalContent.className = 'modal-content';
+                modalContent.innerHTML = `
+                    <p>Please log in to join the video call.</p>
+                    <button id="login-redirect-btn">Go to Login</button>
+                `;
 
+                modalBackdrop.appendChild(modalContent);
+                document.body.appendChild(modalBackdrop);
 
-let pc;
-let localStream;
-let peerSocketId;
+                document.getElementById('login-redirect-btn').addEventListener('click', () => {
+                    window.location.href = 'login.html';
+                });
 
+                // Prevent the rest of the script from running
+                throw new Error("User not logged in. Halting script execution.");
+            }
+        })();
+    </script>
 
-const ICE_CONFIG = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+    <h1>Public Video Call Room</h1>
+    <div id="videos">
+        <div class="video-container">
+            <video id="localVideo" autoplay muted playsinline></video>
+            <div class="video-label">You</div>
+        </div>
+    </div>
+    <div id="controls">
+        <button id="toggleAudioBtn" class="control-btn">🎤 <span>Mute Audio</span></button>
+        <button id="toggleVideoBtn" class="control-btn">📹 <span>Stop Video</span></button>
+        <button id="leaveBtn" class="control-btn">☎️ Leave</button>
+    </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
 
-async function startCall() {
-localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-localVideo.srcObject = localStream;
+    <script>
+        // --- IMPORTANT FIX ---
+        // Connect to the specific address of your signaling server.
+        // If you are running the server.js file on your local computer, this will be http://<Your-Computer-IP-Address>:3000
+        // When you deploy server.js, this will be the public URL of that deployed server.
+  
+        const socket = io("https://hitaishihealthcare.com", { transports: ["websocket", "polling"] });
 
+        const ROOM_ID = "public-video-call-room";
+        const ICE_SERVERS = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
-pc = new RTCPeerConnection(ICE_CONFIG);
-localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+        const localVideo = document.getElementById('localVideo');
+        const videosContainer = document.getElementById('videos');
+        const leaveBtn = document.getElementById('leaveBtn');
+        const toggleAudioBtn = document.getElementById('toggleAudioBtn');
+        const toggleVideoBtn = document.getElementById('toggleVideoBtn');
 
+        let localStream;
+        const peerConnections = {};
 
-const remoteStream = new MediaStream();
-remoteVideo.srcObject = remoteStream;
+        let isAudioMuted = false;
+        let isVideoOff = false;
 
+        // --- Mute/Unmute Audio ---
+        toggleAudioBtn.addEventListener('click', () => {
+            if (!localStream) return;
+            isAudioMuted = !isAudioMuted;
+            localStream.getAudioTracks()[0].enabled = !isAudioMuted;
+            toggleAudioBtn.classList.toggle('off', isAudioMuted);
+            toggleAudioBtn.querySelector('span').textContent = isAudioMuted ? 'Unmute Audio' : 'Mute Audio';
+            toggleAudioBtn.innerHTML = isAudioMuted ? '🔇 <span>Unmute Audio</span>' : '🎤 <span>Mute Audio</span>';
+        });
 
-pc.ontrack = (e) => e.streams[0].getTracks().forEach(t => remoteStream.addTrack(t));
-pc.onicecandidate = (e) => {
-if (e.candidate) socket.emit('signal', { to: peerSocketId, payload: { type:'candidate', candidate:e.candidate } });
-};
+        // --- Stop/Start Video ---
+        toggleVideoBtn.addEventListener('click', () => {
+            if (!localStream) return;
+            isVideoOff = !isVideoOff;
+            localStream.getVideoTracks()[0].enabled = !isVideoOff;
+            toggleVideoBtn.classList.toggle('off', isVideoOff);
+            toggleVideoBtn.innerHTML = isVideoOff ? '📷 <span>Start Video</span>' : '📹 <span>Stop Video</span>';
+        });
+        
+        const createPeerConnection = (peerSocketId) => {
+            const pc = new RTCPeerConnection(ICE_SERVERS);
+            peerConnections[peerSocketId] = pc;
 
+            localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
-socket.emit('join-room', { roomId, userId });
-}
+            pc.onicecandidate = event => {
+                if (event.candidate) {
+                    socket.emit('signal', { to: peerSocketId, payload: { type: 'candidate', candidate: event.candidate } });
+                }
+            };
 
+            pc.ontrack = event => {
+                addRemoteVideo(peerSocketId, event.streams[0]);
+            };
+            
+            return pc;
+        };
 
-socket.on('peer-joined', async ({ socketId }) => {
-peerSocketId = socketId;
-const offer = await pc.createOffer();
-await pc.setLocalDescription(offer);
-socket.emit('signal', { to: peerSocketId, payload: pc.localDescription });
-});
+        const addRemoteVideo = (peerSocketId, stream) => {
+            if (document.getElementById(`container-${peerSocketId}`)) return;
 
+            const container = document.createElement('div');
+            container.id = `container-${peerSocketId}`;
+            container.className = 'video-container';
 
-socket.on('signal', async ({ from, payload }) => {
-peerSocketId = from;
-if (payload.type === 'offer') {
-await pc.setRemoteDescription(new RTCSessionDescription(payload));
-const answer = await pc.createAnswer();
-await pc.setLocalDescription(answer);
-socket.emit('signal', { to: from, payload: pc.localDescription });
-} else if (payload.type === 'answer') {
-await pc.setRemoteDescription(new RTCSessionDescription(payload));
-} else if (payload.type === 'candidate') {
-await pc.addIceCandidate(payload.candidate);
-}
-});
+            const remoteVideo = document.createElement('video');
+            remoteVideo.autoplay = true;
+            remoteVideo.playsInline = true; // Essential for mobile
+            remoteVideo.srcObject = stream;
 
+            const label = document.createElement('div');
+            label.className = 'video-label';
+            label.innerText = `User #${peerSocketId.substring(0, 5)}`;
+            
+            container.appendChild(remoteVideo);
+            container.appendChild(label);
+            videosContainer.appendChild(container);
+        };
+        
+        const removeRemoteVideo = (peerSocketId) => {
+            const videoContainer = document.getElementById(`container-${peerSocketId}`);
+            if (videoContainer) videoContainer.remove();
+        };
 
-leaveBtn.onclick = () => {
-pc.close();
-localStream.getTracks().forEach(t => t.stop());
-window.location.href = '/';
-};
+        socket.on('existing-peers', peers => {
+            peers.forEach(async peerSocketId => {
+                const pc = createPeerConnection(peerSocketId);
+                try {
+                    const offer = await pc.createOffer();
+                    await pc.setLocalDescription(offer);
+                    socket.emit('signal', { to: peerSocketId, payload: pc.localDescription });
+                } catch (err) {
+                    console.error("Error creating offer for", peerSocketId, err);
+                }
+            });
+        });
 
+        socket.on('new-peer', peerSocketId => {
+            createPeerConnection(peerSocketId);
+        });
 
-startCall();
-</script>
+        socket.on('signal', async ({ from, payload }) => {
+            const pc = peerConnections[from];
+            if (!pc) return;
+
+            try {
+                if (payload.type === 'offer') {
+                    await pc.setRemoteDescription(new RTCSessionDescription(payload));
+                    const answer = await pc.createAnswer();
+                    await pc.setLocalDescription(answer);
+                    socket.emit('signal', { to: from, payload: pc.localDescription });
+                } else if (payload.type === 'answer') {
+                    await pc.setRemoteDescription(new RTCSessionDescription(payload));
+                } else if (payload.type === 'candidate') {
+                    await pc.addIceCandidate(new RTCIceCandidate(payload.candidate));
+                }
+            } catch (err) {
+                console.error(`Error handling signal from ${from}:`, err);
+            }
+        });
+        
+        socket.on('peer-left', peerSocketId => {
+            if (peerConnections[peerSocketId]) {
+                peerConnections[peerSocketId].close();
+                delete peerConnections[peerSocketId];
+            }
+            removeRemoteVideo(peerSocketId);
+        });
+
+        const init = async () => {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+                socket.emit('join-room', ROOM_ID);
+            } catch (err) {
+                console.error("Error accessing media devices.", err);
+                // The login check will prevent this from being shown to non-logged-in users
+            }
+        };
+
+        leaveBtn.addEventListener('click', () => {
+            socket.disconnect();
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+            }
+            Object.values(peerConnections).forEach(pc => pc.close());
+            window.location.reload();
+        });
+
+        init();
+    </script>
 </body>
 </html>
+
