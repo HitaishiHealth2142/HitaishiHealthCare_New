@@ -642,17 +642,41 @@ async function fetchDoctors() {
     allDoctors = data;
 
     populateSpecializationFilter();
+    
+    // First, display all doctors so we can interact with their cards
+    displayDoctors(allDoctors);
+    updateMapMarkers(allDoctors);
 
+    // STEP 2: CHECK FOR DOCTOR ID IN URL 
+    // This new block will handle showing a specific doctor if an 'id' is in the URL.
     const urlParams = new URLSearchParams(window.location.search);
+    const doctorIdFromUrl = urlParams.get('id');
     const specializationFromUrl = urlParams.get('specialization');
 
-    if (specializationFromUrl) {
+    if (doctorIdFromUrl) {
+        const doctorToShow = allDoctors.find(doc => doc.uid === doctorIdFromUrl);
+
+        if (doctorToShow) {
+            // Show the doctor's details in the right-side panel
+            showDoctorDetails(doctorToShow);
+
+            // Find the corresponding doctor card and highlight it
+            const doctorCards = document.querySelectorAll('.doctor-card');
+            doctorCards.forEach(card => {
+                // We use the 'data-uid' attribute we added in displayDoctors
+                if (card.dataset.uid === doctorIdFromUrl) {
+                    card.classList.add('active');
+                    // Scroll the list to make the active card visible
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
+    } else if (specializationFromUrl) {
+        // This is the original logic to handle filtering by specialization
         document.getElementById('specializationFilter').value = specializationFromUrl;
         filterDoctors();
-    } else {
-        displayDoctors(allDoctors);
-        updateMapMarkers(allDoctors);
     }
+
 
   } catch (error) {
     console.error("❌ Error fetching doctors:", error);
@@ -696,6 +720,11 @@ function displayDoctors(doctors) {
   doctors.forEach(doctor => {
     const doctorCard = document.createElement('div');
     doctorCard.className = 'doctor-card';
+    
+    // STEP 1: ADD DATA ATTRIBUTE
+    // This unique identifier on the card helps us find and highlight it later.
+    doctorCard.dataset.uid = doctor.uid;
+
     doctorCard.onclick = () => {
       document.querySelectorAll('.doctor-card').forEach(card => card.classList.remove('active'));
       doctorCard.classList.add('active');
@@ -952,7 +981,7 @@ function updateMapMarkers(doctors) {
           marker.addListener('click', () => {
             document.querySelectorAll('.doctor-card').forEach(card => card.classList.remove('active'));
             // Find the card in the list and activate it
-            const cardToActivate = [...document.querySelectorAll('.doctor-card')].find(card => card.innerHTML.includes(doctor.first_name));
+            const cardToActivate = [...document.querySelectorAll('.doctor-card')].find(card => card.dataset.uid === doctor.uid);
             if(cardToActivate) cardToActivate.classList.add('active');
             showDoctorDetails(doctor);
           });

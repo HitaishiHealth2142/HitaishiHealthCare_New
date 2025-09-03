@@ -34,761 +34,761 @@
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #fff;">
 
 
-<!-- Navbar Code -->
-<nav style="width: 100%;">
+    <!-- Navbar Code -->
+    <nav style="width: 100%;">
 
-    
-    <!-- 🌐 Navigation -->
-    <nav style="display: flex; gap: 30px; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
+        
+        <!-- 🌐 Navigation -->
+        <nav style="display: flex; gap: 30px; align-items: center; justify-content: space-between; background: #007bff; padding: 10px 20px; flex-wrap: wrap; position: relative;">
 
-        <!-- Left: Logo & Title -->
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
-            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; line-height: 1;">
-                <span style="color: #fff; font-size: 22px; font-weight: bold;">HITAISHI</span>
-                <span style="color: #fff; font-size: 16px;">HEALTHCARE</span>
+            <!-- Left: Logo & Title -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; line-height: 1;">
+                    <span style="color: #fff; font-size: 22px; font-weight: bold;">HITAISHI</span>
+                    <span style="color: #fff; font-size: 16px;">HEALTHCARE</span>
+                </div>
             </div>
-        </div>
 
-        <div style="position: relative; width: 100%; max-width: 249px;">
-            <!-- Search Input -->
-            <input type="text" id="searchInput" 
-                placeholder="Search Doctors, Diagnostics, Test'S" 
-                autocomplete="off"
-                style="padding: 10px 40px 10px 15px; width: 100%; font-size: 16px; 
-                        border-radius: 15px; border: 1px solid #ccc; box-sizing: border-box;"/>
+            <div style="position: relative; width: 100%; max-width: 249px;">
+                <!-- Search Input -->
+                <input type="text" id="searchInput" 
+                    placeholder="Search Doctors, Diagnostics, Test'S" 
+                    autocomplete="off"
+                    style="padding: 10px 40px 10px 15px; width: 100%; font-size: 16px; 
+                            border-radius: 15px; border: 1px solid #ccc; box-sizing: border-box;"/>
 
-            <!-- Search Icon (right side inside input) -->
-            <i class="fas fa-search" 
-            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-                    color: #888; font-size: 18px; cursor: pointer;"></i>
+                <!-- Search Icon (right side inside input) -->
+                <i class="fas fa-search" 
+                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+                        color: #888; font-size: 18px; cursor: pointer;"></i>
 
-            <!-- Suggestions Dropdown -->
-            <div id="suggestionsBox"
-                style="position: absolute; top: 110%; left: 0; right: 0; 
-                        background: white; border: 1px solid #ccc; 
-                        max-height: 300px; overflow-y: auto; 
-                        z-index: 1100; display: none; 
-                        box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-                        border-radius: 8px;">
+                <!-- Suggestions Dropdown -->
+                <div id="suggestionsBox"
+                    style="position: absolute; top: 110%; left: 0; right: 0; 
+                            background: white; border: 1px solid #ccc; 
+                            max-height: 300px; overflow-y: auto; 
+                            z-index: 1100; display: none; 
+                            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+                            border-radius: 8px;">
+                </div>
             </div>
-        </div>
-        <script>
-            // This script enables the search suggestions for the search bar above.
-            document.addEventListener('DOMContentLoaded', () => {
-                const searchInput = document.getElementById('searchInput');
-                const suggestionsBox = document.getElementById('suggestionsBox');
-                let debounceTimer;
+            <script>
+                // This script enables the search suggestions for the search bar above.
+                document.addEventListener('DOMContentLoaded', () => {
+                    const searchInput = document.getElementById('searchInput');
+                    const suggestionsBox = document.getElementById('suggestionsBox');
+                    let debounceTimer;
 
-                // Listen for input in the search bar
-                searchInput.addEventListener('input', () => {
-                    clearTimeout(debounceTimer);
-                    const query = searchInput.value.trim();
+                    // Listen for input in the search bar
+                    searchInput.addEventListener('input', () => {
+                        clearTimeout(debounceTimer);
+                        const query = searchInput.value.trim();
 
-                    // Don't search if the query is too short
-                    if (query.length < 2) {
-                        suggestionsBox.style.display = 'none';
-                        return;
+                        // Don't search if the query is too short
+                        if (query.length < 2) {
+                            suggestionsBox.style.display = 'none';
+                            return;
+                        }
+
+                        // Use a debounce timer to avoid sending too many requests while typing
+                        debounceTimer = setTimeout(() => {
+                            fetchSuggestions(query);
+                        }, 300); 
+                    });
+
+                    // Function to fetch suggestions from the backend
+                    async function fetchSuggestions(query) {
+                        try {
+                            // Fetch from the new '/api/specializations' endpoint
+                            const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            const suggestions = await response.json();
+                            displaySuggestions(suggestions);
+                        } catch (error) {
+                            console.error('Error fetching suggestions:', error);
+                            suggestionsBox.style.display = 'none';
+                        }
                     }
 
-                    // Use a debounce timer to avoid sending too many requests while typing
-                    debounceTimer = setTimeout(() => {
-                        fetchSuggestions(query);
-                    }, 300); 
+                    // Function to display the fetched suggestions
+                    function displaySuggestions(suggestions) {
+                        if (suggestions.length === 0) {
+                            suggestionsBox.style.display = 'none';
+                            return;
+                        }
+
+                        suggestionsBox.innerHTML = ''; // Clear previous suggestions
+                        suggestions.forEach(spec => {
+                            const suggestionItem = document.createElement('div');
+                            suggestionItem.textContent = spec;
+                            suggestionItem.style.padding = '12px 15px';
+                            suggestionItem.style.cursor = 'pointer';
+                            
+                            // Add hover effect for better UX
+                            suggestionItem.addEventListener('mouseenter', () => {
+                                suggestionItem.style.backgroundColor = '#f0f0f0';
+                            });
+                            suggestionItem.addEventListener('mouseleave', () => {
+                                suggestionItem.style.backgroundColor = 'white';
+                            });
+
+                            // Handle click on a suggestion
+                            suggestionItem.addEventListener('click', () => {
+                                // Redirect to doctors.html with the specialization as a URL parameter
+                                window.location.href = `doctors.html?specialization=${encodeURIComponent(spec)}`;
+                            });
+                            suggestionsBox.appendChild(suggestionItem);
+                        });
+
+                        suggestionsBox.style.display = 'block';
+                    }
+
+                    // Hide the suggestions box when clicking anywhere else on the page
+                    document.addEventListener('click', (event) => {
+                        if (!searchInput.contains(event.target) && !suggestionsBox.contains(event.target)) {
+                            suggestionsBox.style.display = 'none';
+                        }
+                    });
                 });
+            </script>
 
-                // Function to fetch suggestions from the backend
-                async function fetchSuggestions(query) {
-                    try {
-                        // Fetch from the new '/api/specializations' endpoint
-                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
+
+
+            <!-- Center: Nav Items -->
+            <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px; min-width: 200px;">
+                <a href="blood.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">❤️ Blood</a>
+                <a href="DiagnosticsAppointments.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Appointment</a>
+                <a href="doctors.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Doctors</a>
+                <a href="clinic.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
+                <a href="Eyecare.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Eye Care</a>
+                <a href="tel:108" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">🚑 Ambulance</a>
+                <a href="login.html" id="loginNav1" class="active-nav-link"
+                    style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">
+                    <span id="userName1" style="margin-right: 5px;"></span> Login
+                </a>
+            </div>
+
+            <!-- Right: Language Dropdown -->
+            <div style="position: relative; display: flex; align-items: center; gap: 10px;">
+                <div id="languageTab" onclick="toggleLanguageMenu()" 
+                    style="cursor:pointer; padding:6px 12px; background:#fff; border-radius:6px; color:#000; font-size:14px; display: flex; align-items: center; gap: 5px;">
+                    <span id="currentLang">English</span> ▼
+                </div>
+
+                <!-- Dropdown -->
+                <div id="languageMenu" 
+                    style="display:none; position:absolute; top:40px; right:auto; background:#fff; border-radius:6px;
+                            box-shadow:0 4px 10px rgba(0,0,0,0.15); min-width:160px; z-index:2000; max-height: 300px; overflow-y: auto;">
+                    <div onclick="setLanguage('en','English',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">English</div>
+                    <div onclick="setLanguage('hi','हिंदी',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">हिंदी</div>
+                    <div onclick="setLanguage('te','తెలుగు',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">తెలుగు</div>
+                    <div onclick="setLanguage('ta','தமிழ்',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">தமிழ்</div>
+                    <div onclick="setLanguage('kn','ಕನ್ನಡ',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">ಕನ್ನಡ</div>
+                    <div onclick="setLanguage('ml','മലയാളം',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">മലയാളം</div>
+                    <div onclick="setLanguage('mr','मराठी',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">मराठी</div>
+                    <div onclick="setLanguage('gu','ગુજરાતી',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">ગુજરાતી</div>
+                    <div onclick="setLanguage('bn','বাংলা',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">বাংলা</div>
+                    <div onclick="setLanguage('ur','اردو',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">اردو</div>
+                    <div onclick="setLanguage('fr','Français',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">Français</div>
+                    <div onclick="setLanguage('de','Deutsch',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">Deutsch</div>
+                </div>
+
+                <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
+                <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
+                <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
+                <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-telegram"></i></a>
+                <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-whatsapp"></i></a>
+            </div>
+
+
+            <script>
+                // Toggle dropdown visibility
+                function toggleLanguageMenu() {
+                    const menu = document.getElementById("languageMenu");
+                    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+                }
+
+                // Main function to translate the website's text
+                async function setLanguage(lang, label, event) {
+                    if (event) event.stopPropagation();
+
+                    // Save preference and update UI
+                    localStorage.setItem("language", lang);
+                    document.getElementById("currentLang").innerText = label;
+                    document.getElementById("languageMenu").style.display = "none";
+
+                    // 1. Collect all relevant text nodes and store their original English text if not already stored
+                    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+                    const nodes = [];
+                    while (walker.nextNode()) {
+                        const node = walker.currentNode;
+                        // Ignore nodes in script/style tags and empty text nodes
+                        if (node.parentNode.nodeName === "SCRIPT" || node.parentNode.nodeName === "STYLE" || !node.nodeValue.trim()) {
+                            continue;
                         }
-                        const suggestions = await response.json();
-                        displaySuggestions(suggestions);
-                    } catch (error) {
-                        console.error('Error fetching suggestions:', error);
-                        suggestionsBox.style.display = 'none';
-                    }
-                }
-
-                // Function to display the fetched suggestions
-                function displaySuggestions(suggestions) {
-                    if (suggestions.length === 0) {
-                        suggestionsBox.style.display = 'none';
-                        return;
-                    }
-
-                    suggestionsBox.innerHTML = ''; // Clear previous suggestions
-                    suggestions.forEach(spec => {
-                        const suggestionItem = document.createElement('div');
-                        suggestionItem.textContent = spec;
-                        suggestionItem.style.padding = '12px 15px';
-                        suggestionItem.style.cursor = 'pointer';
-                        
-                        // Add hover effect for better UX
-                        suggestionItem.addEventListener('mouseenter', () => {
-                            suggestionItem.style.backgroundColor = '#f0f0f0';
-                        });
-                        suggestionItem.addEventListener('mouseleave', () => {
-                            suggestionItem.style.backgroundColor = 'white';
-                        });
-
-                        // Handle click on a suggestion
-                        suggestionItem.addEventListener('click', () => {
-                            // Redirect to doctors.html with the specialization as a URL parameter
-                            window.location.href = `doctors.html?specialization=${encodeURIComponent(spec)}`;
-                        });
-                        suggestionsBox.appendChild(suggestionItem);
-                    });
-
-                    suggestionsBox.style.display = 'block';
-                }
-
-                // Hide the suggestions box when clicking anywhere else on the page
-                document.addEventListener('click', (event) => {
-                    if (!searchInput.contains(event.target) && !suggestionsBox.contains(event.target)) {
-                        suggestionsBox.style.display = 'none';
-                    }
-                });
-            });
-        </script>
-
-
-
-        <!-- Center: Nav Items -->
-        <div id="navItems1" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; flex: 1; margin-left: 20px; margin-right: 20px; min-width: 200px;">
-            <a href="blood.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">❤️ Blood</a>
-            <a href="clinics.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Appointment</a>
-            <a href="doctors.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Doctors</a>
-            <a href="clinic.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Clinic</a>
-            <a href="Eyecare.html" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">Eye Care</a>
-            <a href="tel:108" style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">🚑 Ambulance</a>
-            <a href="login.html" id="loginNav1" class="active-nav-link"
-                style="background: white; color: #007bff; padding: 8px 12px; border-radius: 5px; font-size: 14px; text-decoration: none; font-weight: bold;">
-                <span id="userName1" style="margin-right: 5px;"></span> Login
-            </a>
-        </div>
-
-        <!-- Right: Language Dropdown -->
-        <div style="position: relative; display: flex; align-items: center; gap: 10px;">
-            <div id="languageTab" onclick="toggleLanguageMenu()" 
-                style="cursor:pointer; padding:6px 12px; background:#fff; border-radius:6px; color:#000; font-size:14px; display: flex; align-items: center; gap: 5px;">
-                <span id="currentLang">English</span> ▼
-            </div>
-
-            <!-- Dropdown -->
-            <div id="languageMenu" 
-                style="display:none; position:absolute; top:40px; right:auto; background:#fff; border-radius:6px;
-                        box-shadow:0 4px 10px rgba(0,0,0,0.15); min-width:160px; z-index:2000; max-height: 300px; overflow-y: auto;">
-                <div onclick="setLanguage('en','English',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">English</div>
-                <div onclick="setLanguage('hi','हिंदी',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">हिंदी</div>
-                <div onclick="setLanguage('te','తెలుగు',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">తెలుగు</div>
-                <div onclick="setLanguage('ta','தமிழ்',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">தமிழ்</div>
-                <div onclick="setLanguage('kn','ಕನ್ನಡ',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">ಕನ್ನಡ</div>
-                <div onclick="setLanguage('ml','മലയാളം',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">മലയാളം</div>
-                <div onclick="setLanguage('mr','मराठी',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">मराठी</div>
-                <div onclick="setLanguage('gu','ગુજરાતી',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">ગુજરાતી</div>
-                <div onclick="setLanguage('bn','বাংলা',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">বাংলা</div>
-                <div onclick="setLanguage('ur','اردو',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">اردو</div>
-                <div onclick="setLanguage('fr','Français',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">Français</div>
-                <div onclick="setLanguage('de','Deutsch',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">Deutsch</div>
-            </div>
-
-            <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
-            <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/optic.bee/" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="active-nav-link" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-linkedin"></i></a>
-            <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-youtube"></i></a>
-            <a href="https://t.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-telegram"></i></a>
-            <a href="https://wa.me/919908793602" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-whatsapp"></i></a>
-        </div>
-
-
-        <script>
-            // Toggle dropdown visibility
-            function toggleLanguageMenu() {
-                const menu = document.getElementById("languageMenu");
-                menu.style.display = (menu.style.display === "block") ? "none" : "block";
-            }
-
-            // Main function to translate the website's text
-            async function setLanguage(lang, label, event) {
-                if (event) event.stopPropagation();
-
-                // Save preference and update UI
-                localStorage.setItem("language", lang);
-                document.getElementById("currentLang").innerText = label;
-                document.getElementById("languageMenu").style.display = "none";
-
-                // 1. Collect all relevant text nodes and store their original English text if not already stored
-                const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-                const nodes = [];
-                while (walker.nextNode()) {
-                    const node = walker.currentNode;
-                    // Ignore nodes in script/style tags and empty text nodes
-                    if (node.parentNode.nodeName === "SCRIPT" || node.parentNode.nodeName === "STYLE" || !node.nodeValue.trim()) {
-                        continue;
-                    }
-                    // Store the original English text on the first translation attempt
-                    if (!node.originalText) {
-                        node.originalText = node.nodeValue;
-                    }
-                    nodes.push(node);
-                }
-
-                // 2. If English is selected, revert all nodes to their original text
-                if (lang === 'en') {
-                    nodes.forEach(node => {
-                        if (node.originalText) {
-                            node.nodeValue = node.originalText;
+                        // Store the original English text on the first translation attempt
+                        if (!node.originalText) {
+                            node.originalText = node.nodeValue;
                         }
-                    });
-                    return; // Exit the function as no API call is needed
-                }
-
-                // 3. For other languages, prepare and send the text for translation via Gemini API
-                const originals = nodes.map(n => n.originalText); // Always translate from original English
-                const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk"; // Your provided API key
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                
-                const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate the brand name "Hitaishi" or "Hitaishi HealthCare Service". If a part is just a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
-
-                // Add a loading indicator for better user experience
-                document.body.style.opacity = '0.5';
-                document.body.style.pointerEvents = 'none';
-
-                try {
-                    const payload = {
-                        contents: [{ parts: [{ text: prompt }] }],
-                        safetySettings: [ // Settings to make the model less restrictive for translation
-                            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-                            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-                        ]
-                    };
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        const errorBody = await response.text();
-                        throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                        nodes.push(node);
                     }
 
-                    const result = await response.json();
-                    const translatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                    if (translatedText) {
-                        const parts = translatedText.split("|||");
-                        nodes.forEach((node, i) => {
-                            // Use translated part if available, otherwise fallback to the original text
-                            node.nodeValue = (parts[i] || originals[i]).trim();
-                        });
-                    } else {
-                        console.error("Translation failed: No translated text found in API response.", result);
-                        throw new Error("Invalid API response format");
-                    }
-                } catch (err) {
-                    console.error("Translation failed", err);
-                    // On error, revert all text back to the original English to avoid a broken state
-                    nodes.forEach(node => {
-                        if (node.originalText) {
-                            node.nodeValue = node.originalText;
-                        }
-                    });
-                } finally {
-                    // Remove loading indicator
-                    document.body.style.opacity = '1';
-                    document.body.style.pointerEvents = 'auto';
-                }
-            }
-
-            // Close dropdown when clicking anywhere outside of it
-            document.addEventListener("click", function(e) {
-                const menu = document.getElementById("languageMenu");
-                const tab = document.getElementById("languageTab");
-                // Check if the click is outside the language tab and its menu
-                if (menu && tab && !tab.contains(e.target) && !menu.contains(e.target)) {
-                    menu.style.display = "none";
-                }
-            });
-            
-            // On page load, apply the saved language preference
-            function applyInitialLanguage() {
-                const savedLang = localStorage.getItem("language");
-                if (savedLang && savedLang !== 'en') {
-                    const languageMenu = document.getElementById("languageMenu");
-                    const langOption = Array.from(languageMenu.children).find(div => div.getAttribute('onclick').includes(`'${savedLang}'`));
-                    if (langOption) {
-                        const label = langOption.innerText;
-                        // Call setLanguage to translate the page to the saved preference
-                        setLanguage(savedLang, label, null);
-                    }
-                }
-            }
-
-            // Wait for the full page to load before applying the initial language
-            window.addEventListener("load", applyInitialLanguage);
-
-        </script>
-    </nav>
-
-
-    <!-- Navigation Bar 2 -->
-    <nav style="background-color: #135597; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-            <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
-            <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
-        </div>
-        <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; ">
-            <div style="position: relative;"><a href="index.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold; ">Home</a></div>
-
-            <div style="position: relative;">
-                <a href="healthRecords.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                   onmouseover="document.getElementById('recordsMenu').style.display = 'block';"
-                    onmouseout="document.getElementById('recordsMenu').style.display = 'none';">
-                    Health Records <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="recordsMenu" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 9px; display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                    <a href="bloodtest.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Blood Tests</a>
-                    <a href="donations.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Donations</a>
-                    <a href="inventory.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Inventory</a>
-                </div>
-            </div>
-
-            <div style="position: relative;">
-                <a href="Diagnostics.html" class="active-nav-link"
-                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('diagnosticsMenu').style.display = 'block';"
-                onmouseout="document.getElementById('diagnosticsMenu').style.display = 'none';">
-                    Diagnostics <i class="fas fa-caret-down"></i>
-                </a>
-
-                <div id="diagnosticsMenu" class="active-nav-link"
-                    onmouseover="this.style.display = 'block';"
-                    onmouseout="this.style.display = 'none';"
-                    style="margin-top: 9px;display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                        <a href="xray.html" class="menu-item">X-Ray</a>
-                        <a href="ultrasound.html" class="menu-item">Ultrasound</a>
-                        <a href="mri.html" class="menu-item">MRI</a>
-                        <a href="diagnostic-services.html?category=cbc" class="menu-item">Complete Blood Count</a>
-                        <a href="diagnostic-services.html?category=pathology" class="menu-item">Pathology Tests</a>
-                        <a href="diagnostic-services.html?category=microbiology" class="menu-item">Microbiology Tests</a>
-                        <a href="diagnostic-services.html?category=radiology" class="menu-item">Radiology & Imaging</a>
-                        <a href="diagnostic-services.html?category=cardiology" class="menu-item">Cardiology</a>
-                        <a href="diagnostic-services.html?category=neurology" class="menu-item">Neurology</a>
-                        <a href="diagnostic-services.html?category=ophthalmology" class="menu-item">Ophthalmology</a>
-                        <a href="diagnostic-services.html?category=ent" class="menu-item">ENT</a>
-                        <a href="diagnostic-services.html?category=dental" class="menu-item">Dental</a>
-                        <a href="diagnostic-services.html?category=fertility" class="menu-item">Prenatal & Fertility</a>
-                        <a href="diagnostic-services.html?category=genetic" class="menu-item">Genetic Testing</a>
-                        <a href="diagnostic-services.html?category=packages" class="menu-item">Health Packages</a>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-                .menu-item {
-                    display: block;
-                    padding: 12px;
-                    text-decoration: none;
-                    background: #fff;
-                    border-radius: 6px;
-                    color: #333;
-                    font-weight: 500;
-                    transition: background 0.2s, color 0.2s;
-                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-                }
-
-                .menu-item:hover {
-                    background: #f0f0f0;
-                    color: #000;
-                }
-            </style>
-
-
-            <!-- Physicians Dropdown (styled like Diagnostics) -->
-            <div style="position: relative;">
-                <a href="Physician.html" class="active-nav-link"
-                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('physicians').style.display = 'block';"
-                onmouseout="document.getElementById('physicians').style.display = 'none';">
-                    Physicians <i class="fas fa-caret-down"></i>
-                </a>
-
-                <div id="physicians"
-                    onmouseover="this.style.display = 'block';"
-                    onmouseout="this.style.display = 'none';"
-                    style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                        <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-                        <a href="neurologist.html" class="menu-item">Neurologist</a>
-                        <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-                        <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-                        <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-                        <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-                        <a href="urologist.html" class="menu-item">Urologist</a>
-                        <a href="oncologist.html" class="menu-item">Oncologist</a>
-                        <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-                        <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-                        <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-                        <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-                        <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-                        <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-                        <a href="general-physician.html" class="menu-item">General Physician</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fertility Dropdown (styled like Diagnostics) -->
-            <div style="position: relative;">
-                <a href="fertility.html" class="active-nav-link" 
-                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="document.getElementById('fertility').style.display = 'block';"
-                onmouseout="document.getElementById('fertility').style.display = 'none';">
-                    Fertility <i class="fas fa-caret-down"></i>
-                </a>
-                <div id="fertility" 
-                    onmouseover="this.style.display = 'block';" 
-                    onmouseout="this.style.display = 'none';" 
-                    style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                        <a href="IVF.html" class="menu-item">IVF</a>
-                        <a href="iui.html" class="menu-item">IUI</a>
-                        <a href="sarogasi.html" class="menu-item">Surrogacy</a>
-                        <a href="fertility.html#egg-donation" class="menu-item">Egg Donation</a>
-                        <a href="fertility.html#sperm-donation" class="menu-item">Sperm Donation</a>
-                        <a href="fertility.html#embryo-transfer" class="menu-item">Embryo Transfer</a>
-                        <a href="fertility.html#fertility-preservation" class="menu-item">Fertility Preservation</a>
-                        <a href="fertility.html#pcos-treatment" class="menu-item">PCOS Treatment</a>
-                        <a href="fertility.html#male-infertility" class="menu-item">Male Infertility</a>
-                        <a href="fertility.html#female-infertility" class="menu-item">Female Infertility</a>
-                        <a href="fertility.html#prenatal-care" class="menu-item">Prenatal Care</a>
-                        <a href="fertility.html#genetic-testing" class="menu-item">Genetic Testing</a>
-                    </div>
-                </div>
-            </div>
-
-
-            <a href="ai.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
-            <a href="doctor.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctor Registration</a>
-            <a href="patient.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
-            <div style="position: relative;">
-                <a href="Cancer.html" class="active-nav-link" 
-                style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
-                onmouseover="if(window.innerWidth > 768) {document.getElementById('cancerMenu').style.display = 'block';}"
-                onmouseout="if(window.innerWidth > 768) {document.getElementById('cancerMenu').style.display = 'none';}"
-                onclick="if(window.innerWidth <= 768) {event.preventDefault(); document.getElementById('cancerMenu').style.display = document.getElementById('cancerMenu').style.display === 'block' ? 'none' : 'block';}">
-                    Cancer <i class="fas fa-caret-down"></i>
-                </a>
-                
-                <div id="cancerMenu" 
-                    onmouseover="if(window.innerWidth > 768) {this.style.display = 'block';}" 
-                    onmouseout="if(window.innerWidth > 768) {this.style.display = 'none';}" 
-                    style="margin-top: 9px; display: none; position: absolute; top: 100%; right: 0px; 
-                        background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); 
-                        padding: 20px; z-index: 1000; width: 660px;">
-                    
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-                        <a href="Cancer.html#breast-cancer" class="menu-item">Breast Cancer</a>
-                        <a href="Cancer.html#lung-cancer" class="menu-item">Lung Cancer</a>
-                        <a href="Cancer.html#prostate-cancer" class="menu-item">Prostate Cancer</a>
-                        <a href="Cancer.html#colorectal-cancer" class="menu-item">Colorectal Cancer</a>
-                        <a href="Cancer.html#skin-cancer" class="menu-item">Skin Cancer</a>
-                        <a href="Cancer.html#leukemia" class="menu-item">Leukemia</a>
-                        <a href="Cancer.html#lymphoma" class="menu-item">Lymphoma</a>
-                        <a href="Cancer.html#pancreatic-cancer" class="menu-item">Pancreatic Cancer</a>
-                        <a href="Cancer.html#ovarian-cancer" class="menu-item">Ovarian Cancer</a>
-                        <a href="Cancer.html#bladder-cancer" class="menu-item">Bladder Cancer</a>
-                        <a href="Cancer.html#kidney-cancer" class="menu-item">Kidney Cancer</a>
-                        <a href="Cancer.html#thyroid-cancer" class="menu-item">Thyroid Cancer</a>
-                        <a href="Cancer.html#cervical-cancer" class="menu-item">Cervical Cancer</a>
-                        <a href="Cancer.html#brain-tumor" class="menu-item">Brain Tumor</a>
-                        <a href="Cancer.html#bone-cancer" class="menu-item">Bone Cancer</a>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-                @media only screen and (max-width: 768px) {
-                    #cancerMenu {
-                        width: 100% !important;
-                        right: auto !important;
-                        left: 0 !important;
-                        position: relative !important;
-                        margin-top: 0 !important;
-                        box-shadow: none !important;
-                        border-radius: 0 !important;
-                        padding: 10px !important;
-                    }
-                    
-                    #cancerMenu div {
-                        grid-template-columns: 1fr !important;
-                    }
-                    
-                    .menu-item {
-                        display: block;
-                        padding: 8px 0;
-                        border-bottom: 1px solid #eee;
-                    }
-                    
-                    .menu-item:last-child {
-                        border-bottom: none;
-                    }
-                }
-            </style>
-            <a href="Dental.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
-            <a href="ENT.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">ENT</a>
-            <a href="contact.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Contact</a>
-        </div>
-    </nav>
-    
-    <style>
-        /* Your original active link style */
-        .active-nav-link {
-            background-color: white !important;
-            color: #135597 !important;
-            border-radius: 5px;
-            font-weight: bold;
-            border: 1px solid white;
-        }
-
-        /* Your original hover effect */
-        .active-nav-link:hover {
-            background-color: #135597 !important;
-            color: #fff !important;
-            border: 1px solid white;
-        }
-
-        /* Current page indicator (added to active-nav-link) */
-        .current-page {
-            border: 1px solid red !important;
-            position: relative;
-        }
-
-        /* Keep hover effect even for current page */
-        .current-page:hover {
-            background-color: #135597 !important;
-            color: #fff !important;
-            border: 1px solid white !important;
-        }
-
-        /* Dropdown items */
-        .dropdown-menu .current-page {
-            border-left: 3px solid red;
-            background-color: white !important;
-        }
-    </style>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let currentPath = window.location.pathname.split('/').pop();
-            if (currentPath === '' || currentPath === 'index.html') {
-                currentPath = 'index.html';
-            }
-
-            // Remove current page classes first
-            document.querySelectorAll('.current-page').forEach(link => {
-                link.classList.remove('current-page');
-            });
-
-            // Add current page class
-            document.querySelectorAll('nav a[href]').forEach(link => {
-                const href = link.getAttribute('href').split('?')[0];
-                if (href === currentPath) {
-                    link.classList.add('current-page');
-                    
-                    // Highlight parent dropdown items
-                    const dropdownParent = link.closest('div[id$="Menu"], div[id$="physicians"], div[id$="fertility"]');
-                    if (dropdownParent) {
-                        const parentLink = dropdownParent.previousElementSibling;
-                        if (parentLink && parentLink.classList.contains('active-nav-link')) {
-                            parentLink.classList.add('current-page');
-                        }
-                    }
-                }
-            });
-
-            // Handle dropdown items
-            document.querySelectorAll('.menu-item').forEach(link => {
-                const href = link.getAttribute('href').split('?')[0];
-                if (currentPath.includes(href) || href.includes(currentPath)) {
-                    link.classList.add('current-page');
-                }
-            });
-        });
-    </script>
- 
-    <script>
-        // Navbar 1
-        function toggleMenu1() {
-            const navItems = document.getElementById('navItems1');
-            const hamburger = document.getElementById('hamburger1');
-            const closeIcon = document.getElementById('closeIcon1');
-            const isHidden = navItems.style.display === 'none' || navItems.style.display === '';
-            if (isHidden) {
-            navItems.style.display = 'flex';
-            navItems.style.flexDirection = 'column';
-            hamburger.style.display = 'none';
-            closeIcon.style.display = 'block';
-            } else {
-            navItems.style.display = 'none';
-            hamburger.style.display = 'block';
-            closeIcon.style.display = 'none';
-            }
-        }
-        function checkScreenWidth1() {
-            const navItems = document.getElementById('navItems1');
-            const hamburger = document.getElementById('hamburger1');
-            const closeIcon = document.getElementById('closeIcon1');
-            if (window.innerWidth <= 768) {
-            navItems.style.display = 'none';
-            hamburger.style.display = 'block';
-            closeIcon.style.display = 'none';
-            } else {
-            navItems.style.display = 'flex';
-            navItems.style.flexDirection = 'row';
-            hamburger.style.display = 'none';
-            closeIcon.style.display = 'none';
-            }
-        }
-        window.addEventListener('resize', checkScreenWidth1);
-        window.addEventListener('DOMContentLoaded', checkScreenWidth1);
-
-        // Navbar 2
-        function toggleMenu2() {
-            const nav = document.getElementById("navLinks2");
-            const ham = document.getElementById("hamburger2");
-            const close = document.getElementById("closeIcon2");
-            if (nav.style.display === "none" || nav.style.display === "") {
-                nav.style.display = "flex";
-                nav.style.flexDirection = "column";
-                nav.style.alignItems = "center";
-                ham.style.display = "none";
-                close.style.display = "block";
-            } else {
-                nav.style.display = "none";
-                ham.style.display = "block";
-                close.style.display = "none";
-            }
-        }
-        function setResponsiveMenu2() {
-            const nav = document.getElementById("navLinks2");
-            const ham = document.getElementById("hamburger2");
-            const close = document.getElementById("closeIcon2");
-            if (window.innerWidth <= 768) {
-                nav.style.display = "none";
-                ham.style.display = "block";
-                close.style.display = "none";
-            } else {
-                nav.style.display = "flex";
-                nav.style.flexDirection = "row";
-                nav.style.justifyContent = "center";
-                ham.style.display = "none";
-                close.style.display = "none";
-            }
-        }
-        window.addEventListener('resize', setResponsiveMenu2);
-        window.addEventListener('DOMContentLoaded', setResponsiveMenu2);
-
-        // Dropdowns on hover (desktop) and tap (mobile) for Navbar 2
-        function setupDropdowns2() {
-            document.querySelectorAll('#navLinks2 > div').forEach(item => {
-                const dropdown = item.querySelector('div');
-                item.onmouseenter = null;
-                item.onmouseleave = null;
-                item.onclick = null;
-                if (dropdown) {
-                    if (window.innerWidth > 768) {
-                        item.addEventListener('mouseenter', () => dropdown.style.display = 'block');
-                        item.addEventListener('mouseleave', () => dropdown.style.display = 'none');
-                    } else {
-                        item.addEventListener('click', function(e) {
-                            if (e.target === item.querySelector('a')) {
-                                e.preventDefault();
-                                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                    // 2. If English is selected, revert all nodes to their original text
+                    if (lang === 'en') {
+                        nodes.forEach(node => {
+                            if (node.originalText) {
+                                node.nodeValue = node.originalText;
                             }
                         });
+                        return; // Exit the function as no API call is needed
+                    }
+
+                    // 3. For other languages, prepare and send the text for translation via Gemini API
+                    const originals = nodes.map(n => n.originalText); // Always translate from original English
+                    const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk"; // Your provided API key
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const textToTranslate = originals.join("|||");
+                    const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate the brand name "Hitaishi" or "Hitaishi HealthCare Service". If a part is just a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+
+                    // Add a loading indicator for better user experience
+                    document.body.style.opacity = '0.5';
+                    document.body.style.pointerEvents = 'none';
+
+                    try {
+                        const payload = {
+                            contents: [{ parts: [{ text: prompt }] }],
+                            safetySettings: [ // Settings to make the model less restrictive for translation
+                                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+                            ]
+                        };
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            const errorBody = await response.text();
+                            throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                        }
+
+                        const result = await response.json();
+                        const translatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                        if (translatedText) {
+                            const parts = translatedText.split("|||");
+                            nodes.forEach((node, i) => {
+                                // Use translated part if available, otherwise fallback to the original text
+                                node.nodeValue = (parts[i] || originals[i]).trim();
+                            });
+                        } else {
+                            console.error("Translation failed: No translated text found in API response.", result);
+                            throw new Error("Invalid API response format");
+                        }
+                    } catch (err) {
+                        console.error("Translation failed", err);
+                        // On error, revert all text back to the original English to avoid a broken state
+                        nodes.forEach(node => {
+                            if (node.originalText) {
+                                node.nodeValue = node.originalText;
+                            }
+                        });
+                    } finally {
+                        // Remove loading indicator
+                        document.body.style.opacity = '1';
+                        document.body.style.pointerEvents = 'auto';
                     }
                 }
+
+                // Close dropdown when clicking anywhere outside of it
+                document.addEventListener("click", function(e) {
+                    const menu = document.getElementById("languageMenu");
+                    const tab = document.getElementById("languageTab");
+                    // Check if the click is outside the language tab and its menu
+                    if (menu && tab && !tab.contains(e.target) && !menu.contains(e.target)) {
+                        menu.style.display = "none";
+                    }
+                });
+                
+                // On page load, apply the saved language preference
+                function applyInitialLanguage() {
+                    const savedLang = localStorage.getItem("language");
+                    if (savedLang && savedLang !== 'en') {
+                        const languageMenu = document.getElementById("languageMenu");
+                        const langOption = Array.from(languageMenu.children).find(div => div.getAttribute('onclick').includes(`'${savedLang}'`));
+                        if (langOption) {
+                            const label = langOption.innerText;
+                            // Call setLanguage to translate the page to the saved preference
+                            setLanguage(savedLang, label, null);
+                        }
+                    }
+                }
+
+                // Wait for the full page to load before applying the initial language
+                window.addEventListener("load", applyInitialLanguage);
+
+            </script>
+        </nav>
+
+
+        <!-- Navigation Bar 2 -->
+        <nav style="background-color: #135597; padding: 1rem 2rem; position: sticky; top: 0; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); z-index: 1000;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="hamburger2">&#9776;</div>
+                <div onclick="toggleMenu2()" style="font-size: 26px; color: white; cursor: pointer; display: none;" id="closeIcon2">&times;</div>
+            </div>
+            <div id="navLinks2" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; ">
+                <div style="position: relative;"><a href="index.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold; ">Home</a></div>
+
+                <div style="position: relative;">
+                    <a href="healthRecords.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                    onmouseover="document.getElementById('recordsMenu').style.display = 'block';"
+                        onmouseout="document.getElementById('recordsMenu').style.display = 'none';">
+                        Health Records <i class="fas fa-caret-down"></i>
+                    </a>
+                    <div id="recordsMenu" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';" style="margin-top: 9px; display: none; position: absolute; background-color: white; min-width: 180px; border-radius: 5px; overflow: hidden; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                        <a href="bloodtest.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Blood Tests</a>
+                        <a href="donations.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Donations</a>
+                        <a href="inventory.html" class="active-nav-link" style="display: block; padding: 12px 16px; text-decoration: none; color: #333;">Inventory</a>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <a href="Diagnostics.html" class="active-nav-link"
+                    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                    onmouseover="document.getElementById('diagnosticsMenu').style.display = 'block';"
+                    onmouseout="document.getElementById('diagnosticsMenu').style.display = 'none';">
+                        Diagnostics <i class="fas fa-caret-down"></i>
+                    </a>
+
+                    <div id="diagnosticsMenu" class="active-nav-link"
+                        onmouseover="this.style.display = 'block';"
+                        onmouseout="this.style.display = 'none';"
+                        style="margin-top: 9px;display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <a href="xray.html" class="menu-item">X-Ray</a>
+                            <a href="ultrasound.html" class="menu-item">Ultrasound</a>
+                            <a href="mri.html" class="menu-item">MRI</a>
+                            <a href="diagnostic-services.html?category=cbc" class="menu-item">Complete Blood Count</a>
+                            <a href="diagnostic-services.html?category=pathology" class="menu-item">Pathology Tests</a>
+                            <a href="diagnostic-services.html?category=microbiology" class="menu-item">Microbiology Tests</a>
+                            <a href="diagnostic-services.html?category=radiology" class="menu-item">Radiology & Imaging</a>
+                            <a href="diagnostic-services.html?category=cardiology" class="menu-item">Cardiology</a>
+                            <a href="diagnostic-services.html?category=neurology" class="menu-item">Neurology</a>
+                            <a href="diagnostic-services.html?category=ophthalmology" class="menu-item">Ophthalmology</a>
+                            <a href="diagnostic-services.html?category=ent" class="menu-item">ENT</a>
+                            <a href="diagnostic-services.html?category=dental" class="menu-item">Dental</a>
+                            <a href="diagnostic-services.html?category=fertility" class="menu-item">Prenatal & Fertility</a>
+                            <a href="diagnostic-services.html?category=genetic" class="menu-item">Genetic Testing</a>
+                            <a href="diagnostic-services.html?category=packages" class="menu-item">Health Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .menu-item {
+                        display: block;
+                        padding: 12px;
+                        text-decoration: none;
+                        background: #fff;
+                        border-radius: 6px;
+                        color: #333;
+                        font-weight: 500;
+                        transition: background 0.2s, color 0.2s;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .menu-item:hover {
+                        background: #f0f0f0;
+                        color: #000;
+                    }
+                </style>
+
+
+                <!-- Physicians Dropdown (styled like Diagnostics) -->
+                <div style="position: relative;">
+                    <a href="Physician.html" class="active-nav-link"
+                    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                    onmouseover="document.getElementById('physicians').style.display = 'block';"
+                    onmouseout="document.getElementById('physicians').style.display = 'none';">
+                        Physicians <i class="fas fa-caret-down"></i>
+                    </a>
+
+                    <div id="physicians"
+                        onmouseover="this.style.display = 'block';"
+                        onmouseout="this.style.display = 'none';"
+                        style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <a href="cardiologist.html" class="menu-item">Cardiologist</a>
+                            <a href="neurologist.html" class="menu-item">Neurologist</a>
+                            <a href="dermatologist.html" class="menu-item">Dermatologist</a>
+                            <a href="orthopedic.html" class="menu-item">Orthopedic</a>
+                            <a href="pediatrician.html" class="menu-item">Pediatrician</a>
+                            <a href="gynecologist.html" class="menu-item">Gynecologist</a>
+                            <a href="urologist.html" class="menu-item">Urologist</a>
+                            <a href="oncologist.html" class="menu-item">Oncologist</a>
+                            <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
+                            <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
+                            <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
+                            <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
+                            <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
+                            <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
+                            <a href="general-physician.html" class="menu-item">General Physician</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fertility Dropdown (styled like Diagnostics) -->
+                <div style="position: relative;">
+                    <a href="fertility.html" class="active-nav-link" 
+                    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                    onmouseover="document.getElementById('fertility').style.display = 'block';"
+                    onmouseout="document.getElementById('fertility').style.display = 'none';">
+                        Fertility <i class="fas fa-caret-down"></i>
+                    </a>
+                    <div id="fertility" 
+                        onmouseover="this.style.display = 'block';" 
+                        onmouseout="this.style.display = 'none';" 
+                        style="margin-top: 9px; display: none; position: absolute; top: 100%; left: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); padding: 20px; z-index: 1000; width: 660px;">
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <a href="IVF.html" class="menu-item">IVF</a>
+                            <a href="iui.html" class="menu-item">IUI</a>
+                            <a href="sarogasi.html" class="menu-item">Surrogacy</a>
+                            <a href="fertility.html#egg-donation" class="menu-item">Egg Donation</a>
+                            <a href="fertility.html#sperm-donation" class="menu-item">Sperm Donation</a>
+                            <a href="fertility.html#embryo-transfer" class="menu-item">Embryo Transfer</a>
+                            <a href="fertility.html#fertility-preservation" class="menu-item">Fertility Preservation</a>
+                            <a href="fertility.html#pcos-treatment" class="menu-item">PCOS Treatment</a>
+                            <a href="fertility.html#male-infertility" class="menu-item">Male Infertility</a>
+                            <a href="fertility.html#female-infertility" class="menu-item">Female Infertility</a>
+                            <a href="fertility.html#prenatal-care" class="menu-item">Prenatal Care</a>
+                            <a href="fertility.html#genetic-testing" class="menu-item">Genetic Testing</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <a href="ai.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">AI & Blockchain</a>
+                <a href="doctor.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Doctor Registration</a>
+                <a href="patient.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Patients</a>
+                <div style="position: relative;">
+                    <a href="Cancer.html" class="active-nav-link" 
+                    style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;"
+                    onmouseover="if(window.innerWidth > 768) {document.getElementById('cancerMenu').style.display = 'block';}"
+                    onmouseout="if(window.innerWidth > 768) {document.getElementById('cancerMenu').style.display = 'none';}"
+                    onclick="if(window.innerWidth <= 768) {event.preventDefault(); document.getElementById('cancerMenu').style.display = document.getElementById('cancerMenu').style.display === 'block' ? 'none' : 'block';}">
+                        Cancer <i class="fas fa-caret-down"></i>
+                    </a>
+                    
+                    <div id="cancerMenu" 
+                        onmouseover="if(window.innerWidth > 768) {this.style.display = 'block';}" 
+                        onmouseout="if(window.innerWidth > 768) {this.style.display = 'none';}" 
+                        style="margin-top: 9px; display: none; position: absolute; top: 100%; right: 0px; 
+                            background-color: white; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.2); 
+                            padding: 20px; z-index: 1000; width: 660px;">
+                        
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <a href="Cancer.html#breast-cancer" class="menu-item">Breast Cancer</a>
+                            <a href="Cancer.html#lung-cancer" class="menu-item">Lung Cancer</a>
+                            <a href="Cancer.html#prostate-cancer" class="menu-item">Prostate Cancer</a>
+                            <a href="Cancer.html#colorectal-cancer" class="menu-item">Colorectal Cancer</a>
+                            <a href="Cancer.html#skin-cancer" class="menu-item">Skin Cancer</a>
+                            <a href="Cancer.html#leukemia" class="menu-item">Leukemia</a>
+                            <a href="Cancer.html#lymphoma" class="menu-item">Lymphoma</a>
+                            <a href="Cancer.html#pancreatic-cancer" class="menu-item">Pancreatic Cancer</a>
+                            <a href="Cancer.html#ovarian-cancer" class="menu-item">Ovarian Cancer</a>
+                            <a href="Cancer.html#bladder-cancer" class="menu-item">Bladder Cancer</a>
+                            <a href="Cancer.html#kidney-cancer" class="menu-item">Kidney Cancer</a>
+                            <a href="Cancer.html#thyroid-cancer" class="menu-item">Thyroid Cancer</a>
+                            <a href="Cancer.html#cervical-cancer" class="menu-item">Cervical Cancer</a>
+                            <a href="Cancer.html#brain-tumor" class="menu-item">Brain Tumor</a>
+                            <a href="Cancer.html#bone-cancer" class="menu-item">Bone Cancer</a>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    @media only screen and (max-width: 768px) {
+                        #cancerMenu {
+                            width: 100% !important;
+                            right: auto !important;
+                            left: 0 !important;
+                            position: relative !important;
+                            margin-top: 0 !important;
+                            box-shadow: none !important;
+                            border-radius: 0 !important;
+                            padding: 10px !important;
+                        }
+                        
+                        #cancerMenu div {
+                            grid-template-columns: 1fr !important;
+                        }
+                        
+                        .menu-item {
+                            display: block;
+                            padding: 8px 0;
+                            border-bottom: 1px solid #eee;
+                        }
+                        
+                        .menu-item:last-child {
+                            border-bottom: none;
+                        }
+                    }
+                </style>
+                <a href="Dental.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Dental</a>
+                <a href="ENT.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">ENT</a>
+                <a href="contact.html" class="active-nav-link" style="color: white; text-decoration: none; padding: 0.5rem 1rem; font-weight: bold;">Contact</a>
+            </div>
+        </nav>
+        
+        <style>
+            /* Your original active link style */
+            .active-nav-link {
+                background-color: white !important;
+                color: #135597 !important;
+                border-radius: 5px;
+                font-weight: bold;
+                border: 1px solid white;
+            }
+
+            /* Your original hover effect */
+            .active-nav-link:hover {
+                background-color: #135597 !important;
+                color: #fff !important;
+                border: 1px solid white;
+            }
+
+            /* Current page indicator (added to active-nav-link) */
+            .current-page {
+                border: 1px solid red !important;
+                position: relative;
+            }
+
+            /* Keep hover effect even for current page */
+            .current-page:hover {
+                background-color: #135597 !important;
+                color: #fff !important;
+                border: 1px solid white !important;
+            }
+
+            /* Dropdown items */
+            .dropdown-menu .current-page {
+                border-left: 3px solid red;
+                background-color: white !important;
+            }
+        </style>
+
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                let currentPath = window.location.pathname.split('/').pop();
+                if (currentPath === '' || currentPath === 'index.html') {
+                    currentPath = 'index.html';
+                }
+
+                // Remove current page classes first
+                document.querySelectorAll('.current-page').forEach(link => {
+                    link.classList.remove('current-page');
+                });
+
+                // Add current page class
+                document.querySelectorAll('nav a[href]').forEach(link => {
+                    const href = link.getAttribute('href').split('?')[0];
+                    if (href === currentPath) {
+                        link.classList.add('current-page');
+                        
+                        // Highlight parent dropdown items
+                        const dropdownParent = link.closest('div[id$="Menu"], div[id$="physicians"], div[id$="fertility"]');
+                        if (dropdownParent) {
+                            const parentLink = dropdownParent.previousElementSibling;
+                            if (parentLink && parentLink.classList.contains('active-nav-link')) {
+                                parentLink.classList.add('current-page');
+                            }
+                        }
+                    }
+                });
+
+                // Handle dropdown items
+                document.querySelectorAll('.menu-item').forEach(link => {
+                    const href = link.getAttribute('href').split('?')[0];
+                    if (currentPath.includes(href) || href.includes(currentPath)) {
+                        link.classList.add('current-page');
+                    }
+                });
             });
-        }
-        window.addEventListener('resize', setupDropdowns2);
-        window.addEventListener('DOMContentLoaded', setupDropdowns2);
-
-        window.addEventListener('DOMContentLoaded', () => {
-            let currentPath = window.location.pathname.split('/').pop();
-            if (currentPath === '' || currentPath === 'index.html') {
-            currentPath = 'index.html'; // Normalize home page
+        </script>
+    
+        <script>
+            // Navbar 1
+            function toggleMenu1() {
+                const navItems = document.getElementById('navItems1');
+                const hamburger = document.getElementById('hamburger1');
+                const closeIcon = document.getElementById('closeIcon1');
+                const isHidden = navItems.style.display === 'none' || navItems.style.display === '';
+                if (isHidden) {
+                navItems.style.display = 'flex';
+                navItems.style.flexDirection = 'column';
+                hamburger.style.display = 'none';
+                closeIcon.style.display = 'block';
+                } else {
+                navItems.style.display = 'none';
+                hamburger.style.display = 'block';
+                closeIcon.style.display = 'none';
+                }
             }
-
-            const links = document.querySelectorAll('nav a[href]');
-            links.forEach(link => {
-            const href = link.getAttribute('href').split('?')[0]; // Strip query if needed
-            if (href === currentPath) {
-                link.classList.add('active-nav-link');
+            function checkScreenWidth1() {
+                const navItems = document.getElementById('navItems1');
+                const hamburger = document.getElementById('hamburger1');
+                const closeIcon = document.getElementById('closeIcon1');
+                if (window.innerWidth <= 768) {
+                navItems.style.display = 'none';
+                hamburger.style.display = 'block';
+                closeIcon.style.display = 'none';
+                } else {
+                navItems.style.display = 'flex';
+                navItems.style.flexDirection = 'row';
+                hamburger.style.display = 'none';
+                closeIcon.style.display = 'none';
+                }
             }
-            });
-        });
+            window.addEventListener('resize', checkScreenWidth1);
+            window.addEventListener('DOMContentLoaded', checkScreenWidth1);
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // --- Detect User ---
-            const userName1 = document.getElementById("userName1");
-            const loginLink1 = document.getElementById("loginNav1");
-
-            // Check different roles from localStorage
-            const doctorName = localStorage.getItem("doctorName");
-            const patientName = localStorage.getItem("fullName");
-            const diagnosticName = localStorage.getItem("diagnosticName")
-
-            let currentUser = null;
-
-            if (patientName) {
-                currentUser = patientName;
-            } else if (doctorName) {
-                currentUser = doctorName;
-            } else if (diagnosticName) {
-                currentUser = diagnosticName;
+            // Navbar 2
+            function toggleMenu2() {
+                const nav = document.getElementById("navLinks2");
+                const ham = document.getElementById("hamburger2");
+                const close = document.getElementById("closeIcon2");
+                if (nav.style.display === "none" || nav.style.display === "") {
+                    nav.style.display = "flex";
+                    nav.style.flexDirection = "column";
+                    nav.style.alignItems = "center";
+                    ham.style.display = "none";
+                    close.style.display = "block";
+                } else {
+                    nav.style.display = "none";
+                    ham.style.display = "block";
+                    close.style.display = "none";
+                }
             }
+            function setResponsiveMenu2() {
+                const nav = document.getElementById("navLinks2");
+                const ham = document.getElementById("hamburger2");
+                const close = document.getElementById("closeIcon2");
+                if (window.innerWidth <= 768) {
+                    nav.style.display = "none";
+                    ham.style.display = "block";
+                    close.style.display = "none";
+                } else {
+                    nav.style.display = "flex";
+                    nav.style.flexDirection = "row";
+                    nav.style.justifyContent = "center";
+                    ham.style.display = "none";
+                    close.style.display = "none";
+                }
+            }
+            window.addEventListener('resize', setResponsiveMenu2);
+            window.addEventListener('DOMContentLoaded', setResponsiveMenu2);
 
-            // --- Update Navbar 1 ---
-            if (currentUser) {
-                userName1.textContent = currentUser;
-                loginLink1.innerHTML = `<span style="margin-right:5px;">${currentUser}</span> Logout`;
-                loginLink1.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    // clear all user keys
-                    localStorage.removeItem("doctorUid");
-                    localStorage.removeItem("doctorName");
-                    localStorage.removeItem("userId");
-                    localStorage.removeItem("firstName");
-                    localStorage.removeItem("fullName");
-                    localStorage.removeItem("diagnosticId");
-                    localStorage.removeItem("diagnosticName")
-                    localStorage.removeItem("diagnosticCenterId");
-                    localStorage.clear();
-                    // session storage also cleared
-                    sessionStorage.clear();
-                    window.location.href = "index.html";
+            // Dropdowns on hover (desktop) and tap (mobile) for Navbar 2
+            function setupDropdowns2() {
+                document.querySelectorAll('#navLinks2 > div').forEach(item => {
+                    const dropdown = item.querySelector('div');
+                    item.onmouseenter = null;
+                    item.onmouseleave = null;
+                    item.onclick = null;
+                    if (dropdown) {
+                        if (window.innerWidth > 768) {
+                            item.addEventListener('mouseenter', () => dropdown.style.display = 'block');
+                            item.addEventListener('mouseleave', () => dropdown.style.display = 'none');
+                        } else {
+                            item.addEventListener('click', function(e) {
+                                if (e.target === item.querySelector('a')) {
+                                    e.preventDefault();
+                                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                                }
+                            });
+                        }
+                    }
                 });
             }
-        });
+            window.addEventListener('resize', setupDropdowns2);
+            window.addEventListener('DOMContentLoaded', setupDropdowns2);
 
-    </script>
+            window.addEventListener('DOMContentLoaded', () => {
+                let currentPath = window.location.pathname.split('/').pop();
+                if (currentPath === '' || currentPath === 'index.html') {
+                currentPath = 'index.html'; // Normalize home page
+                }
 
-</nav>
-<!-- Navbar End -->
+                const links = document.querySelectorAll('nav a[href]');
+                links.forEach(link => {
+                const href = link.getAttribute('href').split('?')[0]; // Strip query if needed
+                if (href === currentPath) {
+                    link.classList.add('active-nav-link');
+                }
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", () => {
+                // --- Detect User ---
+                const userName1 = document.getElementById("userName1");
+                const loginLink1 = document.getElementById("loginNav1");
+
+                // Check different roles from localStorage
+                const doctorName = localStorage.getItem("doctorName");
+                const patientName = localStorage.getItem("fullName");
+                const diagnosticName = localStorage.getItem("diagnosticName")
+
+                let currentUser = null;
+
+                if (patientName) {
+                    currentUser = patientName;
+                } else if (doctorName) {
+                    currentUser = doctorName;
+                } else if (diagnosticName) {
+                    currentUser = diagnosticName;
+                }
+
+                // --- Update Navbar 1 ---
+                if (currentUser) {
+                    userName1.textContent = currentUser;
+                    loginLink1.innerHTML = `<span style="margin-right:5px;">${currentUser}</span> Logout`;
+                    loginLink1.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        // clear all user keys
+                        localStorage.removeItem("doctorUid");
+                        localStorage.removeItem("doctorName");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("firstName");
+                        localStorage.removeItem("fullName");
+                        localStorage.removeItem("diagnosticId");
+                        localStorage.removeItem("diagnosticName")
+                        localStorage.removeItem("diagnosticCenterId");
+                        localStorage.clear();
+                        // session storage also cleared
+                        sessionStorage.clear();
+                        window.location.href = "index.html";
+                    });
+                }
+            });
+
+        </script>
+
+    </nav>
+    <!-- Navbar End -->
 
 
     <!-- Main Section -->
@@ -800,205 +800,342 @@
         <h1 style="position: relative; z-index: 1; color: #ffffff; margin-bottom: 2rem; padding-bottom: 0.5rem; text-align: center; font-size: 52px; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Hitaishi Healthcare Services</h1>
     </main>
 
-<section class="bg-gray-50 p-8" style="font-family: 'Inter', sans-serif;">
-  <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-md p-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Find Healthcare Providers</h2>
 
-    <!-- Search Filters -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <!-- Country Dropdown -->
-      <div>
-        <label for="country" class="block text-gray-700 mb-2 font-medium">Country</label>
-        <select id="country" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500">
-          <option value="">Select Country</option>
-        </select>
-      </div>
+    <!-- Search -->
+    <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8" style="font-family: 'Inter', sans-serif;">
+        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg p-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Find Healthcare Providers</h2>
+            <p class="text-gray-600 text-center mb-8">Search for doctors and diagnostic centers near you</p>
 
-      <!-- State Dropdown -->
-      <div>
-        <label for="state" class="block text-gray-700 mb-2 font-medium">State</label>
-        <select id="state" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500">
-          <option value="">Select State</option>
-        </select>
-      </div>
+            <!-- Search Filters -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <!-- Provider Type Dropdown -->
+                <div>
+                    <label for="provider-type" class="block text-gray-700 mb-2 font-medium">Provider Type</label>
+                    <div class="relative">
+                        <select id="provider-type" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                            <option value="all">All Providers</option>
+                            <option value="doctor">Doctors Only</option>
+                            <option value="diagnostic">Diagnostics Only</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
 
-      <!-- Zip Code -->
-      <div>
-        <label for="zipcode" class="block text-gray-700 mb-2 font-medium">Zip Code</label>
-        <input type="text" id="zipcode" placeholder="Enter Zip Code" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500">
-      </div>
+                <!-- Country Dropdown -->
+                <div>
+                    <label for="country" class="block text-gray-700 mb-2 font-medium">Country</label>
+                    <div class="relative">
+                    <select id="country" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                        <option value="">Select Country</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    </div>
+                </div>
 
-      <!-- Search Button -->
-      <div class="flex flex-col justify-end">
-        <button id="search-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg transition">Search</button>
-      </div>
-    </div>
+                <!-- State Dropdown -->
+                <div>
+                    <label for="state" class="block text-gray-700 mb-2 font-medium">State</label>
+                    <div class="relative">
+                    <select id="state" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
+                        <option value="">Select State</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    </div>
+                </div>
 
-    <!-- Results Section -->
-    <div id="results" class="mt-8 hidden">
-      <h3 id="results-count" class="text-lg font-medium text-gray-700 mb-4"></h3>
-      <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </div>
-  </div>
+                <!-- Zip Code -->
+                <div>
+                    <label for="zipcode" class="block text-gray-700 mb-2 font-medium">Zip Code</label>
+                    <input type="text" id="zipcode" placeholder="Enter Zip Code" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      let allProviders = [];
-      let locationData = {};
+                <!-- Search Button -->
+                <div class="flex flex-col justify-end">
+                    <button id="search-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg transition flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                    Search
+                    </button>
+                </div>
+            </div>
 
-      const countrySelect = document.getElementById('country');
-      const stateSelect = document.getElementById('state');
-      const zipInput = document.getElementById('zipcode');
-      const searchButton = document.getElementById('search-button');
-      const resultsContainer = document.getElementById('results-container');
-      const resultsCount = document.getElementById('results-count');
-      const resultsSection = document.getElementById('results');
+            <!-- Loading Indicator -->
+            <div id="loading" class="mt-8 hidden">
+            <div class="flex flex-col items-center justify-center py-8">
+                <div class="w-12 h-12 rounded-full bg-blue-100 animate-pulse flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                </div>
+                <p class="mt-4 text-gray-600">Searching providers...</p>
+            </div>
+            </div>
 
-      // Google Maps Geocoding API
-      const GOOGLE_API_KEY = "AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg";
-      const geocodeAddress = async (address) => {
-        try {
-          const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GOOGLE_API_KEY}`);
-          const data = await response.json();
-          if (data.status === "OK") {
-            const components = data.results[0].address_components;
-            const country = components.find(c => c.types.includes("country"))?.long_name || "";
-            const state = components.find(c => c.types.includes("administrative_area_level_1"))?.long_name || "";
-            const zip = components.find(c => c.types.includes("postal_code"))?.long_name || "";
-            return { country, state, zip };
-          }
-        } catch (err) {
-          console.error("Geocoding error:", err);
-        }
-        return { country: "", state: "", zip: "" };
-      };
+            <!-- Results Section -->
+            <div id="results" class="mt-8 hidden">
+            <div class="flex items-center justify-between mb-6">
+                <h3 id="results-count" class="text-xl font-semibold text-gray-800"></h3>
+                <button id="clear-filters" class="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Clear filters
+                </button>
+            </div>
+            <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
 
-      // Fetch providers and extract location details from Google
-      const fetchProviders = async () => {
-        try {
-          const [doctorsRes, diagnosticsRes] = await Promise.all([
-            fetch('/api/getdoctors'),
-            fetch('/api/diagnostics/all')
-          ]);
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            let allProviders = [];
+            let locationData = {};
 
-          const doctorsData = await doctorsRes.json();
-          const diagnosticsData = await diagnosticsRes.json();
+            const providerTypeSelect = document.getElementById('provider-type');
+            const countrySelect = document.getElementById('country');
+            const stateSelect = document.getElementById('state');
+            const zipInput = document.getElementById('zipcode');
+            const searchButton = document.getElementById('search-button');
+            const resultsContainer = document.getElementById('results-container');
+            const resultsCount = document.getElementById('results-count');
+            const resultsSection = document.getElementById('results');
+            const loadingSection = document.getElementById('loading');
+            const clearFiltersBtn = document.getElementById('clear-filters');
 
-          const doctors = (Array.isArray(doctorsData) ? doctorsData : []).map(d => ({
-            id: d.uid,
-            type: 'doctor',
-            name: `Dr. ${d.first_name} ${d.last_name}`,
-            specialization: d.specialization,
-            clinic: d.clinic,
-            address: d.address
-          }));
+            // Google Maps Geocoding API
+            const GOOGLE_API_KEY = "AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg";
+            const geocodeAddress = async (address) => {
+                try {
+                const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GOOGLE_API_KEY}`);
+                const data = await response.json();
+                if (data.status === "OK") {
+                    const components = data.results[0].address_components;
+                    const country = components.find(c => c.types.includes("country"))?.long_name || "";
+                    const state = components.find(c => c.types.includes("administrative_area_level_1"))?.long_name || "";
+                    const zip = components.find(c => c.types.includes("postal_code"))?.long_name || "";
+                    return { country, state, zip };
+                }
+                } catch (err) {
+                console.error("Geocoding error:", err);
+                }
+                return { country: "", state: "", zip: "" };
+            };
 
-          const diagnostics = (diagnosticsData.users || []).map(d => ({
-            id: d.center_id,
-            type: 'diagnostic',
-            name: d.center_name,
-            services: d.services ? JSON.parse(d.services) : [],
-            address: d.address
-          }));
+            // Fetch providers and extract location details from Google
+            const fetchProviders = async () => {
+                try {
+                loadingSection.classList.remove('hidden');
+                
+                const [doctorsRes, diagnosticsRes] = await Promise.all([
+                    fetch('/api/getdoctors'),
+                    fetch('/api/diagnostics/all')
+                ]);
 
-          allProviders = [...doctors, ...diagnostics];
+                const doctorsData = await doctorsRes.json();
+                const diagnosticsData = await diagnosticsRes.json();
 
-          // Enrich with Google location data
-          for (const provider of allProviders) {
-            const { country, state, zip } = await geocodeAddress(provider.address);
-            provider.country = country;
-            provider.state = state;
-            provider.zip_code = zip;
-          }
+                const doctors = (Array.isArray(doctorsData) ? doctorsData : []).map(d => ({
+                    id: d.uid,
+                    type: 'doctor',
+                    name: `Dr. ${d.first_name} ${d.last_name}`,
+                    specialization: d.specialization,
+                    clinic: d.clinic,
+                    address: d.address
+                }));
 
-          populateLocationFilters(allProviders);
-        } catch (error) {
-          console.error("Error fetching providers:", error);
-        }
-      };
+                const diagnostics = (diagnosticsData.users || []).map(d => ({
+                    id: d.center_id,
+                    type: 'diagnostic',
+                    name: d.center_name,
+                    services: d.services ? JSON.parse(d.services) : [],
+                    address: d.address
+                }));
 
-      const populateLocationFilters = (providers) => {
-        locationData = {};
+                allProviders = [...doctors, ...diagnostics];
 
-        providers.forEach(provider => {
-          if (provider.country && provider.state) {
-            if (!locationData[provider.country]) {
-              locationData[provider.country] = new Set();
-            }
-            locationData[provider.country].add(provider.state);
-          }
-        });
+                // Enrich with Google location data
+                for (const provider of allProviders) {
+                    const { country, state, zip } = await geocodeAddress(provider.address);
+                    provider.country = country;
+                    provider.state = state;
+                    provider.zip_code = zip;
+                }
 
-        countrySelect.innerHTML = '<option value="">Select Country</option>';
-        Object.keys(locationData).sort().forEach(country => {
-          const option = new Option(country, country);
-          countrySelect.add(option);
-        });
-      };
+                populateLocationFilters(allProviders);
+                loadingSection.classList.add('hidden');
+                } catch (error) {
+                console.error("Error fetching providers:", error);
+                loadingSection.classList.add('hidden');
+                }
+            };
 
-      const displayProviders = (providers) => {
-        resultsContainer.innerHTML = '';
-        resultsCount.textContent = `${providers.length} result(s) found.`;
-        resultsSection.classList.remove('hidden');
+            const populateLocationFilters = (providers) => {
+                locationData = {};
 
-        if (providers.length === 0) {
-          resultsContainer.innerHTML = '<p class="text-center col-span-full text-gray-600">No providers match your search criteria.</p>';
-          return;
-        }
+                providers.forEach(provider => {
+                if (provider.country && provider.state) {
+                    if (!locationData[provider.country]) {
+                    locationData[provider.country] = new Set();
+                    }
+                    locationData[provider.country].add(provider.state);
+                }
+                });
 
-        providers.forEach(provider => {
-          const card = document.createElement('div');
-          card.className = 'bg-white rounded-lg shadow p-4 border hover:shadow-lg';
+                countrySelect.innerHTML = '<option value="">Select Country</option>';
+                Object.keys(locationData).sort().forEach(country => {
+                const option = new Option(country, country);
+                countrySelect.add(option);
+                });
+            };
 
-          const fullAddress = provider.address;
+            const displayProviders = (providers) => {
+                resultsContainer.innerHTML = '';
+                resultsCount.textContent = `${providers.length} provider${providers.length !== 1 ? 's' : ''} found`;
+                resultsSection.classList.remove('hidden');
 
-          card.innerHTML = provider.type === 'doctor'
-            ? `<h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
-               <p class="text-blue-600 font-medium">${provider.specialization || ''}</p>
-               <p class="text-sm text-gray-600">${provider.clinic || ''}</p>
-               <p class="text-sm text-gray-500">${fullAddress}</p>`
-            : `<h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
-               <p class="text-sm text-gray-600">${(provider.services || []).join(', ')}</p>
-               <p class="text-sm text-gray-500">${fullAddress}</p>`;
+                if (providers.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="col-span-full py-12 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="mt-4 text-lg font-medium text-gray-700">No providers found</h3>
+                    <p class="mt-2 text-gray-500">Try adjusting your search filters</p>
+                    </div>`;
+                return;
+                }
 
-          resultsContainer.appendChild(card);
-        });
-      };
+                providers.forEach(provider => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow p-5 border border-gray-100 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 cursor-pointer';
+                
+                // Add click event to redirect based on provider type
+                card.addEventListener('click', () => {
+                    if (provider.type === 'doctor') {
+                        window.location.href = `doctors.html?id=${provider.id}`;
+                    } else if (provider.type === 'diagnostic') {
+                        // STEP 1: FIX - Replaced placeholder '{centerId}' with the actual provider ID.
+                        window.location.href = `diagnostics.html?id=${provider.id}`;
+                    }
+                });
+                
+                const fullAddress = provider.address;
+                const typeIcon = provider.type === 'doctor' ? 
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>' :
+                    '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>';
 
-      const filterAndDisplayProviders = () => {
-        const country = countrySelect.value;
-        const state = stateSelect.value;
-        const zipCode = zipInput.value;
+                card.innerHTML = provider.type === 'doctor'
+                    ? `<div class="flex items-start mb-3">
+                        <div class="bg-blue-100 p-2 rounded-lg mr-3">${typeIcon}</div>
+                        <div>
+                        <h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
+                        <p class="text-blue-600 font-medium">${provider.specialization || ''}</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">${provider.clinic || ''}</p>
+                    <div class="flex items-center text-sm text-gray-500 mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        ${fullAddress}
+                    </div>
+                    <div class="mt-3 text-sm text-blue-600 flex items-center">
+                        View doctor details
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </div>`
+                    : `<div class="flex items-start mb-3">
+                        <div class="bg-green-100 p-2 rounded-lg mr-3">${typeIcon}</div>
+                        <div>
+                        <h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
+                        <p class="text-sm text-gray-600">${(provider.services || []).join(', ')}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm text-gray-500 mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        ${fullAddress}
+                    </div>
+                    <div class="mt-3 text-sm text-green-600 flex items-center">
+                        View diagnostic center details
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </div>`;
 
-        const filtered = allProviders.filter(p => {
-          const matchCountry = !country || (p.country && p.country.toLowerCase() === country.toLowerCase());
-          const matchState = !state || (p.state && p.state.toLowerCase() === state.toLowerCase());
-          const matchZip = !zipCode || (p.zip_code && p.zip_code.startsWith(zipCode));
-          return matchCountry && matchState && matchZip;
-        });
+                resultsContainer.appendChild(card);
+                });
+            };
 
-        displayProviders(filtered);
-      };
+            const filterAndDisplayProviders = () => {
+                const providerType = providerTypeSelect.value;
+                const country = countrySelect.value;
+                const state = stateSelect.value;
+                const zipCode = zipInput.value;
 
-      countrySelect.addEventListener('change', function () {
-        stateSelect.innerHTML = '<option value="">Select State</option>';
-        const states = locationData[this.value];
-        if (states) {
-          [...states].sort().forEach(state => {
-            const option = new Option(state, state);
-            stateSelect.add(option);
-          });
-        }
-      });
+                const filtered = allProviders.filter(p => {
+                    const matchType = providerType === 'all' || p.type === providerType;
+                    const matchCountry = !country || (p.country && p.country.toLowerCase() === country.toLowerCase());
+                    const matchState = !state || (p.state && p.state.toLowerCase() === state.toLowerCase());
+                    const matchZip = !zipCode || (p.zip_code && p.zip_code.startsWith(zipCode));
+                    return matchType && matchCountry && matchState && matchZip;
+                });
 
-      searchButton.addEventListener('click', filterAndDisplayProviders);
+                displayProviders(filtered);
+            };
 
-      // Initial load
-      fetchProviders();
-    });
-  </script>
-</section>
+            const clearFilters = () => {
+                providerTypeSelect.value = "all";
+                countrySelect.value = "";
+                stateSelect.innerHTML = '<option value="">Select State</option>';
+                zipInput.value = "";
+                displayProviders(allProviders);
+            };
 
+            countrySelect.addEventListener('change', function () {
+                stateSelect.innerHTML = '<option value="">Select State</option>';
+                const states = locationData[this.value];
+                if (states) {
+                [...states].sort().forEach(state => {
+                    const option = new Option(state, state);
+                    stateSelect.add(option);
+                });
+                }
+            });
+
+            searchButton.addEventListener('click', filterAndDisplayProviders);
+            clearFiltersBtn.addEventListener('click', clearFilters);
+
+            // Allow search with Enter key in zip code field
+            zipInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                filterAndDisplayProviders();
+                }
+            });
+
+            // Initial load
+            fetchProviders();
+            });
+        </script>
+    </section>
 
 
 
@@ -3014,6 +3151,7 @@
     </script>
     </section>
 
+    <!-- Popular Test -->
     <div style="color: #f0f0f0; background-color: #e1edff; padding-bottom: 20px;">
     <h2 style="font-size: 32px; padding-top: 20px;">Popular Tests</h2>
 

@@ -1,397 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Diagnostic Center Registration</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    :root {
-      --primary: #4361ee;
-      --secondary: #3f37c9;
-      --success: #4cc9f0;
-      --danger: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f5f7fa;
-      color: var(--dark);
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: var(--primary);
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(to right, var(--primary), var(--success));
-      border-radius: 3px;
-    }
-    
-    .form-header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    .progress-bar {
-      display: flex;
-      justify-content: space-between;
-      position: relative;
-      margin-bottom: 30px;
-      counter-reset: step;
-    }
-    
-    .progress-bar::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--light-gray);
-      z-index: 1;
-    }
-    
-    .progress-step {
-      width: 30px;
-      height: 30px;
-      background: var(--light-gray);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-      color: var(--gray);
-      font-weight: 600;
-    }
-    
-    .progress-step::before {
-      counter-increment: step;
-      content: counter(step);
-    }
-    
-    .progress-step.active {
-      background: var(--primary);
-      color: white;
-      transform: scale(1.1);
-      transition: all 0.3s ease;
-    }
-    
-    .progress-step.completed {
-      background: var(--success);
-      color: white;
-    }
-    
-    .form-step {
-      display: none;
-      animation: slideIn 0.5s ease-in-out;
-    }
-    
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    
-    .form-step.active {
-      display: block;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-row {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .form-row .form-group {
-      flex: 1;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    .required::after {
-      content: ' *';
-      color: var(--danger);
-    }
-    
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-family: inherit;
-      font-size: 16px;
-      transition: all 0.3s;
-    }
-    
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-    }
-    
-    input[type="file"] {
-      padding: 10px;
-      border: 1px dashed #ccc;
-      background: var(--light);
-    }
-    
-    .file-upload-wrapper {
-      position: relative;
-      margin-bottom: 20px;
-    }
-    
-    .file-upload-label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 30px;
-      border: 2px dashed #ccc;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .file-upload-label:hover {
-      border-color: var(--primary);
-      background: rgba(67, 97, 238, 0.05);
-    }
-    
-    .file-upload-label i {
-      font-size: 40px;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-    
-    .file-upload-input {
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-    
-    .file-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    
-    .file-preview-item {
-      position: relative;
-      width: 80px;
-      height: 80px;
-      border-radius: 5px;
-      overflow: hidden;
-      border: 1px solid #ddd;
-    }
-    
-    .file-preview-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .file-preview-item .remove-file {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: var(--danger);
-      color: white;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    
-    .btn {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 5px;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .btn i {
-      margin-right: 8px;
-    }
-    
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .btn-secondary {
-      background: var(--gray);
-      color: white;
-    }
-    
-    .btn-secondary:hover {
-      background: #5a6268;
-    }
-    
-    .btn-success {
-      background: var(--success);
-      color: white;
-    }
-    
-    .btn-success:hover {
-      background: #3aa8d1;
-    }
-    
-    .btn-block {
-      display: block;
-      width: 100%;
-    }
-    
-    .btn-otp {
-      padding: 8px 15px;
-      font-size: 14px;
-      margin-left: 10px;
-    }
-    
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
-    
-    .otp-group {
-      display: flex;
-      align-items: center;
-    }
-    
-    .otp-group input {
-      flex: 1;
-    }
-    
-    .otp-group button {
-      width: auto;
-      margin-left: 10px;
-    }
-    
-    .alert {
-      padding: 12px 15px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      display: none;
-    }
-    
-    .alert-success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    
-    .alert-danger {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-    
-    .services-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    
-    .tag {
-      background: var(--light);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-    }
-    
-    .tag-remove {
-      margin-left: 5px;
-      cursor: pointer;
-      color: var(--danger);
-    }
-    
-    @media (max-width: 768px) {
-      .form-row {
-        flex-direction: column;
-        gap: 0;
-      }
-      
-      .container {
-        padding: 15px;
-        margin: 15px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Clinics & Diagnostic Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
-<body>
-
+<body style="margin: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f9fafc;">
+    
 
     <!-- Navbar Code -->
     <nav style="width: 100%;">
@@ -1149,557 +767,321 @@
     </nav>
     <!-- Navbar End -->
 
-  <div class="container">
-    <div class="form-header">
-      <h2>Diagnostic Center Registration</h2>
-      <p>Please fill in all required information to register your diagnostic center</p>
-    </div>
-    
-    <div class="progress-bar">
-      <div class="progress-step active" data-step="1"></div>
-      <div class="progress-step" data-step="2"></div>
-      <div class="progress-step" data-step="3"></div>
-      <div class="progress-step" data-step="4"></div>
-      <div class="progress-step" data-step="5"></div>
-    </div>
-    
-    <div class="alert alert-success" id="successAlert"></div>
-    <div class="alert alert-danger" id="errorAlert"></div>
-    
-    <form id="registrationForm">
-      <!-- Step 1: Account Verification -->
-      <div class="form-step active" id="step-1">
-        <div class="form-group">
-          <label for="email" class="required">Email Address</label>
-          <div class="otp-group">
-            <input type="email" id="email" required placeholder="Enter your email address">
-            <button type="button" class="btn btn-primary btn-otp" onclick="sendOtp()">
-              <i class="fas fa-paper-plane"></i> Send OTP
-            </button>
-          </div>
-        </div>
-        
-        <div class="form-group" id="otpField" style="display: none;">
-          <label for="otp" class="required">Verification Code</label>
-          <div class="otp-group">
-            <input type="text" id="otp" maxlength="6" placeholder="Enter 6-digit OTP">
-            <button type="button" class="btn btn-success btn-otp" onclick="verifyOtp()">
-              <i class="fas fa-check"></i> Verify
-            </button>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="password" class="required">Password</label>
-          <input type="password" id="password" required placeholder="Create a strong password">
-        </div>
-        
-        <div class="button-group">
-          <!-- Login Button -->
-          <button type="button" class="btn btn-primary" onclick="window.location.href='diagnosticLogin.html'">
-            Login &nbsp;<i class="fas fa-sign-in-alt" ></i>
-          </button>
 
-          <!-- Example Next Step Button -->
-          <button type="button" class="btn btn-primary" onclick="nextStep(2)">
-            Next &nbsp; <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Step 2: Basic Information -->
-      <div class="form-step" id="step-2">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="centerName" class="required">Center Name</label>
-            <input type="text" id="centerName" required placeholder="Enter diagnostic center name">
-          </div>
-          <div class="form-group">
-            <label for="ownerName" class="required">Owner Name</label>
-            <input type="text" id="ownerName" required placeholder="Enter owner's full name">
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="centerType" class="required">Center Type</label>
-            <select id="centerType" required>
-              <option value="">Select center type</option>
-              <option value="Pathology">Pathology</option>
-              <option value="Radiology">Radiology</option>
-              <option value="Multi-specialty">Multi-specialty</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="registrationNumber" class="required">Registration Number</label>
-            <input type="text" id="registrationNumber" required placeholder="Enter registration number">
-          </div>
-        </div>
-        
-        <div class="button-group">
-          <button type="button" class="btn btn-secondary" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Previous</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
-        </div>
-      </div>
-      
-      <!-- Step 3: Contact & Address -->
-      <div class="form-step" id="step-3">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="phone" class="required">Phone Number</label>
-            <input type="text" id="phone" maxlength="10" required placeholder="Enter 10-digit phone number">
-          </div>
-          <div class="form-group">
-            <label for="altPhone">Alternate Phone</label>
-            <input type="text" id="altPhone" maxlength="10" placeholder="Optional alternate number">
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="whatsapp">WhatsApp Number</label>
-          <input type="text" id="whatsapp" maxlength="10" placeholder="Enter WhatsApp number if different">
-        </div>
-        
-        <div class="form-group">
-          <label for="address" class="required">Full Address</label>
-          <textarea id="address" rows="3" required placeholder="Enter complete address of your center"></textarea>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="city" class="required">City</label>
-            <input type="text" id="city" required placeholder="Enter city">
-          </div>
-          <div class="form-group">
-            <label for="state" class="required">State</label>
-            <input type="text" id="state" required placeholder="Enter state">
-          </div>
-          <div class="form-group">
-            <label for="pincode" class="required">Pincode</label>
-            <input type="text" id="pincode" maxlength="6" required placeholder="6-digit pincode">
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="mapUrl">Google Maps Location URL</label>
-          <input type="url" id="mapUrl" placeholder="Paste Google Maps link to your location">
-        </div>
-        
-        <div class="button-group">
-          <button type="button" class="btn btn-secondary" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Previous</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
-        </div>
-      </div>
-      
-      <!-- Step 4: Documents & Services -->
-      <div class="form-step" id="step-4">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="gstNumber">GST Number</label>
-            <input type="text" id="gstNumber" placeholder="Enter GST number if available">
-          </div>
-          <div class="form-group">
-            <label for="homeSample">Home Sample Collection</label>
-            <select id="homeSample">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fromTime">Opening Time</label>
-            <input type="time" id="fromTime">
-          </div>
-          <div class="form-group">
-            <label for="toTime">Closing Time</label>
-            <input type="time" id="toTime">
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="services">Services Offered</label>
-          <input type="text" id="services" placeholder="e.g., Blood Test, X-Ray, MRI (type and press Enter)">
-          <div class="services-tags" id="servicesTags"></div>
-        </div>
-        
-        <div class="form-group">
-          <label>Upload Documents</label>
-          <div class="file-upload-wrapper">
-            <label class="file-upload-label" for="panAadharJpeg">
-              <i class="fas fa-id-card"></i>
-              <span>PAN/Aadhaar Document</span>
-              <small>JPEG or PNG (Max 2MB)</small>
-              <input type="file" id="panAadharJpeg" class="file-upload-input" accept="image/jpeg,image/png">
-            </label>
-          </div>
-          <div class="file-preview" id="panAadharPreview"></div>
-        </div>
-        
-        <div class="form-group">
-          <div class="file-upload-wrapper">
-            <label class="file-upload-label" for="licenseCopyJpeg">
-              <i class="fas fa-file-alt"></i>
-              <span>License Copy</span>
-              <small>JPEG or PNG (Max 2MB)</small>
-              <input type="file" id="licenseCopyJpeg" class="file-upload-input" accept="image/jpeg,image/png">
-            </label>
-          </div>
-          <div class="file-preview" id="licensePreview"></div>
-        </div>
-        
-        <div class="button-group">
-          <button type="button" class="btn btn-secondary" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Previous</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next <i class="fas fa-arrow-right"></i></button>
-        </div>
-      </div>
-      
-      <!-- Step 5: Bank Details -->
-      <div class="form-step" id="step-5">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="accountHolderName" class="required">Account Holder Name</label>
-            <input type="text" id="accountHolderName" required placeholder="As per bank records">
-          </div>
-          <div class="form-group">
-            <label for="bankName" class="required">Bank Name</label>
-            <input type="text" id="bankName" required placeholder="Name of your bank">
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="accountNumber" class="required">Account Number</label>
-            <input type="text" id="accountNumber" required placeholder="Your bank account number">
-          </div>
-          <div class="form-group">
-            <label for="ifscCode" class="required">IFSC Code</label>
-            <input type="text" id="ifscCode" required placeholder="Bank branch IFSC code">
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="upiId">UPI ID</label>
-            <input type="text" id="upiId" placeholder="Your UPI ID for payments">
-          </div>
-          <div class="form-group">
-            <label for="upiQrCodeJpeg">UPI QR Code</label>
-            <div class="file-upload-wrapper">
-              <label class="file-upload-label" for="upiQrCodeJpeg">
-                <i class="fas fa-qrcode"></i>
-                <span>Upload UPI QR Code</span>
-                <small>JPEG or PNG (Max 2MB)</small>
-                <input type="file" id="upiQrCodeJpeg" class="file-upload-input" accept="image/jpeg,image/png">
-              </label>
+<!-- Main Content Area -->
+<div style="display: flex; flex-wrap: wrap; min-height: 80vh; padding: 20px; gap: 20px; background-color: #f0f2f5;">
+
+    <!-- Left Sidebar: Diagnostic Centers -->
+    <div id="diagnostics-sidebar" style="flex: 0 0 400px; background-color: #ffffff; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 10px;">
+        <div id="diagnostic-filters" style="margin-bottom: 20px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                <select id="country-filter" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;"><option value="India">India</option></select>
+                <select id="state-filter" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;"><option value="">State</option></select>
+                <input type="text" id="pincode-search" placeholder="Zip Code" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
             </div>
-            <div class="file-preview" id="upiQrPreview"></div>
-          </div>
+            <div style="position: relative;">
+                <input type="text" id="name-search" placeholder="Search by name" style="width: 100%; padding: 8px 30px 8px 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box;">
+                <i class="fas fa-search" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+            </div>
         </div>
+        <div id="diagnostic-centers-list" style="height: 65vh; overflow-y: auto;">Loading centers...</div>
+    </div>
+
+    <!-- Right Column: Tests -->
+    <div id="tests-main" style="flex: 1; min-width: 300px; background-color: #ffffff; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-radius: 10px;">
+        <div id="test-filters" style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
+            <select id="test-category-filter" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="">All Categories</option>
+            </select>
+            <select id="price-sort-filter" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="">Sort By</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="discount_desc">Discount: High to Low</option>
+            </select>
+            <input type="text" id="test-name-search" placeholder="Search test..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            <button id="test-filter-btn" style="padding: 8px 15px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">Search</button>
+        </div>
+        <div id="test-list" style="display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 15px; height: 70vh; overflow-y: auto;">
+            <p>Please select a diagnostic center to view its tests.</p>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const centersContainer = document.getElementById("diagnostic-centers-list");
+        const testsContainer = document.getElementById("test-list");
         
-        <div class="button-group">
-          <button type="button" class="btn btn-secondary" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Previous</button>
-          <button type="submit" class="btn btn-success"><i class="fas fa-check-circle"></i> Submit Registration</button>
-        </div>
-      </div>
-    </form>
-  </div>
+        // Diagnostic Filter elements
+        const nameSearch = document.getElementById('name-search');
+        const stateFilter = document.getElementById('state-filter');
+        const pincodeSearch = document.getElementById('pincode-search');
+        
+        // Test Filter elements
+        const testCategoryFilter = document.getElementById('test-category-filter');
+        const priceSortFilter = document.getElementById('price-sort-filter');
+        const testNameSearch = document.getElementById('test-name-search');
+        const testFilterBtn = document.getElementById('test-filter-btn');
 
-  <script>
-    const baseUrl = 'https://hitaishihealthcare.com/api/diagnostics';
-    let servicesList = [];
-    let uploadedFiles = {
-      panAadhar: null,
-      license: null,
-      upiQr: null
-    };
+        let allCenters = [];
+        let currentTests = [];
+        let activeCenterCard = null;
 
-    // Initialize form
-    document.addEventListener('DOMContentLoaded', function() {
-      // Setup file uploads
-      setupFileUpload('panAadharJpeg', 'panAadharPreview', 'panAadhar');
-      setupFileUpload('licenseCopyJpeg', 'licensePreview', 'license');
-      setupFileUpload('upiQrCodeJpeg', 'upiQrPreview', 'upiQr');
-      
-      // Setup services tags
-      document.getElementById('services').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const service = this.value.trim();
-          if (service && !servicesList.includes(service)) {
-            servicesList.push(service);
-            updateServicesTags();
-            this.value = '';
-          }
+        // Fetch Diagnostic Centers
+        fetch('https://www.hitaishihealthcare.com/api/diagnostics/all')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success || !data.users.length) {
+                    centersContainer.innerHTML = '<p>No diagnostic centers found.</p>';
+                    return;
+                }
+                allCenters = data.users;
+                initializeFilters(allCenters);
+                renderCenters(allCenters);
+            })
+            .catch(error => {
+                centersContainer.innerHTML = '<p>Failed to load diagnostic centers.</p>';
+                console.error("Error fetching centers:", error);
+            });
+
+        function initializeFilters(centers) {
+            const states = [...new Set(centers.map(c => c.state).filter(Boolean))].sort();
+            states.forEach(state => stateFilter.add(new Option(state, state)));
         }
-      });
-    });
+        
+        function renderCenters(centers) {
+            centersContainer.innerHTML = '';
+            if (centers.length === 0) {
+                centersContainer.innerHTML = '<p>No centers match filters.</p>';
+                return;
+            }
+            centers.forEach(center => {
+                const card = document.createElement('div');
+                card.dataset.centerId = center.center_id;
+                card.dataset.centerName = center.center_name;
+                card.setAttribute('style', `padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer; transition: all 0.2s;`);
+                card.innerHTML = `<h4 style="margin: 0 0 5px;">${center.center_name}</h4><p style="margin: 0; font-size: 14px; color: #555;">${center.address || 'Address not available'}</p>`;
+                
+                card.addEventListener('click', () => {
+                    if (activeCenterCard) {
+                        activeCenterCard.style.backgroundColor = 'transparent';
+                    }
+                    card.style.backgroundColor = '#e9f5ff';
+                    activeCenterCard = card;
+                    fetchAndDisplayTests(center.center_id, center.center_name);
+                });
+                
+                centersContainer.appendChild(card);
+            });
+        }
 
-    function setupFileUpload(inputId, previewId, fileKey) {
-      const input = document.getElementById(inputId);
-      const preview = document.getElementById(previewId);
-      
-      input.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-          if (file.size > 2 * 1024 * 1024) {
-            showAlert('File size should be less than 2MB', 'error');
-            return;
-          }
-          
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            uploadedFiles[fileKey] = {
-              name: file.name,
-              data: event.target.result
-            };
+        function applyCenterFilters() {
+            const nameQuery = nameSearch.value.toLowerCase();
+            const stateQuery = stateFilter.value;
+            const pincodeQuery = pincodeSearch.value;
+
+            const filtered = allCenters.filter(center => {
+                const nameMatch = !nameQuery || (center.center_name && center.center_name.toLowerCase().includes(nameQuery));
+                const stateMatch = !stateQuery || (center.state && center.state === stateQuery);
+                const pincodeMatch = !pincodeQuery || (center.pincode && center.pincode.includes(pincodeQuery));
+                return nameMatch && stateMatch && pincodeMatch;
+            });
+            renderCenters(filtered);
+        }
+
+        nameSearch.addEventListener('input', applyCenterFilters);
+        stateFilter.addEventListener('change', applyCenterFilters);
+        pincodeSearch.addEventListener('input', applyCenterFilters);
+
+        function fetchAndDisplayTests(centerId, centerName) {
+            testsContainer.innerHTML = '<p>Loading tests...</p>';
+            fetch(`https://www.hitaishihealthcare.com/api/test/center/${centerId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success || !data.tests.length) {
+                        testsContainer.innerHTML = '<p>No tests available for this center.</p>';
+                        currentTests = [];
+                        populateTestFilters([]);
+                        return;
+                    }
+                    currentTests = data.tests;
+                    populateTestFilters(currentTests);
+                    applyTestFilters(); // Apply initial filters/sorting
+                })
+                .catch(error => {
+                    testsContainer.innerHTML = '<p>Failed to load tests.</p>';
+                    console.error(`Error fetching tests for center ${centerId}:`, error);
+                });
+        }
+
+        function populateTestFilters(tests) {
+            testCategoryFilter.innerHTML = '<option value="">All Categories</option>';
+            const categories = [...new Set(tests.map(t => t.category).filter(Boolean))].sort();
+            categories.forEach(cat => testCategoryFilter.add(new Option(cat, cat)));
+        }
+
+        function renderTests(tests) {
+            testsContainer.innerHTML = '';
+            if (tests.length === 0) {
+                testsContainer.innerHTML = '<p>No tests match the current filters.</p>';
+                return;
+            }
+            tests.forEach(test => {
+                const original = test.price;
+                const final = test.final_price;
+                const percentOff = original > 0 ? Math.round((original - final) / original * 100) : 0;
+                const card = document.createElement('div');
+                card.setAttribute('style', `
+                    background-image: url('${test.test_image || "https://placehold.co/180x100/222/fff?text=Test"}');
+                    background-size: cover; background-position: center; border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); padding: 10px; width: 180px;
+                    height: 180px; display: flex; flex-direction: column; justify-content: flex-end;
+                    color: #fff; position: relative; overflow: hidden; background-color: #222;
+                `);
+                card.innerHTML = `
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0)); z-index: 0;"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <h5 style="margin: 0 0 4px; color: #fff; font-size: 13px; font-weight: bold;">${test.test_name}</h5>
+                        <p style="margin: 2px 0; font-size: 11px; color: #ffaaaa; text-decoration: line-through;">₹${original}</p>
+                        <p style="margin: 2px 0; font-size: 12px; color: #ddd;">
+                            <strong>Price:</strong> ₹${final} 
+                            <span style="color: #ffcc00; font-weight: bold;">(${percentOff}% OFF)</span>
+                        </p>
+                        <a href="newPayment.html?test=${encodeURIComponent(test.test_name)}&price=${final}&id=${test.test_id}&center=${encodeURIComponent(test.center_name)}&centerId=${test.center_id}"
+                            style="margin-top: 6px; background-color: #28a745; color: white; text-align: center; padding: 5px; border-radius: 5px; text-decoration: none; display: block; font-size: 12px;">
+                            Book Now
+                        </a>
+                    </div>`;
+                testsContainer.appendChild(card);
+            });
+        }
+
+        function applyTestFilters() {
+            const categoryQuery = testCategoryFilter.value;
+            const nameQuery = testNameSearch.value.toLowerCase();
+            const sortQuery = priceSortFilter.value;
+
+            let filtered = [...currentTests].filter(test => {
+                const categoryMatch = !categoryQuery || (test.category && test.category === categoryQuery);
+                const nameMatch = !nameQuery || (test.test_name && test.test_name.toLowerCase().includes(nameQuery));
+                return categoryMatch && nameMatch;
+            });
+
+            if (sortQuery === 'price_asc') {
+                filtered.sort((a, b) => a.final_price - b.final_price);
+            } else if (sortQuery === 'price_desc') {
+                filtered.sort((a, b) => b.final_price - a.final_price);
+            } else if (sortQuery === 'discount_desc') {
+                filtered.sort((a, b) => {
+                    const discountA = a.price > 0 ? ((a.price - a.final_price) / a.price) : 0;
+                    const discountB = b.price > 0 ? ((b.price - b.final_price) / b.price) : 0;
+                    return discountB - discountA;
+                });
+            }
             
-            preview.innerHTML = `
-              <div class="file-preview-item">
-                <img src="${event.target.result}" alt="${file.name}">
-                <div class="remove-file" onclick="removeFile('${fileKey}')">&times;</div>
-              </div>
-            `;
-          };
-          reader.readAsDataURL(file);
+            renderTests(filtered);
         }
-      });
-    }
-    
-    function removeFile(fileKey) {
-      uploadedFiles[fileKey] = null;
-      document.getElementById(`${fileKey}Preview`).innerHTML = '';
-      document.getElementById(`${fileKey}Jpeg`).value = '';
-    }
-    
-    function updateServicesTags() {
-      const container = document.getElementById('servicesTags');
-      container.innerHTML = servicesList.map(service => `
-        <div class="tag">
-          ${service}
-          <span class="tag-remove" onclick="removeService('${service}')">&times;</span>
-        </div>
-      `).join('');
-    }
-    
-    function removeService(service) {
-      servicesList = servicesList.filter(s => s !== service);
-      updateServicesTags();
-    }
-    
-    function showAlert(message, type) {
-      const alert = document.getElementById(`${type}Alert`);
-      alert.textContent = message;
-      alert.style.display = 'block';
-      
-      setTimeout(() => {
-        alert.style.display = 'none';
-      }, 5000);
-    }
-    
-    function nextStep(step) {
-      // Validate current step before proceeding
-      if (!validateStep(step - 1)) {
-        return;
-      }
-      
-      // Hide current step
-      document.querySelector(`.form-step.active`).classList.remove('active');
-      document.querySelector(`.progress-step[data-step="${step - 1}"]`).classList.remove('active');
-      
-      // Show next step
-      document.getElementById(`step-${step}`).classList.add('active');
-      document.querySelector(`.progress-step[data-step="${step}"]`).classList.add('active');
-      
-      // Mark previous step as completed
-      document.querySelector(`.progress-step[data-step="${step - 1}"]`).classList.add('completed');
-      
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    function prevStep(step) {
-      // Hide current step
-      document.querySelector(`.form-step.active`).classList.remove('active');
-      document.querySelector(`.progress-step[data-step="${step + 1}"]`).classList.remove('active');
-      
-      // Show previous step
-      document.getElementById(`step-${step}`).classList.add('active');
-      document.querySelector(`.progress-step[data-step="${step}"]`).classList.add('active');
-      
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    function validateStep(step) {
-      // Step 1 validation
-      if (step === 1) {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        if (!email || !isValidEmail(email)) {
-          showAlert('Please enter a valid email address', 'error');
-          return false;
-        }
-        
-        if (!password || password.length < 8) {
-          showAlert('Password must be at least 8 characters long', 'error');
-          return false;
-        }
-        
-        if (!document.getElementById('otpField').style.display === 'block') {
-          showAlert('Please verify your email with OTP first', 'error');
-          return false;
-        }
-      }
-      
-      // Step 2 validation
-      if (step === 2) {
-        const centerName = document.getElementById('centerName').value;
-        const ownerName = document.getElementById('ownerName').value;
-        const centerType = document.getElementById('centerType').value;
-        const regNumber = document.getElementById('registrationNumber').value;
-        
-        if (!centerName || !ownerName || !centerType || !regNumber) {
-          showAlert('Please fill all required fields', 'error');
-          return false;
-        }
-      }
-      
-      // Add validation for other steps as needed
-      
-      return true;
-    }
-    
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-    
-    async function sendOtp() {
-      const email = document.getElementById('email').value;
-      
-      if (!email || !isValidEmail(email)) {
-        showAlert('Please enter a valid email address', 'error');
-        return;
-      }
-      
-      try {
-        const res = await fetch(`${baseUrl}/send-otp`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
+
+        testFilterBtn.addEventListener('click', applyTestFilters);
+        priceSortFilter.addEventListener('change', applyTestFilters);
+        testCategoryFilter.addEventListener('change', applyTestFilters);
+        testNameSearch.addEventListener('input', () => { // Live search for tests
+             setTimeout(applyTestFilters, 300);
         });
-        
-        const data = await res.json();
-        
-        if (res.ok) {
-          showAlert(data.message || 'OTP sent to your email', 'success');
-          document.getElementById('otpField').style.display = 'block';
-        } else {
-          showAlert(data.error || 'Failed to send OTP', 'error');
-        }
-      } catch (error) {
-        showAlert('Network error. Please try again.', 'error');
-      }
-    }
-    
-    async function verifyOtp() {
-      const email = document.getElementById('email').value;
-      const otp = document.getElementById('otp').value;
-      
-      if (!email || !otp || otp.length !== 6) {
-        showAlert('Please enter a valid 6-digit OTP', 'error');
-        return;
-      }
-      
-      try {
-        const res = await fetch(`${baseUrl}/verify-otp`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, otp })
-        });
-        
-        const data = await res.json();
-        
-        if (res.ok) {
-          showAlert(data.message || 'Email verified successfully', 'success');
-        } else {
-          showAlert(data.error || 'Invalid OTP. Please try again.', 'error');
-        }
-      } catch (error) {
-        showAlert('Network error. Please try again.', 'error');
-      }
-    }
-    
-    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      if (!validateStep(5)) {
-        return;
-      }
-      
-      const formData = {
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        centerName: document.getElementById('centerName').value,
-        ownerName: document.getElementById('ownerName').value,
-        centerType: document.getElementById('centerType').value,
-        phone: document.getElementById('phone').value,
-        altPhone: document.getElementById('altPhone').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value,
-        state: document.getElementById('state').value,
-        pincode: document.getElementById('pincode').value,
-        mapUrl: document.getElementById('mapUrl').value,
-        registrationNumber: document.getElementById('registrationNumber').value,
-        gstNumber: document.getElementById('gstNumber').value,
-        panAadharJpeg: uploadedFiles.panAadhar ? uploadedFiles.panAadhar.data : null,
-        licenseCopyJpeg: uploadedFiles.license ? uploadedFiles.license.data : null,
-        services: servicesList,
-        homeSample: document.getElementById('homeSample').value,
-        operationalHours: document.getElementById('fromTime').value + " - " + document.getElementById('toTime').value,
-        accountHolderName: document.getElementById('accountHolderName').value,
-        bankName: document.getElementById('bankName').value,
-        accountNumber: document.getElementById('accountNumber').value,
-        ifscCode: document.getElementById('ifscCode').value,
-        upiId: document.getElementById('upiId').value,
-        upiQrCodeJpeg: uploadedFiles.upiQr ? uploadedFiles.upiQr.data : null
-      };
-      
-      try {
-        const res = await fetch(`${baseUrl}/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        
-        const result = await res.json();
-        
-        if (res.ok) {
-          showAlert('Registration successful! Our team will contact you shortly.', 'success');
-          window.location.href = 'login.html'
-          document.getElementById('registrationForm').reset();
-          servicesList = [];
-          uploadedFiles = { panAadhar: null, license: null, upiQr: null };
-          document.querySelectorAll('.file-preview').forEach(el => el.innerHTML = '');
-          document.getElementById('servicesTags').innerHTML = '';
-          
-          // Reset to first step
-          document.querySelector('.form-step.active').classList.remove('active');
-          document.getElementById('step-1').classList.add('active');
-          document.querySelectorAll('.progress-step').forEach(el => {
-            el.classList.remove('active', 'completed');
-          });
-          document.querySelector('.progress-step[data-step="1"]').classList.add('active');
-        } else {
-          showAlert(result.error || 'Registration failed. Please try again.', 'error');
-        }
-      } catch (error) {
-        showAlert('Network error. Please try again.', 'error');
-      }
+
     });
-  </script>
+</script>
+
+
+    <!-- footer -->
+    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; ">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Quick Links</h3>
+                <a href="Diagnostics.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Diagnostics</a>
+                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Test's</a>
+                <a href="doctor.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Doctor</a>
+                <a href="Dental.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find A Tooth Expert</a>
+                <a href="Eyecare.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Eye Care</a>
+                <a href="donations.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Organ Donors</a>
+            </div>
+            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Services</h3>
+                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
+                <a href="blood.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blood Donations</a>
+                <a href="healthRecords.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">health Reports</a>
+                <a href="fertility.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Fertility</a>
+                <a href="Cancer.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Cancer Care</a>
+            </div>
+            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
+                <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
+                <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
+            </div>
+            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
+                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
+            </div>
+            
+            <div style="flex: 1; min-width: 200px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@hitaishihealth.com</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                    <i class="fas fa-phone"></i>
+                    <span>8790170525</span>
+                </div>
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
+                <div>
+                    <a href="https://www.instagram.com/optic.bee/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/share/1CC3vxsppD/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-twitter"></i> </a>
+                    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-linkedin"></i> </a>
+                    <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-youtube"></i> </a>
+
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
+            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
+            <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
+            <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
+            <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
+        </div>
+    </footer>
+
+<!-- Placeholder where chatbot will be inserted -->
+<div id="chatbot-placeholder"></div>
+
+<!-- JS to load the chatbot -->
+<script>
+    fetch('chatbot.html')
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById('chatbot-placeholder');
+        container.innerHTML = html;
+
+        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+        // ✅ So, we must find and re-run those <script> blocks manually:
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(script => {
+          const newScript = document.createElement("script");
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          document.body.appendChild(newScript);
+        });
+      });
+</script>
+
+
 </body>
 </html>
+
