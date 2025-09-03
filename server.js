@@ -44,6 +44,32 @@ app.use(require('express-session')({
   }
 }));
 
+// websocket implementation
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*" } });
+
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+
+  socket.on('join-room', ({ roomId, userId }) => {
+    socket.join(roomId);
+    socket.to(roomId).emit('peer-joined', { socketId: socket.id, userId });
+  });
+
+
+  socket.on('signal', ({ to, payload }) => {
+    io.to(to).emit('signal', { from: socket.id, payload });
+  });
+
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+// websocket ends
+
 // =================================================================
 // ✅ FIXED: Pass the 'app' object to the translate routes
 // =================================================================

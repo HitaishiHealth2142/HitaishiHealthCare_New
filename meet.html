@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+const localVideo = document.getElementById('localVideo');
+const remoteVideo = document.getElementById('remoteVideo');
+const leaveBtn = document.getElementById('leaveBtn');
+
+
+const doctorUid = new URLSearchParams(window.location.search).get('doctorUid');
+const patientUid = new URLSearchParams(window.location.search).get('patientUid');
+const roomId = doctorUid + patientUid;
+const userId = localStorage.getItem('doctorUid') || localStorage.getItem('uniqueId');
+
+
+let pc;
+let localStream;
+let peerSocketId;
+
+
+const ICE_CONFIG = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+
+async function startCall() {
+localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+localVideo.srcObject = localStream;
+
+
+pc = new RTCPeerConnection(ICE_CONFIG);
+localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+
+const remoteStream = new MediaStream();
+remoteVideo.srcObject = remoteStream;
+
+
+pc.ontrack = (e) => e.streams[0].getTracks().forEach(t => remoteStream.addTrack(t));
+pc.onicecandidate = (e) => {
+if (e.candidate) socket.emit('signal', { to: peerSocketId, payload: { type:'candidate', candidate:e.candidate } });
+};
+
+
+socket.emit('join-room', { roomId, userId });
+}
+
+
+socket.on('peer-joined', async ({ socketId }) => {
+peerSocketId = socketId;
+const offer = await pc.createOffer();
+await pc.setLocalDescription(offer);
+socket.emit('signal', { to: peerSocketId, payload: pc.localDescription });
+});
+
+
+socket.on('signal', async ({ from, payload }) => {
+peerSocketId = from;
+if (payload.type === 'offer') {
+await pc.setRemoteDescription(new RTCSessionDescription(payload));
+const answer = await pc.createAnswer();
+await pc.setLocalDescription(answer);
+socket.emit('signal', { to: from, payload: pc.localDescription });
+} else if (payload.type === 'answer') {
+await pc.setRemoteDescription(new RTCSessionDescription(payload));
+} else if (payload.type === 'candidate') {
+await pc.addIceCandidate(payload.candidate);
+}
+});
+
+
+leaveBtn.onclick = () => {
+pc.close();
+localStream.getTracks().forEach(t => t.stop());
+window.location.href = '/';
+};
+
+
+startCall();
+</script>
+</body>
+</html>

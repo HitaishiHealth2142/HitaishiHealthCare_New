@@ -801,7 +801,7 @@
     </main>
 
 
-    <!-- Search -->
+    <!-- Search for doctors and diagnostics -->
     <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8" style="font-family: 'Inter', sans-serif;">
         <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg p-6">
             <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Find Healthcare Providers</h2>
@@ -1028,8 +1028,8 @@
                     if (provider.type === 'doctor') {
                         window.location.href = `doctors.html?id=${provider.id}`;
                     } else if (provider.type === 'diagnostic') {
-                        // STEP 1: FIX - Replaced placeholder '{centerId}' with the actual provider ID.
-                        window.location.href = `diagnostics.html?id=${provider.id}`;
+                        // MODIFIED: Redirect to DiagnosticsAppointments.html with the center's ID
+                        window.location.href = `DiagnosticsAppointments.html?id=${provider.id}`;
                     }
                 });
                 
