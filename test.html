@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Qualified Doctors</title>
+</head>
+<body>
+    <!-- our qualified doctor -->
+    <section id="doctors-section" style="padding: 40px 20px; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50; font-size: 38px; font-weight: bolder;">Our Qualified Doctors</h2>
+        
+        <div id="doctors-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+            <!-- Doctors will be populated here by the script -->
+        </div>
+
+        <div id="loading-message" style="text-align: center; padding: 30px; color: #666; font-size: 18px;">
+            Loading doctors...
+        </div>
+
+        <div id="error-message" style="text-align: center; padding: 20px; color: #e74c3c; display: none;">
+            <!-- Error messages will be shown here -->
+        </div>
+
+        <div id="login-prompt" style="text-align: center; padding: 20px; background-color: #fff3cd; border: 1px solid #ffeeba; border-radius: 8px; max-width: 600px; margin: 20px auto; color: #856404; display: none;">
+             You must be logged in as a patient to make a call. Please <a href="login.html" style="color: #007bff; text-decoration: underline;">log in</a>.
+        </div>
+
+        <script>
+            // Function to fetch doctors data from your live server
+            function fetchDoctors() {
+                document.getElementById('loading-message').style.display = 'block';
+                fetch('/api/getdoctors') // This is your live API endpoint
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(doctors => {
+                        document.getElementById('loading-message').style.display = 'none';
+                        
+                        if (!doctors || doctors.length === 0) {
+                            const errorDiv = document.getElementById('error-message');
+                            errorDiv.textContent = 'No doctors are available at the moment.';
+                            errorDiv.style.display = 'block';
+                            return;
+                        }
+                        
+                        renderDoctors(doctors);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching doctors:', error);
+                        const errorDiv = document.getElementById('error-message');
+                        errorDiv.textContent = 'Failed to load doctors. Please try again later.';
+                        errorDiv.style.display = 'block';
+                        document.getElementById('loading-message').style.display = 'none';
+                    });
+            }
+
+            // Function to render doctor cards
+            function renderDoctors(doctors) {
+                const container = document.getElementById('doctors-container');
+                container.innerHTML = ''; // Clear previous content
+                
+                doctors.forEach(doctor => {
+                    const card = document.createElement('div');
+                    card.style.cssText = `
+                        background: white;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                        padding: 20px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    `;
+                    
+                    card.innerHTML = `
+                    <div>
+                        <div style="width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #7f8c8d; font-weight: bold;">
+                            ${doctor.first_name ? doctor.first_name.charAt(0) : 'D'}${doctor.last_name ? doctor.last_name.charAt(0) : ''}
+                        </div>
+                        <h3 style="margin: 10px 0 5px; color: #2c3e50;">Dr. ${doctor.first_name || ''} ${doctor.last_name || ''}</h3>
+                        <p style="color: #3498db; font-weight: 600; margin: 5px 0;">${doctor.specialization || 'General Practitioner'}</p>
+                        <p style="color: #7f8c8d; margin: 5px 0;">${doctor.experience || '0'} years of experience</p>
+                        <p style="color: #7f8c8d; margin: 5px 0; font-size: 14px;">${doctor.clinic || 'Medical Center'}</p>
+                    </div>
+                    <button class="video-call-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; transition: background-color 0.3s; align-self: center; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M15.6 11.6L22 7v10l-6.4-4.6v-1.8zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"></path></svg>
+                        Call
+                    </button>
+                    `;
+                    
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-5px)';
+                        card.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                        card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                    });
+                    
+                    // --- UPDATED & MORE ROBUST CLICK EVENT ---
+                    const videoBtn = card.querySelector('.video-call-btn');
+                    videoBtn.addEventListener('click', () => {
+                        document.getElementById('login-prompt').style.display = 'none';
+                        document.getElementById('error-message').style.display = 'none';
+
+                        const patientUserString = localStorage.getItem('patientUser') || sessionStorage.getItem('patientUser');
+
+                        if (!patientUserString) {
+                            console.warn("Patient login data not found in localStorage or sessionStorage.");
+                            document.getElementById('login-prompt').style.display = 'block';
+                            return;
+                        }
+                        
+                        try {
+                            let patientData;
+                            const correctedJsonString = patientUserString.replace(/'/g, '"');
+                            patientData = JSON.parse(correctedJsonString);
+
+                            if (typeof patientData === 'string') {
+                                patientData = JSON.parse(patientData);
+                            }
+
+                            // --- FIX: Changed unique_id to uniqueId ---
+                            const patientId = patientData.uniqueId; 
+
+                            if (!patientId) { 
+                                throw new Error("Patient 'uniqueId' not found in the stored user data.");
+                            }
+
+                            const roomId = `${doctor.uid}${patientId}`;
+                            console.log(`Redirecting to private room: ${roomId}`);
+                            window.location.href = `meet.html?roomId=${roomId}`;
+
+                        } catch (error) {
+                            console.error("Error parsing user data or creating room link:", error);
+                            const errorDiv = document.getElementById('error-message');
+                            errorDiv.textContent = 'Your session data seems corrupted. Please log out and log in again.';
+                            errorDiv.style.display = 'block';
+                        }
+                    });
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            document.addEventListener('DOMContentLoaded', fetchDoctors);
+        </script>
+        
+    </section>
+
+
+</body>
+</html>
+
