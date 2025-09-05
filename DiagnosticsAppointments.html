@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <style>
         /* Custom scrollbar for better aesthetics */
         .custom-scrollbar::-webkit-scrollbar {
@@ -17,6 +15,7 @@
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: #f1f1f1;
+            border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #888;
@@ -25,10 +24,56 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        /* Set body and main to flex for full height layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafc;
+        }
+        main {
+            flex-grow: 1;
+        }
+        /* Main responsive container */
+        .responsive-container {
+            display: flex;
+            height: 100vh;
+            padding: 20px;
+            gap: 20px;
+        }
+        .left-panel, .right-panel {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 40px); /* Fill the available height */
+        }
+        .left-panel {
+            width: 40%;
+            flex-shrink: 0; /* Prevent from shrinking */
+        }
+        .right-panel {
+            width: 60%;
+            flex-shrink: 0;
+        }
+        @media (max-width: 1024px) {
+            .responsive-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+                height: auto;
+                max-height: 50vh; /* Set a max-height for scrolling */
+            }
+        }
     </style>
 </head>
 <body style="margin: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f9fafc;">
-    
+
 
     <!-- Navbar Code -->
     <nav style="width: 100%;">
@@ -178,18 +223,18 @@
                 <div id="languageMenu" 
                     style="display:none; position:absolute; top:40px; right:auto; background:#fff; border-radius:6px;
                             box-shadow:0 4px 10px rgba(0,0,0,0.15); min-width:160px; z-index:2000; max-height: 300px; overflow-y: auto;">
-                    <div onclick="setLanguage('en','English',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">English</div>
-                    <div onclick="setLanguage('hi','हिंदी',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">हिंदी</div>
-                    <div onclick="setLanguage('te','తెలుగు',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">తెలుగు</div>
-                    <div onclick="setLanguage('ta','தமிழ்',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">தமிழ்</div>
-                    <div onclick="setLanguage('kn','ಕನ್ನಡ',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">ಕನ್ನಡ</div>
-                    <div onclick="setLanguage('ml','മലയാളം',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">മലയാളം</div>
-                    <div onclick="setLanguage('mr','मराठी',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">मराठी</div>
-                    <div onclick="setLanguage('gu','ગુજરાતી',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">ગુજરાતી</div>
-                    <div onclick="setLanguage('bn','বাংলা',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">বাংলা</div>
-                    <div onclick="setLanguage('ur','اردو',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">اردو</div>
-                    <div onclick="setLanguage('fr','Français',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">Français</div>
-                    <div onclick="setLanguage('de','Deutsch',event)" style="padding:8px 12px; cursor:pointer; hover:background:#f0f0f0;">Deutsch</div>
+                    <div onclick="setLanguage('en','English',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">English</div>
+                    <div onclick="setLanguage('hi','हिंदी',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">हिंदी</div>
+                    <div onclick="setLanguage('te','తెలుగు',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">తెలుగు</div>
+                    <div onclick="setLanguage('ta','தமிழ்',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">தமிழ்</div>
+                    <div onclick="setLanguage('kn','ಕನ್ನಡ',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">ಕನ್ನಡ</div>
+                    <div onclick="setLanguage('ml','മലയാളം',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">മലയാളം</div>
+                    <div onclick="setLanguage('mr','मराठी',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">मराठी</div>
+                    <div onclick="setLanguage('gu','ગુજરાતી',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">ગુજરાતી</div>
+                    <div onclick="setLanguage('bn','বাংলা',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">বাংলা</div>
+                    <div onclick="setLanguage('ur','اردو',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">اردو</div>
+                    <div onclick="setLanguage('fr','Français',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">Français</div>
+                    <div onclick="setLanguage('de','Deutsch',event)" style="padding:8px 12px; cursor:pointer;" onmouseover="this.style.background='#f0f0f0';"  onmouseout="this.style.background='#fff';">Deutsch</div>
                 </div>
 
                 <a href="https://www.facebook.com/share/1CC3vxsppD/" class="active-nav-link" target="_blank" style="color: white; font-size: 18px; padding: 2px 5px;"><i class="fab fa-facebook"></i></a>
@@ -785,17 +830,20 @@
 
     </nav>
     <!-- Navbar End -->
-
-
+    
     <!-- Main Content Area -->
-    <main class="flex flex-col lg:flex-row min-h-[calc(100vh-160px)] p-4 sm:p-6 gap-6 bg-gray-50">
+    <main class="responsive-container">
         <!-- Left Sidebar: Diagnostic Centers -->
-        <aside class="w-full lg:w-1/3 xl:w-1/4 bg-white p-4 sm:p-6 rounded-lg shadow-sm flex flex-col">
+        <aside class="left-panel p-4 sm:p-6">
             <h3 class="text-xl font-bold text-gray-800 mb-4">Find a Center</h3>
             <div id="diagnostic-filters" class="space-y-4 mb-4">
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <select id="country-filter" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"><option value="India">India</option></select>
-                    <select id="state-filter" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"><option value="">All States</option></select>
+                    <select id="country-filter" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
+                        <!-- Countries will be injected here -->
+                    </select>
+                    <select id="state-filter" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
+                        <option value="">All States</option>
+                    </select>
                     <input type="text" id="pincode-search" placeholder="Zip Code" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
                 </div>
                 <div class="relative">
@@ -803,13 +851,15 @@
                     <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 </div>
             </div>
+            <!-- This div is set to be scrollable along the Y-axis -->
             <div id="diagnostic-centers-list" class="flex-1 overflow-y-auto custom-scrollbar pr-2 -mr-2">
                 <!-- Center cards will be injected here -->
             </div>
         </aside>
 
-        <!-- Right Column: Tests -->
-        <section class="flex-1 bg-white p-4 sm:p-6 rounded-lg shadow-sm flex flex-col">
+        <!-- Right Column: Tests & AI -->
+        <section class="right-panel p-4 sm:p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Available Tests</h3>
              <div id="test-filters" class="flex flex-col sm:flex-row items-center gap-3 mb-4 border-b border-gray-200 pb-4">
                 <select id="test-category-filter" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
                     <option value="">All Categories</option>
@@ -825,18 +875,38 @@
                     <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 </div>
             </div>
+            <!-- This div is also set to be scrollable along the Y-axis -->
             <div id="test-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 flex-1 overflow-y-auto custom-scrollbar items-start">
                  <!-- Test cards will be injected here -->
             </div>
+
+            <!-- AI Test Suggestion Section -->
+            <div class="mt-8 p-6 bg-gray-100 rounded-lg shadow-inner">
+                <h4 class="text-lg font-bold text-gray-800 mb-4">Get a Test Suggestion from AI</h4>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <textarea id="symptom-input" class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Describe your symptoms..."></textarea>
+                    <button id="suggest-test-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Suggest Test</button>
+                </div>
+                <div id="ai-suggestion-output" class="mt-4 p-4 bg-white rounded-lg border border-gray-200 hidden">
+                    <p class="text-sm text-gray-700 font-semibold mb-2">Recommended Test(s):</p>
+                    <div id="ai-suggestion-text" class="text-gray-900 text-base"></div>
+                    <div id="loading-spinner" class="hidden flex justify-center items-center py-4">
+                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            const GOOGLE_MAPS_API_KEY = "AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg";
+            const GEMINI_API_KEY = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
+
             const centersContainer = document.getElementById("diagnostic-centers-list");
             const testsContainer = document.getElementById("test-list");
             
             const nameSearch = document.getElementById('name-search');
+            const countryFilter = document.getElementById('country-filter');
             const stateFilter = document.getElementById('state-filter');
             const pincodeSearch = document.getElementById('pincode-search');
             
@@ -844,13 +914,39 @@
             const priceSortFilter = document.getElementById('price-sort-filter');
             const testNameSearch = document.getElementById('test-name-search');
 
+            const symptomInput = document.getElementById('symptom-input');
+            const suggestBtn = document.getElementById('suggest-test-btn');
+            const aiOutput = document.getElementById('ai-suggestion-output');
+            const aiText = document.getElementById('ai-suggestion-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
             let allCenters = [];
             let currentTests = [];
             let activeCenterCard = null;
 
+            // Mock data for countries, states, and zip codes to demonstrate differentiation
+            // This is for display purposes, as the actual data comes from the API
+            const countriesData = {
+                'India': { 'states': ['Telangana', 'Maharashtra', 'Karnataka'], 'zip_placeholder': 'e.g., 500001' },
+                'USA': { 'states': ['California', 'Texas', 'New York'], 'zip_placeholder': 'e.g., 90210' },
+                'UK': { 'states': ['London', 'England', 'Scotland'], 'zip_placeholder': 'e.g., SW1A 0AA' }
+            };
+
             const showLoading = (container) => {
                 container.innerHTML = `<div class="flex justify-center items-center h-full"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div></div>`;
             };
+
+            function initializeFilters() {
+                // Populate country dropdown with only "India"
+                countryFilter.innerHTML = '<option value="India">India</option>';
+                pincodeSearch.placeholder = countriesData['India'].zip_placeholder;
+
+                // Populate state dropdown based on the selected country (currently only India)
+                const selectedCountry = countryFilter.value;
+                const states = countriesData[selectedCountry].states;
+                stateFilter.innerHTML = '<option value="">All States</option>';
+                states.forEach(state => stateFilter.add(new Option(state, state)));
+            }
 
             showLoading(centersContainer);
             fetch('https://www.hitaishihealthcare.com/api/diagnostics/all')
@@ -861,7 +957,7 @@
                         return;
                     }
                     allCenters = data.users;
-                    initializeFilters(allCenters);
+                    initializeFilters();
                     renderCenters(allCenters);
                     
                     const urlParams = new URLSearchParams(window.location.search);
@@ -881,11 +977,6 @@
                     console.error("Error fetching centers:", error);
                 });
 
-            function initializeFilters(centers) {
-                const states = [...new Set(centers.map(c => c.state).filter(Boolean))].sort();
-                states.forEach(state => stateFilter.add(new Option(state, state)));
-            }
-            
             function renderCenters(centers) {
                 centersContainer.innerHTML = '';
                 if (centers.length === 0) {
@@ -900,6 +991,7 @@
                     card.innerHTML = `
                         <h4 class="font-semibold text-gray-800 mb-1">${center.center_name}</h4>
                         <p class="text-sm text-gray-600">${center.address || 'Address not available'}</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center.address)}" target="_blank" class="text-blue-500 text-sm hover:underline">View on Map</a>
                     `;
                     
                     card.addEventListener('click', () => {
@@ -932,6 +1024,9 @@
             nameSearch.addEventListener('input', applyCenterFilters);
             stateFilter.addEventListener('change', applyCenterFilters);
             pincodeSearch.addEventListener('input', applyCenterFilters);
+            countryFilter.addEventListener('change', () => {
+                 // For future expansion, this would change state/zip fields
+            });
 
             function fetchAndDisplayTests(centerId) {
                 showLoading(testsContainer);
@@ -1030,6 +1125,48 @@
             testCategoryFilter.addEventListener('change', applyTestFilters);
             testNameSearch.addEventListener('input', debouncedFilter);
 
+            // AI Test Suggestion
+            suggestBtn.addEventListener('click', async () => {
+                const userSymptoms = symptomInput.value.trim();
+                if (!userSymptoms) {
+                    aiText.textContent = "Please enter your symptoms.";
+                    aiOutput.classList.remove('hidden');
+                    return;
+                }
+
+                loadingSpinner.classList.remove('hidden');
+                aiText.textContent = '';
+                aiOutput.classList.remove('hidden');
+
+                try {
+                    const prompt = `Based on the following symptoms, provide a concise list of up to 3 diagnostic tests that a user might need. Respond only with the test names, one per line. Do not include any other text, explanations, or numbers. Symptoms: ${userSymptoms}`;
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                    
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                    };
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorBody = await response.text();
+                        throw new Error(`API request failed with status ${response.status}: ${errorBody}`);
+                    }
+
+                    const result = await response.json();
+                    const suggestedTests = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    aiText.textContent = suggestedTests || "Could not generate a suggestion. Please try again.";
+                } catch (error) {
+                    console.error("Error fetching AI suggestion:", error);
+                    aiText.textContent = "An error occurred while getting suggestions. Please try again.";
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                }
+            });
         });
     </script>
 
@@ -1118,10 +1255,5 @@
             });
         });
     </script>
-
-
 </body>
 </html>
-
-
-
