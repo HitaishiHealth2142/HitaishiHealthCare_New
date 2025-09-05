@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitaishi Healthcare Services - Find a Specialist</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Hitaishi Healthcare - Find a Specialist</title>
+    <!-- Using Font Awesome CSS from CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg&libraries=places"></script>
+    <!-- IMPORTANT: Replace YOUR_API_KEY with your actual Google Maps API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg&libraries=places" async defer></script>
     
     
   <style>
@@ -44,7 +45,7 @@
 
         .responsive-container {
             display: flex;
-            min-height: calc(100vh - 80px);
+            height: 100vh;
             padding: 20px;
             gap: 20px;
         }
@@ -55,15 +56,17 @@
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: calc(100vh - 40px); /* Key property to contain the list */
         }
 
         .doctors-header {
             padding: 20px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
         }
 
         .doctors-header h2 {
@@ -107,8 +110,8 @@
         }
 
         .doctors-list {
-            flex-grow: 1;
-            overflow-y: auto;
+            flex-grow: 1; /* Allows this element to fill available space */
+            overflow-y: auto; /* This makes the list scrollable */
             padding: 10px 20px 20px;
             display: flex;
             flex-direction: column;
@@ -192,6 +195,8 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            height: calc(100vh - 40px); /* Key property for single scroll */
+            overflow-y: auto; /* Makes the entire right column scrollable */
         }
 
         .doctor-details-container {
@@ -199,7 +204,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             overflow: hidden;
-            flex: 1;
+            flex-shrink: 0; /* Prevents container from shrinking */
         }
 
         .doctor-details-header {
@@ -215,8 +220,7 @@
 
         .doctor-details-content {
             padding: 20px;
-            overflow-y: auto;
-            height: calc(100% - 55px);
+            /* No longer needs its own scrollbar or fixed height */
         }
 
         .details-placeholder {
@@ -239,6 +243,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 20px;
+            flex-shrink: 0;
         }
 
         .search-row {
@@ -303,6 +308,7 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            flex-shrink: 0;
         }
 
         /* Doctor Details View */
@@ -418,18 +424,46 @@
             cursor: not-allowed;
         }
 
+        /* Custom Notification Toast */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        .notification-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .notification-toast.error { background: linear-gradient(135deg, #e57373, var(--danger)); }
+        .notification-toast.success { background: linear-gradient(135deg, #81c784, var(--success)); }
+        .notification-toast.info { background: linear-gradient(135deg, #64b5f6, var(--primary)); }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .responsive-container {
                 flex-direction: column;
+                height: auto; /* Allow page to scroll on smaller screens */
             }
 
-            .doctors-container, .details-map-container {
+            .doctors-container {
                 width: 100%;
+                height: auto; /* Let content define height */
+                max-height: 60vh; /* Make list scrollable beyond this height */
             }
 
             .details-map-container {
-                height: auto;
+                width: 100%;
+                height: auto; /* Let content define height */
             }
         }
 
@@ -458,6 +492,7 @@
 
             .doctor-fee {
                 text-align: center;
+                margin-top: 10px;
             }
 
             .doctor-main-info {
@@ -470,9 +505,9 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(26, 115, 232, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            border-top-color: var(--primary);
+            border-top-color: white;
             animation: spin 1s ease-in-out infinite;
         }
 
@@ -487,16 +522,19 @@
             margin-top: 15px;
             font-weight: 500;
             text-align: center;
+            display: none; /* Hidden by default */
         }
         #bookingMessage.success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
+            display: block;
         }
         #bookingMessage.error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+            display: block;
         }
   </style>
 </head>
@@ -512,10 +550,10 @@
         
         <div class="filters-container">
             <div class="filters">
-                <select id="specializationFilter">
+                <select id="specializationFilter" aria-label="Filter by specialization">
                     <option value="">All Specializations</option>
                 </select>
-                <select id="experienceFilter">
+                <select id="experienceFilter" aria-label="Filter by experience">
                     <option value="">Any Experience</option>
                     <option value="5">5+ years</option>
                     <option value="10">10+ years</option>
@@ -526,7 +564,7 @@
 
         <!-- Doctors List -->
         <div id="doctorsList" class="doctors-list">
-            <!-- Doctors will be loaded here -->
+            <!-- Doctors will be loaded here dynamically -->
         </div>
     </div>
 
@@ -570,47 +608,31 @@
 </div>
 
 <script>
-// =================================================================
-// ✅ NOTE FOR INTEGRATION
-// =================================================================
-// After a patient logs in successfully, store their details in sessionStorage.
-// Example from your login page's success handler:
-/*
-    const patientData = {
-        id: response.user.id,
-        firstName: response.user.firstName,
-        lastName: response.user.lastName,
-        email: response.user.email,
-        mobile: response.user.mobile
-    };
-    sessionStorage.setItem('patientUser', JSON.stringify(patientData));
-    window.location.href = '/doctors.html'; // Redirect to this page
-*/
-
-// For demonstration, you can uncomment this line to simulate a logged-in user:
-/*
-    sessionStorage.setItem('patientUser', JSON.stringify({
-        id: 123,
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        mobile: '9876543210'
-    }));
-*/
-
+'use strict';
 
 let allDoctors = [];
 let map;
 let markers = [];
 let selectedDoctor = null;
 let selectedSlot = null;
+let autocomplete;
 
 document.addEventListener('DOMContentLoaded', () => {
-  initMap();
+  // Simulating a logged-in user for demonstration.
+  // In a real app, this would be set after a successful login.
+  sessionStorage.setItem('patientUser', JSON.stringify({
+      id: 123,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      mobile: '9876543210'
+  }));
+
   fetchDoctors();
   setupEventListeners();
 });
 
+// This function is called by the Google Maps script when it loads.
 function initMap() {
   const hyderabad = { lat: 17.3850, lng: 78.4867 };
   map = new google.maps.Map(document.getElementById("map"), {
@@ -619,18 +641,23 @@ function initMap() {
   });
 
   const input = document.getElementById("locationSearch");
-  const autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.bindTo("bounds", map);
 
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
-    if (!place.geometry || !place.geometry.location) return;
+    if (!place.geometry || !place.geometry.location) {
+        showNotification(`Could not find location: ${input.value}`, 'error');
+        return;
+    }
     map.setCenter(place.geometry.location);
     map.setZoom(14);
   });
 }
 
 async function fetchDoctors() {
+  const doctorsList = document.getElementById('doctorsList');
+  doctorsList.innerHTML = `<div style="text-align: center; padding: 30px;"><div class="loading" style="border-top-color: var(--primary);"></div><p>Loading Doctors...</p></div>`;
   try {
     const url = 'https://www.hitaishihealthcare.com/api/getdoctors';
     const response = await fetch(url);
@@ -642,56 +669,43 @@ async function fetchDoctors() {
     allDoctors = data;
 
     populateSpecializationFilter();
-    
-    // First, display all doctors so we can interact with their cards
     displayDoctors(allDoctors);
     updateMapMarkers(allDoctors);
+    
+    handleUrlParameters();
 
-    // STEP 2: CHECK FOR DOCTOR ID IN URL 
-    // This new block will handle showing a specific doctor if an 'id' is in the URL.
+  } catch (error) {
+    console.error("❌ Error fetching doctors:", error);
+    doctorsList.innerHTML =
+      `<p style="color: var(--danger); padding: 20px; text-align: center;">Failed to load doctors: ${error.message}</p>`;
+  }
+}
+
+function handleUrlParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     const doctorIdFromUrl = urlParams.get('id');
     const specializationFromUrl = urlParams.get('specialization');
 
     if (doctorIdFromUrl) {
         const doctorToShow = allDoctors.find(doc => doc.uid === doctorIdFromUrl);
-
         if (doctorToShow) {
-            // Show the doctor's details in the right-side panel
             showDoctorDetails(doctorToShow);
-
-            // Find the corresponding doctor card and highlight it
-            const doctorCards = document.querySelectorAll('.doctor-card');
-            doctorCards.forEach(card => {
-                // We use the 'data-uid' attribute we added in displayDoctors
-                if (card.dataset.uid === doctorIdFromUrl) {
-                    card.classList.add('active');
-                    // Scroll the list to make the active card visible
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            });
+            const doctorCard = document.querySelector(`.doctor-card[data-uid='${doctorIdFromUrl}']`);
+            if(doctorCard){
+                doctorCard.classList.add('active');
+                doctorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     } else if (specializationFromUrl) {
-        // This is the original logic to handle filtering by specialization
         document.getElementById('specializationFilter').value = specializationFromUrl;
         filterDoctors();
     }
-
-
-  } catch (error) {
-    console.error("❌ Error fetching doctors:", error);
-    document.getElementById('doctorsList').innerHTML =
-      `<p style="color: red; padding: 20px; text-align: center;">Failed to load doctors: ${error.message}</p>`;
-  }
 }
 
 function populateSpecializationFilter() {
     const specializationFilter = document.getElementById('specializationFilter');
-    if (!specializationFilter) return;
-
     const specializations = [...new Set(allDoctors.map(doc => doc.specialization))].sort();
-    specializationFilter.innerHTML = '<option value="">All Specializations</option>';
-
+    
     specializations.forEach(spec => {
         if(spec) {
             const option = document.createElement('option');
@@ -711,7 +725,7 @@ function displayDoctors(doctors) {
     doctorsList.innerHTML = `
       <div style="text-align: center; padding: 30px; color: var(--gray);">
         <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px;"></i>
-        <p>No doctors found matching your criteria</p>
+        <p>No doctors found matching your criteria.</p>
       </div>
     `;
     return;
@@ -720,9 +734,6 @@ function displayDoctors(doctors) {
   doctors.forEach(doctor => {
     const doctorCard = document.createElement('div');
     doctorCard.className = 'doctor-card';
-    
-    // STEP 1: ADD DATA ATTRIBUTE
-    // This unique identifier on the card helps us find and highlight it later.
     doctorCard.dataset.uid = doctor.uid;
 
     doctorCard.onclick = () => {
@@ -733,13 +744,13 @@ function displayDoctors(doctors) {
 
     doctorCard.innerHTML = `
       <div class="doctor-card-content">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Doctor" class="doctor-avatar">
+        <img src="https://placehold.co/100x100/E2E8F0/4A5568?text=Dr" alt="Doctor Avatar" class="doctor-avatar">
         <div class="doctor-info">
-          <h3 class="doctor-name">Dr. ${doctor.first_name} ${doctor.last_name}</h3>
-          <p class="doctor-specialization">${doctor.specialization}</p>
+          <h3 class="doctor-name">Dr. ${doctor.first_name || ''} ${doctor.last_name || ''}</h3>
+          <p class="doctor-specialization">${doctor.specialization || 'N/A'}</p>
           <div class="doctor-details">
-            <span class="doctor-experience"><i class="fas fa-award"></i> ${doctor.experience} years</span>
-            <span><i class="fas fa-hospital"></i> ${doctor.clinic}</span>
+            <span class="doctor-experience"><i class="fas fa-award"></i> ${doctor.experience || '0'} years</span>
+            <span><i class="fas fa-hospital"></i> ${doctor.clinic || 'N/A'}</span>
           </div>
         </div>
         <div class="doctor-fee">
@@ -759,55 +770,27 @@ function showDoctorDetails(doctor) {
   detailsDiv.innerHTML = `
     <div>
       <h3 style="color: var(--primary); margin-top: 0; margin-bottom: 15px;">Dr. ${doctor.first_name} ${doctor.last_name}</h3>
-      
       <div class="doctor-main-info">
         <div class="info-column">
-          <div class="info-item">
-            <span class="info-label">Specialization:</span>
-            <span>${doctor.specialization || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Experience:</span>
-            <span>${doctor.experience || 'N/A'} years</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Clinic:</span>
-            <span>${doctor.clinic || 'N/A'}</span>
-          </div>
+          <div class="info-item"><span class="info-label">Specialization:</span><span>${doctor.specialization || 'N/A'}</span></div>
+          <div class="info-item"><span class="info-label">Experience:</span><span>${doctor.experience || 'N/A'} years</span></div>
+          <div class="info-item"><span class="info-label">Clinic:</span><span>${doctor.clinic || 'N/A'}</span></div>
         </div>
         <div class="info-column">
-          <div class="info-item">
-            <span class="info-label">Availability:</span>
-            <span>${doctor.availability || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Timings:</span>
-            <span>${doctor.from_time || 'N/A'} - ${doctor.to_time || 'N/A'}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Contact:</span>
-            <span>${doctor.mobile || 'N/A'}</span>
-          </div>
+          <div class="info-item"><span class="info-label">Availability:</span><span>${doctor.availability || 'N/A'}</span></div>
+          <div class="info-item"><span class="info-label">Timings:</span><span>${doctor.from_time || 'N/A'} - ${doctor.to_time || 'N/A'}</span></div>
+          <div class="info-item"><span class="info-label">Contact:</span><span>${doctor.mobile || 'N/A'}</span></div>
         </div>
       </div>
-
-      <div class="detail-section">
-        <div class="info-item">
-          <span class="info-label">Address:</span>
-          <span>${doctor.address || 'N/A'}</span>
-        </div>
-      </div>
-
+      <div class="detail-section"><div class="info-item"><span class="info-label">Address:</span><span>${doctor.address || 'N/A'}</span></div></div>
       <div class="about-doctor">
         <h4>About Doctor</h4>
         <p>Dr. ${doctor.first_name} graduated with a degree in ${doctor.degree || 'N/A'} from ${doctor.university || 'N/A'} and has ${doctor.experience || 'N/A'} years of experience in ${doctor.specialization || 'N/A'}.</p>
       </div>
-
       <div class="appointment-section">
         <h4>Book Appointment</h4>
-        <label>Select Appointment Date:</label>
+        <label for="appointmentDate">Select Appointment Date:</label>
         <input type="date" id="appointmentDate" class="date-input" min="${today}" onchange="loadTimeSlots('${doctor.uid}', '${doctor.from_time}', '${doctor.to_time}')">
-        
         <div id="timeSlots" class="time-slots-container"></div>
         <div id="bookingMessage"></div>
       </div>
@@ -820,29 +803,22 @@ function loadTimeSlots(doctorUid, fromTime, toTime) {
   if (!date) return;
 
   const slotContainer = document.getElementById("timeSlots");
-  slotContainer.innerHTML = "<p>Loading available slots <span class='loading'></span></p>";
-  document.getElementById("bookingMessage").innerHTML = '';
+  slotContainer.innerHTML = "<p>Loading available slots...</p>";
+  document.getElementById("bookingMessage").style.display = 'none';
 
   fetch(`https://www.hitaishihealthcare.com/api/getBookedSlots?doctorUid=${doctorUid}&date=${date}`)
-    .then(res => {
-      if (!res.ok) {
-        return res.json().then(err => { throw new Error(err.error || 'Bad Request') });
-      }
-      return res.json();
-    })
+    .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
     .then(bookedSlots => {
-      if (!Array.isArray(bookedSlots)) {
-          throw new Error("Invalid data received for booked slots.");
-      }
+      if (!Array.isArray(bookedSlots)) throw new Error("Invalid data for booked slots.");
       
       slotContainer.innerHTML = '';
       selectedSlot = null;
 
-      const start = new Date(`1970-01-01T${fromTime}`);
-      const end = new Date(`1970-01-01T${toTime}`);
+      const start = fromTime ? new Date(`1970-01-01T${fromTime}`) : null;
+      const end = toTime ? new Date(`1970-01-01T${toTime}`) : null;
 
-      if (isNaN(start) || isNaN(end)) {
-        slotContainer.innerHTML = `<p style="color: red;">Invalid timing format for this doctor.</p>`;
+      if (!start || !end || isNaN(start) || isNaN(end)) {
+        slotContainer.innerHTML = `<p style="color: red;">Doctor's timings are not available.</p>`;
         return;
       }
 
@@ -851,17 +827,15 @@ function loadTimeSlots(doctorUid, fromTime, toTime) {
         hasSlots = true;
         const slotTime = start.toTimeString().substring(0, 5);
         const isBooked = bookedSlots.includes(slotTime);
-
         const slotBtn = document.createElement('div');
-        slotBtn.className = isBooked ? 'time-slot booked' : 'time-slot available';
+        slotBtn.className = `time-slot ${isBooked ? 'booked' : 'available'}`;
         slotBtn.textContent = slotTime;
 
         if (!isBooked) {
           slotBtn.onclick = function() {
-            document.querySelectorAll('.time-slot:not(.booked)').forEach(slot => slot.classList.remove('selected'));
+            document.querySelectorAll('.time-slot.available').forEach(s => s.classList.remove('selected'));
             this.classList.add('selected');
             selectedSlot = slotTime;
-            // Enable the book button when a slot is selected
             document.getElementById('bookBtn').disabled = false;
           };
         }
@@ -874,63 +848,46 @@ function loadTimeSlots(doctorUid, fromTime, toTime) {
           submitBtn.id = 'bookBtn';
           submitBtn.className = 'submit-btn';
           submitBtn.textContent = 'Book Appointment';
-          submitBtn.disabled = true; // Disabled by default
+          submitBtn.disabled = true;
           submitBtn.onclick = () => submitBooking(date); 
-          slotContainer.appendChild(submitBtn);
+          slotContainer.after(submitBtn);
       } else {
           slotContainer.innerHTML = `<p>No available slots for this day.</p>`;
       }
     })
     .catch(err => {
       console.error("Slot load error:", err);
-      slotContainer.innerHTML = `<p style="color:red;">Unable to load time slots: ${err.message}</p>`;
+      slotContainer.innerHTML = `<p style="color:red;">Unable to load time slots: ${err.message || 'Server error'}</p>`;
     });
 }
 
-// =================================================================
-// ✅ UPDATED: Booking submission with authentication check
-// =================================================================
 async function submitBooking(date) {
   const bookingMessageDiv = document.getElementById('bookingMessage');
-  bookingMessageDiv.innerHTML = '';
-
-  // 1. Authentication Check
+  bookingMessageDiv.style.display = 'none';
+  
   const patientInfo = JSON.parse(sessionStorage.getItem('patientUser'));
   if (!patientInfo) {
-    alert("Please login to book an appointment.");
-    window.location.href = 'login.html';
+    showNotification("Please login to book an appointment.", 'info');
+    setTimeout(() => window.location.href = 'login.html', 1500);
     return;
   }
 
-  // 2. Validation
-  if (!selectedSlot) {
+  if (!selectedSlot || !selectedDoctor) {
     bookingMessageDiv.className = 'error';
-    bookingMessageDiv.textContent = 'Please select a time slot.';
-    return;
-  }
-  if (!selectedDoctor) {
-    bookingMessageDiv.className = 'error';
-    bookingMessageDiv.textContent = 'Error: No doctor selected.';
+    bookingMessageDiv.textContent = 'Please select a doctor and a time slot.';
     return;
   }
 
-  // 3. Prepare Data Payload
   const bookingDetails = {
-    patientId: patientInfo.id,
-    patientName: `${patientInfo.firstName} ${patientInfo.lastName}`,
-    patientEmail: patientInfo.email,
-    patientMobile: patientInfo.mobile,
-    doctorId: selectedDoctor.id,
-    doctorUid: selectedDoctor.uid,
+    patientId: patientInfo.id, patientName: `${patientInfo.firstName} ${patientInfo.lastName}`,
+    patientEmail: patientInfo.email, patientMobile: patientInfo.mobile,
+    doctorId: selectedDoctor.id, doctorUid: selectedDoctor.uid,
     doctorName: `Dr. ${selectedDoctor.first_name} ${selectedDoctor.last_name}`,
-    doctorEmail: selectedDoctor.email,
-    doctorMobile: selectedDoctor.mobile,
+    doctorEmail: selectedDoctor.email, doctorMobile: selectedDoctor.mobile,
     doctorSpecialization: selectedDoctor.specialization,
-    appointmentDate: date,
-    appointmentTime: selectedSlot
+    appointmentDate: date, appointmentTime: selectedSlot
   };
 
-  // 4. API Call
   const bookBtn = document.getElementById('bookBtn');
   bookBtn.disabled = true;
   bookBtn.innerHTML = '<span class="loading"></span> Booking...';
@@ -941,16 +898,13 @@ async function submitBooking(date) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bookingDetails)
     });
-
     const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Booking failed.');
 
-    if (response.ok && data.success) {
-        bookingMessageDiv.className = 'success';
-        bookingMessageDiv.textContent = data.message;
-        document.getElementById('timeSlots').innerHTML = ''; // Clear slots on success
-    } else {
-        throw new Error(data.message || 'Booking failed. Please try again.');
-    }
+    bookingMessageDiv.className = 'success';
+    bookingMessageDiv.textContent = data.message;
+    document.getElementById('timeSlots').innerHTML = '';
+    bookBtn.remove();
   } catch (error) {
     console.error('Booking Error:', error);
     bookingMessageDiv.className = 'error';
@@ -963,27 +917,24 @@ async function submitBooking(date) {
 function updateMapMarkers(doctors) {
   markers.forEach(marker => marker.setMap(null));
   markers = [];
+  const geocoder = new google.maps.Geocoder();
 
   doctors.forEach(doctor => {
     if (doctor.address) {
-      const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address: doctor.address }, (results, status) => {
         if (status === "OK" && results[0]) {
           const marker = new google.maps.Marker({
             map: map,
             position: results[0].geometry.location,
-            title: `${doctor.first_name} ${doctor.last_name} - ${doctor.clinic}`,
-            icon: {
-              url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-            }
+            title: `Dr. ${doctor.first_name} ${doctor.last_name} - ${doctor.clinic}`,
           });
           markers.push(marker);
           marker.addListener('click', () => {
-            document.querySelectorAll('.doctor-card').forEach(card => card.classList.remove('active'));
-            // Find the card in the list and activate it
-            const cardToActivate = [...document.querySelectorAll('.doctor-card')].find(card => card.dataset.uid === doctor.uid);
-            if(cardToActivate) cardToActivate.classList.add('active');
-            showDoctorDetails(doctor);
+            const card = document.querySelector(`.doctor-card[data-uid='${doctor.uid}']`);
+            if (card) {
+                card.click();
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
           });
         }
       });
@@ -994,12 +945,10 @@ function updateMapMarkers(doctors) {
 function setupEventListeners() {
   document.getElementById('specializationFilter').addEventListener('change', filterDoctors);
   document.getElementById('experienceFilter').addEventListener('change', filterDoctors);
-
   document.querySelectorAll('.area-chip').forEach(chip => {
     chip.addEventListener('click', function () {
       const area = this.textContent;
       document.getElementById('locationSearch').value = area;
-
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address: area + ', Hyderabad' }, (results, status) => {
         if (status === "OK" && results[0]) {
@@ -1014,16 +963,13 @@ function setupEventListeners() {
 function filterDoctors() {
   const specialization = document.getElementById('specializationFilter').value;
   const experience = document.getElementById('experienceFilter').value;
-
   let filtered = allDoctors;
-
   if (specialization) {
     filtered = filtered.filter(doc => doc.specialization === specialization);
   }
   if (experience) {
     filtered = filtered.filter(doc => parseInt(doc.experience) >= parseInt(experience));
   }
-
   displayDoctors(filtered);
   updateMapMarkers(filtered);
 }
@@ -1032,13 +978,9 @@ function useCurrentLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       pos => {
-        const location = {
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        };
+        const location = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         map.setCenter(location);
         map.setZoom(14);
-
         const geocoder = new google.maps.Geocoder();
         geocoder.geocode({ location }, (results, status) => {
           if (status === "OK" && results[0]) {
@@ -1046,13 +988,28 @@ function useCurrentLocation() {
           }
         });
       },
-      () => alert("Unable to retrieve your location. Please check your browser's location settings.")
+      () => showNotification("Unable to retrieve your location.", 'error')
     );
   } else {
-    alert("Geolocation is not supported by your browser.");
+    showNotification("Geolocation is not supported by your browser.", 'error');
   }
 }
+
+function showNotification(message, type = 'info') {
+    const existingToast = document.querySelector('.notification-toast');
+    if (existingToast) existingToast.remove();
+    const toast = document.createElement('div');
+    toast.className = `notification-toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
 </script>
-  
 </body>
 </html>
+

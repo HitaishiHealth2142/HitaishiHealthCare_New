@@ -28,7 +28,7 @@ const io = new Server(server, {
 
 // Middleware setup
 app.use(cors({
-  origin: "https://hitaishihealthcare.com",
+  origin: "*",
   credentials: true
 }));
 
