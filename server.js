@@ -1,7 +1,6 @@
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-// const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -20,11 +19,10 @@ const server = http.createServer(app);
 // Initialize Socket.IO and attach it to the server
 const io = new Server(server, {
   cors: {
-    origin: "https://hitaishihealthcare.com",
+    origin: "*",
     credentials: true
   }
 });
-
 
 // Middleware setup
 app.use(cors({
@@ -58,14 +56,24 @@ app.use(require('express-session')({
   }
 }));
 
-// websocket implementation ================================================================
-// WebSocket / Video Call Signaling
+// WebSocket implementation ================================================================
 const peersInRoom = {};
+const doctorRooms = {}; // New: To track doctor's notification rooms
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  socket.on('join-room', (roomId) => {
+  // New: Doctor joins their personal notification room
+  socket.on('join-doctor-room', (doctorUid) => {
+    // Each doctor gets a unique room based on their UID
+    const roomName = `doctor-notify-${doctorUid}`;
+    socket.join(roomName);
+    doctorRooms[socket.id] = roomName;
+    console.log(`Doctor ${doctorUid} connected to notification room.`);
+  });
+  
+  // New: Handle patient joining a call room and notify the doctor
+  socket.on('join-call-room', ({ roomId, doctorUid, patientId, patientName }) => {
     if (!peersInRoom[roomId]) peersInRoom[roomId] = {};
 
     socket.emit('existing-peers', Object.keys(peersInRoom[roomId]));
@@ -75,20 +83,36 @@ io.on('connection', (socket) => {
 
     socket.to(roomId).emit('new-peer', socket.id);
 
-    console.log(`${socket.id} joined room ${roomId}`);
+    // Send a real-time invitation to the doctor's notification room
+    const doctorNotificationRoom = `doctor-notify-${doctorUid}`;
+    io.to(doctorNotificationRoom).emit('new-call', {
+      roomId,
+      patientId,
+      patientName
+    });
+
+    console.log(`${socket.id} joined room ${roomId}. Sent call invitation to doctor ${doctorUid}.`);
   });
 
+  // Old signaling logic remains the same
   socket.on('signal', ({ to, payload }) => {
     io.to(to).emit('signal', { from: socket.id, payload });
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
+    // Clean up peer connections
     for (const roomId in peersInRoom) {
       if (peersInRoom[roomId][socket.id]) {
         delete peersInRoom[roomId][socket.id];
         io.to(roomId).emit('peer-left', socket.id);
       }
+    }
+    // Clean up doctor notification room
+    const roomName = doctorRooms[socket.id];
+    if (roomName) {
+      delete doctorRooms[socket.id];
+      socket.leave(roomName);
     }
   });
 });
@@ -112,7 +136,7 @@ const bloodtestRoutes = require("./routes/bloodtest");
 const diagnosticstestsRoutes = require("./routes/diagnosticstests");
 const doctorRoutes = require("./routes/doctor");
 const entappointmentRoutes = require("./routes/entappointment");
-const entspecialistRoutes = require("./routes/entspecialist");
+const entspecialistRoutes = require("././routes/entspecialist");
 const eyedoctorsRoutes = require("./routes/eyedoctors");
 const eyeformRoutes = require("./routes/eyeform");
 const finddoctorRoutes = require("./routes/finddoctor");

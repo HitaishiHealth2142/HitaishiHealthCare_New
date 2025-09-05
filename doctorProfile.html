@@ -230,6 +230,56 @@
       .sidebar { width: 100%; position: static; box-sizing: border-box; }
       #updateForm { grid-template-columns: 1fr; }
     }
+
+    /* New styles for call invitation banner */
+    .call-invitation-banner {
+        background-color: #28a745;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        animation: fadeIn 0.5s ease-out;
+    }
+    .call-invitation-banner p {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .call-invitation-banner .btn-group {
+        display: flex;
+        gap: 12px;
+    }
+    .call-invitation-banner a, .call-invitation-banner button {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+    .call-invitation-banner .join-btn {
+        background-color: white;
+        color: #28a745;
+        border: none;
+    }
+    .call-invitation-banner .join-btn:hover {
+        background-color: #f0f0f0;
+    }
+    .call-invitation-banner .dismiss-btn {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+    .call-invitation-banner .dismiss-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -253,6 +303,12 @@
     <!-- Main Content Area -->
     <div class="content-area">
       <div id="pageMessage"></div>
+      
+      <!-- New Call Invitation Section -->
+      <div id="call-invitation-container" style="display: none;">
+          <!-- Call invitation banner will be inserted here by JavaScript -->
+      </div>
+      
       <div id="loadingIndicator" class="section">Loading profile data...</div>
 
       <!-- Dashboard Section -->
@@ -355,6 +411,7 @@
     </div>
   </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
 <script>
   let doctorUid = null;
   const API_BASE = '/api'; // Use relative path
@@ -420,6 +477,9 @@
       setTimeout(() => window.location.href = "login.html", 1500);
       return;
     }
+    
+    // Initialize the WebSocket connection for real-time calls
+    initializeSocket(doctorUid);
 
     try {
       const response = await fetch(`${API_BASE}/gdoctors/${doctorUid}`);
@@ -436,6 +496,39 @@
       displayPageMessage("Could not load your profile. Please log in again.", 'error');
       showLoading(false);
     }
+  }
+  
+  // --- New Socket.IO for Doctor Profile ---
+  function initializeSocket(doctorUid) {
+      const socket = io("https://hitaishihealthcare.com", { transports: ["websocket", "polling"] });
+      const invitationContainer = document.getElementById('call-invitation-container');
+
+      socket.on('connect', () => {
+          console.log(`Socket connected. Joining doctor notification room: doctor-notify-${doctorUid}`);
+          socket.emit('join-doctor-room', doctorUid);
+      });
+
+      socket.on('new-call', (data) => {
+          console.log("New call invitation received:", data);
+          const { patientId, patientName, roomId } = data;
+          
+          const banner = document.createElement('div');
+          banner.className = 'call-invitation-banner';
+          banner.innerHTML = `
+              <p>Incoming video call from Patient: ${patientName}</p>
+              <div class="btn-group">
+                  <a href="meet.html?roomId=${roomId}" class="join-btn">Join Call</a>
+                  <button class="dismiss-btn" onclick="this.parentNode.parentNode.remove()">Dismiss</button>
+              </div>
+          `;
+          invitationContainer.innerHTML = ''; // Clear any previous banners
+          invitationContainer.style.display = 'block';
+          invitationContainer.appendChild(banner);
+      });
+
+      socket.on('disconnect', () => {
+          console.log("Socket disconnected.");
+      });
   }
 
   async function loadDashboardStats() {
