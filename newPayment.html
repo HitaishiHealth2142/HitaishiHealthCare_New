@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>newpayment Page</title>
+  <title>Payment Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -13,7 +13,7 @@
       padding: 0;
       background: #f2f6fa;
     }
-    .container {
+    .container, #login-required-message {
       max-width: 500px;
       margin: 60px auto;
       background: #fff;
@@ -44,8 +44,7 @@
       color: #e60000;
       margin-bottom: 30px;
     }
-    .pay-btn {
-      background-color: #00bcd4;
+    .pay-btn, .back-btn, #login-required-message button {
       color: white;
       padding: 12px 25px;
       font-size: 16px;
@@ -55,23 +54,13 @@
       transition: background-color 0.3s;
       margin: 10px;
     }
-    .pay-btn:hover {
-      background-color: #0097a7;
-    }
-    .back-btn {
-      background-color: #f44336;
-      color: white;
-      padding: 12px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin: 10px;
-    }
-    .back-btn:hover {
-      background-color: #d32f2f;
-    }
+     .pay-btn { background-color: #00bcd4; }
+    .pay-btn:hover { background-color: #0097a7; }
+    .back-btn { background-color: #f44336; }
+    .back-btn:hover { background-color: #d32f2f; }
+    #login-required-message button { background-color: #007bff; }
+    #login-required-message button:hover { background-color: #0056b3; }
+    
     .form-group {
       margin-bottom: 20px;
       text-align: left;
@@ -118,16 +107,12 @@
       margin-top: 5px;
     }
     @media (max-width: 600px) {
-      .container {
+      .container, #login-required-message {
         margin: 30px 15px;
         padding: 20px;
       }
-      .test-info {
-        font-size: 16px;
-      }
-      .amount {
-        font-size: 20px;
-      }
+      .test-info { font-size: 16px; }
+      .amount { font-size: 20px; }
       .pay-btn, .back-btn {
         width: 100%;
         margin: 5px 0;
@@ -136,7 +121,14 @@
   </style>
 </head>
 <body style="font-family: Arial, sans-serif;">
-  <div class="container">
+
+  <div id="login-required-message" style="display: none;">
+      <h2>Login Required</h2>
+      <p style="font-size: 18px; color: #444; margin-bottom: 25px;">Please log in to proceed with your booking.</p>
+      <button onclick="window.location.href='index.html'">Back to Tests</button>
+  </div>
+
+  <div class="container" style="display: none;">
     <h2>Book Test Payment</h2>
     
     <div class="test-info">
@@ -193,54 +185,80 @@
   </div>
 
   <script>
-    // Get parameters from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const testName = urlParams.get("test") || "Selected Test";
-    const testPrice = parseInt(urlParams.get("price") || "0");
-    const testId = urlParams.get("id") || "N/A";
-    const centerName = decodeURIComponent(urlParams.get("center") || "Selected Center");
-    const centerId = urlParams.get("centerId") || "";
-
-
-    // Display on page
-    document.getElementById("test-name").textContent = testName;
-    document.getElementById("test-price").textContent = testPrice;
-    document.getElementById("test-id").textContent = testId;
-    document.getElementById("center-name").textContent = centerName;
-
-    // Set up date picker (today to 30 days in future)
-    const dateInput = document.getElementById('test-date');
-    const today = new Date();
-    const maxDate = new Date();
-    maxDate.setDate(today.getDate() + 30);
+    let testName, testPrice, testId, centerName, centerId;
     
-    dateInput.min = today.toISOString().split('T')[0];
-    dateInput.max = maxDate.toISOString().split('T')[0];
-    dateInput.value = today.toISOString().split('T')[0];
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- FIX ---
+        // Changed localStorage key from 'loggedInUser' to 'patientUser' to match what's in storage.
+        const loggedInUser = JSON.parse(localStorage.getItem('patientUser')); 
+        const container = document.querySelector('.container');
+        const loginMessage = document.getElementById('login-required-message');
 
-    // Show messages when trying to select disabled options
-    document.getElementById('online-banking').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('online-banking-message').style.display = 'block';
-      setTimeout(() => {
-        document.getElementById('online-banking-message').style.display = 'none';
-      }, 3000);
+        if (!loggedInUser) {
+            container.style.display = 'none';
+            loginMessage.style.display = 'block';
+        } else {
+            // User is logged in, show the form and populate data
+            container.style.display = 'block';
+            loginMessage.style.display = 'none';
+
+            // Pre-fill user details from localStorage.
+            // Note: The object structure from your screenshot is nested.
+            const userDetails = loggedInUser[0] || {};
+            document.getElementById('patient-name').value = `${userDetails.firstName || ''} ${userDetails.lastName || ''}`.trim();
+            document.getElementById('patient-email').value = userDetails.email || '';
+            document.getElementById('patient-mobile').value = userDetails.mobile || '';
+
+            // Get test details from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            testName = urlParams.get("test") || "Selected Test";
+            testPrice = parseInt(urlParams.get("price") || "0");
+            testId = urlParams.get("id") || "N/A";
+            centerName = decodeURIComponent(urlParams.get("center") || "Selected Center");
+            centerId = urlParams.get("centerId") || "";
+
+            // Display test details on page
+            document.getElementById("test-name").textContent = testName;
+            document.getElementById("test-price").textContent = testPrice;
+            document.getElementById("test-id").textContent = testId;
+            document.getElementById("center-name").textContent = centerName;
+
+            // Set up date picker
+            setupDatePicker();
+
+            // Set up payment option event listeners
+            setupPaymentOptions();
+        }
     });
 
-    document.getElementById('upi-apps').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('upi-apps-message').style.display = 'block';
-      setTimeout(() => {
-        document.getElementById('upi-apps-message').style.display = 'none';
-      }, 3000);
-    });
+    function setupDatePicker() {
+        const dateInput = document.getElementById('test-date');
+        const today = new Date();
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + 30);
+        
+        dateInput.min = today.toISOString().split('T')[0];
+        dateInput.max = maxDate.toISOString().split('T')[0];
+        dateInput.value = today.toISOString().split('T')[0];
+    }
 
-    // Ensure only cash payment can be selected
-    document.getElementById('cash-payment').addEventListener('change', function() {
-      if (!this.checked) {
-        this.checked = true;
-      }
-    });
+    function setupPaymentOptions() {
+        document.getElementById('online-banking').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('online-banking-message').style.display = 'block';
+            setTimeout(() => { document.getElementById('online-banking-message').style.display = 'none'; }, 3000);
+        });
+
+        document.getElementById('upi-apps').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('upi-apps-message').style.display = 'block';
+            setTimeout(() => { document.getElementById('upi-apps-message').style.display = 'none'; }, 3000);
+        });
+
+        document.getElementById('cash-payment').addEventListener('change', function() {
+            if (!this.checked) this.checked = true;
+        });
+    }
 
     function processPayment() {
       // Get form values
@@ -248,31 +266,18 @@
       const patientEmail = document.getElementById('patient-email').value.trim();
       const patientMobile = document.getElementById('patient-mobile').value.trim();
       const testDate = document.getElementById('test-date').value;
-      const paymentMethod = 'Cash'; // Only option available
       
-      // Simple validation
+      // Validation
       if (!patientName || !patientEmail || !patientMobile || !testDate) {
         alert('Please fill in all required fields');
         return;
       }
-      
-      // Email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(patientEmail)) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(patientEmail)) {
         alert('Please enter a valid email address');
         return;
       }
-      
-      // Mobile validation (simple 10 digit check)
       if (patientMobile.length !== 10 || !/^\d+$/.test(patientMobile)) {
         alert('Please enter a valid 10-digit mobile number');
-        return;
-      }
-      
-      // Date validation
-      const selectedDate = new Date(testDate);
-      if (selectedDate < today || selectedDate > maxDate) {
-        alert('Please select a valid date within the next 30 days');
         return;
       }
       
@@ -283,7 +288,7 @@
         centerName: centerName,
         centerId: centerId,
         amount: testPrice,
-        paymentMethod: paymentMethod,
+        paymentMethod: 'Cash',
         patientName: patientName,
         patientEmail: patientEmail,
         patientMobile: patientMobile,
@@ -291,24 +296,16 @@
         timestamp: new Date().toISOString()
       };
       
-      // Send data to backend
       sendToBackend(paymentData);
     }
 
     function sendToBackend(data) {
       fetch('https://hitaishihealthcare.com/api/newpayment/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
+      .then(response => response.ok ? response.json() : Promise.reject('Network response was not ok'))
       .then(data => {
         alert('Booking confirmed successfully!');
         console.log('Success:', data);
@@ -325,29 +322,6 @@
     }
   </script>
 
-<!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
-
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
-
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
-        });
-      });
-</script>
-
 </body>
 </html>
+
