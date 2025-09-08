@@ -74,25 +74,33 @@ io.on('connection', (socket) => {
   
   // New: Handle patient joining a call room and notify the doctor
   socket.on('join-call-room', ({ roomId, doctorUid, patientId, patientName }) => {
-    if (!peersInRoom[roomId]) peersInRoom[roomId] = {};
-
-    socket.emit('existing-peers', Object.keys(peersInRoom[roomId]));
-
-    peersInRoom[roomId][socket.id] = true;
-    socket.join(roomId);
-
-    socket.to(roomId).emit('new-peer', socket.id);
-
-    // Send a real-time invitation to the doctor's notification room
+    // This event is for the patient to initiate a call and send a notification.
+    // The actual joining logic is now handled by the 'join-room' event below.
     const doctorNotificationRoom = `doctor-notify-${doctorUid}`;
     io.to(doctorNotificationRoom).emit('new-call', {
       roomId,
       patientId,
       patientName
     });
-
     console.log(`${socket.id} joined room ${roomId}. Sent call invitation to doctor ${doctorUid}.`);
   });
+  
+  // New: Generic handler for both patient and doctor to join a video call room
+  socket.on('join-room', (roomId) => {
+    if (!peersInRoom[roomId]) peersInRoom[roomId] = {};
+
+    // Notify the joining peer of existing peers in the room
+    socket.emit('existing-peers', Object.keys(peersInRoom[roomId]));
+
+    peersInRoom[roomId][socket.id] = true;
+    socket.join(roomId);
+
+    // Notify all existing peers in the room about the new peer
+    socket.to(roomId).emit('new-peer', socket.id);
+    
+    console.log(`${socket.id} successfully joined video call room: ${roomId}`);
+  });
+
 
   // Old signaling logic remains the same
   socket.on('signal', ({ to, payload }) => {

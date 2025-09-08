@@ -330,7 +330,8 @@
             try {
                 localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 localVideo.srcObject = localStream;
-                socket.emit('join-room', ROOM_ID);
+                // Corrected: Emit the 'join-room' event that the server can now handle.
+                socket.emit('join-room', ROOM_ID); 
                 console.log(`Attempting to join room: ${ROOM_ID}`);
             } catch (err) {
                 console.error("Error accessing media devices.", err);
