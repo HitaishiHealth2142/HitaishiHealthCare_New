@@ -202,7 +202,7 @@
         let peerConnection;
         let isAudioMuted = false;
         let isVideoOff = false;
-        let isFrontCamera = true;
+        let currentCameraId = null;
 
         const updateStatus = (message) => {
             statusMessage.textContent = message;
@@ -230,10 +230,11 @@
             updateStatus('Connecting...');
             try {
                 localStream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: isFrontCamera ? 'user' : 'environment' },
+                    video: { facingMode: 'user' }, // Start with front camera by default
                     audio: true
                 });
                 localVideo.srcObject = localStream;
+                currentCameraId = localStream.getVideoTracks()[0].getSettings().deviceId;
                 socket.emit('join-room', ROOM_ID); 
             } catch (err) {
                 console.error("Error accessing media devices.", err);
@@ -251,9 +252,21 @@
         
         const replaceVideoTrack = async () => {
             try {
-                isFrontCamera = !isFrontCamera;
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+                if (videoDevices.length <= 1) {
+                    updateStatus('No other camera found.');
+                    setTimeout(() => updateStatus(''), 2000);
+                    return;
+                }
+
+                const currentDeviceIndex = videoDevices.findIndex(d => d.deviceId === currentCameraId);
+                const nextDeviceIndex = (currentDeviceIndex + 1) % videoDevices.length;
+                const nextDevice = videoDevices[nextDeviceIndex];
+
                 const newStream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: isFrontCamera ? 'user' : 'environment' },
+                    video: { deviceId: { exact: nextDevice.deviceId } },
                     audio: true
                 });
                 
@@ -263,7 +276,8 @@
                 localStream.removeTrack(oldVideoTrack);
                 localStream.addTrack(newVideoTrack);
                 localVideo.srcObject = localStream;
-                
+                currentCameraId = nextDevice.deviceId;
+
                 if (peerConnection) {
                     const videoSender = peerConnection.getSenders().find(sender => sender.track.kind === 'video');
                     if (videoSender) {
@@ -274,6 +288,8 @@
 
             } catch (err) {
                 console.error("Error switching camera:", err);
+                updateStatus('Failed to switch camera.');
+                setTimeout(() => updateStatus(''), 2000);
             }
         };
 
@@ -326,7 +342,7 @@
                 peerConnection = null;
             }
             remoteVideo.srcObject = null;
-            updateStatus('Person has left the call.');
+            updateStatus('The other person has left the call.');
         });
 
         toggleAudioBtn.addEventListener('click', () => {
