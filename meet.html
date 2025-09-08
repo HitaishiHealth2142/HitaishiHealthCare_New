@@ -10,83 +10,91 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f0f2f5;
-            color: #1c1e21;
+            padding: 0;
+            background-color: #2c3e50;
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-        }
-        h1 {
-            color: #007bff;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        #videos {
-            display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-        }
-        .video-container {
-            background-color: black;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            width: 100vw;
             overflow: hidden;
             position: relative;
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 4 / 3;
-            transition: transform 0.2s ease-in-out;
         }
-        .video-container:hover {
-            transform: translateY(-5px);
-        }
-        video {
-            display: block;
+
+        #remoteVideo {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        .video-label {
             position: absolute;
-            bottom: 8px;
-            left: 8px;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 14px;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: #1a1a1a;
         }
+
+        #localVideo {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 150px;
+            height: 200px;
+            border-radius: 12px;
+            z-index: 2;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
         #controls {
-            margin-top: 30px;
+            position: fixed;
+            bottom: 20px;
+            z-index: 3;
             display: flex;
             gap: 15px;
-        }
-        .control-btn {
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 15px;
             border-radius: 50px;
+        }
+        
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
             border: none;
             color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: background-color 0.2s, transform 0.1s;
+            justify-content: center;
         }
+
         .control-btn:active {
             transform: scale(0.95);
         }
+
         #toggleAudioBtn { background-color: #28a745; }
         #toggleVideoBtn { background-color: #007bff; }
+        #switchCameraBtn { background-color: #f0ad4e; }
         #leaveBtn { background-color: #dc3545; }
-        #toggleAudioBtn.off { background-color: #6c757d; }
-        #toggleVideoBtn.off { background-color: #6c757d; }
+
+        .control-btn.off { background-color: #6c757d; }
+
+        .status-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
 
         /* Custom Modal Styles */
         .modal-backdrop {
@@ -133,7 +141,6 @@
             const userIsLoggedIn = localStorage.getItem('patientUser') || sessionStorage.getItem('patientUser') || localStorage.getItem('doctorUid');
             
             if (!userIsLoggedIn) {
-                // Create and show a custom modal
                 const modalBackdrop = document.createElement('div');
                 modalBackdrop.className = 'modal-backdrop';
                 
@@ -151,24 +158,22 @@
                     window.location.href = 'login.html';
                 });
 
-                // Prevent the rest of the script from running
                 throw new Error("User not logged in. Halting script execution.");
             }
         })();
     </script>
 
-    <h1>Video Call</h1>
-    <div id="videos">
-        <div class="video-container">
-            <video id="localVideo" autoplay muted playsinline></video>
-            <div class="video-label">You</div>
-        </div>
-    </div>
+    <video id="localVideo" autoplay muted playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+    
     <div id="controls">
-        <button id="toggleAudioBtn" class="control-btn">🎤 <span>Mute Audio</span></button>
-        <button id="toggleVideoBtn" class="control-btn">📹 <span>Stop Video</span></button>
-        <button id="leaveBtn" class="control-btn">☎️ Leave</button>
+        <button id="toggleAudioBtn" class="control-btn"><i class="fas fa-microphone"></i></button>
+        <button id="toggleVideoBtn" class="control-btn"><i class="fas fa-video"></i></button>
+        <button id="switchCameraBtn" class="control-btn"><i class="fas fa-camera-rotate"></i></button>
+        <button id="leaveBtn" class="control-btn"><i class="fas fa-phone-slash"></i></button>
     </div>
+
+    <div id="statusMessage" class="status-message" style="display: none;"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
 
@@ -177,8 +182,8 @@
         const ROOM_ID = urlParams.get('roomId');
         
         if (!ROOM_ID) {
-            console.error("No roomId provided in the URL.");
-            document.body.innerHTML = '<h1>Error: Room ID is missing.</h1><p>Please try again from the doctors page.</p>';
+            document.body.innerHTML = '<div class="status-message">Error: Room ID is missing.</div>';
+            throw new Error("No roomId provided in the URL.");
         }
 
         const socket = io("https://hitaishihealthcare.com", { transports: ["websocket", "polling"] });
@@ -186,130 +191,129 @@
         const ICE_SERVERS = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
         const localVideo = document.getElementById('localVideo');
-        const videosContainer = document.getElementById('videos');
+        const remoteVideo = document.getElementById('remoteVideo');
         const leaveBtn = document.getElementById('leaveBtn');
         const toggleAudioBtn = document.getElementById('toggleAudioBtn');
         const toggleVideoBtn = document.getElementById('toggleVideoBtn');
+        const switchCameraBtn = document.getElementById('switchCameraBtn');
+        const statusMessage = document.getElementById('statusMessage');
 
         let localStream;
-        const peerConnections = {};
-
+        let peerConnection;
         let isAudioMuted = false;
         let isVideoOff = false;
+        let isFrontCamera = true;
 
-        // --- Mute/Unmute Audio ---
-        toggleAudioBtn.addEventListener('click', () => {
-            if (!localStream) return;
-            isAudioMuted = !isAudioMuted;
-            localStream.getAudioTracks()[0].enabled = !isAudioMuted;
-            toggleAudioBtn.classList.toggle('off', isAudioMuted);
-            toggleAudioBtn.querySelector('span').textContent = isAudioMuted ? 'Unmute Audio' : 'Mute Audio';
-            toggleAudioBtn.innerHTML = isAudioMuted ? '🔇 <span>Unmute Audio</span>' : '🎤 <span>Mute Audio</span>';
-        });
+        const updateStatus = (message) => {
+            statusMessage.textContent = message;
+            statusMessage.style.display = 'block';
+        };
 
-        // --- Stop/Start Video ---
-        toggleVideoBtn.addEventListener('click', () => {
-            if (!localStream) return;
-            isVideoOff = !isVideoOff;
-            localStream.getVideoTracks()[0].enabled = !isVideoOff;
-            toggleVideoBtn.classList.toggle('off', isVideoOff);
-            toggleVideoBtn.innerHTML = isVideoOff ? '📷 <span>Start Video</span>' : '📹 <span>Stop Video</span>';
-        });
-        
         const createPeerConnection = (peerSocketId) => {
             const pc = new RTCPeerConnection(ICE_SERVERS);
-            peerConnections[peerSocketId] = pc;
-
-            // Add local stream tracks to the peer connection
-            localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-
-            // Handle ICE candidates
+            
             pc.onicecandidate = event => {
                 if (event.candidate) {
                     socket.emit('signal', { to: peerSocketId, payload: { type: 'candidate', candidate: event.candidate } });
                 }
             };
-
-            // Handle incoming remote streams
-            pc.ontrack = event => {
-                addRemoteVideo(peerSocketId, event.streams[0]);
-            };
             
+            pc.ontrack = event => {
+                remoteVideo.srcObject = event.streams[0];
+                updateStatus('Connected!');
+            };
+
             return pc;
         };
-
-        const addRemoteVideo = (peerSocketId, stream) => {
-            if (document.getElementById(`container-${peerSocketId}`)) return;
-
-            const container = document.createElement('div');
-            container.id = `container-${peerSocketId}`;
-            container.className = 'video-container';
-
-            const remoteVideo = document.createElement('video');
-            remoteVideo.autoplay = true;
-            remoteVideo.playsInline = true;
-            remoteVideo.srcObject = stream;
-
-            const label = document.createElement('div');
-            label.className = 'video-label';
-            label.innerText = `User #${peerSocketId.substring(0, 5)}`;
-            
-            container.appendChild(remoteVideo);
-            container.appendChild(label);
-            videosContainer.appendChild(container);
+        
+        const init = async () => {
+            updateStatus('Connecting...');
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: isFrontCamera ? 'user' : 'environment' },
+                    audio: true
+                });
+                localVideo.srcObject = localStream;
+                socket.emit('join-room', ROOM_ID); 
+            } catch (err) {
+                console.error("Error accessing media devices.", err);
+                let errorMessage;
+                if (err.name === 'NotAllowedError') {
+                    errorMessage = 'Please allow camera and microphone access.';
+                } else if (err.name === 'NotFoundError') {
+                    errorMessage = 'No camera or microphone found.';
+                } else {
+                    errorMessage = 'Device in Use. Please close other applications using your camera.';
+                }
+                updateStatus(errorMessage);
+            }
         };
         
-        const removeRemoteVideo = (peerSocketId) => {
-            const videoContainer = document.getElementById(`container-${peerSocketId}`);
-            if (videoContainer) videoContainer.remove();
+        const replaceVideoTrack = async () => {
+            try {
+                isFrontCamera = !isFrontCamera;
+                const newStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: isFrontCamera ? 'user' : 'environment' },
+                    audio: true
+                });
+                
+                const newVideoTrack = newStream.getVideoTracks()[0];
+                const oldVideoTrack = localStream.getVideoTracks()[0];
+                
+                localStream.removeTrack(oldVideoTrack);
+                localStream.addTrack(newVideoTrack);
+                localVideo.srcObject = localStream;
+                
+                if (peerConnection) {
+                    const videoSender = peerConnection.getSenders().find(sender => sender.track.kind === 'video');
+                    if (videoSender) {
+                        videoSender.replaceTrack(newVideoTrack);
+                    }
+                }
+                oldVideoTrack.stop();
+
+            } catch (err) {
+                console.error("Error switching camera:", err);
+            }
         };
 
         socket.on('existing-peers', peers => {
-            console.log("Existing peers in room:", peers);
-            peers.forEach(async peerSocketId => {
-                const pc = createPeerConnection(peerSocketId);
-                try {
-                    const offer = await pc.createOffer();
-                    await pc.setLocalDescription(offer);
-                    socket.emit('signal', { to: peerSocketId, payload: pc.localDescription });
-                    console.log(`Offer sent to ${peerSocketId}`);
-                } catch (err) {
-                    console.error("Error creating and sending offer:", err);
-                }
-            });
+            if (peers.length > 0) {
+                const peerSocketId = peers[0];
+                peerConnection = createPeerConnection(peerSocketId);
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+            }
         });
 
         socket.on('new-peer', async (peerSocketId) => {
-            console.log(`New peer joined: ${peerSocketId}. Creating offer...`);
-            const pc = createPeerConnection(peerSocketId);
+            peerConnection = createPeerConnection(peerSocketId);
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
             try {
-                const offer = await pc.createOffer();
-                await pc.setLocalDescription(offer);
-                socket.emit('signal', { to: peerSocketId, payload: pc.localDescription });
-                console.log(`Offer sent to new peer ${peerSocketId}`);
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                socket.emit('signal', { to: peerSocketId, payload: peerConnection.localDescription });
             } catch (err) {
-                console.error("Error creating offer for new peer:", err);
+                console.error("Error creating and sending offer:", err);
             }
         });
 
         socket.on('signal', async ({ from, payload }) => {
-            console.log(`Signal received from ${from} with type: ${payload.type}`);
-            const pc = peerConnections[from] || createPeerConnection(from);
+            if (!peerConnection) {
+                peerConnection = createPeerConnection(from);
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+            }
 
             try {
                 if (payload.type === 'offer') {
-                    console.log(`Received offer from ${from}. Setting remote description and creating answer...`);
-                    await pc.setRemoteDescription(new RTCSessionDescription(payload));
-                    const answer = await pc.createAnswer();
-                    await pc.setLocalDescription(answer);
-                    socket.emit('signal', { to: from, payload: pc.localDescription });
-                    console.log(`Answer sent to ${from}`);
+                    await peerConnection.setRemoteDescription(new RTCSessionDescription(payload));
+                    const answer = await peerConnection.createAnswer();
+                    await peerConnection.setLocalDescription(answer);
+                    socket.emit('signal', { to: from, payload: peerConnection.localDescription });
                 } else if (payload.type === 'answer') {
-                    console.log(`Received answer from ${from}. Setting remote description.`);
-                    await pc.setRemoteDescription(new RTCSessionDescription(payload));
+                    await peerConnection.setRemoteDescription(new RTCSessionDescription(payload));
                 } else if (payload.type === 'candidate') {
-                    console.log(`Received ICE candidate from ${from}.`);
-                    await pc.addIceCandidate(new RTCIceCandidate(payload.candidate));
+                    await peerConnection.addIceCandidate(new RTCIceCandidate(payload.candidate));
                 }
             } catch (err) {
                 console.error(`Error handling signal from ${from}:`, err);
@@ -317,35 +321,44 @@
         });
         
         socket.on('peer-left', peerSocketId => {
-            console.log(`Peer ${peerSocketId} left the room.`);
-            if (peerConnections[peerSocketId]) {
-                peerConnections[peerSocketId].close();
-                delete peerConnections[peerSocketId];
+            if (peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
             }
-            removeRemoteVideo(peerSocketId);
+            remoteVideo.srcObject = null;
+            updateStatus('Person has left the call.');
         });
 
-        const init = async () => {
-            if (!ROOM_ID) return;
-            try {
-                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                localVideo.srcObject = localStream;
-                // Corrected: Emit the 'join-room' event that the server can now handle.
-                socket.emit('join-room', ROOM_ID); 
-                console.log(`Attempting to join room: ${ROOM_ID}`);
-            } catch (err) {
-                console.error("Error accessing media devices.", err);
-                // The login check will prevent this from being shown to non-logged-in users
-            }
-        };
+        toggleAudioBtn.addEventListener('click', () => {
+            if (!localStream) return;
+            isAudioMuted = !isAudioMuted;
+            const audioTrack = localStream.getAudioTracks()[0];
+            audioTrack.enabled = !isAudioMuted;
+            toggleAudioBtn.classList.toggle('off', isAudioMuted);
+            toggleAudioBtn.innerHTML = isAudioMuted ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+        });
 
+        toggleVideoBtn.addEventListener('click', () => {
+            if (!localStream) return;
+            isVideoOff = !isVideoOff;
+            const videoTrack = localStream.getVideoTracks()[0];
+            videoTrack.enabled = !isVideoOff;
+            toggleVideoBtn.classList.toggle('off', isVideoOff);
+            toggleVideoBtn.innerHTML = isVideoOff ? '<i class="fas fa-video-slash"></i>' : '<i class="fas fa-video"></i>';
+            localVideo.style.display = isVideoOff ? 'none' : 'block';
+        });
+
+        switchCameraBtn.addEventListener('click', replaceVideoTrack);
+        
         leaveBtn.addEventListener('click', () => {
             socket.disconnect();
             if (localStream) {
                 localStream.getTracks().forEach(track => track.stop());
             }
-            Object.values(peerConnections).forEach(pc => pc.close());
-            window.location.reload();
+            if (peerConnection) {
+                peerConnection.close();
+            }
+            window.history.back();
         });
 
         init();
