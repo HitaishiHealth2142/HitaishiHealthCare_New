@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Answer Opinions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .opinion-card { transition: opacity 0.5s ease-out; }
+    </style>
+</head>
+<body class="bg-gray-200">
+
+    <div class="container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 text-center">Admin Dashboard</h1>
+            <p class="text-center text-gray-600 mt-2">Review and answer pending user opinions.</p>
+        </header>
+
+        <main id="pendingOpinionsContainer" class="space-y-6">
+            <!-- Pending opinions will be loaded here -->
+             <div class="text-center p-10 bg-white rounded-lg shadow-md">
+                <p class="text-gray-600">Loading pending questions...</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = '/api'; 
+            const container = document.getElementById('pendingOpinionsContainer');
+
+            // --- API Calls ---
+            async function fetchPendingOpinions() {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/opinions/pending`);
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Failed to fetch pending opinions.');
+                    }
+                    const data = await response.json();
+                    renderOpinions(data.opinions);
+                } catch (error) {
+                    console.error('Error fetching opinions:', error);
+                    container.innerHTML = `<div class="text-center p-10 bg-white rounded-lg shadow-md"><p class="text-red-500 font-semibold">Could not load questions. Please check the console and try again later.</p></div>`;
+                }
+            }
+            
+            async function submitAnswer(opinionId, answerText) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/opinions/${opinionId}/answer`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ answer_text: answerText })
+                    });
+
+                    if (!response.ok) {
+                         const errorData = await response.json();
+                         throw new Error(errorData.error || 'Failed to submit answer.');
+                    }
+                    
+                    // Visually remove the card on success
+                    const cardToRemove = document.querySelector(`[data-opinion-id="${opinionId}"]`);
+                    if (cardToRemove) {
+                        cardToRemove.style.opacity = '0';
+                        setTimeout(() => {
+                           cardToRemove.remove();
+                           // Check if any cards are left
+                           if (container.childElementCount === 0) {
+                               container.innerHTML = `<div class="text-center p-10 bg-white rounded-lg shadow-md"><p class="text-green-600 font-semibold">All questions have been answered. Great job!</p></div>`;
+                           }
+                        }, 500);
+                    }
+                } catch (error) {
+                     console.error('Error submitting answer:', error);
+                     alert(`Failed to submit answer: ${error.message}`);
+                }
+            }
+
+
+            // --- Rendering ---
+            function renderOpinions(opinions) {
+                if (!opinions || opinions.length === 0) {
+                    container.innerHTML = `<div class="text-center p-10 bg-white rounded-lg shadow-md"><p class="text-green-600 font-semibold">No pending questions to answer. Inbox is clear!</p></div>`;
+                    return;
+                }
+
+                container.innerHTML = opinions.map(opinion => `
+                    <div class="bg-white p-6 rounded-lg shadow-md opinion-card" data-opinion-id="${opinion.id}">
+                        <div class="border-b pb-4 mb-4">
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm text-gray-600">
+                                    From: <span class="font-semibold text-gray-800">${opinion.user_name}</span> (${opinion.user_email})
+                                </p>
+                                <p class="text-xs text-gray-500">
+                                    Received: ${new Date(opinion.created_at).toLocaleString()}
+                                </p>
+                            </div>
+                            <p class="text-lg text-gray-900 mt-2">${opinion.opinion_text}</p>
+                        </div>
+                        
+                        <form class="answer-form">
+                           <label for="answerText-${opinion.id}" class="block mb-2 font-semibold text-gray-700">Your Answer:</label>
+                           <textarea id="answerText-${opinion.id}" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" rows="4" placeholder="Type your official response here..." required></textarea>
+                           <button type="submit" class="mt-4 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md hover:bg-blue-700 transition duration-150">
+                               Submit Answer & Publish
+                           </button>
+                        </form>
+                    </div>
+                `).join('');
+            }
+
+            // --- Event Listeners ---
+            container.addEventListener('submit', (e) => {
+                if (e.target.classList.contains('answer-form')) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const opinionCard = form.closest('.opinion-card');
+                    const opinionId = opinionCard.dataset.opinionId;
+                    const answerText = form.querySelector('textarea').value.trim();
+
+                    if (answerText) {
+                        submitAnswer(opinionId, answerText);
+                    } else {
+                        alert('Please provide an answer before submitting.');
+                    }
+                }
+            });
+
+            // --- Initial Load ---
+            fetchPendingOpinions();
+        });
+    </script>
+</body>
+</html>

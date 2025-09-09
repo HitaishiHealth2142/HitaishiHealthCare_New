@@ -162,8 +162,10 @@ const diagnosticsRoutes = require("./routes/diagnostics");
 const newpaymentRoutes = require("./routes/newpayment");
 const testsRoutes = require("./routes/tests");
 const uploadRecordRoutes = require("./routes/upload_record");
+const blogRoutes = require("./routes/blog");
 
 // Use Routes
+app.use("/api", blogRoutes);
 app.use("/api", uploadRecordRoutes);
 app.use("/api", diagnosticsRoutes);
 app.use("/api", newpaymentRoutes);

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinion & Q&A Forum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .comment-card {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Share Your Opinion or Ask a Question</h1>
+
+        <!-- Submission Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Your Voice Matters</h2>
+            <form id="opinionForm">
+                <textarea id="opinionText" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150" rows="4" placeholder="Type your question or opinion here..." required></textarea>
+                <button type="submit" class="mt-4 w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                    Submit
+                </button>
+            </form>
+            <div id="form-message" class="mt-4 text-center"></div>
+        </div>
+
+        <!-- Opinions Feed -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Recent Discussions</h2>
+        <div id="opinionsContainer" class="space-y-6">
+            <!-- Opinions will be dynamically loaded here -->
+            <div class="text-center p-8 bg-white rounded-lg shadow-md">
+                <p class="text-gray-500">Loading recent discussions...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = '/api'; // Adjust if your API is hosted elsewhere
+            const opinionForm = document.getElementById('opinionForm');
+            const opinionText = document.getElementById('opinionText');
+            const opinionsContainer = document.getElementById('opinionsContainer');
+            const formMessage = document.getElementById('form-message');
+
+            // --- User Management (UPDATED) ---
+            /**
+             * Checks sessionStorage and localStorage for user data and normalizes the object.
+             * This is more robust and handles different key names and data structures.
+             */
+            function getUserData() {
+                // Look for user data in sessionStorage first, then localStorage
+                const userString = sessionStorage.getItem('patientUser') || localStorage.getItem('patientUser') || localStorage.getItem('loggedInUser');
+                
+                if (!userString) {
+                    return null;
+                }
+
+                try {
+                    const user = JSON.parse(userString);
+                    // Normalize the user object into a consistent format for the rest of the app
+                    const normalizedUser = {
+                        unique_id: user.uniqueId || user.unique_id,
+                        name: user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+                        email: user.email,
+                        mobile: user.mobile || user.mobilee // Handles potential typo seen in screenshot
+                    };
+                    return normalizedUser;
+                } catch (error) {
+                    console.error("Error parsing user data from storage:", error);
+                    return null;
+                }
+            }
+
+
+            // --- API Calls ---
+            async function fetchOpinions() {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/opinions`);
+                    if (!response.ok) throw new Error('Failed to fetch opinions.');
+                    const data = await response.json();
+                    renderOpinions(data.opinions);
+                } catch (error) {
+                    console.error('Error fetching opinions:', error);
+                    opinionsContainer.innerHTML = `<div class="text-center p-8 bg-white rounded-lg shadow-md"><p class="text-red-500">Could not load discussions. Please try again later.</p></div>`;
+                }
+            }
+
+            async function submitOpinion(text) {
+                const user = getUserData();
+                if (!user || !user.unique_id) { // Also check if essential data exists
+                    alert('Please login to send your opinion.');
+                    return;
+                }
+
+                formMessage.textContent = 'Submitting...';
+                formMessage.className = 'mt-4 text-center text-blue-600';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/opinions/submit`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            opinion_text: text,
+                            user_unique_id: user.unique_id,
+                            user_name: user.name,
+                            user_email: user.email,
+                            user_mobile: user.mobile
+                        })
+                    });
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error || 'Submission failed.');
+                    
+                    formMessage.textContent = 'Your opinion has been submitted and will appear after review and response.';
+                    formMessage.className = 'mt-4 text-center text-green-600';
+                    opinionForm.reset();
+                } catch (error) {
+                    formMessage.textContent = `Error: ${error.message}`;
+                    formMessage.className = 'mt-4 text-center text-red-500';
+                    console.error('Error submitting opinion:', error);
+                }
+            }
+
+             async function handleInteraction(opinionId, action) {
+                const user = getUserData();
+                if (!user || !user.unique_id) {
+                    alert('Please login to interact.');
+                    return;
+                }
+                try {
+                    await fetch(`${API_BASE_URL}/opinions/${opinionId}/interact`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            user_unique_id: user.unique_id,
+                            interaction_type: action 
+                        })
+                    });
+                    fetchOpinions(); // Re-fetch to update counts
+                } catch (error) {
+                    console.error(`Error with ${action}:`, error);
+                }
+            }
+
+            async function submitComment(opinionId, commentText) {
+                const user = getUserData();
+                if (!user || !user.unique_id) {
+                    alert('Please login to comment.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/opinions/${opinionId}/comment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            comment_text: commentText,
+                            user_unique_id: user.unique_id,
+                            user_name: user.name,
+                            user_email: user.email,
+                            user_mobile: user.mobile
+                        })
+                    });
+                    if (!response.ok) throw new Error('Failed to post comment.');
+                    fetchOpinions(); // Refresh to show the new comment
+                } catch (error) {
+                    console.error('Error submitting comment:', error);
+                    alert('Could not submit your comment. Please try again.');
+                }
+            }
+
+
+            // --- Rendering ---
+            function renderOpinions(opinions) {
+                if (!opinions || opinions.length === 0) {
+                    opinionsContainer.innerHTML = `<div class="text-center p-8 bg-white rounded-lg shadow-md"><p class="text-gray-500">No discussions from the last 7 days. Be the first to ask a question!</p></div>`;
+                    return;
+                }
+
+                opinionsContainer.innerHTML = opinions.map(opinion => `
+                    <div class="bg-white p-6 rounded-lg shadow-md" data-opinion-id="${opinion.id}">
+                        <!-- Question Section -->
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-500">Asked by ${opinion.user_name || 'Anonymous'}</p>
+                            <p class="text-lg font-semibold text-gray-800 mt-1">${opinion.opinion_text}</p>
+                        </div>
+
+                        <!-- Answer Section -->
+                        <div class="border-t border-l-4 border-blue-500 bg-blue-50 p-4 mt-4 rounded-r-lg">
+                            <p class="text-sm font-bold text-blue-800">Our Team's Response</p>
+                            <p class="text-gray-700 mt-2">${opinion.answer_text}</p>
+                            <p class="text-xs text-gray-500 mt-3 text-right">Answered on ${new Date(opinion.answered_at).toLocaleDateString()}</p>
+                        </div>
+                        
+                        <!-- Interaction Bar -->
+                        <div class="flex items-center justify-between mt-4 border-t pt-4">
+                            <div class="flex space-x-4 text-gray-500">
+                                <button class="interaction-btn flex items-center space-x-1 hover:text-green-500" data-action="like">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>${opinion.likes_count || 0}</span>
+                                </button>
+                                <button class="interaction-btn flex items-center space-x-1 hover:text-red-500" data-action="dislike">
+                                    <i class="fas fa-thumbs-down"></i>
+                                    <span>${opinion.dislikes_count || 0}</span>
+                                </button>
+                                <button class="comment-toggle-btn flex items-center space-x-1 hover:text-blue-500">
+                                    <i class="fas fa-comment"></i>
+                                    <span>${opinion.comments ? opinion.comments.length : 0}</span>
+                                </button>
+                            </div>
+                            <button class="share-btn hover:text-blue-500 text-gray-500" data-text="${opinion.opinion_text}">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+
+                        <!-- Comments Section (Hidden by default) -->
+                        <div class="comments-section hidden mt-4 pt-4 border-t">
+                            <h4 class="font-semibold text-gray-700 mb-3">Comments</h4>
+                            <div class="comments-list space-y-3 mb-4">
+                                ${renderComments(opinion.comments)}
+                            </div>
+                            <form class="comment-form flex space-x-2">
+                                <input type="text" class="flex-grow p-2 border rounded-md" placeholder="Add a comment..." required>
+                                <button type="submit" class="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-800">Post</button>
+                            </form>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function renderComments(comments) {
+                if (!comments || comments.length === 0) {
+                    return '<p class="text-sm text-gray-500">No comments yet.</p>';
+                }
+                return comments.map(comment => `
+                    <div class="comment-card border rounded-md p-3">
+                        <p class="font-bold text-sm text-gray-800">${comment.user_name}</p>
+                        <p class="text-gray-600 text-sm mt-1">${comment.comment_text}</p>
+                        <p class="text-xs text-gray-400 mt-2 text-right">${new Date(comment.created_at).toLocaleString()}</p>
+                    </div>
+                `).join('');
+            }
+
+            // --- Event Listeners ---
+            opinionForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const text = opinionText.value.trim();
+                if (text) {
+                    submitOpinion(text);
+                }
+            });
+            
+            opinionsContainer.addEventListener('click', (e) => {
+                const opinionCard = e.target.closest('[data-opinion-id]');
+                if (!opinionCard) return;
+                const opinionId = opinionCard.dataset.opinionId;
+
+                // Handle Likes/Dislikes
+                const interactionBtn = e.target.closest('.interaction-btn');
+                if (interactionBtn) {
+                    handleInteraction(opinionId, interactionBtn.dataset.action);
+                }
+
+                // Handle Share
+                const shareBtn = e.target.closest('.share-btn');
+                if (shareBtn) {
+                    const textToShare = `Q: ${shareBtn.dataset.text}\nCheck out the answer on our website!`;
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Check out this discussion',
+                            text: textToShare,
+                            url: window.location.href
+                        }).catch(console.error);
+                    } else {
+                        // Fallback for desktop
+                        navigator.clipboard.writeText(textToShare + `\nURL: ${window.location.href}`).then(() => {
+                            alert('Link copied to clipboard!');
+                        });
+                    }
+                }
+
+                // Handle Comment Toggle
+                const commentToggleBtn = e.target.closest('.comment-toggle-btn');
+                if (commentToggleBtn) {
+                    const commentsSection = opinionCard.querySelector('.comments-section');
+                    commentsSection.classList.toggle('hidden');
+                }
+            });
+            
+            opinionsContainer.addEventListener('submit', (e) => {
+                 if (e.target.classList.contains('comment-form')) {
+                    e.preventDefault();
+                    const input = e.target.querySelector('input');
+                    const commentText = input.value.trim();
+                    if (!commentText) return;
+                    
+                    const opinionCard = e.target.closest('[data-opinion-id]');
+                    const opinionId = opinionCard.dataset.opinionId;
+                    
+                    submitComment(opinionId, commentText);
+                    input.value = '';
+                 }
+            });
+
+            // --- Initial Load ---
+            fetchOpinions();
+        });
+    </script>
+</body>
+</html>

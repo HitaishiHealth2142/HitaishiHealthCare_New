@@ -3,12 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Book diagnostic tests and health checkups at affordable prices">
+  <meta name="description" content="Book diagnostic tests and health checkups from certified labs at affordable prices.">
   <title>Diagnostic Tests | Book Medical Tests Online</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <style>
+    /* Basic styling for the page */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      color: #2563eb;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      color: #64748b;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .category-card, .test-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      width: 280px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-top: 4px solid #2563eb;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+    .test-card {
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .test-card h4 {
+      margin-bottom: 0.5rem; color: #2563eb; font-size: 1.1rem;
+    }
+     .test-card p {
+      font-size: 0.9rem; color: #64748b; margin-bottom: 1rem; flex-grow: 1;
+    }
+    .price {
+      font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;
+    }
+    .book-btn {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      width: 100%;
+    }
+    .book-btn:hover {
+      background-color: #1d4ed8;
+    }
+    .back-btn {
+      background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 2rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; display: block; margin-left: auto; margin-right: auto;
+    }
+    .loader {
+      text-align: center;
+      font-size: 1.2rem;
+      padding: 3rem;
+    }
+    .test-list-title {
+      font-size: 2rem; color: #2563eb; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0;">
+<body>
   
   <header style="background-color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1rem; position: sticky; top: 0; z-index: 100;">
     <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
@@ -25,1440 +124,211 @@
     </div>
   </header>
 
-  <main style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <h1 style="font-size: 2.5rem; color: #2563eb; margin-bottom: 0.5rem;"><i class="fas fa-diagnoses"></i> Diagnostic Tests</h1>
-      <p style="color: #64748b; max-width: 700px; margin: 0 auto;">Book medical tests from certified labs with accurate results and fast turnaround times</p>
+  <main class="container">
+    <div class="header">
+      <h1><i class="fas fa-diagnoses"></i> Diagnostic Tests</h1>
+      <p>Book medical tests from certified labs with accurate results and fast turnaround times.</p>
     </div>
 
-    <div id="main-cards" style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
-      <!-- Cards will be shown based on URL parameters -->
+    <!-- This view will be populated dynamically with categories from the API -->
+    <div id="category-view" class="card-grid">
+      <!-- Dynamic category cards will be inserted here -->
     </div>
 
-    <!-- CBC -->
-    <div id="cbc" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Complete Blood Count (CBC)</h4>
-        <p>Measures various components of blood</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 300</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Complete Blood Count (CBC)', 300)">
-          <span class="btn-text">Book Now</span>
+    <!-- This view will be populated with tests from the selected category -->
+    <div id="test-list-view" style="display: none;" class="fade-in">
+        <h2 id="test-list-title" class="test-list-title"></h2>
+        <div id="test-list-container" class="card-grid">
+            <!-- Dynamically generated test cards will go here -->
+        </div>
+        <button class="back-btn" onclick="window.location.href='diagnostic-services.html'">
+            <i class="fas fa-arrow-left"></i> Back to All Categories
         </button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Hemoglobin (Hb)</h4>
-        <p>Measures oxygen-carrying protein in blood</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 100</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Hemoglobin (Hb)', 100)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">White Blood Cell Count (WBC)</h4>
-        <p>Measures infection-fighting cells</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 150</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('White Blood Cell Count (WBC)', 150)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Platelet Count</h4>
-        <p>Measures blood clotting cells</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 120</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Platelet Count', 120)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Red Blood Cell Count (RBC)</h4>
-        <p>Measures oxygen-carrying cells</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 130</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Red Blood Cell Count (RBC)', 130)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Mean Corpuscular Volume (MCV)</h4>
-        <p>Measures average RBC size</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 110</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Mean Corpuscular Volume (MCV)', 110)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Mean Corpuscular Hemoglobin (MCH)</h4>
-        <p>Measures hemoglobin in RBCs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 120</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Mean Corpuscular Hemoglobin (MCH)', 120)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Mean Corpuscular Hemoglobin Concentration (MCHC)</h4>
-        <p>Measures hemoglobin concentration in RBCs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 130</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Mean Corpuscular Hemoglobin Concentration (MCHC)', 130)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Red Cell Distribution Width (RDW)</h4>
-        <p>Measures variation in RBC size</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 140</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Red Cell Distribution Width (RDW)', 140)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Reticulocyte Count</h4>
-        <p>Measures young RBCs in blood</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 150</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Reticulocyte Count', 150)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Peripheral Smear</h4>
-        <p>Microscopic examination of blood cells</p> 
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Peripheral Smear', 200)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">ESR (Erythrocyte Sedimentation Rate)</h4>
-        <p>Measures inflammation in the body</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 100</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('ESR (Erythrocyte Sedimentation Rate)', 100)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">C-Reactive Protein (CRP)</h4>
-        <p>Measures inflammation in the body</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('C-Reactive Protein (CRP)', 200)">Book Now</button>
-      </div>
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
     </div>
-
-    <!-- Pathology -->
-    <div id="pathology" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Blood Sugar (F/PP)</h4>
-        <p>Measures glucose levels</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 150</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Blood Sugar (F/PP)', 150)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Liver Function Test (LFT)</h4>
-        <p>Assesses liver health</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Liver Function Test (LFT)', 800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Kidney Function Test (KFT)</h4>
-        <p>Assesses kidney health</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 850</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Kidney Function Test (KFT)', 850)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Thyroid Profile (T3, T4, TSH)</h4>
-        <p>Measures thyroid hormones</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 650</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Thyroid Profile (T3, T4, TSH)', 650)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Vitamin D</h4>
-        <p>Measures vitamin D levels</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Vitamin D', 500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Vitamin B12</h4>
-        <p>Measures vitamin B12 levels</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Vitamin B12', 600)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Iron Studies</h4>
-        <p>Measures iron levels and storage</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 700</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Iron Studies', 700)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Lipid Profile</h4>
-        <p>Measures cholesterol and triglycerides</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Lipid Profile', 600)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Urine Routine and Microscopy</h4>
-        <p>Analyzes urine for various parameters</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Urine Routine and Microscopy', 200)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Stool Routine and Microscopy</h4>
-        <p>Analyzes stool for digestive health</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 250</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Stool Routine and Microscopy', 250)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Pregnancy Test (Urine)</h4>
-        <p>Detects pregnancy hormones</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 100</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Pregnancy Test (Urine)', 100)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">HIV Test</h4>
-        <p>Tests for HIV antibodies</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('HIV Test', 500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Hepatitis B Surface Antigen (HBsAg)</h4>
-        <p>Tests for Hepatitis B infection</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Hepatitis B Surface Antigen (HBsAg)', 600)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Hepatitis C Antibody Test</h4>
-        <p>Tests for Hepatitis C infection</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 700</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Hepatitis C Antibody Test', 700)">Book Now</button>
-      </div>
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
-    </div>
-
-    <!-- microbiology -->
-    <div id="microbiology" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Blood Culture</h4>
-        <p>Identifies blood infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Blood Culture', 600)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Urine Culture</h4>
-        <p>Identifies urinary tract infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Urine Culture', 500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Sputum Culture</h4>
-        <p>Identifies respiratory infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 550</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Sputum Culture', 550)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Throat Swab Culture</h4>
-        <p>Identifies throat infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Throat Swab Culture', 500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Stool Culture</h4>
-        <p>Identifies gastrointestinal infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Stool Culture', 600)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Wound Culture</h4>
-        <p>Identifies infections in wounds</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 700</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Wound Culture', 700)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CSF Culture</h4>
-        <p>Cerebrospinal fluid culture for meningitis</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CSF Culture', 800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Fungal Culture</h4>
-        <p>Identifies fungal infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 700</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Fungal Culture', 700)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Antibiotic Sensitivity Test</h4>
-        <p>Determines effective antibiotics</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Antibiotic Sensitivity Test', 800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Mycobacterial Culture</h4>
-        <p>Identifies tuberculosis and other mycobacterial infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 900</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Mycobacterial Culture', 900)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Viral Culture</h4>
-        <p>Identifies viral infections</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Viral Culture', 1000)">Book Now</button>
-      </div>
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i> Back to All Categories
-      </button>
-    </div>
-
-    <!-- Radiology -->
-    <div id="radiology" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">X-Ray (Chest)</h4>
-        <p>Images of chest and lungs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 400</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('X-Ray (Chest)', 400)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Abdomen)</h4>
-        <p>Images of abdominal organs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Abdomen)', 1200)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Head)</h4>
-        <p>Detailed brain imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Scan (Head)', 3000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">MRI (Brain)</h4>
-        <p>Magnetic resonance imaging of the brain</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #2563eb; color : white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('MRI (Brain)', 5000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Pelvis)</h4>
-        <p>Images of pelvic organs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Pelvis)', 1500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Abdomen)</h4>
-        <p>Detailed abdominal imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Scan (Abdomen)', 3500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Bone Densitometry (DEXA)</h4>
-        <p>Measures bone density</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Bone Densitometry (DEXA)', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Thyroid)</h4>
-        <p>Imaging of the thyroid gland</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Thyroid)', 800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Mammography</h4>
-        <p>Breast imaging for cancer screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Mammography', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Angiography</h4>
-        <p>Imaging of blood vessels</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Angiography', 4000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Obstetric)</h4>
-        <p>Prenatal imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1800</div>
-        <button style="background-color: #2563eb; color : white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Obstetric)', 1800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Fluoroscopy</h4>
-        <p>Real-time imaging of moving organs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Fluoroscopy', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Chest)</h4>
-        <p>Detailed chest imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Scan (Chest)', 3200)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Breast)</h4>
-        <p>Breast imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 900</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Breast)', 900)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Pelvis)</h4>
-        <p>Detailed pelvic imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Scan (Pelvis)', 3600)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Vascular)</h4>
-        <p>Imaging of blood vessels</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Vascular)', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Spine)</h4>
-        <p>Detailed spine imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Scan (Spine)', 4000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Musculoskeletal)</h4>
-        <p>Imaging of muscles and joints</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Musculoskeletal)', 1500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Whole Body)</h4>
-        <p>Comprehensive body imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 7000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CT Scan (Whole Body)', 7000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ultrasound (Cardiac)</h4>
-        <p>Imaging of the heart</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Ultrasound (Cardiac)', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">CT Scan (Angiography)</h4>
-        <p>Imaging of blood vessels</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100% ;" onclick="bookTest('CT Scan (Angiography)', 4500)">Book Now</button>
-      </div>
-      <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="hideAllSubTests()">
-        <i class="fas fa-arrow-left"></i> Back to Categories
-      </button>
-    </div>
-
-    <!-- Cardiology -->
-    <div id="cardiology" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">ECG</h4>
-        <p>Records heart's electrical activity</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 360</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('ECG', 360)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">2D Echo with Color Doppler</h4>
-        <p>Ultrasound of the heart</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('2D Echo with Color Doppler', 2000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">TMT - Cardiac Stress Test</h4>
-        <p>Evaluates heart under stress</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('TMT - Cardiac Stress Test', 2000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Holter Monitoring</h4>
-        <p>24-hour heart rhythm monitoring</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Holter Monitoring', 1500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Cardiac Enzymes (Troponin, CK-MB)</h4>
-        <p>Measures heart muscle damage</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Cardiac Enzymes', 800)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Cardiac CT Angiography</h4>
-        <p>Imaging of coronary arteries</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Cardiac CT Angiography', 5000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Cardiac MRI</h4>
-        <p>Magnetic resonance imaging of the heart</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 7000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Cardiac MRI', 7000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Coronary Angiography</h4>
-        <p>Imaging of coronary arteries</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 8000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Coronary Angiography', 8000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Cardiac Biomarkers (BNP, NT-proBNP)</h4>
-        <p>Measures heart failure markers</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 900</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Cardiac Biomarkers', 900)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Electrophysiology Study (EPS)</h4>
-        <p>Tests heart's electrical system</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 12000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Electrophysiology Study', 12000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Cardiac CT Calcium Scoring</h4>
-        <p>Measures calcium in coronary arteries</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Cardiac CT Calcium Scoring', 4000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #dc2626;">
-        <h4 style="margin-bottom: 0.5rem; color: #dc2626;">Cardiac PET Scan</h4>
-        <p>Positron emission tomography of the heart</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 12000</div>
-        <button style="background-color: #dc2626; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Cardiac PET Scan', 12000)">Book Now</button>
-      </div>
-
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="hideAllSubTests()">
-        <i class="fas fa-arrow-left"></i> Back to All Categories
-      </button>
-    </div>
-
-    <!-- Neurology -->
-    <div id="neurology" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">EEG</h4>
-        <p>Records brain's electrical activity</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('EEG', 2000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">NCV</h4>
-        <p>Nerve conduction velocity test</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('NCV', 3000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">EMG</h4>
-        <p>Electromyography for muscle activity</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('EMG', 2500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">Evoked Potentials</h4>
-        <p>Measures brain response to stimuli</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3500</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Evoked Potentials', 3500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">CSF Analysis</h4>
-        <p>Cerebrospinal fluid analysis</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('CSF Analysis', 4000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">Brain MRI</h4>
-        <p>Magnetic resonance imaging of the brain</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Brain MRI', 5000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">Spinal Tap (Lumbar Puncture)</h4>
-        <p>Collects cerebrospinal fluid</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 6000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Spinal Tap (Lumbar Puncture)', 6000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">Brain CT Scan</h4>
-        <p>Computed tomography of the brain</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Brain CT Scan', 3000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #7c3aed;">
-        <h4 style="margin-bottom: 0.5rem; color: #7c3aed;">Neuropsychological Testing</h4>
-        <p>Assesses cognitive function</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4000</div>
-        <button style="background-color: #7c3aed; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Neuropsychological Testing', 4000)">Book Now</button>
-      </div>
-
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="hideAllSubTests()">
-        <i class="fas fa-arrow-left"></i> Back to All Categories
-      </button>
-    </div>
-
-    <!-- Ophthalmology -->
-    <div id="ophthalmology" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Fundus Photography</h4>
-        <p>Retina imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Fundus Photography', 600)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Visual Acuity Test</h4>
-        <p>Measures clarity of vision</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Visual Acuity Test', 200)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Intraocular Pressure Measurement</h4>
-        <p>Measures eye pressure</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 300</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Intraocular Pressure Measurement', 300)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Optical Coherence Tomography (OCT)</h4>
-        <p>Detailed imaging of the retina</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Optical Coherence Tomography (OCT)', 1500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Visual Field Test</h4>
-        <p>Assesses peripheral vision</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Visual Field Test', 800)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Slit Lamp Examination</h4>
-        <p>Detailed examination of the eye</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Slit Lamp Examination', 500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Corneal Topography</h4>
-        <p>Maps the surface of the cornea</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1200</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Corneal Topography', 1200)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Retinal Angiography</h4>
-        <p>Imaging of blood vessels in the retina</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Retinal Angiography', 1800)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Contact Lens Fitting</h4>
-        <p>Fitting and assessment for contact lenses</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Contact Lens Fitting', 1000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Color Vision Test</h4>
-        <p>Assesses color perception</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 150</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Color Vision Test', 150)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Retinal OCT Angiography</h4>
-        <p>Imaging of retinal blood flow</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Retinal OCT Angiography', 2000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Anterior Segment Photography</h4>
-        <p>Imaging of the front part of the eye</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 700</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Anterior Segment Photography', 700)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Visual Evoked Potentials (VEP)</h4>
-        <p>Measures brain response to visual stimuli</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Visual Evoked Potentials (VEP)', 2500)">Book Now</button>
-      </div>
-
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="hideAllSubTests()">
-        <i class="fas fa-arrow-left"></i> Back to All Categories
-      </button>
-    </div>
-
-    <!-- ENT -->
-    <div id="ent" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Pure Tone Audiometry</h4>
-        <p>Hearing test</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1000</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('Pure Tone Audiometry', 1000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Tympanometry</h4>
-        <p>Middle ear function test</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Tympanometry', 800)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Otoacoustic Emissions (OAE)</h4>
-        <p>Tests inner ear function</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1200</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Otoacoustic Emissions (OAE)', 1200)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Auditory Brainstem Response (ABR)</h4>
-        <p>Tests auditory nerve function</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Auditory Brainstem Response (ABR)', 2000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Vestibular Function Tests</h4>
-        <p>Tests balance and inner ear function</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Vestibular Function Tests', 2500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Sinus X-Ray</h4>
-        <p>Imaging of the sinuses</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 600</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Sinus X-Ray', 600)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Nasopharyngoscopy</h4>
-        <p>Examination of the nasal passages and throat</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Nasopharyngoscopy', 1500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Otoscopy</h4>
-        <p>Examination of the ear canal and eardrum</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Otoscopy', 500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Speech Audiometry</h4>
-        <p>Tests speech understanding</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 900</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Speech Audiometry', 900)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Balance Assessment</h4>
-        <p>Tests balance and coordination</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Balance Assessment', 1800)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Allergy Testing (Skin Prick Test)</h4>
-        <p>Identifies allergies</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1200</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Allergy Testing (Skin Prick Test)', 1200)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Hearing Aid Fitting</h4>
-        <p>Fitting and assessment for hearing aids</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Hearing Aid Fitting', 2000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Voice Analysis</h4>
-        <p>Assesses voice quality and disorders</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Voice Analysis', 1500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ear Wax Removal</h4>
-        <p>Removal of earwax buildup</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Ear Wax Removal', 500)">Book Now</button>
-      </div>
-
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
-
-    </div>
-
-    <!-- Dental -->
-    <div id="dental" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">OPG (Full Mouth X-ray)</h4>
-        <p>Panoramic dental imaging</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; margin-top: 0.5rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 100%;" onclick="bookTest('OPG (Full Mouth X-ray)', 800)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Dental Checkup</h4>
-        <p>Comprehensive dental examination</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Dental Checkup', 500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Teeth Cleaning (Scaling)</h4>
-        <p>Professional teeth cleaning</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Teeth Cleaning (Scaling)', 1000)">Book Now</button>
-      </div>  
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Root Canal Treatment (RCT)</h4>
-        <p>Endodontic treatment for tooth decay</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Root Canal Treatment (RCT)', 3000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Dental X-ray (Bitewing)</h4>
-        <p>X-ray for detecting cavities</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 400</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Dental X-ray (Bitewing)', 400)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Teeth Whitening</h4>
-        <p>Cosmetic teeth whitening treatment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Teeth Whitening', 2500)">Book Now</button>
-      </div>  
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Dental Implants</h4>
-        <p>Replacement of missing teeth</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 25000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Dental Implants', 25000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Gum Treatment</h4>
-        <p>Treatment for gum disease</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Gum Treatment', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Dental Crowns</h4>
-        <p>Caps for damaged teeth</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Dental Crowns', 5000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Orthodontic Consultation</h4>
-        <p>Assessment for braces or aligners</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Orthodontic Consultation', 1000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Dental Fillings</h4>
-        <p>Restoration of cavities</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Dental Fillings', 800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Wisdom Tooth Extraction</h4>
-        <p>Removal of wisdom teeth</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Wisdom Tooth Extraction', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Fluoride Treatment</h4>
-        <p>Strengthens tooth enamel</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Fluoride Treatment', 500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Dental Sealants</h4>
-        <p>Protects teeth from cavities</p>   
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Dental Sealants', 800)">Book Now</button>
-      </div>  
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
-    </div>
-
-    <!-- Fertility -->
-    <div id="fertility" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">NT Scan</h4>
-        <p>Prenatal screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('NT Scan', 1500)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Hysteroscopy</h4>
-        <p>Examination of the uterus</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 8000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Hysteroscopy', 8000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Laparoscopy</h4>
-        <p>Minimally invasive surgery</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 12000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Laparoscopy', 12000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Follicular Study</h4>
-        <p>Monitoring of ovarian follicles</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Follicular Study', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Semen Analysis</h4>
-        <p>Assessment of male fertility</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Semen Analysis', 1000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Ovulation Induction</h4>
-        <p>Stimulating ovulation for fertility</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Ovulation Induction', 5000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Embryo Transfer</h4>
-        <p>Transfer of embryos during IVF</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 20000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Embryo Transfer', 20000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Intrauterine Insemination (IUI)</h4>
-        <p>Assisted reproductive technique</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 8000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Intrauterine Insemination (IUI)', 8000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">IVF (In Vitro Fertilization)</h4>
-        <p>Fertility treatment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 50000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('IVF (In Vitro Fertilization)', 50000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Frozen Embryo Transfer (FET)</h4>
-        <p>Transfer of frozen embryos</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 25000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Frozen Embryo Transfer (FET)', 25000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Preimplantation Genetic Testing (PGT)</h4>
-        <p>Genetic testing of embryos</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 15000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Preimplantation Genetic Testing (PGT)', 15000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Egg Freezing</h4>
-        <p>Preservation of eggs for future use</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 30000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Egg Freezing', 30000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Sperm Freezing</h4>
-        <p>Preservation of sperm for future use</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 10000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Sperm Freezing', 10000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Counseling</h4>
-        <p>Counseling for genetic risks</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Counseling', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Endometrial Biopsy</h4>
-        <p>Sampling of the uterine lining</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Endometrial Biopsy', 3000)">Book Now</button>
-      </div>
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
-    </div>
-
-    <!-- Genetic -->
-    <div id="genetic" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Cancer</h4>
-        <p>Screening for hereditary cancer risks</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 15000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Cancer', 15000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Carrier Screening</h4>
-        <p>Testing for inherited genetic conditions</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 8000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Carrier Screening', 8000)">Book Now</button>
-      </div>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Whole Genome Sequencing</h4>
-        <p>Comprehensive genetic analysis</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 30000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Whole Genome Sequencing', 30000)">Book Now</button>
-      </div>  
-    
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Pharmacogenomics Testing</h4>
-        <p>Testing how genes affect drug response</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 10000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Pharmacogenomics Testing', 10000)">Book Now</button>
-      </div>  
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Neurological Disorders</h4>
-        <p>Testing for genetic causes of neurological conditions</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 12000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Neurological Disorders', 12000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Cardiovascular Diseases</h4>
-        <p>Testing for genetic risk of heart diseases</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 9000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Cardiovascular Diseases', 9000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Metabolic Disorders</h4>
-        <p>Testing for inherited metabolic conditions</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 8000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Metabolic Disorders', 8000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Rare Diseases</h4>
-        <p>Testing for genetic causes of rare diseases</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 15000</div>
-        <button style="background-color: #2563eb;" onclick ="bookTest('Genetic Testing for Rare Diseases', 15000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Autoimmune Disorders</h4>
-        <p>Testing for genetic risk of autoimmune diseases</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 11000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Autoimmune Disorders', 11000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Psychiatric Disorders</h4>
-        <p>Testing for genetic risk of mental health conditions</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 13000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Psychiatric Disorders', 13000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Gastrointestinal Disorders</h4>
-        <p>Testing for genetic causes of GI conditions</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 10000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Gastrointestinal Disorders', 10000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Genetic Testing for Endocrine Disorders</h4>
-        <p>Testing for genetic risk of hormonal disorders</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 12000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Genetic Testing for Endocrine Disorders', 12000)">Book Now</button>
-      </div>
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
-    </div>
-
-    
-    <!-- Packages -->
-    <div id="packages" style="display: none; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%; animation: fadeIn 0.3s ease;">
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Full Body Checkup</h4>
-        <p>Comprehensive health screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Full Body Checkup', 3500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Heart Health Package</h4>
-        <p>Cardiac risk assessment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Heart Health Package', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Diabetes Management Package</h4>
-        <p>Comprehensive diabetes screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Diabetes Management Package', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Thyroid Health Package</h4>
-        <p>Thyroid function tests</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Thyroid Health Package', 1500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Kidney Function Package</h4>
-        <p>Assessment of kidney health</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Kidney Function Package', 1800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Liver Function Package</h4>
-        <p>Assessment of liver health</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Liver Function Package', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Vitamin D and Calcium Package</h4>
-        <p>Bone health assessment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1200</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Vitamin D and Calcium Package', 1200)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Allergy Testing Package</h4>
-        <p>Comprehensive allergy screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Allergy Testing Package', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Pregnancy Care Package</h4>
-        <p>Comprehensive prenatal screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Pregnancy Care Package', 3000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Cancer Screening Package</h4>
-        <p>Early detection of cancer</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Cancer Screening Package', 5000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Mental Health Package</h4>
-        <p>Comprehensive mental health assessment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Mental Health Package', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Senior Citizen Health Package</h4>
-        <p>Health screening for seniors</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 4000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Senior Citizen Health Package', 4000)">Book Now</button>
-      </div>  
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Child Health Package</h4>
-        <p>Comprehensive health screening for children</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Child Health Package', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Immunity Boosting Package</h4>
-        <p>Tests to assess and boost immunity</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Immunity Boosting Package', 1800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Weight Management Package</h4>
-        <p>Comprehensive weight management assessment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2200</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Weight Management Package', 2200)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Sports Fitness Package</h4>
-        <p>Fitness assessment for athletes</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 3000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Sports Fitness Package', 3000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Travel Health Package</h4>
-        <p>Health screening for travelers</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Travel Health Package', 1500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Smoking Cessation Package</h4>
-        <p>Support and tests for quitting smoking</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Smoking Cessation Package', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Alcohol Dependence Package</h4>
-        <p>Support and tests for alcohol dependence</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2500</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Alcohol Dependence Package', 2500)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Stress Management Package</h4>
-        <p>Comprehensive stress assessment</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 1800</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Stress Management Package', 1800)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Sleep Disorder Package</h4>
-        <p>Assessment of sleep disorders</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 2000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Sleep Disorder Package', 2000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">All-in-One Health Package</h4>
-        <p>Comprehensive health screening</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 6000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('All-in-One Health Package', 6000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Custom Health Package</h4>
-        <p>Tailored health screening based on individual needs</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 5000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Custom Health Package', 5000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Corporate Health Package</h4>
-        <p>Health screening for employees</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 8000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Corporate Health Package', 8000)">Book Now</button>
-      </div>
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; width: 280px; text-align: center; transition: all 0.3s ease; border-top: 4px solid #2563eb;">
-        <h4 style="margin-bottom: 0.5rem; color: #2563eb;">Family Health Package</h4>
-        <p>Comprehensive health screening for families</p>
-        <div style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; color: #10b981;">₹ 7000</div>
-        <button style="background-color: #2563eb;" onclick="bookTest('Family Health Package', 7000)">Book Now</button>
-      </div>
-      <button style="background-color: #e2e8f0; color: #1e293b; border: none; padding: 0.6rem 1.2rem; margin-top: 1rem; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; font-weight: 500; width: 280px;" onclick="window.location.href='diagnostic-services.html'">
-        <i class="fas fa-arrow-left"></i>  Back to All Categories
-      </button>
-    </div>
-  
   </main>
 
-    <footer style="background-color: #1e293b; color: white; padding: 2rem 1rem; margin-top: 3rem;">
-      <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
-        <div>
-          <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">MediTest</h3>
-          <p>Your trusted partner for accurate and affordable diagnostic testing.</p>
-        </div>
-        <div>
-          <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Quick Links</h3>
-          <ul style="list-style: none;">
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">Home</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">Tests</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">Labs</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">About Us</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Support</h3>
-          <ul style="list-style: none;">
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">Contact Us</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">FAQs</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">Privacy Policy</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease;">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Contact</h3>
-          <ul style="list-style: none;">
-            <li style="margin-bottom: 0.5rem;"><i class="fas fa-phone"></i> +91 9876543210</li>
-            <li style="margin-bottom: 0.5rem;"><i class="fas fa-envelope"></i> info@meditest.com</li>
-            <li style="margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt"></i> 123 Health Street, Medical City</li>
-          </ul>
-        </div>
-      </div>
-      <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #334155; color: #94a3b8;">
-        <p>&copy; 2025 hitaishi health care. All rights reserved.</p>
-      </div>
-    </footer>
+  <footer style="background-color: #1e293b; color: white; padding: 2rem 1rem; margin-top: 3rem;">
+    <div style="max-width: 1200px; margin: 0 auto; text-align: center; padding-top: 1rem; border-top: 1px solid #334155; color: #94a3b8;">
+      <p>&copy; 2025 Hitaishi Health Care. All rights reserved.</p>
+    </div>
+  </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let allTests = [];
+      const API_BASE_URL = 'https://hitaishihealthcare.com/api';
 
+      const categoryView = document.getElementById('category-view');
+      const testListView = document.getElementById('test-list-view');
+      const testListContainer = document.getElementById('test-list-container');
+      const testListTitle = document.getElementById('test-list-title');
 
-    <script>
-      // Function to get URL parameters
-      function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, '\\$&');
-        const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-        const results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      const iconMap = {
+          'Complete Blood Count': 'fa-tint',
+          'Pathology Tests': 'fa-microscope',
+          'Microbiology Tests': 'fa-bacteria',
+          'Radiology & Imaging': 'fa-x-ray',
+          'Cardiology': 'fa-heartbeat',
+          'Neurology': 'fa-brain',
+          'Ophthalmology': 'fa-eye',
+          'ENT': 'fa-ear',
+          'Dental': 'fa-tooth',
+          'Prenatal & Fertility': 'fa-baby',
+          'Genetic Testing': 'fa-dna',
+          'Health Packages': 'fa-box-open',
+          'default': 'fa-flask'
+      };
+
+      /**
+       * Creates a URL-friendly slug from a string.
+       * e.g., "Radiology & Imaging" becomes "radiology-imaging"
+       */
+      function createSlug(text) {
+          if (!text) return '';
+          return text.toString().toLowerCase()
+              .replace(/\s+/g, '-')           // Replace spaces with -
+              .replace(/&/g, '-and-')       // Replace & with 'and'
+              .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+              .replace(/\-\-+/g, '-');        // Replace multiple - with single -
       }
 
-      // Function to show specific test category based on URL parameter
-      function showTestCategory() {
-        const category = getParameterByName('category');
-        const mainCards = document.getElementById('main-cards');
+      /**
+       * Renders the main category cards based on unique categories from the tests.
+       */
+      function renderCategories() {
+        // Get unique categories from the fetched tests
+        const categories = [...new Set(allTests.map(test => test.category))];
         
-        // Hide all test sections first
-        document.querySelectorAll('[id$="-tests"]').forEach(section => {
-          section.style.display = 'none';
+        categoryView.innerHTML = ''; // Clear existing content
+
+        categories.forEach(category => {
+            if(!category) return; // Skip if category is null or empty
+            const categoryCard = document.createElement('div');
+            categoryCard.className = 'category-card';
+            
+            const slug = createSlug(category);
+            const iconClass = iconMap[category] || iconMap['default'];
+            
+            categoryCard.innerHTML = `
+                <i class="fas ${iconClass}" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
+                <h3 style="margin-bottom: 0.5rem;">${category}</h3>
+            `;
+            categoryCard.onclick = () => navigateToCategory(slug);
+            categoryView.appendChild(categoryCard);
         });
-        
-        // Show the requested category or all categories if none specified
-        if (category) {
-          const categorySection = document.getElementById(category);
-          if (categorySection) {
-            categorySection.style.display = 'flex';
-            mainCards.style.display = 'none';
-          }
-        } else {
-          mainCards.style.display = 'flex';
-          // Populate main cards
-          mainCards.innerHTML = `
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=cbc'">
-              <i class="fas fa-tint" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Complete Blood Count</h3>
-              <p>Essential blood analysis</p>
+
+        categoryView.style.display = 'flex';
+        testListView.style.display = 'none';
+      }
+
+      /**
+       * Renders the test cards for a given category slug.
+       */
+      function renderTestsForCategory(categorySlug) {
+        // Find the full category name that matches the slug
+        const categoryName = [...new Set(allTests.map(test => test.category))]
+                               .find(cat => createSlug(cat) === categorySlug);
+
+        if (!categoryName) {
+          // If category is invalid, show the main category view
+          renderCategories();
+          return;
+        }
+
+        const filteredTests = allTests.filter(test => test.category === categoryName);
+
+        // Update UI
+        categoryView.style.display = 'none';
+        testListView.style.display = 'block';
+        testListTitle.textContent = categoryName;
+        testListContainer.innerHTML = ''; // Clear previous results
+
+        if (filteredTests.length === 0) {
+          testListContainer.innerHTML = `<p>No tests found for this category.</p>`;
+          return;
+        }
+
+        filteredTests.forEach(test => {
+          const testCard = document.createElement('div');
+          testCard.className = 'test-card';
+          testCard.innerHTML = `
+            <div>
+              <h4>${test.test_name}</h4>
+              <p>${test.description || 'Detailed information about this test.'}</p>
             </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=pathology'">
-              <i class="fas fa-microscope" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Pathology Tests</h3>
-              <p>Blood, urine, and more</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=microbiology'">
-              <i class="fas fa-bacteria" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Microbiology Tests</h3>
-              <p>Cultures and sensitivity</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=radiology'">
-              <i class="fas fa-x-ray" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Radiology & Imaging</h3>
-              <p>X-rays, CT scans, MRI</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=cardiology'">
-              <i class="fas fa-heartbeat" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Cardiology</h3>
-              <p>Heart health tests</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=neurology'">
-              <i class="fas fa-brain" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Neurology</h3>
-              <p>Brain and nerve tests</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=ophthalmology'">
-              <i class="fas fa-eye" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Ophthalmology</h3>
-              <p>Eye examinations</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=ent'">
-              <i class="fas fa-ear" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">ENT</h3>
-              <p>Ear, nose, throat tests</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=dental'">
-              <i class="fas fa-tooth" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Dental</h3>
-              <p>Oral health diagnostics</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=fertility'">
-              <i class="fas fa-baby" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Prenatal & Fertility</h3>
-              <p>Pregnancy and fertility</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=genetic'">
-              <i class="fas fa-dna" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Genetic Testing</h3>
-              <p>DNA and specialized tests</p>
-            </div>
-            
-            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; width: 280px; cursor: pointer; transition: all 0.3s ease; text-align: center; border-top: 4px solid #2563eb;" onclick="window.location.href='diagnostic-services.html?category=packages'">
-              <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 1rem; color: #2563eb;"></i>
-              <h3 style="margin-bottom: 0.5rem;">Health Packages</h3>
-              <p>Comprehensive checkups</p>
+            <div>
+              <div class="price">₹${parseFloat(test.final_price || test.price).toFixed(2)}</div>
+              <button class="book-btn">Book Now</button>
             </div>
           `;
-        }
+          testCard.querySelector('.book-btn').addEventListener('click', () => bookTest(test));
+          testListContainer.appendChild(testCard);
+        });
       }
 
-      function bookTest(testName, price) {
-        // Show loading state
-        const buttons = document.querySelectorAll(`button[onclick="bookTest('${testName}', ${price})"]`);
-        buttons.forEach(btn => {
-          const btnText = btn.querySelector('.btn-text');
-          if (btnText) {
-            btnText.textContent = 'Booking...';
-            btn.insertAdjacentHTML('beforeend', '<span class="loading" style="display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite;"></span>');
-            btn.disabled = true;
-          }
-        });
+      /**
+       * Main function to fetch data and decide what to display.
+       */
+      async function initializePage() {
+        const params = new URLSearchParams(window.location.search);
+        const categorySlug = params.get('category');
         
-        // Simulate API call
-        setTimeout(() => {
-          alert(`Booking ${testName} for ₹${price}\n(Redirecting to payment page in a real application)`);
-          window.location.href = 'payment.html?test=' + encodeURIComponent(testName) + '&price=' + price;
-          // Reset buttons
-          buttons.forEach(btn => {
-            const btnText = btn.querySelector('.btn-text');
-            if (btnText) {
-              btnText.textContent = 'Book Now';
-              const loading = btn.querySelector('.loading');
-              if (loading) loading.remove();
-              btn.disabled = false;
-            }
-          });
-        }, 1000);
-      }
-
-      // Run on page load
-      document.addEventListener('DOMContentLoaded', showTestCategory);
-
-      // Media query for mobile responsiveness
-      function checkMobileView() {
-        if (window.innerWidth <= 768) {
-          // Mobile styles
-          document.querySelector('header div').style.flexDirection = 'column';
-          document.querySelector('header div').style.gap = '1rem';
-          document.querySelector('nav ul').style.gap = '1rem';
-          document.querySelector('.page-header h1').style.fontSize = '2rem';
-          
-          // Make cards full width on mobile
-          document.querySelectorAll('.card, .sub-test-card').forEach(card => {
-            card.style.width = '100%';
-          });
+        // Show a loader
+        if (categorySlug) {
+            testListView.style.display = 'block';
+            testListContainer.innerHTML = `<div class="loader">Loading tests...</div>`;
         } else {
-          // Desktop styles
-          document.querySelector('header div').style.flexDirection = 'row';
-          document.querySelector('header div').style.gap = '';
-          document.querySelector('nav ul').style.gap = '1.5rem';
-          document.querySelector('.page-header h1').style.fontSize = '2.5rem';
+            categoryView.innerHTML = `<div class="loader">Loading categories...</div>`;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/test/all`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
           
-          // Reset card widths
-          document.querySelectorAll('.card, .sub-test-card').forEach(card => {
-            card.style.width = '280px';
-          });
+          const data = await response.json();
+          if (data.success && Array.isArray(data.tests)) {
+            allTests = data.tests;
+          } else {
+            throw new Error("Invalid data format from API");
+          }
+
+          // After fetching, decide what to render
+          if (categorySlug) {
+            renderTestsForCategory(categorySlug);
+          } else {
+            renderCategories();
+          }
+
+        } catch (error) {
+          console.error("Failed to initialize page:", error);
+          categoryView.innerHTML = `<p style="text-align: center; color: red;">Error loading data. Please try again later.</p>`;
+          categoryView.style.display = 'block';
+          testListView.style.display = 'none';
         }
       }
 
-      // Run on load and resize
-      window.addEventListener('load', checkMobileView);
-      window.addEventListener('resize', checkMobileView);
-    </script>
+      initializePage();
+    });
 
-<!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
+    /**
+     * Handles navigation to a specific category page.
+     * @param {string} categorySlug - The category to navigate to.
+     */
+    function navigateToCategory(categorySlug) {
+        window.location.href = `diagnostic-services.html?category=${categorySlug}`;
+    }
 
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
-
-        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-        // ✅ So, we must find and re-run those <script> blocks manually:
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
-        });
-      });
-</script>
+    /**
+     * Handles the booking action for a test.
+     * @param {object} test - The full test object from the API.
+     */
+    function bookTest(test) {
+      console.log('Booking test:', test);
+      alert(`Preparing to book "${test.test_name}" for ₹${test.final_price || test.price}.`);
+      window.location.href = `payment.html?test_id=${encodeURIComponent(test.test_id)}`;
+    }
+  </script>
 
 </body>
 </html>
+
