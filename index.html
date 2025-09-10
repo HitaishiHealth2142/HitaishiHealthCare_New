@@ -1144,10 +1144,9 @@
         </section>
     </main>
 
-
     <!-- Search for doctors and diagnostics -->
     <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8" style="font-family: 'Inter', sans-serif;">
-        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg p-6">
+        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg px-8 py-10">
             <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Find Healthcare Providers</h2>
             <p class="text-gray-600 text-center mb-8">Search for doctors and diagnostic centers near you</p>
 
@@ -1351,7 +1350,7 @@
                         console.error("Error fetching providers:", error);
                         // If fetching fails, and we have cached data, let's use that
                         if (allProviders.length > 0) {
-                             console.warn("Using cached data due to API failure.");
+                            console.warn("Using cached data due to API failure.");
                         } else {
                             resultsContainer.innerHTML = '<div class="col-span-full py-12 text-center text-red-500">Failed to load providers. Please try again later.</div>';
                         }
@@ -1570,9 +1569,6 @@
             });
         </script>
     </section>
-
-
-
 
     <!-- Countries -->
     <div>
@@ -3224,8 +3220,8 @@
 
 
     <!-- Popular Test -->
-    <div style="color: #f0f0f0; background-color: #e1edff; padding-bottom: 20px;">
-        <h2 style="font-size: 32px; padding-top: 20px; font-weight: bold;">Popular Tests</h2>
+    <div style="color: #f0f0f0; background-color: #e1edff; padding-bottom: 60px;">
+        <h2 style="font-size: 32px; padding-top: 40px; font-weight: bold;">Popular Tests</h2>
 
         <div class="test-grid">
             <div class="test-card">
@@ -3601,43 +3597,6 @@
                 border-color: #009688;
                 color: #009688;
             }
-            /* Custom alert styling */
-            #custom-alert-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.6);
-                z-index: 1000;
-                align-items: center;
-                justify-content: center;
-            }
-            #custom-alert-box {
-                background: white;
-                padding: 25px;
-                border-radius: 12px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                text-align: center;
-                max-width: 400px;
-                width: 90%;
-            }
-            #custom-alert-box p {
-                margin-bottom: 20px;
-                font-size: 18px;
-                color: #333;
-            }
-            #custom-alert-box button {
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 12px 25px;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.2s;
-            }
-            #custom-alert-box button:hover {
-                background-color: #0056b3;
-            }
         </style>
 
         <div class="bg-gray-50 font-sans p-4 md:p-8">
@@ -3687,21 +3646,12 @@
             </div>
         </div>
 
-        <!-- Custom Alert Modal -->
-        <div id="custom-alert-overlay">
-            <div id="custom-alert-box">
-                <p id="custom-alert-message">Please log in to book your test.</p>
-                <button onclick="closeCustomAlert()">OK</button>
-            </div>
-        </div>
-
-
         <script>
             // --- STATE MANAGEMENT ---
             let allTests = [];
             let currentDisplayList = [];
             let activeCategory = 'All';
-            const TESTS_PER_PAGE = 8; // 2 rows on a 4-column grid
+            const TESTS_PER_PAGE = 8;
             let displayedItemsCount = TESTS_PER_PAGE;
 
             // --- DOM ELEMENTS ---
@@ -3729,7 +3679,7 @@
                             ...test,
                             name: test.test_name,
                             price: parseFloat(test.final_price || test.price),
-                            rating: 4 + Math.random(), // Assign a random rating for demo
+                            rating: 4 + Math.random(),
                             category: test.category || 'General'
                         }));
                         currentDisplayList = [...allTests];
@@ -3818,14 +3768,12 @@
                 if (currentDisplayList.length > TESTS_PER_PAGE) {
                     showMoreContainer.classList.remove("hidden");
 
-                    // Show/hide "Show More" button
                     if (displayedItemsCount >= currentDisplayList.length) {
                         showMoreBtn.classList.add("invisible");
                     } else {
                         showMoreBtn.classList.remove("invisible");
                     }
 
-                    // Show/hide "Show Less" button
                     if (displayedItemsCount > TESTS_PER_PAGE) {
                         showLessBtn.classList.remove("invisible");
                     } else {
@@ -3835,7 +3783,6 @@
                     showMoreContainer.classList.add("hidden");
                 }
             }
-
 
             function generateStarRating(rating) {
                 let starsHTML = '';
@@ -3882,7 +3829,6 @@
                         break;
                     case "popular": 
                     default:
-                        // Assuming initial list is sorted by popularity
                         break;
                 }
 
@@ -3912,41 +3858,32 @@
             });
 
 
-            // --- AUTH & REDIRECTION LOGIC ---
+            // --- REDIRECTION LOGIC ---
             function openBookingForm(testName, testPrice, testId, centerName, centerId) {
                 const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+                
+                const params = new URLSearchParams({
+                    test: testName,
+                    price: testPrice,
+                    id: testId,
+                    center: centerName,
+                    centerId: centerId,
+                });
 
-                if (!loggedInUser) {
-                    showCustomAlert("Please log in to book your test.");
-                } else {
-                    const { name, email, mobile } = loggedInUser;
-                    const params = new URLSearchParams({
-                        test: testName,
-                        price: testPrice,
-                        id: testId,
-                        center: centerName,
-                        centerId: centerId,
-                        userName: name,
-                        userEmail: email,
-                        userMobile: mobile
-                    });
-                    window.location.href = `newPayment.html?${params.toString()}`;
+                if (loggedInUser) {
+                    params.set('userName', loggedInUser.name);
+                    params.set('userEmail', loggedInUser.email);
+                    params.set('userMobile', loggedInUser.mobile);
+                    params.set('userUniqueId', loggedInUser.uniqueId); 
                 }
+
+                window.location.href = `newPayment.html?${params.toString()}`;
             }
             
-            function showCustomAlert(message) {
-                document.getElementById('custom-alert-message').textContent = message;
-                document.getElementById('custom-alert-overlay').style.display = 'flex';
-            }
-
-            function closeCustomAlert() {
-                document.getElementById('custom-alert-overlay').style.display = 'none';
-            }
-
-
             document.addEventListener('DOMContentLoaded', fetchTests);
         </script>
     </section>
+
 
 
     <!-- Our Services -->
@@ -4247,9 +4184,9 @@
 
 
     <!-- highlight section -->
-    <div style="background: #276cd2; color: white; text-align: center; padding: 0 20px 40px 20px; ">
+    <div style="background: #276cd2; color: white; text-align: center; padding: 0 20px 60px 20px; ">
 
-        <h2 style="margin: 0; font-size: 32px; font-weight: bold; color: #fff; padding-top: 20px;">WORLD'S LARGEST HEALTHCARE PLATFORM</h2>
+        <h2 style="margin: 0; font-size: 32px; font-weight: bold; color: #fff; padding-top: 80px;">WORLD'S LARGEST HEALTHCARE PLATFORM</h2>
 
         <div class="highlight-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1100px; margin: 30px auto; gap: 30px; text-align: center;">
             
@@ -4332,8 +4269,8 @@
 
 
     <!-- info -->
-    <div style="text-align: center; background-color: #f0f0f0; padding-bottom: 20px ;">
-    <h2 style="font-size: 32px; font-weight: bold; padding-top: 20px;">Popular Lab Tests Through Hitaishi HealthCare</h2>
+    <div style="text-align: center; background-color: #f0f0f0; padding-bottom: 40px ;">
+    <h2 style="font-size: 32px; font-weight: bold; padding-top: 40px;">Popular Lab Tests Through Hitaishi HealthCare</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 10px; width: 96%; justify-content: center; margin: auto;">
         <span style="color: teal;">FASTING PLASMA GLUCOSE</span> |
         <span style="color: teal;">COMPLETE BLOOD PICTURE (CBP)</span> |
