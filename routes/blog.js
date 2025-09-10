@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db'); // Assuming db.js is in the parent directory
 
 // --- Table Creation ---
-// We create multiple tables to handle the data in a structured way.
+// This part remains the same. It ensures your database tables are set up correctly.
 const createTables = () => {
     const opinionsTable = `
         CREATE TABLE IF NOT EXISTS opinions (
@@ -74,8 +74,8 @@ router.post('/opinions/submit', (req, res) => {
     }
 
     const sql = `
-        INSERT INTO opinions (opinion_text, user_unique_id, user_name, user_email, user_mobile) 
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO opinions (opinion_text, user_unique_id, user_name, user_email, user_mobile, status) 
+        VALUES (?, ?, ?, ?, ?, 'pending')
     `;
     db.query(sql, [opinion_text, user_unique_id, user_name, user_email, user_mobile], (err, result) => {
         if (err) {
@@ -86,8 +86,8 @@ router.post('/opinions/submit', (req, res) => {
     });
 });
 
-// GET /api/opinions - Get all ANSWERED opinions from the last 7 days
-router.get('/opinions', async (req, res) => {
+// GET /api/opinions - Get all ANSWERED opinions from the last 7 days for the public page
+router.get('/opinions', (req, res) => {
     try {
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
 
@@ -124,7 +124,6 @@ router.get('/opinions', async (req, res) => {
                     return res.status(500).json({ error: 'Database error fetching comments' });
                 }
                 
-                // Map comments to their respective opinions
                 const opinionsWithComments = opinions.map(opinion => ({
                     ...opinion,
                     comments: comments.filter(c => c.opinion_id === opinion.id)
@@ -187,8 +186,26 @@ router.post('/opinions/:id/comment', (req, res) => {
 });
 
 // --- FOR ADMIN/TEAM USE ---
+
+// *** THIS WAS THE MISSING ROUTE ***
+// GET /api/opinions/pending - Get all opinions that need an answer for the admin page
+router.get('/opinions/pending', (req, res) => {
+    const sql = `
+        SELECT id, user_name, user_email, opinion_text, created_at 
+        FROM opinions 
+        WHERE status = 'pending'
+        ORDER BY created_at ASC
+    `;
+    db.query(sql, (err, opinions) => {
+        if (err) {
+            console.error('Database error fetching pending opinions:', err);
+            return res.status(500).json({ error: 'Could not fetch pending opinions.' });
+        }
+        res.json({ opinions });
+    });
+});
+
 // PUT /api/opinions/:id/answer - Add or update an answer
-// This endpoint is for your team to provide answers. You would call this from an admin panel.
 router.put('/opinions/:id/answer', (req, res) => {
     const { id } = req.params;
     const { answer_text } = req.body;
@@ -216,3 +233,4 @@ router.put('/opinions/:id/answer', (req, res) => {
 
 
 module.exports = router;
+

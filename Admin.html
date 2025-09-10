@@ -37,13 +37,13 @@
                     const response = await fetch(`${API_BASE_URL}/opinions/pending`);
                     if (!response.ok) {
                         const errorData = await response.json();
-                        throw new Error(errorData.error || 'Failed to fetch pending opinions.');
+                        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
                     renderOpinions(data.opinions);
                 } catch (error) {
                     console.error('Error fetching opinions:', error);
-                    container.innerHTML = `<div class="text-center p-10 bg-white rounded-lg shadow-md"><p class="text-red-500 font-semibold">Could not load questions. Please check the console and try again later.</p></div>`;
+                    container.innerHTML = `<div class="text-center p-10 bg-white rounded-lg shadow-md"><p class="text-red-600 font-semibold">Error: Could not load questions.</p><p class="text-gray-500 text-sm mt-2">${error.message}</p></div>`;
                 }
             }
             
@@ -60,13 +60,11 @@
                          throw new Error(errorData.error || 'Failed to submit answer.');
                     }
                     
-                    // Visually remove the card on success
                     const cardToRemove = document.querySelector(`[data-opinion-id="${opinionId}"]`);
                     if (cardToRemove) {
                         cardToRemove.style.opacity = '0';
                         setTimeout(() => {
                            cardToRemove.remove();
-                           // Check if any cards are left
                            if (container.childElementCount === 0) {
                                container.innerHTML = `<div class="text-center p-10 bg-white rounded-lg shadow-md"><p class="text-green-600 font-semibold">All questions have been answered. Great job!</p></div>`;
                            }
@@ -89,8 +87,8 @@
                 container.innerHTML = opinions.map(opinion => `
                     <div class="bg-white p-6 rounded-lg shadow-md opinion-card" data-opinion-id="${opinion.id}">
                         <div class="border-b pb-4 mb-4">
-                            <div class="flex justify-between items-center">
-                                <p class="text-sm text-gray-600">
+                            <div class="flex justify-between items-center flex-wrap">
+                                <p class="text-sm text-gray-600 mb-2 sm:mb-0">
                                     From: <span class="font-semibold text-gray-800">${opinion.user_name}</span> (${opinion.user_email})
                                 </p>
                                 <p class="text-xs text-gray-500">
@@ -121,6 +119,8 @@
                     const answerText = form.querySelector('textarea').value.trim();
 
                     if (answerText) {
+                        form.querySelector('button').textContent = 'Submitting...';
+                        form.querySelector('button').disabled = true;
                         submitAnswer(opinionId, answerText);
                     } else {
                         alert('Please provide an answer before submitting.');
