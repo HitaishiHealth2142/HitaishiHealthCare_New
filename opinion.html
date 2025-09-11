@@ -65,9 +65,42 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
         }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        #add-question-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 1000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #add-question-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
     </style>
 </head>
 <body class="antialiased">
+
+
 
     <!-- Navbar Code -->
         <style>
@@ -1029,36 +1062,38 @@
         </script>
     <!-- Navbar Code Ends-- -->
 
-    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">
-        <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-500 pb-2">Community Forum</h1>
-            <p class="text-lg text-slate-600 mt-2">Your questions, answered by our team.</p>
-        </header>
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Opinion & Q&A Forum</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Ask questions, share your experiences, and get answers from our community of healthcare professionals and patients.</p>
+        </div>
 
-        <!-- Submission Form -->
-        <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-12 submission-card border border-slate-200">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-paper-plane text-blue-500 mr-3"></i>
-                <span>Share Your Voice</span>
-            </h2>
-            <form id="opinionForm">
-                <textarea id="opinionText" class="w-full p-4 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-200 ease-in-out" rows="4" placeholder="Ask a question or share an opinion..." required></textarea>
-                <button type="submit" class="submit-btn mt-4 w-full text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center text-lg">
-                    <span class="mr-2">Submit Securely</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </form>
-            <div id="form-message" class="mt-4 text-center font-medium"></div>
+        <!-- Submission Form (hidden by default) -->
+        <div id="submission-container" class="hidden mb-12">
+            <div class="submission-card bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Ask a New Question</h2>
+                <form id="opinionForm">
+                    <textarea id="opinionText" placeholder="Type your question here..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24" required></textarea>
+                    <button type="submit" class="submit-btn mt-4 px-6 py-3 text-white font-medium rounded-lg">Submit Question</button>
+                    <button type="button" id="cancel-btn" class="mt-4 ml-2 px-6 py-3 text-gray-600 bg-gray-200 font-medium rounded-lg">Cancel</button>
+                </form>
+                 <div id="form-message" class="mt-4 text-center font-medium"></div>
+            </div>
         </div>
 
         <!-- Opinions Feed -->
-        <h2 class="text-3xl font-bold text-slate-800 mb-8 text-center">Recent Discussions</h2>
-        <div id="opinionsContainer" class="space-y-8">
+        <div id="opinionsContainer" class="space-y-6">
              <div class="text-center p-12 bg-white rounded-2xl shadow-md">
                 <p class="text-slate-500">Loading recent discussions...</p>
             </div>
         </div>
     </div>
+
+    <!-- Floating Add Button -->
+    <button id="add-question-btn" class="submit-btn text-white">
+        <i class="fas fa-plus"></i>
+    </button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1067,6 +1102,24 @@
             const opinionText = document.getElementById('opinionText');
             const opinionsContainer = document.getElementById('opinionsContainer');
             const formMessage = document.getElementById('form-message');
+            const addQuestionBtn = document.getElementById('add-question-btn');
+            const submissionContainer = document.getElementById('submission-container');
+            const cancelBtn = document.getElementById('cancel-btn');
+
+            const toggleSubmissionForm = () => {
+                const isHidden = submissionContainer.classList.contains('hidden');
+                if (isHidden) {
+                    submissionContainer.classList.remove('hidden');
+                    addQuestionBtn.classList.add('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    submissionContainer.classList.add('hidden');
+                    addQuestionBtn.classList.remove('hidden');
+                }
+            };
+            
+            addQuestionBtn.addEventListener('click', toggleSubmissionForm);
+            cancelBtn.addEventListener('click', toggleSubmissionForm);
 
             function getUserData() {
                 const userString = sessionStorage.getItem('patientUser') || localStorage.getItem('patientUser') || localStorage.getItem('loggedInUser');
@@ -1084,7 +1137,7 @@
                     return null;
                 }
             }
-
+            
             async function apiRequest(endpoint, options = {}) {
                 try {
                     const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
@@ -1096,7 +1149,7 @@
                     throw error;
                 }
             }
-            
+
             async function fetchOpinions() {
                 try {
                     const data = await apiRequest('/opinions');
@@ -1109,7 +1162,8 @@
             async function submitOpinion(text) {
                 const user = getUserData();
                 if (!user || !user.unique_id) {
-                    alert('Please login to send your opinion.');
+                    formMessage.textContent = 'Please login to ask a question.';
+                    formMessage.className = 'mt-4 text-center font-medium text-red-500';
                     return;
                 }
                 formMessage.textContent = 'Submitting...';
@@ -1126,76 +1180,132 @@
                             user_mobile: user.mobile
                         })
                     });
-                    formMessage.textContent = 'Your opinion has been submitted for review.';
+                    formMessage.textContent = 'Your question has been submitted for review.';
                     formMessage.className = 'mt-4 text-center font-medium text-green-600';
                     opinionForm.reset();
+                    setTimeout(() => {
+                        toggleSubmissionForm();
+                        formMessage.textContent = '';
+                        fetchOpinions();
+                    }, 1500);
                 } catch (error) {
                     formMessage.textContent = `Error: ${error.message}`;
                     formMessage.className = 'mt-4 text-center font-medium text-red-500';
                 }
             }
 
+            function formatDateTime(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                const options = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                };
+                return new Intl.DateTimeFormat('en-GB', options).format(date).replace(',', '');
+            }
+
+
             function renderOpinions(opinions) {
                 if (!opinions || opinions.length === 0) {
-                    opinionsContainer.innerHTML = `<div class="text-center p-12 bg-white rounded-2xl shadow-md"><p class="text-slate-500">No discussions from the last 7 days. Be the first to ask!</p></div>`;
+                    opinionsContainer.innerHTML = `<div class="text-center p-12 bg-white rounded-2xl shadow-md"><p class="text-slate-500">No discussions yet. Be the first to ask!</p></div>`;
                     return;
                 }
+                
+                const colors = ['bg-blue-500', 'bg-green-500', 'bg-red-500', 'bg-purple-500', 'bg-yellow-500', 'bg-indigo-500'];
 
-                opinionsContainer.innerHTML = opinions.map(opinion => `
-                    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 opinion-card" data-opinion-id="${opinion.id}">
-                        <div class="mb-5">
-                            <p class="text-sm text-slate-500 font-medium">Asked by ${opinion.user_name || 'Anonymous'}</p>
-                            <p class="text-lg font-semibold text-slate-800 mt-1">${opinion.opinion_text}</p>
-                        </div>
+                opinionsContainer.innerHTML = opinions.map((opinion, index) => {
+                    const userInitial = (opinion.user_name || 'A').charAt(0).toUpperCase();
+                    const avatarColor = colors[index % colors.length];
+                    const postedDate = formatDateTime(opinion.created_at);
 
-                        <div class="border-t-2 border-l-4 border-green-500 bg-green-50 p-5 mt-5 rounded-r-xl rounded-b-xl">
-                            <p class="text-sm font-bold text-green-800 flex items-center"><i class="fas fa-check-circle mr-2"></i>Official Response</p>
-                            <p class="text-slate-700 mt-2">${opinion.answer_text}</p>
-                            <p class="text-xs text-slate-500 mt-4 text-right">Answered on ${new Date(opinion.answered_at).toLocaleDateString()}</p>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mt-6 border-t border-slate-200 pt-5">
-                            <div class="flex space-x-5 text-slate-500">
-                                <button class="interaction-btn flex items-center space-x-2 transition-colors duration-200 hover:text-green-500" data-action="like">
-                                    <i class="fas fa-thumbs-up"></i>
-                                    <span class="font-semibold">${opinion.likes_count || 0}</span>
-                                </button>
-                                <button class="interaction-btn flex items-center space-x-2 transition-colors duration-200 hover:text-red-500" data-action="dislike">
-                                    <i class="fas fa-thumbs-down"></i>
-                                    <span class="font-semibold">${opinion.dislikes_count || 0}</span>
-                                </button>
-                                <button class="comment-toggle-btn flex items-center space-x-2 transition-colors duration-200 hover:text-blue-500">
-                                    <i class="fas fa-comment"></i>
-                                    <span class="font-semibold">${opinion.comments ? opinion.comments.length : 0}</span>
-                                </button>
+                    return `
+                    <div class="opinion-card bg-white rounded-xl shadow-md overflow-hidden" data-opinion-id="${opinion.id}">
+                        <!-- Question Section -->
+                        <div class="p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="user-avatar ${avatarColor}">
+                                    <span>${userInitial}</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-semibold text-gray-800">${opinion.opinion_text}</h3>
+                                    <div class="flex items-center mt-3 text-sm text-gray-500">
+                                        <span class="mr-4"><i class="far fa-clock mr-1"></i> ${postedDate}</span>
+                                        <span><i class="far fa-user mr-1"></i> ${opinion.user_name || 'Anonymous'}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="share-btn flex items-center space-x-2 text-slate-500 transition-colors duration-200 hover:text-blue-500" data-text="${opinion.opinion_text}">
-                                <i class="fas fa-share-alt"></i> <span class="hidden sm:inline">Share</span>
+                        </div>
+
+                        <!-- Official Response (Always Visible) -->
+                        ${opinion.answer_text ? `
+                        <div class="bg-gray-50 px-6 py-5 border-t border-gray-100">
+                            <div class="flex items-start gap-4">
+                                <div class="user-avatar bg-green-600">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-gray-800 font-medium">Official Response</p>
+                                    <p class="text-gray-600 mt-1">${opinion.answer_text}</p>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <!-- Interaction Buttons Section -->
+                        <div class="px-6 py-3 border-t border-gray-100 flex items-center text-gray-600">
+                            <button class="interaction-btn flex items-center mr-6" data-action="like">
+                                <i class="far fa-thumbs-up mr-2"></i> <span>${opinion.likes_count || 0}</span>
+                            </button>
+                             <button class="interaction-btn flex items-center mr-6" data-action="dislike">
+                                <i class="far fa-thumbs-down mr-2"></i> <span>${opinion.dislikes_count || 0}</span>
+                            </button>
+                            <button class="interaction-btn comment-toggle-btn flex items-center mr-6">
+                                <i class="far fa-comment mr-2"></i> <span>${opinion.comments ? opinion.comments.length : 0}</span>
+                            </button>
+                            <button class="interaction-btn flex items-center ml-auto" data-action="share" data-text="${opinion.opinion_text}">
+                                <i class="fas fa-share mr-2"></i> <span>Share</span>
                             </button>
                         </div>
 
-                        <div class="comments-section mt-4 pt-4 border-t border-slate-200">
-                            <div class="comments-list space-y-4 mb-4">
-                                ${renderComments(opinion.comments)}
+                        <!-- Comments Section (Collapsible) -->
+                        <div class="comments-section bg-gray-50 px-6 border-t border-gray-200">
+                            <div class="py-4">
+                                <div class="comments-list space-y-4">
+                                     ${renderComments(opinion.comments)}
+                                </div>
                             </div>
-                            <form class="comment-form flex space-x-3 items-center">
-                                <input type="text" class="flex-grow p-3 border-2 border-slate-200 rounded-lg" placeholder="Add a comment..." required>
-                                <button type="submit" class="bg-slate-700 text-white px-5 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors">Post</button>
-                            </form>
+                            
+                            <div class="pb-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="user-avatar bg-gray-400">Y</div>
+                                    <div class="flex-1">
+                                        <form class="comment-form">
+                                            <textarea placeholder="Add a comment..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                                            <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium">Post Comment</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
             }
             
-            function renderComments(comments) {
+             function renderComments(comments) {
                 if (!comments || comments.length === 0) {
-                    return '<p class="text-sm text-slate-500 px-2">No comments yet. Be the first to reply!</p>';
+                    return '<p class="text-sm text-slate-500 px-2">No comments yet.</p>';
                 }
                 return comments.map(comment => `
-                    <div class="bg-slate-100 border-l-4 border-slate-300 rounded-r-lg p-4">
-                        <p class="font-bold text-sm text-slate-800">${comment.user_name}</p>
-                        <p class="text-slate-600 text-sm mt-1">${comment.comment_text}</p>
-                        <p class="text-xs text-slate-400 mt-2 text-right">${new Date(comment.created_at).toLocaleString()}</p>
+                    <div class="flex items-start gap-4">
+                        <div class="user-avatar bg-purple-500">${(comment.user_name || 'A').charAt(0).toUpperCase()}</div>
+                        <div class="flex-1">
+                            <p class="text-gray-800 font-medium">${comment.user_name}<span class="text-sm font-normal text-gray-500 ml-2"><i class="far fa-clock mr-1"></i> ${formatDateTime(comment.created_at)}</span></p>
+                            <p class="text-gray-600 mt-1">${comment.comment_text}</p>
+                        </div>
                     </div>
                 `).join('');
             }
@@ -1207,32 +1317,36 @@
             });
 
             opinionsContainer.addEventListener('click', async e => {
-                const opinionCard = e.target.closest('[data-opinion-id]');
-                if (!opinionCard) return;
-                const opinionId = opinionCard.dataset.opinionId;
+                const button = e.target.closest('.interaction-btn');
+                if (!button) return;
+                
+                const card = button.closest('.opinion-card');
+                const opinionId = card.dataset.opinionId;
                 const user = getUserData();
 
-                if (e.target.closest('.interaction-btn')) {
-                    if (!user) return alert('Please login to interact.');
-                    const btn = e.target.closest('.interaction-btn');
-                    btn.classList.add('pop-animation');
-                    btn.addEventListener('animationend', () => btn.classList.remove('pop-animation'));
+                button.classList.add('pop-animation');
+                button.addEventListener('animationend', () => button.classList.remove('pop-animation'));
+                
+                const action = button.dataset.action;
+                
+                if (action === 'like' || action === 'dislike') {
+                    if (!user) return console.log('User must be logged in to interact.');
                     await apiRequest(`/opinions/${opinionId}/interact`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ user_unique_id: user.unique_id, interaction_type: btn.dataset.action })
+                        body: JSON.stringify({ user_unique_id: user.unique_id, interaction_type: action })
                     });
                     fetchOpinions();
-                }
-
-                if (e.target.closest('.share-btn')) {
-                    const btn = e.target.closest('.share-btn');
-                    const textToShare = `Q: ${btn.dataset.text}\nCheck out the answer on our website!`;
-                    navigator.clipboard.writeText(`${textToShare}\nURL: ${window.location.href}`).then(() => alert('Link copied to clipboard!'));
-                }
-
-                if (e.target.closest('.comment-toggle-btn')) {
-                    opinionCard.querySelector('.comments-section').classList.toggle('open');
+                } else if (button.classList.contains('comment-toggle-btn')) {
+                    card.querySelector('.comments-section').classList.toggle('open');
+                } else if (action === 'share') {
+                    const textToShare = `Q: ${button.dataset.text}\nCheck out the answer on our website!`;
+                    navigator.clipboard.writeText(`${textToShare}\nURL: ${window.location.href}`)
+                        .then(() => {
+                           button.querySelector('span').textContent = 'Copied!';
+                           setTimeout(() => { button.querySelector('span').textContent = 'Share'; }, 2000);
+                        })
+                        .catch(err => console.error('Failed to copy text: ', err));
                 }
             });
 
@@ -1240,12 +1354,14 @@
                 if (e.target.classList.contains('comment-form')) {
                     e.preventDefault();
                     const user = getUserData();
-                    if (!user) return alert('Please login to comment.');
-                    const input = e.target.querySelector('input');
-                    const text = input.value.trim();
+                    if (!user) return console.log('User must be logged in to comment.');
+
+                    const textarea = e.target.querySelector('textarea');
+                    const text = textarea.value.trim();
                     if (!text) return;
-                    
+
                     const opinionId = e.target.closest('[data-opinion-id]').dataset.opinionId;
+                    
                     await apiRequest(`/opinions/${opinionId}/comment`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
