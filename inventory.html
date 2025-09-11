@@ -6,6 +6,9 @@
     <title>Hitaishi Healthcare - Inventory Management</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    
 </head>
 <body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f7fa; color: #333;">
 
@@ -969,382 +972,999 @@
         </script>
     <!-- Navbar Code Ends-- --> 
 
-
-
-
+    <style>
+            :root {
+                --primary: #007bff;
+                --secondary: #00c4b4;
+                --dark: #343a40;
+                --light: #f8f9fa;
+                --white: #ffffff;
+                --gray: #666;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                --transition: all 0.3s ease;
+            }
+            
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Open Sans', sans-serif;
+                color: #333;
+                line-height: 1.6;
+                overflow-x: hidden;
+            }
+            
+            h1, h2, h3, h4, h5 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+            }
+            
+            section {
+                padding: 60px 20px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            /* Hero Section */
+            .hero {
+                background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://cdn2.picryl.com/photo/2020/06/02/medical-laboratory-technicians-in-the-united-states-e60d2a-1024.jpg') no-repeat center center;
+                background-size: cover;
+                padding: 120px 20px;
+                text-align: center;
+                color: white;
+                position: relative;
+                animation: fadeIn 1s ease;
+            }
+            
+            .hero-content {
+                background-color: rgba(0, 0, 0, 0.6);
+                padding: 40px;
+                border-radius: 10px;
+                max-width: 800px;
+                margin: 0 auto;
+                animation: slideUp 1s ease;
+            }
+            
+            .hero h1 {
+                font-size: 3.5em;
+                margin: 0;
+                animation: fadeIn 1.5s ease;
+            }
+            
+            .hero p {
+                font-size: 1.5em;
+                margin: 20px 0;
+                animation: fadeIn 2s ease;
+            }
+            
+            .btn {
+                display: inline-block;
+                background-color: var(--secondary);
+                color: white;
+                padding: 15px 30px;
+                text-decoration: none;
+                border-radius: 50px;
+                font-size: 1.2em;
+                margin-top: 20px;
+                transition: var(--transition);
+                box-shadow: 0 4px 15px rgba(0, 196, 180, 0.3);
+                animation: pulse 2s infinite;
+            }
+            
+            .btn:hover {
+                background-color: #00a396;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(0, 196, 180, 0.4);
+            }
+            
+            /* Popup Form */
+            .popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            .popup-content {
+                background-color: var(--white);
+                padding: 40px;
+                border-radius: 15px;
+                width: 90%;
+                max-width: 450px;
+                position: relative;
+                box-shadow: var(--shadow);
+                animation: popIn 0.5s ease;
+            }
+            
+            .popup h2 {
+                margin-top: 0;
+                color: var(--secondary);
+                text-align: center;
+                margin-bottom: 25px;
+            }
+            
+            .popup input, .popup button {
+                width: 100%;
+                padding: 12px 15px;
+                margin-bottom: 20px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 1em;
+                transition: var(--transition);
+            }
+            
+            .popup input:focus {
+                border-color: var(--secondary);
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(0, 196, 180, 0.2);
+            }
+            
+            .popup button {
+                background-color: var(--secondary);
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+                transition: var(--transition);
+            }
+            
+            .popup button:hover {
+                background-color: #00a396;
+                transform: translateY(-2px);
+            }
+            
+            .close {
+                position: absolute;
+                top: 15px;
+                right: 20px;
+                font-size: 28px;
+                color: #999;
+                text-decoration: none;
+                transition: var(--transition);
+            }
+            
+            .close:hover {
+                color: #ff0000;
+                transform: rotate(90deg);
+            }
+            
+            /* Content Sections */
+            .section-title {
+                color: var(--primary);
+                font-size: 42px;
+                border-bottom: 3px solid var(--secondary);
+                padding-bottom: 15px;
+                margin-bottom: 40px;
+                position: relative;
+                display: inline-block;
+            }
+            
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -3px;
+                left: 0;
+                width: 60px;
+                height: 3px;
+                background-color: var(--primary);
+            }
+            
+            /* Inventory System Section */
+            .inventory-system {
+                background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+                color: var(--white);
+                padding: 80px 20px;
+                text-align: center;
+            }
+            
+            .inventory-system h1 {
+                font-size: 2.8em;
+                margin-bottom: 30px;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+                color: var(--primary);
+                animation: fadeIn 1s ease;
+            }
+            
+            .inventory-system p {
+                font-size: 1.2em;
+                max-width: 1000px;
+                margin: 0 auto 30px;
+                line-height: 1.8;
+                text-align: justify;
+                animation: fadeIn 1.2s ease;
+            }
+            
+            /* Logistics Section */
+            .logistics {
+                background: linear-gradient(to right, #1e3c72, #2a5298);
+                color: var(--white);
+                padding: 70px 20px;
+                text-align: center;
+            }
+            
+            .logistics h2 {
+                font-size: 42px;
+                margin-bottom: 25px;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+                color: var(--secondary);
+                animation: fadeIn 1s ease;
+            }
+            
+            .logistics p {
+                font-size: 1.2em;
+                max-width: 900px;
+                margin: 0 auto 30px;
+                line-height: 1.7;
+                text-align: justify;
+                animation: fadeIn 1.2s ease;
+            }
+            
+            /* Categories Section */
+            .categories-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 25px;
+                justify-content: center;
+                margin-top: 40px;
+            }
+            
+            .category-card {
+                flex: 0 0 calc(25% - 25px);
+                background-color: var(--white);
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: var(--shadow);
+                text-align: center;
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+                min-width: 250px;
+            }
+            
+            .category-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .category-img {
+                width: 100%;
+                height: 180px;
+                object-fit: cover;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                transition: var(--transition);
+            }
+            
+            .category-card:hover .category-img {
+                transform: scale(1.05);
+            }
+            
+            .category-card h3 {
+                color: var(--dark);
+                margin: 15px 0;
+                font-size: 1.4em;
+            }
+            
+            .category-card p {
+                color: var(--gray);
+                font-size: 1em;
+            }
+            
+            /* Team Section */
+            .team-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+                justify-content: center;
+                margin-top: 40px;
+            }
+            
+            .team-member {
+                flex: 0 0 calc(33.333% - 30px);
+                background-color: var(--white);
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: var(--shadow);
+                text-align: center;
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+                min-width: 280px;
+            }
+            
+            .team-member:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .team-img {
+                width: 150px;
+                height: 150px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-bottom: 20px;
+                border: 4px solid var(--secondary);
+                transition: var(--transition);
+            }
+            
+            .team-member:hover .team-img {
+                border-color: var(--primary);
+                transform: scale(1.05);
+            }
+            
+            .team-member h3 {
+                color: var(--dark);
+                margin: 0;
+                font-size: 1.5em;
+            }
+            
+            .team-member .role {
+                color: var(--secondary);
+                font-weight: 600;
+                margin: 10px 0;
+            }
+            
+            .team-member p {
+                color: var(--gray);
+                font-size: 0.95em;
+            }
+            
+            /* Partnerships Section */
+            .partnerships-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 25px;
+                justify-content: center;
+                margin-top: 40px;
+            }
+            
+            .partner-card {
+                flex: 0 0 calc(33.333% - 25px);
+                background-color: var(--white);
+                padding: 25px;
+                border-radius: 10px;
+                box-shadow: var(--shadow);
+                text-align: center;
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+                min-width: 250px;
+            }
+            
+            .partner-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .partner-card h3 {
+                color: var(--dark);
+                margin: 0 0 15px 0;
+            }
+            
+            .partner-card p {
+                color: var(--gray);
+                font-size: 1em;
+            }
+            
+            /* Sustainability Section */
+            .sustainability-container {
+                display: flex;
+                overflow-x: auto;
+                gap: 25px;
+                padding: 20px 0;
+                scrollbar-width: thin;
+                scrollbar-color: var(--secondary) #f0f0f0;
+            }
+            
+            .sustainability-container::-webkit-scrollbar {
+                height: 8px;
+            }
+            
+            .sustainability-container::-webkit-scrollbar-track {
+                background: #f0f0f0;
+                border-radius: 10px;
+            }
+            
+            .sustainability-container::-webkit-scrollbar-thumb {
+                background: var(--secondary);
+                border-radius: 10px;
+            }
+            
+            .sustain-card {
+                flex: 0 0 300px;
+                padding: 25px;
+                border-radius: 10px;
+                box-shadow: var(--shadow);
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+            }
+            
+            .sustain-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .sustain-card h3 {
+                font-size: 1.3em;
+                margin-bottom: 15px;
+            }
+            
+            .sustain-card p {
+                font-size: 1em;
+                color: #444;
+            }
+            
+            /* Statistics Section */
+            .stats-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 25px;
+                justify-content: center;
+                margin-top: 40px;
+            }
+            
+            .stat-card {
+                background-color: var(--white);
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: var(--shadow);
+                width: 220px;
+                text-align: center;
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+            }
+            
+            .stat-card:hover {
+                transform: translateY(-8px) scale(1.05);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .stat-number {
+                color: var(--secondary);
+                font-size: 3em;
+                margin: 0;
+                font-weight: 700;
+            }
+            
+            .stat-text {
+                color: var(--gray);
+                font-size: 1.1em;
+                margin: 10px 0 0 0;
+            }
+            
+            /* Testimonials Section */
+            .testimonials-container {
+                display: flex;
+                overflow-x: auto;
+                gap: 25px;
+                padding: 20px 0;
+                scrollbar-width: thin;
+                scrollbar-color: var(--secondary) #f0f0f0;
+            }
+            
+            .testimonial-card {
+                flex: 0 0 300px;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: var(--shadow);
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+            }
+            
+            .testimonial-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .testimonial-text {
+                font-style: italic;
+                color: var(--gray);
+                margin-bottom: 20px;
+                position: relative;
+            }
+            
+            .testimonial-text::before {
+                content: '"';
+                font-size: 4em;
+                color: var(--secondary);
+                opacity: 0.2;
+                position: absolute;
+                top: -20px;
+                left: -10px;
+                font-family: Arial, sans-serif;
+            }
+            
+            .testimonial-author {
+                font-weight: 700;
+                color: var(--dark);
+                margin-top: 15px;
+            }
+            
+            /* FAQ Section */
+            .faq-container {
+                background-color: #f8f9fa;
+                padding: 40px;
+                border-radius: 15px;
+                box-shadow: var(--shadow);
+            }
+            
+            .faq-item {
+                margin-bottom: 25px;
+                background-color: var(--white);
+                padding: 25px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+                transition: var(--transition);
+                animation: fadeIn 1s ease;
+                cursor: pointer;
+            }
+            
+            .faq-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .faq-question {
+                color: var(--dark);
+                font-size: 1.3em;
+                margin: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .faq-answer {
+                color: var(--gray);
+                font-size: 1em;
+                margin-top: 15px;
+                display: none;
+            }
+            
+            .faq-item.active .faq-answer {
+                display: block;
+                animation: fadeIn 0.5s ease;
+            }
+            
+            .faq-item.active .faq-toggle i {
+                transform: rotate(180deg);
+            }
+            
+            .faq-toggle {
+                color: var(--secondary);
+                font-size: 1.2em;
+                transition: var(--transition);
+            }
+            
+            /* Newsletter Section */
+            .newsletter {
+                text-align: center;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                padding: 60px 20px;
+                border-radius: 15px;
+                box-shadow: var(--shadow);
+            }
+            
+            .newsletter-form {
+                display: flex;
+                justify-content: center;
+                margin-top: 30px;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .newsletter-input {
+                padding: 15px 20px;
+                border: 1px solid #ddd;
+                border-radius: 50px;
+                font-size: 1.1em;
+                width: 350px;
+                max-width: 100%;
+                transition: var(--transition);
+            }
+            
+            .newsletter-input:focus {
+                border-color: var(--secondary);
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(0, 196, 180, 0.2);
+            }
+            
+            .newsletter-btn {
+                background-color: var(--secondary);
+                color: white;
+                padding: 15px 30px;
+                border: none;
+                border-radius: 50px;
+                font-size: 1.1em;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+            
+            .newsletter-btn:hover {
+                background-color: #00a396;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 15px rgba(0, 196, 180, 0.3);
+            }
+            
+            /* Animations */
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes slideUp {
+                from { transform: translateY(50px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            
+            @keyframes popIn {
+                0% { transform: scale(0.8); opacity: 0; }
+                100% { transform: scale(1); opacity: 1; }
+            }
+            
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(0, 196, 180, 0.4); }
+                70% { box-shadow: 0 0 0 15px rgba(0, 196, 180, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(0, 196, 180, 0); }
+            }
+            
+            /* Responsive Design */
+            @media (max-width: 992px) {
+                .category-card {
+                    flex: 0 0 calc(50% - 25px);
+                }
+                
+                .team-member {
+                    flex: 0 0 calc(50% - 30px);
+                }
+                
+                .partner-card {
+                    flex: 0 0 calc(50% - 25px);
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .hero h1 {
+                    font-size: 2.5em;
+                }
+                
+                .hero p {
+                    font-size: 1.2em;
+                }
+                
+                .category-card {
+                    flex: 0 0 100%;
+                }
+                
+                .team-member {
+                    flex: 0 0 100%;
+                }
+                
+                .partner-card {
+                    flex: 0 0 100%;
+                }
+                
+                .newsletter-form {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .newsletter-input {
+                    width: 100%;
+                }
+            }
+    </style>
 
     <!-- Hero Section -->
-    <section style="background: url('https://cdn2.picryl.com/photo/2020/06/02/medical-laboratory-technicians-in-the-united-states-e60d2a-1024.jpg') no-repeat center center; background-size: cover; padding: 100px 20px; text-align: center; color: white; position: relative;">
-        <div style="background-color: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
-            <h1 style="margin: 0; font-size: 3em;">Welcome to Hitaishi Healthcare</h1>
-            <p style="font-size: 1.5em; margin: 10px 0;">Your trusted partner for medical supplies and equipment</p>
-            <!-- Contact Us Button -->
-            <a href="javascript:void(0)" onclick="document.getElementById('popupForm').style.display='flex'"
-            style="background-color: #00c4b4; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 1.2em; display: inline-block; margin-top: 20px;">
-            Contact Us
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Hitaishi Healthcare</h1>
+            <p>Your trusted partner for medical supplies and equipment</p>
+            <a href="javascript:void(0)" onclick="document.getElementById('popupForm').style.display='flex'" class="btn">
+                Contact Us
             </a>
-
-
-            <!-- Popup Form -->
-            <div id="popupForm" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;">
-
-
-            <div style="background-color: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px;
-                position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.3);">
-            
-            <h2 style="margin-top: 0; color: #00c4b4; text-align: center;">Order Medicine</h2>
-            
-            <form>
-            <input type="text" placeholder="Your Name" required
-                    style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;">
-                    
-            <input type="tel" placeholder="Phone Number" required
-                    style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;">
-            
-            <input type="text" placeholder="Medicine Name" required
-                    style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;">
-            
-            <input type="number" placeholder="Quantity" min="1" required
-                    style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;">
-            
-            <button type="submit"
-                    style="background-color: #00c4b4; color: white; padding: 12px 20px; border: none;
-                    border-radius: 5px; font-size: 1em; cursor: pointer; width: 100%;">
-                Submit Order
-            </button>
-            </form>
-
-
-            <a href="javascript:void(0)" onclick="document.getElementById('popupForm').style.display='none'"
-                style="position: absolute; top: 10px; right: 15px; font-size: 20px; color: #999; text-decoration: none;">&times;</a>
-            </div>
-            </div>
         </div>
     </section>
 
+    <!-- Popup Form -->
+    <div id="popupForm" class="popup">
+        <div class="popup-content">
+            <h2>Order Medicine</h2>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <input type="text" placeholder="Medicine Name" required>
+                <input type="number" placeholder="Quantity" min="1" required>
+                <button type="submit">Submit Order</button>
+            </form>
+            <a href="javascript:void(0)" onclick="document.getElementById('popupForm').style.display='none'" class="close">&times;</a>
+        </div>
+    </div>
 
     <!-- Main Content -->
-    <main style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
-        <!-- <section id="overview" style="margin-bottom: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px;">
-         <div style="flex: 1; min-width: 300px;">
-             <img src="https://pix4free.org/assets/library/2021-10-13/originals/healthcare-professional.jpg" alt="Healthcare Inventory" style="width: 100%; max-height: 350px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         </div>
-         <div style="flex: 1; min-width: 300px;">
-             <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px; margin-bottom: 15px;">About Hitaishi Healthcare</h2>
-             <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 15px;">
-                 Established in 2010, Hitaishi Healthcare is a trusted leader in medical supplies and equipment across India. Our goal is to improve patient care by providing healthcare professionals with top-quality, dependable products. With an efficient supply chain and a focus on innovation, we cater to hospitals, clinics, and wellness centers nationwide, optimizing operations through our advanced inventory management system.
-             </p>
-             <p style="font-size: 1.1em; line-height: 1.6;">
-                 We are dedicated to a customer-first philosophy, delivering customized solutions to meet diverse needs. Our extensive product range, from cutting-edge medical devices to essential supplies, undergoes strict quality assurance and is supported by our responsive customer service team.
-             </p>
-         </div>
-     </section> -->
+    <main class="container">
+        <!-- Inventory System Section -->
+        <section class="inventory-system">
+            <h1>Efficient Medicine Inventory & Shipping System</h1>
+            <p>
+                At Hitaishi Healthcare, our state-of-the-art inventory management system ensures that every medicine is tracked, stored, and shipped with the highest standards of precision and safety. Our logistics infrastructure is designed to support real-time stock monitoring, automated restocking alerts, and expiry tracking to guarantee that our customers receive only the most effective and safe medications.
+            </p>
+            <p>
+                We operate a temperature-controlled supply chain for sensitive pharmaceuticals, preserving the efficacy of life-saving drugs throughout the journey — from our warehouse to your doorstep. With smart tagging, geo-tracking, and verified handling protocols, our system minimizes human error, enhances delivery speed, and maintains complete transparency at every touchpoint.
+            </p>
+            <p>
+                Whether you are a hospital, pharmacy, or individual, you can count on Hitaishi's medicine shipping and inventory service for timely fulfillment, safe packaging, and detailed delivery updates. Our mission is to bridge the gap between healthcare providers and those in need—reliably, efficiently, and affordably.
+            </p>
+        </section>
 
+        <!-- Logistics Section -->
+        <section class="logistics">
+            <h2>Reliable Medical Logistics</h2>
+            <p>
+                Hitaishi Healthcare ensures safe, on-time medicine delivery with GPS tracking, automated warehousing, and temperature-controlled vehicles. We protect sensitive drugs like vaccines and insulin throughout the journey, meeting global standards.
+            </p>
+            <p>
+                Real-time alerts, responsive support, and doorstep service make us a trusted partner in healthcare logistics.
+            </p>
+        </section>
 
-     <div style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364); color: #ffffff; padding: 60px 20px; font-family: Arial, sans-serif; text-align: center;">
-        <h1 style="font-size: 42px; margin-bottom: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);color: #007bff;">Efficient Medicine Inventory & Shipping System</h1>
-        <p style="font-size: 18px; max-width: 1000px; margin: 0 auto 30px auto; line-height: 1.8; text-align: justify;">
-          At Hitaishi Healthcare, our state-of-the-art inventory management system ensures that every medicine is tracked, stored, and shipped with the highest standards of precision and safety. Our logistics infrastructure is designed to support real-time stock monitoring, automated restocking alerts, and expiry tracking to guarantee that our customers receive only the most effective and safe medications.
-        </p>
-        <p style="font-size: 18px; max-width: 1000px; margin: 0 auto 30px auto; line-height: 1.8; text-align: justify;">
-          We operate a temperature-controlled supply chain for sensitive pharmaceuticals, preserving the efficacy of life-saving drugs throughout the journey — from our warehouse to your doorstep. With smart tagging, geo-tracking, and verified handling protocols, our system minimizes human error, enhances delivery speed, and maintains complete transparency at every touchpoint.
-        </p>
-        <p style="font-size: 18px; max-width: 1000px; margin: 0 auto 40px auto; line-height: 1.8; text-align: justify;">
-          Whether you are a hospital, pharmacy, or individual, you can count on Hitaishi’s medicine shipping and inventory service for timely fulfillment, safe packaging, and detailed delivery updates. Our mission is to bridge the gap between healthcare providers and those in need—reliably, efficiently, and affordably.
-        </p>
-        <!-- <a href="#inventory-details" style="padding: 14px 28px; background-color: #f39c12; color: #000; text-decoration: none; font-size: 18px; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: background 0.3s;">Explore Inventory Services</a> -->
-      </div>
-      <br>
-      <br>
-     
-
-
-        <!-- Mission and Vision Section -->
-        <!-- <section id="mission" style="margin-bottom: 40px;">
-         <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Our Mission & Vision</h2>
-         <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-             <div style="flex: 1; min-width: 300px; background-color: #e8f9f0; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                 <h3 style="color: #0d3b2e; font-size: 1.5em; margin-top: 0; text-align: center;">Mission</h3>
-                 <p style="font-size: 1em; color: #333; line-height: 1.6;">
-                     To empower healthcare providers with reliable, high-quality medical supplies and innovative solutions, ensuring exceptional patient care and operational efficiency.
-                 </p>
-             </div>
-             <div style="flex: 1; min-width: 300px; background-color: #f3f0ff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                 <h3 style="color: #2f1c5e; font-size: 1.5em; margin-top: 0; text-align: center;">Vision</h3>
-                 <p style="font-size: 1em; color: #333; line-height: 1.6;">
-                     To be the most trusted healthcare supply partner globally, driving advancements in medical care through sustainability, innovation, and collaboration.
-                 </p>
-             </div>
-         </div>
-     </section> -->
-
-
-
-
-     <div style="background: linear-gradient(to right, #1e3c72, #2a5298); color: #ffffff; padding: 50px 20px; font-family: Verdana, sans-serif; text-align: center;">
-        <h2 style="font-size: 36px; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);color: #00c4b4;">Reliable Medical Logistics</h2>
-        <p style="font-size: 17px; max-width: 900px; margin: 0 auto 25px auto; line-height: 1.7; text-align: justify;">
-          Hitaishi Healthcare ensures safe, on-time medicine delivery with GPS tracking, automated warehousing, and temperature-controlled vehicles. We protect sensitive drugs like vaccines and insulin throughout the journey, meeting global standards.
-        </p>
-        <p style="font-size: 17px; max-width: 900px; margin: 0 auto 35px auto; line-height: 1.7; text-align: justify;">
-          Real-time alerts, responsive support, and doorstep service make us a trusted partner in healthcare logistics.
-        </p>
-        <!-- <a href="#logistics-info" style="padding: 12px 26px; background-color: #27ae60; color: #fff; text-decoration: none; font-size: 17px; border-radius: 5px; box-shadow: 0 3px 6px rgba(0,0,0,0.2);">View Logistics</a> -->
-      </div>
-     
-     
-
-
-        <!-- Inventory Categories Section -->
-        <section id="categories" style="margin-bottom: 40px; overflow-x: auto;">
-         <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Inventory Categories</h2>
-         <div style="display: flex; flex-wrap: nowrap; gap: 20px;">
-             <div style="flex: 0 0 25%; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                 <img src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvaXMxNzM3MS1pbWFnZS1rd3Z3dG9xei5qcGc.jpg" alt="Medical Equipment" style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
-                 <h3 style="color: #343a40; margin: 15px 0;">Medical Equipment</h3>
-                 <p style="font-size: 1em; color: #666;">Advanced diagnostic tools, monitors, and surgical instruments for precision care.</p>
-             </div>
-             <div style="flex: 0 0 25%; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                 <img src="https://medqsupplies.co.za/wp-content/uploads/2022/01/medical-1-702x336-2.jpg" alt="Medical Supplies" style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
-                 <h3 style="color: #343a40; margin: 15px 0;">Medical Supplies</h3>
-                 <p style="font-size: 1em; color: #666;">Essential items like bandages, syringes, and gloves for daily operations.</p>
-             </div>
-             <div style="flex: 0 0 25%; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                 <img src=https://plus.unsplash.com/premium_photo-1673953509975-576678fa6710?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aGVhbHRofGVufDB8fDB8fHww" alt="Wellness Products" style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
-                 <h3 style="color: #343a40; margin: 15px 0;">Wellness Products</h3>
-                 <p style="font-size: 1em; color: #666;">Vitamins, supplements, and health aids to support patient well-being.</p>
-             </div>
-             <div style="flex: 0 0 25%; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                 <img src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg1NjY1NjQtaW1hZ2Uta3d2eG0yZHMuanBn.jpg" alt="Pharmaceuticals" style="width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">
-                 <h3 style="color: #343a40; margin: 15px 0;">Pharmaceuticals</h3>
-                 <p style="font-size: 1em; color: #666;">Medications and vaccines for treatment and prevention.</p>
-             </div>
-         </div>
-     </section>
-     
-
+        <!-- Categories Section -->
+        <section>
+            <h2 class="section-title">Inventory Categories</h2>
+            <div class="categories-container">
+                <div class="category-card">
+                    <img src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvaXMxNzM3MS1pbWFnZS1rd3Z3dG9xei5qcGc.jpg" alt="Medical Equipment" class="category-img">
+                    <h3>Medical Equipment</h3>
+                    <p>Advanced diagnostic tools, monitors, and surgical instruments for precision care.</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://medqsupplies.co.za/wp-content/uploads/2022/01/medical-1-702x336-2.jpg" alt="Medical Supplies" class="category-img">
+                    <h3>Medical Supplies</h3>
+                    <p>Essential items like bandages, syringes, and gloves for daily operations.</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://plus.unsplash.com/premium_photo-1673953509975-576678fa6710?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aGVhbHRofGVufDB8fDB8fHww" alt="Wellness Products" class="category-img">
+                    <h3>Wellness Products</h3>
+                    <p>Vitamins, supplements, and health aids to support patient well-being.</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcHg1NjY1NjQtaW1hZ2Uta3d2eG0yZHMuanBn.jpg" alt="Pharmaceuticals" class="category-img">
+                    <h3>Pharmaceuticals</h3>
+                    <p>Medications and vaccines for treatment and prevention.</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Team Section -->
-        <section id="team" style="margin-bottom: 40px;">
-            <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Meet Our Team</h2>
-            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
-                <div style="flex: 1; min-width: 250px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Team Member" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin-bottom: 15px;">
-                    <h3 style="color: #343a40; margin: 0;">Dr. Vikram Singh</h3>
-                    <p style="font-size: 1em; color: #666;">Chief Medical Officer</p>
-                    <p style="font-size: 0.9em; color: #666;">Leading our quality assurance with 20+ years of medical expertise.</p>
+        <section>
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-container">
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Team Member" class="team-img">
+                    <h3>Dr. Vikram Singh</h3>
+                    <p class="role">Chief Medical Officer</p>
+                    <p>Leading our quality assurance with 20+ years of medical expertise.</p>
                 </div>
-                <div style="flex: 1; min-width: 250px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                    <img src="https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg" alt="Team Member" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin-bottom: 15px;">
-                    <h3 style="color: #343a40; margin: 0;">Neha Gupta</h3>
-                    <p style="font-size: 1em; color: #666;">Operations Director</p>
-                    <p style="font-size: 0.9em; color: #666;">Overseeing our supply chain for seamless delivery.</p>
+                <div class="team-member">
+                    <img src="https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg" alt="Team Member" class="team-img">
+                    <h3>Neha Gupta</h3>
+                    <p class="role">Operations Director</p>
+                    <p>Overseeing our supply chain for seamless delivery.</p>
                 </div>
-                <div style="flex: 1; min-width: 250px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Team Member" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin-bottom: 15px;">
-                    <h3 style="color: #343a40; margin: 0;">Arjun Patel</h3>
-                    <p style="font-size: 1em; color: #666;">Customer Relations Manager</p>
-                    <p style="font-size: 0.9em; color: #666;">Ensuring our partners receive top-tier support.</p>
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Team Member" class="team-img">
+                    <h3>Arjun Patel</h3>
+                    <p class="role">Customer Relations Manager</p>
+                    <p>Ensuring our partners receive top-tier support.</p>
                 </div>
             </div>
         </section>
-
 
         <!-- Partnerships Section -->
-        <section id="partnerships" style="margin-bottom: 40px;">
-            <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Our Partnerships</h2>
-            <p style="font-size: 1.1em; line-height: 1.6;">
+        <section>
+            <h2 class="section-title">Our Partnerships</h2>
+            <p>
                 Hitaishi Healthcare collaborates with leading hospitals, clinics, and research institutions to advance healthcare delivery. Our partnerships enable us to tailor our inventory to meet diverse needs, from rural clinics to urban medical centers.
             </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-                <div style="flex: 1; min-width: 200px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                    <h3 style="color: #343a40; margin: 0;">City Hospital Network</h3>
-                    <p style="font-size: 1em; color: #666;">Providing critical equipment for emergency care.</p>
+            <div class="partnerships-container">
+                <div class="partner-card">
+                    <h3>City Hospital Network</h3>
+                    <p>Providing critical equipment for emergency care.</p>
                 </div>
-                <div style="flex: 1; min-width: 200px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                    <h3 style="color: #343a40; margin: 0;">Wellness India</h3>
-                    <p style="font-size: 1em; color: #666;">Supplying wellness products for community health programs.</p>
+                <div class="partner-card">
+                    <h3>Wellness India</h3>
+                    <p>Supplying wellness products for community health programs.</p>
                 </div>
-                <div style="flex: 1; min-width: 200px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;">
-                    <h3 style="color: #343a40; margin: 0;">MediResearch Institute</h3>
-                    <p style="font-size: 1em; color: #666;">Supporting cutting-edge medical research.</p>
+                <div class="partner-card">
+                    <h3>MediResearch Institute</h3>
+                    <p>Supporting cutting-edge medical research.</p>
                 </div>
             </div>
         </section>
 
-
-        <!-- Sustainability Initiatives Section -->
-       <!-- Sustainability Initiatives Section -->
-<section style="margin-bottom: 40px;">
- <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">
-     Sustainability Initiatives at Hitaishi Healthcare
- </h2>
- 
- <!-- Sustainability Initiative Boxes Only - Single Row -->
- <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 20px; padding: 20px 0;">
-     <div style="flex: 0 0 300px; background-color: #e0f7fa; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <h3 style="color: #006064; font-size: 1.3em;">Eco-Friendly Packaging</h3>
-         <p style="font-size: 1em; color: #444;">
-             All our shipments use biodegradable and recyclable materials. This reduces plastic waste and aligns with our commitment to green logistics.
-         </p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #f1f8e9; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <h3 style="color: #33691e; font-size: 1.3em;">Green Supply Chain</h3>
-         <p style="font-size: 1em; color: #444;">
-             We work with partners who prioritize eco-conscious manufacturing, creating a cleaner, greener supply chain.
-         </p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #fff3e0; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <h3 style="color: #e65100; font-size: 1.3em;">Waste Reduction</h3>
-         <p style="font-size: 1em; color: #444;">
-             Through advanced recycling and minimal packaging, our warehouses contribute to environmental conservation.
-         </p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #fce4ec; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <h3 style="color: #ad1457; font-size: 1.3em;">Carbon Footprint Monitoring</h3>
-         <p style="font-size: 1em; color: #444;">
-             We monitor and reduce emissions using digital tools to stay accountable in our sustainability goals.
-         </p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #ede7f6; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <h3 style="color: #4527a0; font-size: 1.3em;">Employee Awareness</h3>
-         <p style="font-size: 1em; color: #444;">
-             Our workforce is trained regularly to stay informed about our eco-principles and to act sustainably.
-         </p>
-     </div>
- </div>
-</section>
-
-
-
+        <!-- Sustainability Section -->
+        <section>
+            <h2 class="section-title">Sustainability Initiatives at Hitaishi Healthcare</h2>
+            <div class="sustainability-container">
+                <div class="sustain-card" style="background-color: #e0f7fa;">
+                    <h3 style="color: #006064;">Eco-Friendly Packaging</h3>
+                    <p>All our shipments use biodegradable and recyclable materials. This reduces plastic waste and aligns with our commitment to green logistics.</p>
+                </div>
+                <div class="sustain-card" style="background-color: #f1f8e9;">
+                    <h3 style="color: #33691e;">Green Supply Chain</h3>
+                    <p>We work with partners who prioritize eco-conscious manufacturing, creating a cleaner, greener supply chain.</p>
+                </div>
+                <div class="sustain-card" style="background-color: #fff3e0;">
+                    <h3 style="color: #e65100;">Waste Reduction</h3>
+                    <p>Through advanced recycling and minimal packaging, our warehouses contribute to environmental conservation.</p>
+                </div>
+                <div class="sustain-card" style="background-color: #fce4ec;">
+                    <h3 style="color: #ad1457;">Carbon Footprint Monitoring</h3>
+                    <p>We monitor and reduce emissions using digital tools to stay accountable in our sustainability goals.</p>
+                </div>
+                <div class="sustain-card" style="background-color: #ede7f6;">
+                    <h3 style="color: #4527a0;">Employee Awareness</h3>
+                    <p>Our workforce is trained regularly to stay informed about our eco-principles and to act sustainably.</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Statistics Section -->
-        <section id="statistics" style="margin-bottom: 40px;">
-         <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px; text-align: left;">Our Impact</h2>
-         <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-             <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 200px; text-align: center;">
-                 <h3 style="color: #00c4b4; font-size: 2.5em; margin: 0;">5000+</h3>
-                 <p style="color: #666; font-size: 1em;">Items in Stock</p>
-             </div>
-             <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 200px; text-align: center;">
-                 <h3 style="color: #00c4b4; font-size: 2.5em; margin: 0;">100+</h3>
-                 <p style="color: #666; font-size: 1em;">Healthcare Partners</p>
-             </div>
-             <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 200px; text-align: center;">
-                 <h3 style="color: #00c4b4; font-size: 2.5em; margin: 0;">99%</h3>
-                 <p style="color: #666; font-size: 1em;">Order Accuracy</p>
-             </div>
-             <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 200px; text-align: center;">
-                 <h3 style="color: #00c4b4; font-size: 2.5em; margin: 0;">15+</h3>
-                 <p style="color: #666; font-size: 1em;">Years in Service</p>
-             </div>
-         </div>
-     </section>
-       
+        <section>
+            <h2 class="section-title">Our Impact</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3 class="stat-number">5000+</h3>
+                    <p class="stat-text">Items in Stock</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">100+</h3>
+                    <p class="stat-text">Healthcare Partners</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">99%</h3>
+                    <p class="stat-text">Order Accuracy</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">15+</h3>
+                    <p class="stat-text">Years in Service</p>
+                </div>
+            </div>
+        </section>
 
-
-<!-- Testimonials Section -->
-<section id="testimonials" style="margin-bottom: 40px; overflow-x: auto;">
- <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">What Our Partners Say</h2>
- <div style="display: flex; flex-wrap: nowrap; gap: 20px;">
-     <div style="flex: 0 0 300px; background-color: #fef4e8; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"Hitaishi Healthcare's reliable supply chain ensures we never run out of critical supplies."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Dr. Anjali Sharma, City Hospital</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #e8f7ff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"The variety and quality of their wellness products have greatly improved our patient care programs."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Priya Patel, Wellness Clinic</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #e8fce8; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"Their team is responsive and their inventory is always up-to-date, making our operations seamless."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Rajesh Kumar, Medical Center</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #f3e8ff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"We appreciate their commitment to quality and timely deliveries. Truly dependable."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Dr. Sandeep Mehra, Lifeline Hospital</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #fff8e8; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"Partnering with Hitaishi Healthcare has streamlined our medical inventory processes."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Neha Rathi, CarePlus Clinic</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #e8fff4; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"Exceptional service and a great range of pharmaceuticals at competitive prices."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Dr. Kiran Joshi, Nova Health</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #ffe8ef; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"A trustworthy partner who understands healthcare needs deeply."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Dr. Ramesh Gupta, HealthBridge</p>
-     </div>
-     <div style="flex: 0 0 300px; background-color: #f0f0ff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-         <p style="font-style: italic; color: #666;">"From medical supplies to wellness products, they deliver excellence every time."</p>
-         <p style="font-weight: bold; color: #343a40; margin-top: 10px;">- Sneha Agarwal, VitalCare</p>
-     </div>
- </div>
-</section>
-
-
-
+        <!-- Testimonials Section -->
+        <section>
+            <h2 class="section-title">What Our Partners Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card" style="background-color: #fef4e8;">
+                    <p class="testimonial-text">"Hitaishi Healthcare's reliable supply chain ensures we never run out of critical supplies."</p>
+                    <p class="testimonial-author">- Dr. Anjali Sharma, City Hospital</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #e8f7ff;">
+                    <p class="testimonial-text">"The variety and quality of their wellness products have greatly improved our patient care programs."</p>
+                    <p class="testimonial-author">- Priya Patel, Wellness Clinic</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #e8fce8;">
+                    <p class="testimonial-text">"Their team is responsive and their inventory is always up-to-date, making our operations seamless."</p>
+                    <p class="testimonial-author">- Rajesh Kumar, Medical Center</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #f3e8ff;">
+                    <p class="testimonial-text">"We appreciate their commitment to quality and timely deliveries. Truly dependable."</p>
+                    <p class="testimonial-author">- Dr. Sandeep Mehra, Lifeline Hospital</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #fff8e8;">
+                    <p class="testimonial-text">"Partnering with Hitaishi Healthcare has streamlined our medical inventory processes."</p>
+                    <p class="testimonial-author">- Neha Rathi, CarePlus Clinic</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #e8fff4;">
+                    <p class="testimonial-text">"Exceptional service and a great range of pharmaceuticals at competitive prices."</p>
+                    <p class="testimonial-author">- Dr. Kiran Joshi, Nova Health</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #ffe8ef;">
+                    <p class="testimonial-text">"A trustworthy partner who understands healthcare needs deeply."</p>
+                    <p class="testimonial-author">- Dr. Ramesh Gupta, HealthBridge</p>
+                </div>
+                <div class="testimonial-card" style="background-color: #f0f0ff;">
+                    <p class="testimonial-text">"From medical supplies to wellness products, they deliver excellence every time."</p>
+                    <p class="testimonial-author">- Sneha Agarwal, VitalCare</p>
+                </div>
+            </div>
+        </section>
 
         <!-- FAQ Section -->
-        <section id="faq" style="margin-bottom: 40px;">
-         <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Frequently Asked Questions</h2>
-         <div style="background-color: #f8f9fa; padding: 25px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.1);">
-             
-             <div style="margin-bottom: 20px; background-color: #ffffff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.3s;">
-                 <h3 style="color: #343a40; font-size: 1.3em; margin: 0;">How does Hitaishi ensure product quality?</h3>
-                 <p style="color: #666; font-size: 1em; margin-top: 8px;">We conduct rigorous quality checks and source products from certified manufacturers.</p>
-             </div>
-     
-             <div style="margin-bottom: 20px; background-color: #e9f7f6; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.3s;">
-                 <h3 style="color: #343a40; font-size: 1.3em; margin: 0;">Can I place bulk orders?</h3>
-                 <p style="color: #666; font-size: 1em; margin-top: 8px;">Yes, we support bulk orders. Contact our team for customized quotes.</p>
-             </div>
-     
-             <div style="margin-bottom: 20px; background-color: #ffffff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.3s;">
-                 <h3 style="color: #343a40; font-size: 1.3em; margin: 0;">What is your return policy?</h3>
-                 <p style="color: #666; font-size: 1em; margin-top: 8px;">We accept returns within 30 days for unused items in original packaging.</p>
-             </div>
-     
-             <div style="background-color: #e9f7f6; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.3s;">
-                 <h3 style="color: #343a40; font-size: 1.3em; margin: 0;">Do you offer training for equipment?</h3>
-                 <p style="color: #666; font-size: 1em; margin-top: 8px;">Yes, we provide training sessions for complex medical equipment upon request.</p>
-             </div>
-     
-         </div>
-     </section>
-     
+        <section>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        How does Hitaishi ensure product quality?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <p class="faq-answer">We conduct rigorous quality checks and source products from certified manufacturers.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        Can I place bulk orders?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <p class="faq-answer">Yes, we support bulk orders. Contact our team for customized quotes.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        What is your return policy?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <p class="faq-answer">We accept returns within 30 days for unused items in original packaging.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">
+                        Do you offer training for equipment?
+                        <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <p class="faq-answer">Yes, we provide training sessions for complex medical equipment upon request.</p>
+                </div>
+            </div>
+        </section>
 
-
-        <!-- Contact Section
-        <section id="contact" style="margin-bottom: 40px;">
-            <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Contact Us</h2>
-            <p style="font-size: 1.1em; line-height: 1.6;">For inquiries about our services or to partner with us, please fill out the form below.</p>
-            <form style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <label for="name" style="display: block; margin-bottom: 10px; font-weight: bold;">Name:</label>
-                <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;">
-               
-                <label for="email" style="display: block; margin-bottom: 10px; font-weight: bold;">Email:</label>
-                <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;">
-               
-                <label for="message" style="display: block; margin-bottom: 10px; font-weight: bold;">Message:</label>
-                <textarea id="message" name="message" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; min-height: 100px;"></textarea>
-               
-                <button type="submit" style="background-color: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-size: 1.1em; cursor: pointer;">Submit</button>
-            </form>
-        </section> -->
-
-
-        <!-- Newsletter Signup Section -->
-        <section id="newsletter" style="margin-bottom: 40px; text-align: center;">
-            <h2 style="color: #007bff; font-size: 2em; border-bottom: 2px solid #00c4b4; padding-bottom: 10px;">Stay Updated</h2>
-            <p style="font-size: 1.1em; color: #666;">Subscribe to our newsletter for the latest updates and offers.</p>
-            <form style="display: inline-block; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <input type="email" placeholder="Enter your email" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; width: 250px; margin-right: 10px;">
-                <button type="submit" style="background-color: #00c4b4; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">Subscribe</button>
+        <!-- Newsletter Section -->
+        <section class="newsletter">
+            <h2 class="section-title">Stay Updated</h2>
+            <p>Subscribe to our newsletter for the latest updates and offers.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required class="newsletter-input">
+                <button type="submit" class="newsletter-btn">Subscribe</button>
             </form>
         </section>
     </main>
+
+    <script>
+        // Toggle FAQ items
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        // Close popup when clicking outside
+        window.addEventListener('click', function(event) {
+            const popup = document.getElementById('popupForm');
+            if (event.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 1s ease forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.category-card, .team-member, .partner-card, .sustain-card, .stat-card, .testimonial-card, .faq-item').forEach(item => {
+            item.style.opacity = '0';
+            observer.observe(item);
+        });
+    </script>
+
 
 
     <!-- footer -->
@@ -1381,7 +2001,7 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
+                    <span>support@hitaishihealth.com</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>
@@ -1408,30 +2028,31 @@
 
 
     <!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
+    <div id="chatbot-placeholder"></div>
 
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
+    <!-- JS to load the chatbot -->
+    <script>
+        fetch('chatbot.html')
+        .then(res => res.text())
+        .then(html => {
+            const container = document.getElementById('chatbot-placeholder');
+            container.innerHTML = html;
 
-        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-        // ✅ So, we must find and re-run those <script> blocks manually:
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
+            // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+            // ✅ So, we must find and re-run those <script> blocks manually:
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach(script => {
+            const newScript = document.createElement("script");
+            if (script.src) {
+                newScript.src = script.src;
+            } else {
+                newScript.textContent = script.textContent;
+            }
+            document.body.appendChild(newScript);
+            });
         });
-      });
-</script>
+    </script>
+
 </body>
 </html>
 

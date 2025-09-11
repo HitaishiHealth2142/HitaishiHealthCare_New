@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; text-align: center;width: 100%;overflow: none;">
@@ -975,421 +976,549 @@
         </script>
     <!-- Navbar Code Ends-- -->
 
-
     <style>
-        :root {
-            --primary: #2a5bd7;
-            --secondary: #1a3a8f;
-            --accent: #4fc3f7;
-            --light-bg: #f8fafc;
-            --dark-text: #2d3748;
-            --light-text: #718096;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-text);
-            background-color: #f5f7fa;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px 0;
-        }
-        
-        h1 {
-            color: var(--primary);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .subtitle {
-            color: var(--light-text);
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .feature-card {
-            display: flex;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            margin-bottom: 40px;
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-card.reverse {
-            flex-direction: row-reverse;
-        }
-        
-        .visual-section {
-            flex: 1;
-            position: relative;
-            min-height: 400px;
-            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-        }
-        
-        .visual-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-        
-        .content-section {
-            flex: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
-        .feature-description {
-            margin-bottom: 25px;
-            color: var(--dark-text);
-            font-size: 1.1rem;
-        }
-        
-        .tech-tag {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .process-flow {
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            position: relative;
-        }
-        
-        .process-step {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .step-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .step-content {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            flex-grow: 1;
-        }
-        
-        .step-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-        
-        .connector-line {
-            position: absolute;
-            left: 20px;
-            top: 40px;
-            bottom: -15px;
-            width: 2px;
-            background-color: var(--accent);
-            z-index: 1;
-        }
-        
-        .data-visualization {
-            width: 100%;
-            height: 300px;
-            background: url('https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/cdp/cf/ul/g/20/81/Blockchain-network.img.jpg/featured-full.jpg') center/cover;
-            border-radius: 8px;
-            position: relative;
-            margin-top: 20px;
-        }
-        
-        .data-node {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 0 0 5px rgba(79, 195, 247, 0.3);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(79, 195, 247, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
-        }
-        
-        .node-1 { top: 20%; left: 15%; }
-        .node-2 { top: 40%; left: 30%; }
-        .node-3 { top: 60%; left: 20%; }
-        .node-4 { top: 30%; left: 60%; }
-        .node-5 { top: 50%; left: 70%; }
-        .node-6 { top: 70%; left: 80%; }
-        
-        .benefits-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        .benefits-list li {
-            margin-bottom: 15px;
-            padding-left: 30px;
-            position: relative;
-        }
-        
-        .benefits-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #48bb78;
-            font-weight: bold;
-        }
-        
-        @media (max-width: 768px) {
-            .feature-card, .feature-card.reverse {
-                flex-direction: column;
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
             
-            .visual-section {
-                min-height: 250px;
+            body {
+                font-family: 'Open Sans', sans-serif;
+                line-height: 1.6;
+                color: #333;
+                background-color: #f8f9fa;
             }
-        }
+            
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            /* Header Styles */
+            header {
+                background: linear-gradient(135deg, #1a6fc4 0%, #0c4a8c 100%);
+                color: white;
+                padding: 20px 0;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .logo {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-size: 28px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .logo-icon {
+                margin-right: 10px;
+                font-size: 32px;
+            }
+            
+            nav ul {
+                display: flex;
+                list-style: none;
+            }
+            
+            nav ul li {
+                margin-left: 25px;
+            }
+            
+            nav ul li a {
+                color: white;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            nav ul li a:after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                left: 0;
+                background-color: white;
+                transition: width 0.3s ease;
+            }
+            
+            nav ul li a:hover:after {
+                width: 100%;
+            }
+            
+            /* Hero Section */
+            .hero {
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a6fc4" opacity="0.1"/><path d="M0 0L100 100" stroke="%231a6fc4" stroke-width="2" opacity="0.2"/><path d="M100 0L0 100" stroke="%231a6fc4" stroke-width="2" opacity="0.2"/></svg>');
+                padding: 80px 0;
+                text-align: center;
+                background-color: #e8f4ff;
+            }
+            
+            .hero h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 48px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                color: #0c4a8c;
+                animation: fadeIn 1s ease-out;
+            }
+            
+            .hero p {
+                font-size: 20px;
+                max-width: 800px;
+                margin: 0 auto 30px;
+                color: #333;
+            }
+            
+            .cta-button {
+                display: inline-block;
+                background: #1a6fc4;
+                color: white;
+                padding: 15px 30px;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(26, 111, 196, 0.3);
+            }
+            
+            .cta-button:hover {
+                background: #0c4a8c;
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(26, 111, 196, 0.4);
+            }
+            
+            /* Section Styles */
+            section {
+                padding: 80px 0;
+            }
+            
+            .section-title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 42px;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 50px;
+                color: #0c4a8c;
+                position: relative;
+            }
+            
+            .section-title:after {
+                content: '';
+                position: absolute;
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(to right, #1a6fc4, #0c4a8c);
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 2px;
+            }
+            
+            /* AI Section */
+            .ai-section {
+                background-color: white;
+            }
+            
+            .features {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .feature-card {
+                background: white;
+                border-radius: 15px;
+                padding: 30px;
+                width: 100%;
+                max-width: 350px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+            
+            .feature-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            }
+            
+            .feature-icon {
+                font-size: 50px;
+                margin-bottom: 20px;
+                color: #1a6fc4;
+            }
+            
+            .feature-card h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 24px;
+                margin-bottom: 15px;
+                color: #0c4a8c;
+            }
+            
+            /* Blockchain Section */
+            .blockchain-section {
+                background: linear-gradient(to bottom, #f8f9fa 0%, #e8f4ff 100%);
+            }
+            
+            .benefits-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+            
+            .benefit-item {
+                background: white;
+                border-radius: 15px;
+                padding: 25px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+            }
+            
+            .benefit-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            }
+            
+            .benefit-item h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 22px;
+                margin-bottom: 15px;
+                color: #0c4a8c;
+                display: flex;
+                align-items: center;
+            }
+            
+            .benefit-icon {
+                margin-right: 10px;
+                color: #1a6fc4;
+                font-size: 24px;
+            }
+            
+            /* How It Works Section */
+            .how-it-works {
+                background-color: white;
+            }
+            
+            .process-steps {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .step {
+                background: white;
+                border-radius: 15px;
+                padding: 30px;
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .step:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            }
+            
+            .step-number {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 40px;
+                background: #1a6fc4;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 20px;
+            }
+            
+            .step-icon {
+                font-size: 40px;
+                margin: 20px 0;
+                color: #1a6fc4;
+            }
+            
+            /* CTA Section */
+            .cta-section {
+                background: linear-gradient(135deg, #1a6fc4 0%, #0c4a8c 100%);
+                color: white;
+                text-align: center;
+                padding: 80px 0;
+            }
+            
+            .cta-section h2 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+            
+            /* Footer */
+            footer {
+                background: #0c4a8c;
+                color: white;
+                padding: 40px 0 20px;
+                text-align: center;
+            }
+            
+            .footer-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-logo {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+            
+            .footer-links a {
+                color: white;
+                margin: 0 15px;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+            
+            .footer-links a:hover {
+                text-decoration: underline;
+            }
+            
+            .copyright {
+                margin-top: 20px;
+                font-size: 14px;
+                opacity: 0.8;
+            }
+            
+            /* Animations */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .animate-on-scroll {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.8s ease, transform 0.8s ease;
+            }
+            
+            .visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            /* Mobile Responsive */
+            @media (max-width: 768px) {
+                .header-content {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                
+                nav ul {
+                    margin-top: 20px;
+                    justify-content: center;
+                }
+                
+                nav ul li {
+                    margin: 0 10px;
+                }
+                
+                .hero h1 {
+                    font-size: 36px;
+                }
+                
+                .hero p {
+                    font-size: 18px;
+                }
+                
+                .section-title {
+                    font-size: 32px;
+                }
+                
+                .features, .process-steps {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                
+                .benefits-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
     </style>
 
-    <div class="container">
-        <header>
-            <h1>AI & Blockchain in Healthcare Diagnostics</h1>
-            <p class="subtitle">Hitaishi's advanced technologies are transforming medical analysis, patient care, and data security through intelligent automation and decentralized encryption</p>
-        </header>
-        
-        <!-- AI Medical Report Analysis -->
-        <div class="feature-card">
-            <div class="visual-section">
-                <div class="visual-overlay">
-                    <div class="process-flow">
-                        <div class="process-step">
-                            <div class="step-icon"><i class="fas fa-file-medical"></i></div>
-                            <div class="step-content">
-                                <div class="step-title">Medical Report Input</div>
-                                <div>Patient submits lab results, imaging, and health records</div>
-                            </div>
-                            <div class="connector-line"></div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-icon"><i class="fas fa-brain"></i></div>
-                            <div class="step-content">
-                                <div class="step-title">AI Analysis</div>
-                                <div>Deep learning models identify patterns and anomalies</div>
-                            </div>
-                            <div class="connector-line"></div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-icon"><i class="fas fa-chart-line"></i></div>
-                            <div class="step-content">
-                                <div class="step-title">Risk Assessment</div>
-                                <div>Predictive algorithms evaluate disease probabilities</div>
-                            </div>
-                            <div class="connector-line"></div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-icon"><i class="fas fa-user-md"></i></div>
-                            <div class="step-content">
-                                <div class="step-title">Care Recommendations</div>
-                                <div>Personalized treatment plans based on evidence</div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI & Blockchain Healthcare Solutions</h1>
+            <p>Revolutionizing patient care through artificial intelligence and secure blockchain technology for better health outcomes.</p>
+            <a href="#contact" class="cta-button">Learn More</a>
+        </div>
+    </section>
+
+    <!-- AI Section -->
+    <section class="ai-section">
+        <div class="container">
+            <h2 class="section-title">AI-Powered Healthcare</h2>
+            <div class="features">
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Health Record Analysis</h3>
+                    <p>Our advanced AI algorithms analyze patient health records to identify patterns, risk factors, and potential health issues before they become critical.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Diagnostic Test Suggestions</h3>
+                    <p>Based on comprehensive health data analysis, our AI recommends specific diagnostic tests to accurately detect and monitor health conditions.</p>
+                </div>
+                <div class="feature-card animate-on-scroll">
+                    <div class="feature-icon">📊</div>
+                    <h3>Personalized Health Predictions</h3>
+                    <p>Get AI-generated health insights and predictions tailored to your specific health profile, helping you make informed decisions about your wellbeing.</p>
                 </div>
             </div>
-            <div class="content-section">
-                <h2>AI-Powered Medical Report Analysis</h2>
-                <div class="tech-tag">Deep Learning</div>
-                <div class="tech-tag">Natural Language Processing</div>
-                <div class="tech-tag">Predictive Analytics</div>
-                
-                <p class="feature-description">Hitaishi's AI systems comprehensively analyze medical reports including lab results, pathology findings, and imaging reports. Our models achieve 98.7% accuracy in detecting abnormalities by comparing against millions of anonymized cases.</p>
-                
-                <ul class="benefits-list">
-                    <li>Automated interpretation of complex diagnostic data</li>
-                    <li>Early detection of disease markers often missed by humans</li>
-                    <li>Continuous learning from new medical research</li>
-                    <li>Integration with global medical knowledge bases</li>
-                    <li>Real-time alerts for critical findings</li>
-                </ul>
-            </div>
         </div>
-        
-        <!-- Blockchain Data Security -->
-        <div class="feature-card reverse">
-            <div class="visual-section">
-                <div class="visual-overlay">
-                    <div class="data-visualization">
-                        <div class="data-node node-1"><i class="fas fa-lock"></i></div>
-                        <div class="data-node node-2"><i class="fas fa-shield-alt"></i></div>
-                        <div class="data-node node-3"><i class="fas fa-key"></i></div>
-                        <div class="data-node node-4"><i class="fas fa-fingerprint"></i></div>
-                        <div class="data-node node-5"><i class="fas fa-database"></i></div>
-                        <div class="data-node node-6"><i class="fas fa-code"></i></div>
-                    </div>
+    </section>
+
+    <!-- Blockchain Section -->
+    <section class="blockchain-section">
+        <div class="container">
+            <h2 class="section-title">Blockchain Health Records</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item animate-on-scroll">
+                    <h3><span class="benefit-icon">🔒</span> Secure Health Records</h3>
+                    <p>Your medical data is stored securely on a decentralized blockchain network, ensuring privacy and protection against unauthorized access.</p>
+                </div>
+                <div class="benefit-item animate-on-scroll">
+                    <h3><span class="benefit-icon">📝</span> Automated Updates</h3>
+                    <p>All your health reports and records are automatically updated in real-time, providing a comprehensive and current health history.</p>
+                </div>
+                <div class="benefit-item animate-on-scroll">
+                    <h3><span class="benefit-icon">✉️</span> Email Notifications</h3>
+                    <p>Receive instant email notifications when new reports are available, along with AI-generated analysis and health suggestions.</p>
+                </div>
+                <div class="benefit-item animate-on-scroll">
+                    <h3><span class="benefit-icon">🌐</span> Global Access</h3>
+                    <p>Access your health records from anywhere in the world, while maintaining complete control over who can view your information.</p>
                 </div>
             </div>
-            <div class="content-section">
-                <h2>Blockchain-Secured Health Data</h2>
-                <div class="tech-tag">Immutable Records</div>
-                <div class="tech-tag">Zero-Knowledge Proofs</div>
-                <div class="tech-tag">Smart Contracts</div>
-                
-                <p class="feature-description">Hitaishi's blockchain infrastructure ensures military-grade security for all patient health information. Each data transaction is encrypted, timestamped, and distributed across our decentralized network.</p>
-                
-                <ul class="benefits-list">
-                    <li>End-to-end encryption with patient-controlled keys</li>
-                    <li>Tamper-proof audit trail of all data access</li>
-                    <li>Granular permission controls for healthcare providers</li>
-                    <li>HIPAA & GDPR compliant architecture</li>
-                    <li>Interoperability with other healthcare systems</li>
-                </ul>
-                
-                <p class="feature-description">Patients maintain complete ownership of their data while enabling secure sharing with authorized medical professionals when needed.</p>
-            </div>
         </div>
-        
-        <!-- AI Care Suggestions -->
-        <div class="feature-card">
-            <div class="visual-section" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
-                <div class="visual-overlay">
-                    <img src="https://www.ibm.com/content/dam/connectedassets-adobe-cms/worldwide-content/cdp/cf/ul/g/37/52/ai-in-healthcare.img.png/featured-full.png" alt="AI Care Suggestions" style="width: 100%; max-width: 500px; border-radius: 8px; box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="process-steps">
+                <div class="step animate-on-scroll">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📋</div>
+                    <h3>Upload Health Records</h3>
+                    <p>Patients or healthcare providers upload medical records to our secure platform.</p>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">⚙️</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our AI algorithms analyze the data to identify patterns and suggest diagnostics.</p>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🔗</div>
+                    <h3>Blockchain Storage</h3>
+                    <p>All records and analysis are securely stored on the blockchain network.</p>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">📬</div>
+                    <h3>Results & Notifications</h3>
+                    <p>Patients receive analyzed reports and health suggestions via email.</p>
                 </div>
             </div>
-            <div class="content-section">
-                <h2>Personalized Care Recommendations</h2>
-                <div class="tech-tag">Clinical Decision Support</div>
-                <div class="tech-tag">Evidence-Based Medicine</div>
-                <div class="tech-tag">Precision Health</div>
-                
-                <p class="feature-description">Our AI synthesizes medical findings with patient history, genetics, and current research to generate tailored care plans. The system continuously updates recommendations based on:</p>
-                
-                <ul class="benefits-list">
-                    <li>Latest clinical guidelines and drug approvals</li>
-                    <li>Patient response to previous treatments</li>
-                    <li>Real-world outcomes from similar cases</li>
-                    <li>Emerging therapeutic approaches</li>
-                    <li>Individual risk factors and preferences</li>
-                </ul>
-                
-                <p class="feature-description">Healthcare providers receive prioritized action items with supporting evidence, while patients get understandable explanations of their treatment options.</p>
-            </div>
         </div>
-        
-        <!-- AI + Blockchain Integration -->
-        <div class="feature-card reverse" style="background: linear-gradient(135deg, #f0f4ff 0%, #d6e4ff 100%); border: 1px solid #e2e8f0;">
-            <div class="visual-section" style="background: linear-gradient(135deg, #f5f7fa 0%, #e4ebf5 100%);">
-                <div class="visual-overlay">
-                    <img src="https://www.pwc.com/gx/en/industries/healthcare/publications/assets/ai-robotics-new-health-avatar.jpg" alt="AI and Blockchain Integration" style="width: 100%; max-width: 500px; border-radius: 8px;">
-                </div>
-            </div>
-            <div class="content-section">
-                <h2>Seamless AI & Blockchain Integration</h2>
-                <div class="tech-tag">Hybrid Architecture</div>
-                <div class="tech-tag">Federated Learning</div>
-                <div class="tech-tag">Differential Privacy</div>
-                
-                <p class="feature-description">Hitaishi's platform uniquely combines AI's analytical power with blockchain's security to deliver:</p>
-                
-                <ul class="benefits-list">
-                    <li>AI models trained on encrypted data without exposing sensitive information</li>
-                    <li>Verifiable audit trails for all AI-generated diagnoses</li>
-                    <li>Smart contracts that automate insurance approvals based on AI findings</li>
-                    <li>Patient-controlled data sharing for second opinions</li>
-                    <li>Decentralized storage of AI models to prevent single points of failure</li>
-                </ul>
-                
-                <p class="feature-description">This integration ensures both cutting-edge medical insights and ironclad data protection.</p>
-            </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Ready to Transform Your Healthcare Experience?</h2>
+            <p>Join the future of healthcare with our AI and Blockchain solutions.</p>
+            <a href="#" class="cta-button">Get Started Today</a>
         </div>
-    </div>
+    </section>
 
-
-    
-<!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
-
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
-
-        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-        // ✅ So, we must find and re-run those <script> blocks manually:
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
+    <script>
+        // Animation on scroll functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
         });
-      });
-</script>
+    </script>
+
+
+    <!-- Placeholder where chatbot will be inserted -->
+    <div id="chatbot-placeholder"></div>
+
+    <!-- JS to load the chatbot -->
+    <script>
+        fetch('chatbot.html')
+        .then(res => res.text())
+        .then(html => {
+            const container = document.getElementById('chatbot-placeholder');
+            container.innerHTML = html;
+
+            // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
+            // ✅ So, we must find and re-run those <script> blocks manually:
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach(script => {
+            const newScript = document.createElement("script");
+            if (script.src) {
+                newScript.src = script.src;
+            } else {
+                newScript.textContent = script.textContent;
+            }
+            document.body.appendChild(newScript);
+            });
+        });
+    </script>
   
 
 
@@ -1427,7 +1556,7 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
+                    <span>support@hitaishihealth.com</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>
