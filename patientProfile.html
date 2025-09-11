@@ -18,18 +18,18 @@
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             font-weight: 500;
-            color: #4b5563; /* gray-600 */
+            color: #4b5563;
             transition: all 0.2s ease;
             border: none;
             background-color: transparent;
             text-align: left;
         }
         .sidebar-btn:hover {
-            background-color: #f3f4f6; /* gray-100 */
-            color: #1f2937; /* gray-800 */
+            background-color: #f3f4f6;
+            color: #1f2937;
         }
         .sidebar-btn.active {
-            background-color: #4f46e5; /* indigo-600 */
+            background-color: #4f46e5;
             color: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
@@ -43,9 +43,14 @@
         }
         .content-section.active {
             display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .form-input {
-            border: 1px solid #d1d5db; /* gray-300 */
+            border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             padding: 0.5rem 0.75rem;
             width: 100%;
@@ -58,7 +63,7 @@
         }
         .form-label {
             font-weight: 500;
-            color: #374151; /* gray-700 */
+            color: #374151;
         }
         .gemini-response h3 {
             font-size: 1.125rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; color: #1e3a8a;
@@ -68,6 +73,70 @@
         }
         .gemini-response p {
             margin-bottom: 0.75rem;
+        }
+        .appointment-card {
+            transition: all 0.2s ease;
+            border-left: 4px solid #4f46e5;
+        }
+        .appointment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-confirmed {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .badge-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .badge-completed {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+        .badge-cancelled {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        .reschedule-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .reschedule-modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 500px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 0.25rem;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>
@@ -80,7 +149,7 @@
                  <img class="h-8 w-auto" src="https://placehold.co/200x50/4f46e5/white?text=Hitaishi" alt="Logo">
             </div>
             <div class="flex flex-col items-center p-6 border-b border-gray-200">
-                <img id="sidebar_photo_display" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-indigo-100">
+                <img id="sidebar_photo_display" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-indigo-100 object-cover">
                 <h3 id="sidebar_full_name" class="text-lg font-semibold text-gray-800 mt-3"></h3>
                 <p class="text-gray-500 text-sm" id="sidebar_unique_id"></p>
             </div>
@@ -105,73 +174,118 @@
 
             <!-- Home Section -->
             <section id="home-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Home</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome, <span id="welcome-name"></span></h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Today's Appointments -->
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="font-semibold text-lg mb-4">Today's Appointments</h3>
+                        <h3 class="font-semibold text-lg mb-4 flex items-center">
+                            <i class="fas fa-calendar-day text-indigo-600 mr-2"></i>Today's Appointments
+                        </h3>
                         <div id="todays-appointments-list" class="space-y-3"></div>
                         <div id="no-todays-appointments" class="text-center py-8 text-gray-500 hidden">
-                            <i class="fas fa-check-circle text-3xl mb-2"></i><p>No appointments for today.</p>
+                            <i class="fas fa-check-circle text-3xl mb-2 text-green-500"></i>
+                            <p>No appointments for today.</p>
                         </div>
                     </div>
                     <!-- Upcoming Appointments -->
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="font-semibold text-lg mb-4">Upcoming Appointments</h3>
+                        <h3 class="font-semibold text-lg mb-4 flex items-center">
+                            <i class="fas fa-calendar-alt text-indigo-600 mr-2"></i>Upcoming Appointments
+                        </h3>
                         <div id="upcoming-appointments-list" class="space-y-3"></div>
                         <div id="no-upcoming-appointments" class="text-center py-8 text-gray-500 hidden">
-                            <i class="fas fa-calendar-alt text-3xl mb-2"></i><p>No upcoming appointments.</p>
+                            <i class="fas fa-calendar-plus text-3xl mb-2 text-blue-500"></i>
+                            <p>No upcoming appointments.</p>
                         </div>
                     </div>
                 </div>
                  <!-- AI Health Insights -->
                 <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-                    <h3 class="font-semibold text-lg mb-4">✨ AI Health Insights</h3>
+                    <h3 class="font-semibold text-lg mb-4 flex items-center">
+                        <i class="fas fa-robot text-indigo-600 mr-2"></i>✨ AI Health Insights
+                    </h3>
                     <div class="text-center">
                         <p class="mb-4 text-gray-600">Get personalized wellness tips based on your health profile.</p>
-                        <button id="generate-insights-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700">
+                        <button id="generate-insights-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
                             <i class="fas fa-wand-magic-sparkles mr-2"></i>Generate My Health Summary
                         </button>
                     </div>
                     <div id="insights-result" class="mt-6 hidden">
-                        <div id="insights-loading" class="text-center"><i class="fas fa-spinner fa-spin text-2xl text-indigo-500"></i><p class="mt-2 text-gray-500">Generating...</p></div>
-                        <div id="insights-content" class="gemini-response p-4 bg-indigo-50 rounded-lg border border-indigo-200"></div>
+                        <div id="insights-loading" class="text-center">
+                            <i class="fas fa-spinner fa-spin text-2xl text-indigo-500"></i>
+                            <p class="mt-2 text-gray-500">Generating insights...</p>
+                        </div>
+                        <div id="insights-content" class="gemini-response p-4 bg-indigo-50 rounded-lg border border-indigo-200 mt-4"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Doctor Appointments Section -->
             <section id="doctor-appointments-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Doctor Appointments</h2>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <i class="fas fa-user-doctor text-indigo-600 mr-2"></i>Doctor Appointments
+                    </h2>
+                    <button id="refresh-doctor-appointments" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div id="all-doctor-appointments-list" class="space-y-4"></div>
-                    <div id="no-doctor-appointments" class="text-center py-8 text-gray-500 hidden"><i class="fas fa-user-doctor text-3xl mb-2"></i><p>No doctor appointments found.</p></div>
+                    <div id="no-doctor-appointments" class="text-center py-8 text-gray-500 hidden">
+                        <i class="fas fa-user-doctor text-3xl mb-2 text-gray-400"></i>
+                        <p>No doctor appointments found.</p>
+                    </div>
                 </div>
             </section>
             
             <!-- Diagnostic Appointments Section -->
             <section id="diagnostic-appointments-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Diagnostic Appointments</h2>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <i class="fas fa-microscope text-indigo-600 mr-2"></i>Diagnostic Appointments
+                    </h2>
+                    <button id="refresh-diagnostic-appointments" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                      <div id="all-diagnostic-appointments-list" class="space-y-4"></div>
-                    <div id="no-diagnostic-appointments" class="text-center py-8 text-gray-500"><i class="fas fa-microscope text-3xl mb-2"></i><p>No diagnostic appointments found.</p></div>
+                    <div id="no-diagnostic-appointments" class="text-center py-8 text-gray-500 hidden">
+                        <i class="fas fa-microscope text-3xl mb-2 text-gray-400"></i>
+                        <p>No diagnostic appointments found.</p>
+                    </div>
                 </div>
             </section>
 
             <!-- History Section -->
             <section id="history-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Appointment History</h2>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <i class="fas fa-history text-indigo-600 mr-2"></i>Appointment History
+                    </h2>
+                    <button id="refresh-history" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div id="history-list" class="space-y-4"></div>
-                    <div id="no-history" class="text-center py-8 text-gray-500 hidden"><i class="fas fa-history text-3xl mb-2"></i><p>No past appointments found.</p></div>
+                    <div id="no-history" class="text-center py-8 text-gray-500 hidden">
+                        <i class="fas fa-history text-3xl mb-2 text-gray-400"></i>
+                        <p>No past appointments found.</p>
+                    </div>
                 </div>
             </section>
 
             <!-- Profile Section -->
             <section id="profile-view" class="content-section">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">My Profile</h2>
-                    <button id="edit-profile-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700"><i class="fas fa-edit mr-2"></i>Edit Profile</button>
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <i class="fas fa-user-circle text-indigo-600 mr-2"></i>My Profile
+                    </h2>
+                    <button id="edit-profile-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-edit mr-2"></i>Edit Profile
+                    </button>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -190,7 +304,9 @@
 
             <!-- Edit Profile Section -->
             <section id="edit-profile-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-user-edit text-indigo-600 mr-2"></i>Edit Profile
+                </h2>
                  <div class="bg-white p-6 rounded-lg shadow-md">
                     <div id="message-container" class="mb-6"></div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -205,12 +321,35 @@
                         <div class="md:col-span-2"><label for="profile_photo_input" class="form-label">Update Profile Photo</label><input type="file" id="profile_photo_input" accept="image/*" class="form-input"></div>
                     </div>
                     <div class="mt-8 flex justify-end space-x-3">
-                        <button id="cancel-edit-btn" class="px-6 py-2 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300">Cancel</button>
-                        <button id="save-changes-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700">Save Changes</button>
+                        <button id="cancel-edit-btn" class="px-6 py-2 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">Cancel</button>
+                        <button id="save-changes-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">Save Changes</button>
                     </div>
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Reschedule Modal -->
+    <div id="reschedule-modal" class="reschedule-modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Reschedule Appointment</h3>
+                <button id="close-reschedule-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="reschedule-modal-body">
+                <p class="mb-4">Select a new date for your appointment:</p>
+                <div class="mb-4">
+                    <label for="new-appointment-date" class="form-label">New Date</label>
+                    <input type="date" id="new-appointment-date" class="form-input">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button id="cancel-reschedule" class="px-4 py-2 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">Cancel</button>
+                    <button id="confirm-reschedule" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">Reschedule</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -218,7 +357,9 @@
             // --- Global Variables ---
             let originalProfileData = {};
             let allAppointments = [];
+            let allDiagnosticAppointments = [];
             let base64PhotoData = null;
+            let currentReschedulePaymentId = null;
 
             // --- DOM Elements ---
             const loadingState = document.getElementById('loading-state');
@@ -233,6 +374,14 @@
             const insightsResult = document.getElementById('insights-result');
             const insightsLoading = document.getElementById('insights-loading');
             const insightsContent = document.getElementById('insights-content');
+            const rescheduleModal = document.getElementById('reschedule-modal');
+            const closeRescheduleModal = document.getElementById('close-reschedule-modal');
+            const cancelReschedule = document.getElementById('cancel-reschedule');
+            const confirmReschedule = document.getElementById('confirm-reschedule');
+            const newAppointmentDate = document.getElementById('new-appointment-date');
+            const refreshDoctorBtn = document.getElementById('refresh-doctor-appointments');
+            const refreshDiagnosticBtn = document.getElementById('refresh-diagnostic-appointments');
+            const refreshHistoryBtn = document.getElementById('refresh-history');
             
             // --- 1. Authentication & Initial Data Fetch ---
             const uniqueId = localStorage.getItem('uniqueId');
@@ -243,6 +392,8 @@
 
             async function fetchAllData() {
                 try {
+                    loadingState.style.display = 'block';
+                    
                     const profileResponse = await fetch(`https://www.hitaishihealthcare.com/api/patient/profile/${uniqueId}`);
                     if (!profileResponse.ok) throw new Error('Could not fetch profile data.');
                     const profileData = await profileResponse.json();
@@ -251,11 +402,13 @@
                         originalProfileData = profileData.patient;
                         populateAllViews(originalProfileData);
 
+                        // Fetch doctor appointments
                         const appointmentsResponse = await fetch(`https://www.hitaishihealthcare.com/api/patient/appointments?patientId=${originalProfileData.id}`);
                         const appointmentData = await appointmentsResponse.json();
                         allAppointments = appointmentData.appointments || [];
                         
-                        populateAllAppointmentViews();
+                        // Fetch diagnostic appointments
+                        await fetchDiagnosticAppointments();
                         
                         loadingState.style.display = 'none';
                         switchView('home-view');
@@ -268,12 +421,30 @@
                 }
             }
 
+            async function fetchDiagnosticAppointments() {
+                try {
+                    const response = await fetch(`https://www.hitaishihealthcare.com/api/newpayment/get`);
+                    if (!response.ok) throw new Error('Could not fetch diagnostic appointments.');
+                    const diagnosticData = await response.json();
+                    
+                    // Filter appointments for the current patient
+                    allDiagnosticAppointments = diagnosticData.filter(appt => 
+                        appt.patient_email === originalProfileData.email || 
+                        appt.patient_mobile === originalProfileData.mobile
+                    );
+                } catch (error) {
+                    console.error('Error fetching diagnostic appointments:', error);
+                    allDiagnosticAppointments = [];
+                }
+            }
+
             // --- 2. Populate Views ---
             function populateAllViews(patient) {
                 // Sidebar, Profile View, Edit Form
                 document.getElementById('sidebar_photo_display').src = patient.profile_photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
                 document.getElementById('sidebar_full_name').textContent = `${patient.first_name} ${patient.last_name}`;
                 document.getElementById('sidebar_unique_id').textContent = `ID: ${patient.unique_id}`;
+                document.getElementById('welcome-name').textContent = patient.first_name;
                 
                 const fields = {
                     'view_first_name': patient.first_name, 'view_last_name': patient.last_name,
@@ -296,20 +467,26 @@
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
-                const todaysAppointments = allAppointments.filter(a => new Date(a.appointment_date).setHours(0, 0, 0, 0) === today.getTime());
-                const upcomingAppointments = allAppointments.filter(a => new Date(a.appointment_date) > today);
-                const pastAppointments = allAppointments.filter(a => new Date(a.appointment_date) < today);
+                // Doctor appointments
+                const todaysDoctorAppointments = allAppointments.filter(a => new Date(a.appointment_date).setHours(0, 0, 0, 0) === today.getTime());
+                const upcomingDoctorAppointments = allAppointments.filter(a => new Date(a.appointment_date) > today);
+                const pastDoctorAppointments = allAppointments.filter(a => new Date(a.appointment_date) < today);
 
-                // For now, assuming all appointments are 'doctor' appointments.
-                // This can be changed if a type field is added to the appointment data.
-                const doctorAppointments = allAppointments; 
-                const diagnosticAppointments = []; // Placeholder
+                // Diagnostic appointments
+                const todaysDiagnosticAppointments = allDiagnosticAppointments.filter(a => new Date(a.test_date).setHours(0, 0, 0, 0) === today.getTime());
+                const upcomingDiagnosticAppointments = allDiagnosticAppointments.filter(a => new Date(a.test_date) > today);
+                const pastDiagnosticAppointments = allDiagnosticAppointments.filter(a => new Date(a.test_date) < today);
+
+                // Combined for home view
+                const todaysAppointments = [...todaysDoctorAppointments, ...todaysDiagnosticAppointments];
+                const upcomingAppointments = [...upcomingDoctorAppointments, ...upcomingDiagnosticAppointments];
+                const pastAppointments = [...pastDoctorAppointments, ...pastDiagnosticAppointments];
 
                 renderAppointments(todaysAppointments, 'todays-appointments-list', 'no-todays-appointments');
                 renderAppointments(upcomingAppointments, 'upcoming-appointments-list', 'no-upcoming-appointments');
                 renderAppointments(pastAppointments, 'history-list', 'no-history');
-                renderAppointments(doctorAppointments, 'all-doctor-appointments-list', 'no-doctor-appointments');
-                renderAppointments(diagnosticAppointments, 'all-diagnostic-appointments-list', 'no-diagnostic-appointments');
+                renderAppointments(allAppointments, 'all-doctor-appointments-list', 'no-doctor-appointments');
+                renderDiagnosticAppointments(allDiagnosticAppointments, 'all-diagnostic-appointments-list', 'no-diagnostic-appointments');
             }
 
             function renderAppointments(appointmentArray, listId, emptyMsgId) {
@@ -320,21 +497,146 @@
                 if (appointmentArray.length > 0) {
                     emptyMsgEl.classList.add('hidden');
                     appointmentArray.forEach(appt => {
-                        const apptDate = new Date(appt.appointment_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        const isDiagnostic = appt.payment_id !== undefined;
+                        const apptDate = new Date(isDiagnostic ? appt.test_date : appt.appointment_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                         const apptElement = document.createElement('div');
-                        apptElement.className = 'p-4 border rounded-lg flex justify-between items-center bg-gray-50';
-                        apptElement.innerHTML = `
-                            <div>
-                                <p class="font-semibold text-gray-800">${appt.doctor_name || 'N/A'}</p>
-                                <p class="text-sm text-gray-600">${appt.specialization || 'Diagnostic Test'}</p>
-                                <p class="text-xs text-gray-500">${apptDate} at ${appt.appointment_time}</p>
-                            </div>
-                            <span class="px-3 py-1 text-xs font-medium rounded-full ${appt.status === 'Confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${appt.status}</span>
-                        `;
+                        apptElement.className = 'appointment-card p-4 border rounded-lg flex justify-between items-center bg-white';
+                        
+                        if (isDiagnostic) {
+                            apptElement.innerHTML = `
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-800">${appt.test_name}</p>
+                                    <p class="text-sm text-gray-600">${appt.center_name}</p>
+                                    <p class="text-xs text-gray-500">${apptDate}</p>
+                                    <p class="text-xs text-gray-500 mt-1">Payment ID: ${appt.payment_id}</p>
+                                </div>
+                                <span class="badge badge-${appt.status === 'Completed' ? 'completed' : 'confirmed'}">${appt.status || 'Scheduled'}</span>
+                            `;
+                        } else {
+                            apptElement.innerHTML = `
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-800">${appt.doctor_name || 'N/A'}</p>
+                                    <p class="text-sm text-gray-600">${appt.specialization || 'General Consultation'}</p>
+                                    <p class="text-xs text-gray-500">${apptDate} at ${appt.appointment_time}</p>
+                                </div>
+                                <span class="badge badge-${appt.status === 'Confirmed' ? 'confirmed' : appt.status === 'Pending' ? 'pending' : appt.status === 'Completed' ? 'completed' : 'cancelled'}">${appt.status}</span>
+                            `;
+                        }
+                        
                         listEl.appendChild(apptElement);
                     });
                 } else {
                     emptyMsgEl.classList.remove('hidden');
+                }
+            }
+
+            function renderDiagnosticAppointments(appointmentArray, listId, emptyMsgId) {
+                const listEl = document.getElementById(listId);
+                const emptyMsgEl = document.getElementById(emptyMsgId);
+                listEl.innerHTML = '';
+
+                if (appointmentArray.length > 0) {
+                    emptyMsgEl.classList.add('hidden');
+                    appointmentArray.forEach(appt => {
+                        const apptDate = new Date(appt.test_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const appointmentDate = new Date(appt.test_date);
+                        const canReschedule = appointmentDate > today;
+                        
+                        const apptElement = document.createElement('div');
+                        apptElement.className = 'appointment-card p-4 border rounded-lg bg-white';
+                        apptElement.innerHTML = `
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-800 text-lg">${appt.test_name}</p>
+                                    <p class="text-sm text-gray-600">${appt.center_name}</p>
+                                </div>
+                                <span class="badge badge-${appt.status === 'Completed' ? 'completed' : 'confirmed'}">${appt.status || 'Scheduled'}</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
+                                <div><span class="font-medium">Date:</span> ${apptDate}</div>
+                                <div><span class="font-medium">Collection Type:</span> ${appt.collection_type}</div>
+                                <div><span class="font-medium">Amount:</span> ₹${appt.amount}</div>
+                                <div><span class="font-medium">Payment Method:</span> ${appt.payment_method}</div>
+                            </div>
+                            <div class="mt-3 text-xs text-gray-500">
+                                <p>Payment ID: ${appt.payment_id}</p>
+                            </div>
+                            ${canReschedule ? `
+                                <div class="mt-4 flex justify-end">
+                                    <button class="reschedule-btn px-4 py-1 rounded-md text-sm font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors" data-payment-id="${appt.payment_id}">
+                                        Reschedule
+                                    </button>
+                                </div>
+                            ` : ''}
+                        `;
+                        
+                        listEl.appendChild(apptElement);
+                    });
+
+                    // Add event listeners to reschedule buttons
+                    document.querySelectorAll('.reschedule-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const paymentId = this.getAttribute('data-payment-id');
+                            openRescheduleModal(paymentId);
+                        });
+                    });
+                } else {
+                    emptyMsgEl.classList.remove('hidden');
+                }
+            }
+
+            function openRescheduleModal(paymentId) {
+                currentReschedulePaymentId = paymentId;
+                
+                // Set minimum date to tomorrow
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const maxDate = new Date();
+                maxDate.setDate(tomorrow.getDate() + 30);
+                
+                newAppointmentDate.min = tomorrow.toISOString().split('T')[0];
+                newAppointmentDate.max = maxDate.toISOString().split('T')[0];
+                newAppointmentDate.value = '';
+                
+                rescheduleModal.classList.add('active');
+            }
+
+            function closeRescheduleModalFunc() {
+                rescheduleModal.classList.remove('active');
+                currentReschedulePaymentId = null;
+            }
+
+            async function rescheduleAppointment() {
+                const newDate = newAppointmentDate.value;
+                if (!newDate) {
+                    alert('Please select a new date');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`https://www.hitaishihealthcare.com/api/newpayment/reschedule/${currentReschedulePaymentId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ newDate })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('Appointment rescheduled successfully!');
+                        closeRescheduleModalFunc();
+                        await fetchDiagnosticAppointments();
+                        populateAllAppointmentViews();
+                    } else {
+                        alert('Error: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Reschedule error:', error);
+                    alert('Failed to reschedule appointment. Please try again.');
                 }
             }
 
@@ -343,72 +645,68 @@
                 contentSections.forEach(section => section.classList.remove('active'));
                 document.getElementById(viewId).classList.add('active');
                 sidebarBtns.forEach(btn => btn.classList.remove('active'));
-                const activeBtn = document.getElementById(`show-${viewId.split('-')[0]}-btn`);
-                if(activeBtn) activeBtn.classList.add('active');
+                
+                let activeBtnId;
+                if (viewId === 'home-view') activeBtnId = 'show-home-btn';
+                else if (viewId === 'doctor-appointments-view') activeBtnId = 'show-doctor-appointments-btn';
+                else if (viewId === 'diagnostic-appointments-view') activeBtnId = 'show-diagnostic-appointments-btn';
+                else if (viewId === 'history-view') activeBtnId = 'show-history-btn';
+                else if (viewId === 'profile-view') activeBtnId = 'show-profile-btn';
+                
+                if (activeBtnId) document.getElementById(activeBtnId).classList.add('active');
             }
+
+            // --- 4. Event Listeners ---
+            // Navigation
+            document.getElementById('show-home-btn').addEventListener('click', () => switchView('home-view'));
+            document.getElementById('show-doctor-appointments-btn').addEventListener('click', () => switchView('doctor-appointments-view'));
+            document.getElementById('show-diagnostic-appointments-btn').addEventListener('click', () => switchView('diagnostic-appointments-view'));
+            document.getElementById('show-history-btn').addEventListener('click', () => switchView('history-view'));
+            document.getElementById('show-profile-btn').addEventListener('click', () => switchView('profile-view'));
             
-            sidebarBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const viewId = btn.id.replace('show-', '').replace('-btn', '-view');
-                    if (document.getElementById(viewId)) {
-                        switchView(viewId);
-                    }
-                });
-            });
+            // Profile Editing
             editProfileBtn.addEventListener('click', () => switchView('edit-profile-view'));
-
-            // --- 4. Gemini API Health Insights ---
-            generateInsightsBtn.addEventListener('click', async () => {
-                insightsResult.classList.remove('hidden');
-                insightsLoading.classList.remove('hidden');
-                insightsContent.classList.add('hidden');
-                insightsContent.innerHTML = '';
-
-                const { dob, gender, blood_group, disease } = originalProfileData;
-                const age = dob ? new Date().getFullYear() - new Date(dob).getFullYear() : 'not provided';
-
-                const prompt = `Based on the following anonymous patient data, provide a brief health summary and some general wellness tips in markdown format. - Age: ${age}, Gender: ${gender}, Blood Group: ${blood_group}, Known Conditions: ${disease || 'None'}. Structure the response with these sections: **General Wellness Tips**, **Things to Discuss with Your Doctor**, and **Lifestyle Considerations**.`;
-
-                try {
-                    let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                    const payload = { contents: chatHistory };
-                    const apiKey = process.env.AI_KEY; // Provided by environment
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (!response.ok) throw new Error('API request failed');
-                    const result = await response.json();
-                    
-                    if (result.candidates && result.candidates[0].content.parts[0].text) {
-                        const rawText = result.candidates[0].content.parts[0].text;
-                        let htmlText = rawText.replace(/\*\*(.*?)\*\*/g, '<h3>$1</h3>').replace(/\* (.*?)(?=\n\* |\n\n|$)/g, '<li>$1</li>').replace(/\n/g, '<br>');
-                        insightsContent.innerHTML = htmlText.replace(/<br><li>/g, '<li>').replace(/<\/li><br>/g, '</li>');
-                    } else { throw new Error('Invalid response from AI.'); }
-                } catch (error) {
-                    console.error("Gemini API Error:", error);
-                    insightsContent.innerHTML = '<p class="text-red-500">Sorry, could not generate insights. Please try again later.</p>';
-                } finally {
-                    insightsLoading.classList.add('hidden');
-                    insightsContent.classList.remove('hidden');
-                }
+            cancelBtn.addEventListener('click', () => switchView('profile-view'));
+            
+            // Logout
+            logoutButton.addEventListener('click', () => {
+                localStorage.removeItem('uniqueId');
+                window.location.href = 'login.html';
             });
-
-            // --- 5. Edit and Save Logic ---
-            photoInput.addEventListener('change', (event) => {
-                if (event.target.files && event.target.files[0]) {
+            
+            // Refresh buttons
+            refreshDoctorBtn.addEventListener('click', async () => {
+                const response = await fetch(`https://www.hitaishihealthcare.com/api/patient/appointments?patientId=${originalProfileData.id}`);
+                const appointmentData = await response.json();
+                allAppointments = appointmentData.appointments || [];
+                populateAllAppointmentViews();
+            });
+            
+            refreshDiagnosticBtn.addEventListener('click', async () => {
+                await fetchDiagnosticAppointments();
+                populateAllAppointmentViews();
+            });
+            
+            refreshHistoryBtn.addEventListener('click', async () => {
+                await fetchDiagnosticAppointments();
+                populateAllAppointmentViews();
+            });
+            
+            // Profile Photo
+            photoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
                     const reader = new FileReader();
-                    reader.onload = (e) => { base64PhotoData = e.target.result; };
-                    reader.readAsDataURL(event.target.files[0]);
+                    reader.onload = function(e) {
+                        base64PhotoData = e.target.result;
+                        document.getElementById('sidebar_photo_display').src = base64PhotoData;
+                    };
+                    reader.readAsDataURL(file);
                 }
             });
             
-            cancelBtn.addEventListener('click', () => {
-                populateAllViews(originalProfileData);
-                switchView('profile-view');
-                document.getElementById('message-container').innerHTML = '';
-            });
-
-            saveBtn.addEventListener('click', async () => {
+            // Save Profile Changes
+            saveBtn.addEventListener('click', async function() {
                 const updatedData = {
                     first_name: document.getElementById('first_name').value,
                     last_name: document.getElementById('last_name').value,
@@ -419,50 +717,78 @@
                     disease: document.getElementById('disease').value,
                     address: document.getElementById('address').value,
                     profile_photo: base64PhotoData || originalProfileData.profile_photo
-                    // 🚫 removed email
                 };
-
+                
                 try {
-                    const response = await fetch(`https://www.hitaishihealthcare.com/api/patient/profile/${uniqueId}`, {
+                    const response = await fetch(`https://www.hitaishihealthcare.com/api/patient/update/${originalProfileData.id}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(updatedData)
                     });
-
+                    
                     const result = await response.json();
-                    if (!response.ok) throw new Error(result.error || 'Failed to update.');
-
-                    document.getElementById('message-container').innerHTML =
-                        `<div class="border bg-green-100 border-green-400 text-green-700 px-4 py-3 rounded" role="alert">
-                            Profile updated successfully!
-                        </div>`;
-
-                    base64PhotoData = null;
-                    await fetchAllData();
-                    setTimeout(() => {
+                    if (result.success) {
+                        originalProfileData = { ...originalProfileData, ...updatedData };
+                        populateAllViews(originalProfileData);
                         switchView('profile-view');
-                        document.getElementById('message-container').innerHTML = '';
-                    }, 1500);
+                        showMessage('Profile updated successfully!', 'success');
+                    } else {
+                        showMessage('Error updating profile: ' + result.error, 'error');
+                    }
                 } catch (error) {
-                    document.getElementById('message-container').innerHTML =
-                        `<div class="border bg-red-100 border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
-                            ${error.message}
-                        </div>`;
+                    console.error('Update error:', error);
+                    showMessage('Failed to update profile. Please try again.', 'error');
                 }
             });
-
-
-            // --- 6. Logout ---
-            logoutButton.addEventListener('click', () => {
-                localStorage.clear();
-                sessionStorage.clear();
-                window.location.href = 'login.html';
+            
+            // AI Health Insights
+            generateInsightsBtn.addEventListener('click', async function() {
+                insightsResult.classList.remove('hidden');
+                insightsLoading.classList.remove('hidden');
+                insightsContent.classList.add('hidden');
+                
+                try {
+                    // Simulate API call to AI service
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    // This would be replaced with actual API call to your AI service
+                    const healthSummary = `
+                        <h3>Health Summary for ${originalProfileData.first_name}</h3>
+                        <p>Based on your profile information, here are some personalized health insights:</p>
+                        <ul>
+                            <li>Maintain regular check-ups given your ${originalProfileData.blood_group} blood type</li>
+                            <li>Consider monitoring for conditions common with your known health history</li>
+                            <li>Stay hydrated and maintain a balanced diet appropriate for your age group</li>
+                            <li>Regular moderate exercise is recommended for overall wellness</li>
+                        </ul>
+                        <p>Remember to consult with your healthcare provider before making any significant changes to your lifestyle.</p>
+                    `;
+                    
+                    insightsContent.innerHTML = healthSummary;
+                    insightsLoading.classList.add('hidden');
+                    insightsContent.classList.remove('hidden');
+                } catch (error) {
+                    insightsContent.innerHTML = '<p class="text-red-500">Failed to generate insights. Please try again later.</p>';
+                    insightsLoading.classList.add('hidden');
+                    insightsContent.classList.remove('hidden');
+                }
             });
-
-            // --- Initial Load ---
+            
+            // Reschedule Modal
+            closeRescheduleModal.addEventListener('click', closeRescheduleModalFunc);
+            cancelReschedule.addEventListener('click', closeRescheduleModalFunc);
+            confirmReschedule.addEventListener('click', rescheduleAppointment);
+            
+            // --- 5. Helper Functions ---
+            function showMessage(message, type) {
+                const messageContainer = document.getElementById('message-container');
+                messageContainer.innerHTML = `<div class="p-4 rounded-md ${type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${message}</div>`;
+                setTimeout(() => { messageContainer.innerHTML = ''; }, 5000);
+            }
+            
+            // --- 6. Initialize the Dashboard ---
             fetchAllData();
         });
     </script>
-
 </body>
 </html>

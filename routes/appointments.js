@@ -98,4 +98,30 @@ router.post("/appointments", (req, res) => {
   });
 });
 
+// Route to fetch all appointments for a specific patient. reschedule the appointments
+router.get("/appointments/patient/:patientId", (req, res) => {
+    const patientId = req.params.patientId;
+    const fetchQuery = "SELECT * FROM appointments WHERE patient_id = ? ORDER BY appointment_date DESC, appointment_time DESC";
+    db.query(fetchQuery, [patientId], (err, results) => {
+        if (err) {
+            console.error("❌ Error fetching appointments:", err);
+            return res.status(500).json({ success: false, message: "Database error while fetching appointments." });
+        }
+        res.status(200).json({ success: true, appointments: results });
+    });
+});
+
+// Route to fetch all appointments for a specific doctor. reschedule the appointments
+router.get("/appointments/doctor/:doctorId", (req, res) => {
+    const doctorId = req.params.doctorId;
+    const fetchQuery = "SELECT * FROM appointments WHERE doctor_id = ? ORDER BY appointment_date DESC, appointment_time DESC";
+    db.query(fetchQuery, [doctorId], (err, results) => {  
+        if (err) {
+            console.error("❌ Error fetching appointments:", err);
+            return res.status(500).json({ success: false, message: "Database error while fetching appointments." });
+        }
+        res.status(200).json({ success: true, appointments: results });
+    });
+});
+
 module.exports = router;

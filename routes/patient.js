@@ -300,4 +300,7 @@ router.get('/patient/appointments', (req, res) => {
     });
 });
 
+// Route to fetch all appointments for a specific patient. reschedule the appointments
+
+
 module.exports = router;
