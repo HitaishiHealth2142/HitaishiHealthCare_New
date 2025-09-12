@@ -163,7 +163,10 @@ const newpaymentRoutes = require("./routes/newpayment");
 const testsRoutes = require("./routes/tests");
 const uploadRecordRoutes = require("./routes/upload_record");
 const blogRoutes = require("./routes/blog");
+const ratingsRoutes = require("./routes/ratings");
 
+// Use the ratings routes
+app.use("/api/ratings", ratingsRoutes);
 // Use Routes
 app.use("/api", blogRoutes);
 app.use("/api", uploadRecordRoutes);

@@ -125,3 +125,5 @@ router.get("/appointments/doctor/:doctorId", (req, res) => {
 });
 
 module.exports = router;
+
+
