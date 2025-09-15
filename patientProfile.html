@@ -146,7 +146,7 @@
         <!-- Sidebar -->
         <aside class="w-80 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
             <div class="h-16 flex items-center justify-center border-b border-gray-200">
-                 <img class="h-8 w-auto" src="https://placehold.co/200x50/4f46e5/white?text=Hitaishi HealthCare" alt="Logo">
+                 <img class="h-8 w-auto" src="https://placehold.co/200x50/4f46e5/white?text=Hitaishi" alt="Logo">
             </div>
             <div class="flex flex-col items-center p-6 border-b border-gray-200">
                 <img id="sidebar_photo_display" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Photo" class="w-24 h-24 rounded-full border-4 border-indigo-100 object-cover">
@@ -174,7 +174,7 @@
 
             <!-- Home Section -->
             <section id="home-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome, <span id="welcome-name"></span></h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome <span id="welcome-name"></span></h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Today's Appointments -->
                     <div class="bg-white p-6 rounded-lg shadow-md">
@@ -448,6 +448,86 @@
                 }
             }
 
+        // -------------------------
+        // Helpers: parse date+time and fetch reviewed IDs
+        // -------------------------
+        function parseAppointmentDateTime(dateStr, timeStr) {
+            if (!dateStr) return null;
+            const t = (timeStr || '').toString().trim();
+
+            // parse time (supports `HH:MM`, `HH:MM AM/PM`, `1200`, `12:00 PM` etc.)
+            let hours = 0, minutes = 0;
+            const ampmMatch = t.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+            if (ampmMatch) {
+                hours = parseInt(ampmMatch[1], 10);
+                minutes = parseInt(ampmMatch[2], 10);
+                const ampm = ampmMatch[3].toUpperCase();
+                if (ampm === 'PM' && hours !== 12) hours += 12;
+                if (ampm === 'AM' && hours === 12) hours = 0;
+            } else {
+                const hmatch = t.match(/(\d{1,2}):(\d{2})/);
+                if (hmatch) {
+                hours = parseInt(hmatch[1], 10);
+                minutes = parseInt(hmatch[2], 10);
+                } else {
+                    // fallback for strings like "1200" or "9"
+                    const digits = t.replace(/\D/g, '');
+                    if (digits.length >= 3) {
+                        minutes = parseInt(digits.slice(-2), 10);
+                        hours = parseInt(digits.slice(0, digits.length - 2), 10);
+                    } else if (digits.length > 0) {
+                        hours = parseInt(digits, 10);
+                    }
+                }
+            }
+
+
+            // parse date string (expecting yyyy-mm-dd or dd/mm/yyyy common formats)
+            let year, monthIndex, day;
+            if (dateStr.includes('-')) {
+                const parts = dateStr.split('-');
+                if (parts[0].length === 4) { // yyyy-mm-dd
+                year = parseInt(parts[0], 10);
+                monthIndex = parseInt(parts[1], 10) - 1;
+                day = parseInt(parts[2], 10);
+                } else { // maybe dd-mm-yyyy
+                year = parseInt(parts[2], 10);
+                monthIndex = parseInt(parts[1], 10) - 1;
+                day = parseInt(parts[0], 10);
+                }
+            } else if (dateStr.includes('/')) {
+                const parts = dateStr.split('/'); // dd/mm/yyyy
+                year = parseInt(parts[2], 10);
+                monthIndex = parseInt(parts[1], 10) - 1;
+                day = parseInt(parts[0], 10);
+            } else {
+                const parsed = new Date(dateStr);       
+                if (!isNaN(parsed)) {
+                year = parsed.getFullYear(); monthIndex = parsed.getMonth(); day = parsed.getDate();
+                } else {
+                // fallback: today
+                const now = new Date(); year = now.getFullYear(); monthIndex = now.getMonth(); day = now.getDate();
+                }
+            }
+
+            return new Date(year, monthIndex, day, hours, minutes, 0, 0);
+        }
+
+
+        async function fetchReviewedIds() {
+            try {
+                if (!window.originalProfileData || !window.originalProfileData.unique_id) return;
+                const resp = await fetch(`https://www.hitaishihealthcare.com/api/ratings/user/${window.originalProfileData.unique_id}/reviewed-ids`);
+                if (!resp.ok) return;
+                const data = await resp.json();
+                // server returns { success: true, doctor: [...], diagnostic: [...] }
+                reviewedAppointmentIds.doctor = Array.isArray(data.doctor) ? data.doctor : (data.doctor || []);
+                reviewedAppointmentIds.diagnostic = Array.isArray(data.diagnostic) ? data.diagnostic : (data.diagnostic || []);
+            } catch (err) {
+                console.error('Failed to fetch reviewed ids', err);
+            }
+        }
+                
             // --- 2. Populate Views ---
             function populateAllViews(patient) {
                 document.getElementById('sidebar_photo_display').src = patient.profile_photo || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
@@ -572,69 +652,82 @@
 
              // Specific renderer for Doctor Appointments view with time-based logic
             function renderDoctorAppointments(appointmentArray, listId, emptyMsgId) {
-                const listEl = document.getElementById(listId);
-                const emptyMsgEl = document.getElementById(emptyMsgId);
-                listEl.innerHTML = '';
+            const listEl = document.getElementById(listId);
+            const emptyMsgEl = document.getElementById(emptyMsgId);
+            listEl.innerHTML = '';
 
-                if (appointmentArray && appointmentArray.length > 0) {
-                    emptyMsgEl.classList.add('hidden');
-                    appointmentArray.sort((a,b) => new Date(a.appointment_date + ' ' + a.appointment_time) - new Date(b.appointment_date + ' ' + b.appointment_time));
 
-                    appointmentArray.forEach(appt => {
-                        const apptDate = new Date(appt.appointment_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                        const apptElement = document.createElement('div');
-                        apptElement.className = 'appointment-card p-4 border rounded-lg bg-white';
+            if (appointmentArray && appointmentArray.length > 0) {
+            emptyMsgEl.classList.add('hidden');
+            appointmentArray.sort((a,b) => {
+            const da = parseAppointmentDateTime(a.appointment_date, a.appointment_time) || new Date(0);
+            const db = parseAppointmentDateTime(b.appointment_date, b.appointment_time) || new Date(0);
+            return da - db;
+            });
 
-                        let apptHTML = `
-                            <div class="flex justify-between items-start">
-                                <div class="flex-1">
-                                    <p class="font-semibold text-gray-800">Dr. ${appt.doctor_name || 'N/A'}</p>
-                                    <p class="text-sm text-gray-600">${appt.doctor_specialization || 'Consultation'}</p>
-                                    <p class="text-xs text-gray-500 mt-1">On: ${apptDate} at ${appt.appointment_time}</p>
-                                </div>
-                                <div class="text-right">
-                                     <span class="badge badge-${getStatusClass(appt.status)}">${appt.status || 'Pending'}</span>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex justify-end space-x-2"></div>`;
-                        
-                        apptElement.innerHTML = apptHTML;
 
-                        const now = new Date();
-                        const apptDateTime = new Date(`${appt.appointment_date} ${appt.appointment_time}`);
-                        const hasBeenReviewed = reviewedAppointmentIds.doctor.includes(appt.id);
-                        
-                        const buttonContainer = apptElement.querySelector('.flex.justify-end');
+            appointmentArray.forEach(appt => {
+            const apptDateObj = parseAppointmentDateTime(appt.appointment_date, appt.appointment_time);
+            const apptDate = apptDateObj ? apptDateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : (appt.appointment_date || 'N/A');
 
-                        if (apptDateTime < now) {
-                            if (!hasBeenReviewed) {
-                                const rateBtn = document.createElement('button');
-                                rateBtn.innerText = "Review";
-                                rateBtn.className = "rate-btn px-4 py-1 rounded-md text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors";
-                                rateBtn.setAttribute('data-type', 'doctor');
-                                rateBtn.setAttribute('data-appt', JSON.stringify(appt));
-                                buttonContainer.appendChild(rateBtn);
-                            } else {
-                                const reviewedText = document.createElement('p');
-                                reviewedText.innerText = "Reviewed";
-                                reviewedText.className = "text-sm text-gray-500 font-medium";
-                                buttonContainer.appendChild(reviewedText);
-                            }
-                        } else {
-                            const rescheduleBtn = document.createElement('button');
-                            rescheduleBtn.innerText = "Reschedule";
-                            rescheduleBtn.className = "reschedule-btn px-4 py-1 rounded-md text-sm font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors";
-                            rescheduleBtn.onclick = () => alert('Doctor appointment rescheduling coming soon!'); // Placeholder
-                            buttonContainer.appendChild(rescheduleBtn);
-                        }
 
-                        listEl.appendChild(apptElement);
-                    });
-                } else {
-                    emptyMsgEl.classList.remove('hidden');
-                }
+            const apptElement = document.createElement('div');
+            apptElement.className = 'appointment-card p-4 border rounded-lg bg-white';
+
+
+            let apptHTML = `
+            <div class="flex justify-between items-start">
+            <div class="flex-1">
+            <p class="font-semibold text-gray-800">Dr. ${appt.doctor_name || 'N/A'}</p>
+            <p class="text-sm text-gray-600">${appt.doctor_specialization || 'Consultation'}</p>
+            <p class="text-xs text-gray-500 mt-1">On: ${apptDate} at ${appt.appointment_time || 'N/A'}</p>
+            </div>
+            <div class="text-right">
+            <span class="badge badge-${getStatusClass(appt.status)}">${appt.status || 'Pending'}</span>
+            </div>
+            </div>
+            <div class="mt-4 flex justify-end space-x-2"></div>`;
+
+
+            apptElement.innerHTML = apptHTML;
+
+
+            const now = new Date();
+            const hasBeenReviewed = Array.isArray(reviewedAppointmentIds.doctor) && reviewedAppointmentIds.doctor.includes(appt.id);
+            const buttonContainer = apptElement.querySelector('.flex.justify-end');
+
+
+            // If appointment time is available and <= now -> past appointment
+            if (apptDateObj && apptDateObj.getTime() <= now.getTime()) {
+            if (!hasBeenReviewed) {
+            const rateBtn = document.createElement('button');
+            rateBtn.innerText = 'Review';
+            rateBtn.className = 'rate-btn px-4 py-1 rounded-md text-sm font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors';
+            rateBtn.setAttribute('data-type', 'doctor');
+            rateBtn.setAttribute('data-appt', JSON.stringify(appt));
+            buttonContainer.appendChild(rateBtn);
+            } else {
+            const reviewedText = document.createElement('p');
+            reviewedText.innerText = 'Reviewed';
+            reviewedText.className = 'text-sm text-gray-500 font-medium';
+            buttonContainer.appendChild(reviewedText);
+            }
+            } else {
+            const rescheduleBtn = document.createElement('button');
+            rescheduleBtn.innerText = 'Reschedule';
+            rescheduleBtn.className = 'reschedule-btn px-4 py-1 rounded-md text-sm font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors';
+            // open same reschedule modal used for diagnostic appointments (we reuse openRescheduleModal by payment id or appointment id)
+            rescheduleBtn.onclick = () => alert('Doctor appointment rescheduling coming soon!');
+            buttonContainer.appendChild(rescheduleBtn);
             }
 
+
+            listEl.appendChild(apptElement);
+            });
+            } else {
+            emptyMsgEl.classList.remove('hidden');
+            }
+            }
 
             // Specific renderer for Diagnostic Appointments view with time-based logic
             function renderDiagnosticAppointments(appointmentArray, listId, emptyMsgId) {
@@ -891,39 +984,39 @@
 
     <!-- Rating Modal -->
     <div id="rating-modal" class="reschedule-modal">
-    <div class="modal-content">
-        <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold">Rate Your Experience</h3>
-        <button id="close-rating-modal" class="text-gray-500 hover:text-gray-700">
-            <i class="fas fa-times"></i>
-        </button>
-        </div>
-        <div>
-        <p id="rating-modal-subtitle" class="mb-3 text-sm text-gray-600">How was your appointment?</p>
-        
-        <div id="rating-stars" class="flex justify-center space-x-2 mb-4 text-2xl text-gray-300">
-            <i class="far fa-star cursor-pointer" data-value="1"></i>
-            <i class="far fa-star cursor-pointer" data-value="2"></i>
-            <i class="far fa-star cursor-pointer" data-value="3"></i>
-            <i class="far fa-star cursor-pointer" data-value="4"></i>
-            <i class="far fa-star cursor-pointer" data-value="5"></i>
-        </div>
-
-        <textarea id="rating-review" placeholder="Share more about your experience..." 
-            class="form-input mb-4" rows="3"></textarea>
-
-        <div class="flex justify-end space-x-3">
-            <button id="cancel-rating" 
-            class="px-4 py-2 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300">
-            Cancel
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Rate Your Experience</h3>
+            <button id="close-rating-modal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
             </button>
-            <button id="submit-rating" 
-            class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700">
-            Submit Review
-            </button>
+            </div>
+            <div>
+            <p id="rating-modal-subtitle" class="mb-3 text-sm text-gray-600">How was your appointment?</p>
+            
+            <div id="rating-stars" class="flex justify-center space-x-2 mb-4 text-2xl text-gray-300">
+                <i class="far fa-star cursor-pointer" data-value="1"></i>
+                <i class="far fa-star cursor-pointer" data-value="2"></i>
+                <i class="far fa-star cursor-pointer" data-value="3"></i>
+                <i class="far fa-star cursor-pointer" data-value="4"></i>
+                <i class="far fa-star cursor-pointer" data-value="5"></i>
+            </div>
+
+            <textarea id="rating-review" placeholder="Share more about your experience..." 
+                class="form-input mb-4" rows="3"></textarea>
+
+            <div class="flex justify-end space-x-3">
+                <button id="cancel-rating" 
+                class="px-4 py-2 rounded-md font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300">
+                Cancel
+                </button>
+                <button id="submit-rating" 
+                class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700">
+                Submit Review
+                </button>
+            </div>
+            </div>
         </div>
-        </div>
-    </div>
     </div>
     <script>
     document.addEventListener('DOMContentLoaded', function() {

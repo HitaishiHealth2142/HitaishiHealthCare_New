@@ -98,6 +98,62 @@ router.post("/appointments", (req, res) => {
   });
 });
 
+// Reschedule doctor appointment
+router.put('/appointments/reschedule/:id', (req, res) => {
+  const appointmentId = req.params.id;
+  const { newDate, newTime } = req.body; // expected format: newDate -> YYYY-MM-DD, newTime -> HH:MM (24-hour)
+
+
+  if (!newDate || !newTime) {
+    return res.status(400).json({ success: false, error: 'newDate and newTime are required' });
+  }
+
+
+  // 1) fetch appointment to get doctor_id
+  db.query('SELECT * FROM appointments WHERE id = ?', [appointmentId], (err, rows) => {
+    if (err) {
+      console.error('DB error fetching appointment for reschedule', err);
+      return res.status(500).json({ success: false, error: 'Database error' });
+    }
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Appointment not found' });
+    }
+
+
+    const appt = rows[0];
+    const doctorId = appt.doctor_id;
+
+
+    // 2) check conflict: another appointment with same doctor/date/time (exclude current appointment id)
+    const checkQuery = 'SELECT id FROM appointments WHERE doctor_id = ? AND appointment_date = ? AND appointment_time = ? AND id != ?';
+      db.query(checkQuery, [doctorId, newDate, newTime, appointmentId], (checkErr, checkRes) => {
+      if (checkErr) {
+        console.error('DB error checking conflicts', checkErr);
+        return res.status(500).json({ success: false, error: 'Database error' });
+      }
+
+
+      if (checkRes.length > 0) {
+        return res.status(409).json({ success: false, error: 'Selected time slot already taken. Please choose another slot.' });
+      }
+
+
+    // 3) update appointment
+    const updateQuery = 'UPDATE appointments SET appointment_date = ?, appointment_time = ?, status = ? WHERE id = ?';
+      db.query(updateQuery, [newDate, newTime, 'Rescheduled', appointmentId], (updErr) => {
+        if (updErr) {
+          console.error('DB error updating appointment', updErr);
+          return res.status(500).json({ success: false, error: 'Database error while updating appointment' });
+        }
+
+
+        // Optionally: you can send a notification/email to doctor & patient here
+        return res.json({ success: true, message: 'Appointment rescheduled successfully' });
+      });
+    });
+  });
+});
+
 // Route to fetch all appointments for a specific patient. reschedule the appointments
 router.get("/appointments/patient/:patientId", (req, res) => {
     const patientId = req.params.patientId;
