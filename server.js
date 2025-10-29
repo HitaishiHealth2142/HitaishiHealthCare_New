@@ -164,7 +164,16 @@ const testsRoutes = require("./routes/tests");
 const uploadRecordRoutes = require("./routes/upload_record");
 const blogRoutes = require("./routes/blog");
 const ratingsRoutes = require("./routes/ratings");
+const opticbeeContactRoutes = require("./routes/opticbeeContact");
+const opticbeeAffiliateRoutes = require("./routes/opticbeeaffiliate");
+const newsletterRoutes = require("./routes/newsletter"); // New newsletter route  
 
+
+app.use("/api", newsletterRoutes); // Use the newsletter routes
+// Use the opticbeeAffiliate routes
+app.use("/api", opticbeeAffiliateRoutes);
+// Use the opticbeeContact routes
+app.use("/api", opticbeeContactRoutes);
 // Use the ratings routes
 app.use("/api/ratings", ratingsRoutes);
 // Use Routes
