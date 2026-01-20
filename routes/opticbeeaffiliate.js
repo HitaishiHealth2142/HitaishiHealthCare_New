@@ -3,17 +3,16 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const db = require('../db'); // Import MySQL connection pool
-const cors = require('cors');
 const util = require('util');
 
 const router = express.Router();
 
 // --- 1. CORS Configuration ---
-const corsOptions = {
-  origin: 'https://opticbee.in',
-  optionsSuccessStatus: 200
-};
-router.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'https://opticbee.in',
+//   optionsSuccessStatus: 200
+// };
+// router.use(cors(corsOptions));
 
 // --- 2. Nodemailer Transporter ---
 const transporter = nodemailer.createTransport({

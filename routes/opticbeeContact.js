@@ -2,20 +2,20 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const db = require('../db'); // Import MySQL connection pool
-const cors = require('cors'); // Import the CORS middleware
+// const cors = require('cors'); // Import the CORS middleware
 const util = require('util'); // Import Node.js utility for promisify
 
 const router = express.Router();
 
 // --- 1. CORS Configuration ---
 // Only allow requests from your frontend website
-const corsOptions = {
-  origin: 'https://opticbee.in',
-  optionsSuccessStatus: 200 // For legacy browser support
-};
+// const corsOptions = {
+//   origin: 'https://opticbee.in',
+//   optionsSuccessStatus: 200 
+// };
 
 // Enable CORS with the specified options
-router.use(cors(corsOptions));
+// router.use(cors(corsOptions));
 
 
 // --- 2. Corrected Nodemailer Transporter Configuration ---

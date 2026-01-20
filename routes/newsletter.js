@@ -5,17 +5,17 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const db = require('../db'); // <-- same MySQL pool as affiliate.js
-const cors = require('cors');
+// const cors = require('cors');
 const util = require('util');
 
 const router = express.Router();
 
 // 1️⃣ CORS
-const corsOptions = {
-  origin: 'https://opticbee.in', 
-  optionsSuccessStatus: 200
-};
-router.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'https://opticbee.in', 
+//   optionsSuccessStatus: 200
+// };
+// router.use(cors(corsOptions));
 
 // 2️⃣ Nodemailer (same as affiliate.js)
 const transporter = nodemailer.createTransport({
