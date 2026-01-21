@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Answer Opinions</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .opinion-card { transition: opacity 0.5s ease-out; }
@@ -132,5 +133,49 @@
             fetchPendingOpinions();
         });
     </script>
+
+<body class="bg-gray-100 p-6">
+
+<h1 class="text-3xl font-bold mb-6">Ambulance Provider Approvals</h1>
+
+<div id="providers" class="space-y-4"></div>
+
+<script>
+async function loadProviders() {
+  const res = await fetch('/api/admin/providers');
+  const data = await res.json();
+
+  document.getElementById('providers').innerHTML =
+    data.providers.map(p => `
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-bold">${p.provider_name}</h2>
+        <p>${p.provider_type} | ${p.city}, ${p.state}</p>
+        <p>Status: <b>${p.status}</b></p>
+
+        ${p.status === 'Pending' ? `
+          <button onclick="approve('${p.provider_uid}')" class="bg-green-600 text-white px-3 py-1 rounded mt-2">Approve</button>
+          <button onclick="reject('${p.provider_uid}')" class="bg-red-600 text-white px-3 py-1 rounded mt-2 ml-2">Reject</button>
+        ` : ''}
+      </div>
+    `).join('');
+}
+
+function approve(uid) {
+  fetch(`/api/providers/approve/${uid}`, { method: 'PUT' })
+    .then(() => loadProviders());
+}
+
+function reject(uid) {
+  const reason = prompt("Rejection reason?");
+  fetch(`/api/providers/reject/${uid}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reason })
+  }).then(() => loadProviders());
+}
+
+loadProviders();
+</script>
+
 </body>
 </html>

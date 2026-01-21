@@ -187,4 +187,105 @@ router.put("/providers/approve/:provider_uid", (req, res) => {
   });
 });
 
+/* =========================================================
+   ADMIN: GET ALL PROVIDERS
+   GET /api/admin/providers
+========================================================= */
+router.get("/admin/providers", (req, res) => {
+  const sql = `
+    SELECT 
+      provider_uid,
+      provider_name,
+      provider_type,
+      contact_person,
+      contact_phone,
+      contact_email,
+      city,
+      state,
+      status,
+      created_at
+    FROM ambulance_providers
+    ORDER BY created_at DESC
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("❌ Fetch providers error:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json({ providers: results });
+  });
+});
+
+
+/* =========================================================
+   ADMIN: GET PROVIDER DETAILS
+   GET /api/admin/providers/:provider_uid
+========================================================= */
+router.get("/admin/providers/:provider_uid", (req, res) => {
+  const { provider_uid } = req.params;
+
+  db.query(
+    "SELECT * FROM ambulance_providers WHERE provider_uid = ?",
+    [provider_uid],
+    (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(404).json({ error: "Provider not found" });
+      }
+      res.json({ provider: results[0] });
+    }
+  );
+});
+
+
+
+/* =========================================================
+   ADMIN: REJECT PROVIDER
+   PUT /api/providers/reject/:provider_uid
+========================================================= */
+router.put("/providers/reject/:provider_uid", (req, res) => {
+  const { provider_uid } = req.params;
+  const { reason } = req.body;
+
+  db.query(
+    "SELECT * FROM ambulance_providers WHERE provider_uid = ?",
+    [provider_uid],
+    async (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(404).json({ error: "Provider not found" });
+      }
+
+      const provider = results[0];
+
+      db.query(
+        "UPDATE ambulance_providers SET status = 'Rejected' WHERE provider_uid = ?",
+        [provider_uid],
+        async (err2) => {
+          if (err2) return res.status(500).json({ error: "Database error" });
+
+          // 📧 Rejection mail
+          await transporter.sendMail({
+            from: `"Hitaishi Healthcare" <${process.env.ZOHO_EMAIL}>`,
+            to: provider.contact_email,
+            subject: "Ambulance Partner Application Update",
+            html: `
+              <p>Dear ${provider.contact_person},</p>
+              <p>Thank you for applying as an Ambulance Partner.</p>
+              <p>After review, your application has been <b>rejected</b>.</p>
+              ${reason ? `<p><b>Reason:</b> ${reason}</p>` : ""}
+              <p>You may reapply after correcting the issues.</p>
+              <br/>
+              <p>Regards,<br/>Hitaishi Healthcare Team</p>
+            `
+          });
+
+          res.json({ success: true, message: "Provider rejected" });
+        }
+      );
+    }
+  );
+});
+
+
+
 module.exports = router;
