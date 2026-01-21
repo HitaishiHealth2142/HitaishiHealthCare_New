@@ -275,24 +275,47 @@
     <div id="toast-container" class="toast-container"></div>
 
     <script>
-        const API_BASE_URL = "https://hitaishihealthcare.com/api";
+        const API_BASE_URL = "https://www.hitaishihealthcare.com/api";
         let providerData = null;
 
         // Check Auth
         window.onload = () => {
-            const saved = localStorage.getItem('provider');
-            if (!saved) {
-                window.location.href = 'ProvidersLogin.html';
-                return;
-            }
+        const saved = localStorage.getItem("provider");
+
+        if (!saved) {
+            // 🚫 Not logged in
+            window.location.href = "ProvidersLogin.html";
+            return;
+        }
+
+        try {
             providerData = JSON.parse(saved);
-            document.getElementById('provider-name-display').innerText = providerData.provider_name;
-            document.getElementById('provider-id-display').innerText = `ID: ${providerData.provider_uid}`;
-            document.getElementById('user-initial').innerText = providerData.provider_name[0];
-            
-            updateTime();
-            setInterval(updateTime, 1000);
-            loadDashboardStats();
+        } catch {
+            localStorage.removeItem("provider");
+            window.location.href = "ProvidersLogin.html";
+            return;
+        }
+
+        // ✅ FINAL SAFETY CHECK
+        if (!providerData.provider_uid) {
+            localStorage.removeItem("provider");
+            window.location.href = "ProvidersLogin.html";
+            return;
+        }
+
+        document.getElementById("provider-name-display").innerText =
+            providerData.provider_name || "Provider";
+
+        document.getElementById("provider-id-display").innerText =
+            `ID: ${providerData.provider_uid}`;
+
+        document.getElementById("user-initial").innerText =
+            providerData.provider_name?.[0]?.toUpperCase() || "P";
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        loadDashboardStats();
         };
 
         function updateTime() {
@@ -331,71 +354,129 @@
 
         async function loadDashboardStats() {
             try {
-                const [ambs, drivers] = await Promise.all([
-                    fetch(`${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`).then(r => r.json()),
-                    fetch(`${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`).then(r => r.json())
+                const [ambRes, drvRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`).then(r => r.json()),
+                fetch(`${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`).then(r => r.json())
                 ]);
-                document.getElementById('stat-total-amb').innerText = ambs.length || 0;
-                document.getElementById('stat-total-drivers').innerText = drivers.length || 0;
-                const ready = ambs.filter(a => a.active_status === 'Active').length;
+
+                const ambulances = ambRes.ambulances || [];
+                const drivers = drvRes.drivers || [];
+
+                document.getElementById('stat-total-amb').innerText = ambulances.length;
+                document.getElementById('stat-total-drivers').innerText = drivers.length;
+
+                const ready = ambulances.filter(a => a.active_status === 'Active').length;
                 document.getElementById('stat-ready-amb').innerText = ready;
+
                 const overview = document.getElementById('fleet-overview-list');
-                if (ambs.length === 0) {
-                    overview.innerHTML = `<p class="text-sm text-gray-500">No vehicles registered yet.</p>`;
+
+                if (ambulances.length === 0) {
+                overview.innerHTML = `<p class="text-sm text-gray-500">No vehicles registered yet.</p>`;
                 } else {
-                    overview.innerHTML = ambs.slice(0, 5).map(a => `
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div>
-                                <p class="font-bold text-sm">${a.vehicle_number}</p>
-                                <p class="text-xs text-gray-500">${a.ambulance_type} • ${a.vehicle_model}</p>
-                            </div>
-                            <span class="px-2 py-1 text-[10px] rounded-full ${a.active_status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} uppercase font-bold">
-                                ${a.active_status}
-                            </span>
-                        </div>
-                    `).join('');
+                overview.innerHTML = ambulances.slice(0, 5).map(a => `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-bold text-sm">${a.vehicle_number}</p>
+                        <p class="text-xs text-gray-500">${a.ambulance_type} • ${a.vehicle_model || '-'}</p>
+                    </div>
+                    <span class="px-2 py-1 text-[10px] rounded-full ${
+                        a.active_status === 'Active'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                    } font-bold">
+                        ${a.active_status}
+                    </span>
+                    </div>
+                `).join('');
                 }
-            } catch (e) {
-                console.error("Dashboard Load Error", e);
+
+            } catch (err) {
+                console.error("Dashboard stats error:", err);
             }
         }
 
         async function loadAmbulances() {
+        try {
             const res = await fetch(`${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`);
             const data = await res.json();
+
+            const ambulances = data.ambulances || [];
             const body = document.getElementById('ambulance-table-body');
-            body.innerHTML = data.map(a => `
-                <tr class="border-b hover:bg-gray-50 transition">
-                    <td class="px-6 py-4 text-sm font-medium">${a.vehicle_number}</td>
-                    <td class="px-6 py-4 text-sm">${a.ambulance_type}</td>
-                    <td class="px-6 py-4 text-sm">${a.vehicle_model}</td>
-                    <td class="px-6 py-4 text-sm">
-                        <span class="px-2 py-1 rounded-full text-xs font-bold ${a.active_status === 'Active' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'}">
-                            ${a.active_status}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-sm">${a.gps_enabled ? '✅' : '❌'}</td>
-                </tr>
+
+            if (ambulances.length === 0) {
+            body.innerHTML = `
+                <tr>
+                <td colspan="5" class="text-center py-6 text-gray-400">
+                    No ambulances found
+                </td>
+                </tr>`;
+            return;
+            }
+
+            body.innerHTML = ambulances.map(a => `
+            <tr class="border-b hover:bg-gray-50 transition">
+                <td class="px-6 py-4 font-medium">${a.vehicle_number}</td>
+                <td class="px-6 py-4">${a.ambulance_type}</td>
+                <td class="px-6 py-4">${a.vehicle_model || '-'}</td>
+                <td class="px-6 py-4">
+                <span class="px-2 py-1 text-xs font-bold rounded-full ${
+                    a.active_status === 'Active'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-gray-200 text-gray-600'
+                }">
+                    ${a.active_status}
+                </span>
+                </td>
+                <td class="px-6 py-4 text-center">
+                ${a.gps_enabled === 'Yes' ? '✅' : '❌'}
+                </td>
+            </tr>
             `).join('');
+
+        } catch (err) {
+            console.error("Load ambulances error:", err);
+        }
         }
 
         async function loadDrivers() {
+        try {
             const res = await fetch(`${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`);
             const data = await res.json();
+
+            const drivers = data.drivers || [];
             const body = document.getElementById('driver-table-body');
-            body.innerHTML = data.map(d => `
-                <tr class="border-b hover:bg-gray-50 transition">
-                    <td class="px-6 py-4 text-sm font-medium">${d.full_name}</td>
-                    <td class="px-6 py-4 text-sm">${d.mobile}</td>
-                    <td class="px-6 py-4 text-sm">${d.driving_license_no}</td>
-                    <td class="px-6 py-4 text-sm text-center">${d.experience_years}</td>
-                    <td class="px-6 py-4 text-sm">
-                        <span class="px-2 py-1 rounded-full text-xs font-bold ${d.status === 'Active' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}">
-                            ${d.status}
-                        </span>
-                    </td>
-                </tr>
+
+            if (drivers.length === 0) {
+            body.innerHTML = `
+                <tr>
+                <td colspan="5" class="text-center py-6 text-gray-400">
+                    No drivers found
+                </td>
+                </tr>`;
+            return;
+            }
+
+            body.innerHTML = drivers.map(d => `
+            <tr class="border-b hover:bg-gray-50 transition">
+                <td class="px-6 py-4 font-medium">${d.full_name}</td>
+                <td class="px-6 py-4">${d.mobile}</td>
+                <td class="px-6 py-4">${d.driving_license_no}</td>
+                <td class="px-6 py-4 text-center">${d.experience_years ?? '-'}</td>
+                <td class="px-6 py-4">
+                <span class="px-2 py-1 text-xs font-bold rounded-full ${
+                    d.status === 'Active'
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-gray-200 text-gray-600'
+                }">
+                    ${d.status}
+                </span>
+                </td>
+            </tr>
             `).join('');
+
+        } catch (err) {
+            console.error("Load drivers error:", err);
+        }
         }
 
         async function handleAmbulanceSubmit(e) {
@@ -441,14 +522,37 @@
         }
 
         async function prepareShiftDropdowns() {
-            const [ambs, drivers] = await Promise.all([
-                fetch(`${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`).then(r => r.json()),
-                fetch(`${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`).then(r => r.json())
+        try {
+            const [ambRes, drvRes] = await Promise.all([
+            fetch(`${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`).then(r => r.json()),
+            fetch(`${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`).then(r => r.json())
             ]);
+
+            const ambulances = ambRes.ambulances || [];
+            const drivers = drvRes.drivers || [];
+
             const ambSel = document.getElementById('select-ambulance');
             const drvSel = document.getElementById('select-driver');
-            ambSel.innerHTML = '<option value="">Select Ambulance</option>' + ambs.map(a => `<option value="${a.ambulance_id}">${a.vehicle_number} (${a.ambulance_type})</option>`).join('');
-            drvSel.innerHTML = '<option value="">Select Driver</option>' + drivers.map(d => `<option value="${d.driver_id}">${d.full_name}</option>`).join('');
+
+            ambSel.innerHTML =
+            `<option value="">Select Ambulance</option>` +
+            ambulances.map(a =>
+                `<option value="${a.ambulance_id}">
+                ${a.vehicle_number} (${a.ambulance_type})
+                </option>`
+            ).join('');
+
+            drvSel.innerHTML =
+            `<option value="">Select Driver</option>` +
+            drivers.map(d =>
+                `<option value="${d.driver_id}">
+                ${d.full_name}
+                </option>`
+            ).join('');
+
+        } catch (err) {
+            console.error("Prepare shifts error:", err);
+        }
         }
 
         async function handleShiftSubmit(e) {

@@ -62,8 +62,7 @@ db.query(createAmbulancesTable, (err) => {
    ADD AMBULANCE (ONLY APPROVED PROVIDERS)
    POST /api/ambulances/add
 ========================================================= */
-router.post(
-  "/ambulances/add",
+router.post("/ambulances/add",
   upload.fields([
     { name: "rc_document", maxCount: 1 },
     { name: "insurance_document", maxCount: 1 }

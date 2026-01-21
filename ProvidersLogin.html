@@ -146,33 +146,55 @@ function setMsg(text, type="") {
   msg.innerText = text;
 }
 
-/* LOGIN */
+/* =========================
+   PROVIDER LOGIN FUNCTION
+========================= */
 async function login() {
   const provider_uid = document.getElementById("provider_uid").value.trim();
   const contact_email = document.getElementById("login_email").value.trim();
 
+  // 🔐 Basic validation
   if (!provider_uid || !contact_email) {
     setMsg("Please enter Provider ID and Email", "error");
     return;
   }
 
-  const res = await fetch("/api/providers/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ provider_uid, contact_email })
-  });
+  try {
+    const res = await fetch("/api/providers/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ provider_uid, contact_email })
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
-    setMsg(data.error || "Login failed", "error");
-    return;
+    // ❌ Login failed
+    if (!res.ok || !data.success) {
+      setMsg(data.error || "Invalid login credentials", "error");
+      return;
+    }
+
+    // ✅ SAVE PROVIDER SESSION (THIS IS THE KEY FIX)
+    localStorage.setItem(
+      "provider",
+      JSON.stringify({
+        provider_uid: data.provider.provider_uid,
+        provider_name: data.provider.provider_name,
+        status: data.provider.status
+      })
+    );
+
+    setMsg("Login successful. Redirecting...", "success");
+
+    // ⏩ Redirect to dashboard
+    setTimeout(() => {
+      window.location.href = "provider-dashboard.html";
+    }, 500);
+
+  } catch (err) {
+    console.error("Login error:", err);
+    setMsg("Server error. Please try again later.", "error");
   }
-
-  setMsg("Login successful. Redirecting...", "success");
-
-  // Example redirect
-  window.location.href = "/provider-dashboard.html";
 }
 
 /* SEND OTP */
