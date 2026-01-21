@@ -229,23 +229,52 @@
     <div id="modal-ambulance" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 bg-black/50">
         <div class="bg-white rounded-xl w-full max-w-md p-6">
             <h3 class="text-xl font-bold mb-4">Register Ambulance</h3>
-            <form id="ambulance-form" onsubmit="handleAmbulanceSubmit(event)" class="space-y-4">
-                <input type="text" name="vehicle_number" placeholder="Vehicle Number (e.g. MH01AB1234)" class="w-full border p-2 rounded-lg" required />
+            <form id="ambulance-form" onsubmit="handleAmbulanceSubmit(event)" class="space-y-4" enctype="multipart/form-data">
+
+            <input type="text" name="vehicle_number"
+                    placeholder="Vehicle Number (e.g. MH01AB1234)"
+                    class="w-full border p-2 rounded-lg" required />
+
                 <select name="ambulance_type" class="w-full border p-2 rounded-lg" required>
                     <option value="">Select Type</option>
-                    <option value="BLS">Basic Life Support (BLS)</option>
-                    <option value="ALS">Advanced Life Support (ALS)</option>
-                    <option value="ICU">ICU Ventilator</option>
+                    <option value="Basic">Basic Life Support</option>
+                    <option value="ICU">ICU Ambulance</option>
+                    <option value="Cardiac">Cardiac Ambulance</option>
+                    <option value="Neonatal">Neonatal Ambulance</option>
                 </select>
-                <input type="text" name="vehicle_model" placeholder="Model Name" class="w-full border p-2 rounded-lg" required />
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" name="gps_enabled" id="gps-check">
-                    <label for="gps-check" class="text-sm">GPS Tracking Available</label>
-                </div>
-                <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" onclick="toggleModal('modal-ambulance')" class="px-4 py-2 text-gray-500">Cancel</button>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg">Save Vehicle</button>
-                </div>
+
+
+
+            <input type="text" name="vehicle_model"
+                    placeholder="Model Name"
+                    class="w-full border p-2 rounded-lg" />
+
+            <!-- 🔴 REQUIRED FILES -->
+            <div>
+                <label class="text-sm font-medium">RC Document (PDF / Image)</label>
+                <input type="file" name="rc_document" accept=".pdf,image/*"
+                    class="w-full border p-2 rounded-lg" required />
+            </div>
+
+            <div>
+                <label class="text-sm font-medium">Insurance Document (PDF / Image)</label>
+                <input type="file" name="insurance_document" accept=".pdf,image/*"
+                    class="w-full border p-2 rounded-lg" required />
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="checkbox"  id="gps-check">
+                <label for="gps-check" class="text-sm">GPS Tracking Available</label>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" onclick="toggleModal('modal-ambulance')" class="px-4 py-2 text-gray-500">
+                Cancel
+                </button>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg">
+                Save Vehicle
+                </button>
+            </div>
             </form>
         </div>
     </div>
@@ -353,46 +382,38 @@
         }
 
         async function loadDashboardStats() {
-            try {
-                const [ambRes, drvRes] = await Promise.all([
-                fetch(`${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`).then(r => r.json()),
-                fetch(`${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`).then(r => r.json())
-                ]);
+        try {
+            const ambRes = await fetch(
+            `${API_BASE_URL}/ambulances/provider/${providerData.provider_uid}`
+            );
 
-                const ambulances = ambRes.ambulances || [];
-                const drivers = drvRes.drivers || [];
-
-                document.getElementById('stat-total-amb').innerText = ambulances.length;
-                document.getElementById('stat-total-drivers').innerText = drivers.length;
-
-                const ready = ambulances.filter(a => a.active_status === 'Active').length;
-                document.getElementById('stat-ready-amb').innerText = ready;
-
-                const overview = document.getElementById('fleet-overview-list');
-
-                if (ambulances.length === 0) {
-                overview.innerHTML = `<p class="text-sm text-gray-500">No vehicles registered yet.</p>`;
-                } else {
-                overview.innerHTML = ambulances.slice(0, 5).map(a => `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div>
-                        <p class="font-bold text-sm">${a.vehicle_number}</p>
-                        <p class="text-xs text-gray-500">${a.ambulance_type} • ${a.vehicle_model || '-'}</p>
-                    </div>
-                    <span class="px-2 py-1 text-[10px] rounded-full ${
-                        a.active_status === 'Active'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-red-100 text-red-700'
-                    } font-bold">
-                        ${a.active_status}
-                    </span>
-                    </div>
-                `).join('');
-                }
-
-            } catch (err) {
-                console.error("Dashboard stats error:", err);
+            if (!ambRes.ok) {
+            throw new Error("Ambulance API failed");
             }
+
+            const drvRes = await fetch(
+            `${API_BASE_URL}/drivers/provider/${providerData.provider_uid}`
+            );
+
+            if (!drvRes.ok) {
+            throw new Error("Drivers API failed");
+            }
+
+            const ambData = await ambRes.json();
+            const drvData = await drvRes.json();
+
+            const ambulances = ambData.ambulances || [];
+            const drivers = drvData.drivers || [];
+
+            document.getElementById("stat-total-amb").innerText = ambulances.length;
+            document.getElementById("stat-total-drivers").innerText = drivers.length;
+
+            const ready = ambulances.filter(a => a.active_status === "Active").length;
+            document.getElementById("stat-ready-amb").innerText = ready;
+
+        } catch (err) {
+            console.error("Dashboard stats error:", err.message);
+        }
         }
 
         async function loadAmbulances() {
@@ -480,25 +501,32 @@
         }
 
         async function handleAmbulanceSubmit(e) {
-            e.preventDefault();
-            const fd = new FormData(e.target);
-            const data = Object.fromEntries(fd);
-            data.provider_uid = providerData.provider_uid;
-            data.gps_enabled = e.target.gps_enabled.checked ? 1 : 0;
-            const res = await fetch(`${API_BASE_URL}/ambulances/add`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            if (res.ok) {
-                showToast("Ambulance added successfully!");
-                toggleModal('modal-ambulance');
-                loadAmbulances();
-                e.target.reset();
-            } else {
-                const err = await res.json();
-                showToast(err.error || "Error adding ambulance", true);
-            }
+        e.preventDefault();
+
+        const form = e.target;
+        const fd = new FormData(form);
+
+        fd.append("provider_uid", providerData.provider_uid);
+        const gpsCheckbox = document.getElementById("gps-check");
+        fd.append("gps_enabled", gpsCheckbox && gpsCheckbox.checked ? "Yes" : "No");
+
+
+        const res = await fetch(`${API_BASE_URL}/ambulances/add`, {
+            method: "POST",
+            body: fd // ❗ DO NOT set Content-Type
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            showToast(data.error || "Failed to add ambulance", true);
+            return;
+        }
+
+        showToast("Ambulance added successfully!");
+        toggleModal("modal-ambulance");
+        loadAmbulances();
+        form.reset();
         }
 
         async function handleDriverSubmit(e) {

@@ -62,20 +62,27 @@ db.query(createAmbulancesTable, (err) => {
    ADD AMBULANCE (ONLY APPROVED PROVIDERS)
    POST /api/ambulances/add
 ========================================================= */
-router.post("/ambulances/add",
+router.post("/add",
   upload.fields([
     { name: "rc_document", maxCount: 1 },
     { name: "insurance_document", maxCount: 1 }
   ]),
   (req, res) => {
     const {
-      provider_uid,
-      vehicle_number,
-      ambulance_type,
-      vehicle_model,
-      gps_enabled,
-      active_status
+    provider_uid,
+    vehicle_number,
+    ambulance_type,
+    vehicle_model,
+    gps_enabled
     } = req.body;
+
+    const active_status = "Active";
+
+    // ✅ Sanitize gps_enabled (VERY IMPORTANT)
+    const cleanGps =
+    gps_enabled === "Yes" || gps_enabled === "No" ? gps_enabled : "No";
+
+
 
     if (!provider_uid || !vehicle_number || !ambulance_type) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -109,6 +116,7 @@ router.post("/ambulances/add",
           });
         }
 
+
         /* =====================================================
            INSERT AMBULANCE
         ===================================================== */
@@ -124,20 +132,16 @@ router.post("/ambulances/add",
             vehicle_model || null,
             rcPath,
             insurancePath,
-            gps_enabled || "No",
-            active_status || "Active"
+            cleanGps,
+            active_status
           ],
           (err2) => {
-            if (err2) {
-              console.error("❌ Ambulance insert error:", err2);
-              if (err2.code === "ER_DUP_ENTRY") {
-                return res.status(409).json({
-                  error: "Vehicle number already exists"
-                });
-              }
-              return res.status(500).json({ error: "Database error" });
+          if (err2) {
+            console.error("❌ Ambulance insert error:", err2.sqlMessage || err2);
+            return res.status(500).json({
+                error: err2.sqlMessage || "Database insert failed"
+            });
             }
-
             res.status(201).json({
               success: true,
               message: "Ambulance added successfully"
@@ -153,7 +157,7 @@ router.post("/ambulances/add",
    GET AMBULANCES BY PROVIDER
    GET /api/ambulances/provider/:provider_uid
 ========================================================= */
-router.get("/ambulances/provider/:provider_uid", (req, res) => {
+router.get("/provider/:provider_uid", (req, res) => {
   const { provider_uid } = req.params;
 
   db.query(
