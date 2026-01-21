@@ -202,6 +202,20 @@ const newsletterRoutes = require("./routes/newsletter"); // New newsletter route
 
 const providersRoutes = require("./routes/providers"); // New providers route
 
+const ambulanceRoutes = require("./routes/Ambulance"); // Ambulance routes
+
+const shiftsRoutes = require("./routes/Shifts"); // Shifts routes
+const driversRoutes = require("./routes/Drivers"); // Drivers routes
+
+// Use the drivers routes
+app.use("/api/drivers", driversRoutes);
+
+// Use the shifts routes
+app.use("/api/shifts", shiftsRoutes);
+
+// Use the ambulance routes
+app.use("/api/ambulances", ambulanceRoutes);
+
 // Use the providers routes
 app.use("/api", providersRoutes);
 

@@ -286,6 +286,58 @@ router.put("/providers/reject/:provider_uid", (req, res) => {
   );
 });
 
+/* =========================================================
+   PROVIDER LOGIN
+   POST /api/providers/login
+========================================================= */
+router.post("/providers/login", (req, res) => {
+  const { provider_uid, contact_email } = req.body;
+
+  if (!provider_uid || !contact_email) {
+    return res.status(400).json({ error: "Provider ID and Email required" });
+  }
+
+  db.query(
+    `SELECT provider_uid, provider_name, status 
+     FROM ambulance_providers 
+     WHERE provider_uid = ? AND contact_email = ?`,
+    [provider_uid, contact_email],
+    (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const provider = results[0];
+
+      res.json({
+        success: true,
+        provider: {
+          provider_uid: provider.provider_uid,
+          provider_name: provider.provider_name,
+          status: provider.status
+        }
+      });
+    }
+  );
+});
+
+
+/* =========================================================
+   PROVIDER PROFILE
+   GET /api/providers/profile/:provider_uid
+========================================================= */
+router.get("/providers/profile/:provider_uid", (req, res) => {
+  db.query(
+    "SELECT * FROM ambulance_providers WHERE provider_uid = ?",
+    [req.params.provider_uid],
+    (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(404).json({ error: "Provider not found" });
+      }
+      res.json({ provider: results[0] });
+    }
+  );
+});
 
 
 module.exports = router;
