@@ -207,13 +207,14 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium mb-1">Start Time</label>
-                                <input type="datetime-local" name="shift_start" class="w-full border p-2 rounded-lg" required />
+                                <label class="block text-sm font-medium mb-1">Shift Date</label>
+                                <input
+                                    type="date"
+                                    name="shift_date"
+                                    class="w-full border p-2 rounded-lg"
+                                    required />
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-1">End Time</label>
-                                <input type="datetime-local" name="shift_end" class="w-full border p-2 rounded-lg" required />
-                            </div>
+
                         </div>
                         <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
                             Confirm Assignment
@@ -584,21 +585,31 @@
         }
 
         async function handleShiftSubmit(e) {
-            e.preventDefault();
-            const fd = new FormData(e.target);
-            const data = Object.fromEntries(fd);
-            const res = await fetch(`${API_BASE_URL}/shifts/assign`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            if (res.ok) {
-                showToast("Shift assigned successfully!");
-                e.target.reset();
-                showTab('dashboard');
-            } else {
-                showToast("Error assigning shift", true);
-            }
+        e.preventDefault();
+
+        const fd = new FormData(e.target);
+        const data = Object.fromEntries(fd);
+
+        // 🔐 Force numeric IDs
+        data.ambulance_id = Number(data.ambulance_id);
+        data.driver_id = Number(data.driver_id);
+
+        const res = await fetch(`${API_BASE_URL}/shifts/assign`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            showToast(result.error || "Error assigning shift", true);
+            return;
+        }
+
+        showToast("Shift assigned successfully!");
+        e.target.reset();
+        showTab('dashboard');
         }
 
         function showToast(msg, isError = false) {

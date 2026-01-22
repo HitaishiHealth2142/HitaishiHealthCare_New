@@ -30,7 +30,7 @@ db.query(createDriversTable, err => {
    ADD DRIVER (ONLY APPROVED PROVIDERS)
    POST /api/drivers/add
 ========================================================= */
-router.post("/drivers/add", (req, res) => {
+router.post("/add", (req, res) => {
   const {
     provider_uid,
     full_name,
@@ -96,7 +96,7 @@ router.post("/drivers/add", (req, res) => {
    GET DRIVERS BY PROVIDER
    GET /api/drivers/provider/:provider_uid
 ========================================================= */
-router.get("/drivers/provider/:provider_uid", (req, res) => {
+router.get("/provider/:provider_uid", (req, res) => {
   db.query(
     `SELECT d.*
      FROM ambulance_drivers d

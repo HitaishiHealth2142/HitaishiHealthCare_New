@@ -51,7 +51,7 @@ db.query("SET FOREIGN_KEY_CHECKS = 1", err => {
 /* =========================================================
    ASSIGN SHIFT (ADMIN OR PROVIDER)
 ========================================================= */
-router.post("/shifts/assign", (req, res) => {
+router.post("/assign", (req, res) => {
   const { ambulance_id, driver_id, shift_type, shift_date } = req.body;
 
   if (!ambulance_id || !driver_id || !shift_type || !shift_date) {
@@ -107,7 +107,7 @@ router.post("/shifts/assign", (req, res) => {
 /* =========================================================
    LIVE AVAILABILITY CHECK (CRITICAL)
 ========================================================= */
-router.get("/shifts/available-ambulances", (req, res) => {
+router.get("/available-ambulances", (req, res) => {
   db.query(
     `
     SELECT DISTINCT
