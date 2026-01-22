@@ -133,7 +133,7 @@ router.post("/add",
             rcPath,
             insurancePath,
             cleanGps,
-            active_status
+            active_status    
           ],
           (err2) => {
           if (err2) {
