@@ -65,6 +65,23 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Assign Shifts
                     </button>
+
+                    <button onclick="showTab('allocated')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors hover:bg-slate-800" id="btn-allocated">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l5 5v11a2 2 0 01-2 2z" />
+                        </svg>
+                        Allocated
+                    </button>
+
+                    <button onclick="showTab('history')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors hover:bg-slate-800" id="btn-history">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        History
+                    </button>
+
                 </nav>
 
                 <div class="mt-auto pt-6 border-t border-slate-800">
@@ -222,6 +239,41 @@
                     </form>
                 </div>
             </section>
+
+            <!-- Allocated Tab -->
+            <section id="tab-allocated" class="tab-content hidden">
+                <div class="bg-white p-8 rounded-xl shadow-sm border">
+                    <h3 class="text-lg font-bold mb-4">Allocated Shifts</h3>
+
+                    <div class="flex gap-4 mb-6">
+                        <input type="date" id="allocated-date" class="border p-2 rounded-lg">
+                        <select id="allocated-shift" class="border p-2 rounded-lg">
+                            <option value="Shift1">Shift 1</option>
+                            <option value="Shift2">Shift 2</option>
+                            <option value="Shift3">Shift 3</option>
+                        </select>
+                        <button onclick="loadAllocated()" class="bg-green-600 text-white px-4 py-2 rounded-lg">
+                            View
+                        </button>
+                    </div>
+
+                    <div id="allocated-result"></div>
+                </div>
+            </section>
+
+            <!-- History Tab -->
+            <section id="tab-history" class="tab-content hidden">
+                <div class="bg-white p-8 rounded-xl shadow-sm border">
+                    <h3 class="text-lg font-bold mb-4">Shift History</h3>
+
+                    <button onclick="loadHistory()" class="mb-4 bg-gray-700 text-white px-4 py-2 rounded-lg">
+                        Load History
+                    </button>
+
+                    <div id="history-result"></div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -365,21 +417,26 @@
 
         function showTab(tabName) {
             const titles = {
-                'dashboard': 'Dashboard Overview',
-                'ambulances': 'Fleet Management',
-                'drivers': 'Team Management',
-                'shifts': 'Operations & Shifts'
+                dashboard: 'Dashboard Overview',
+                ambulances: 'Fleet Management',
+                drivers: 'Team Management',
+                shifts: 'Assign Shifts',
+                allocated: 'Allocated Shifts',
+                history: 'Shift History'
             };
+
             document.getElementById('current-tab-title').innerText = titles[tabName];
+
             document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
             document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
             document.getElementById(`btn-${tabName}`).classList.add('active');
+
             if (window.innerWidth < 1024) toggleSidebar();
-            if (tabName === 'dashboard') loadDashboardStats();
-            if (tabName === 'ambulances') loadAmbulances();
-            if (tabName === 'drivers') loadDrivers();
-            if (tabName === 'shifts') prepareShiftDropdowns();
+
+            if (tabName === 'allocated') loadAllocated();
+            if (tabName === 'history') loadHistory();
         }
 
         async function loadDashboardStats() {
@@ -639,6 +696,121 @@
             localStorage.removeItem('provider');
             window.location.href = 'ProvidersLogin.html';
         }
+    
+        async function loadAllocated() {
+            const date = document.getElementById("allocated-date")?.value;
+            const shift = document.getElementById("allocated-shift")?.value;
+
+            if (!date || !shift) return;
+
+            const res = await fetch(
+                `${API_BASE_URL}/shifts/allocated?date=${date}&shift_type=${shift}`
+            );
+            const data = await res.json();
+
+            renderResultTable(data.data, "allocated-result");
+        }
+
+        async function loadHistory() {
+            const res = await fetch(`${API_BASE_URL}/shifts/history`);
+            const data = await res.json();
+
+            renderResultTable(data.data, "history-result", true);
+        }
+
+        function renderResultTable(rows, targetId, allowExport = false) {
+            let html = `
+                <table class="w-full border">
+                    <tr class="bg-gray-100">
+                        <th>Date</th><th>Shift</th><th>Ambulance</th><th>Driver</th>
+                    </tr>
+            `;
+
+            rows.forEach(r => {
+                html += `
+                    <tr>
+                        <td>${r.shift_date}</td>
+                        <td>${r.shift_type}</td>
+                        <td>${r.vehicle_number}</td>
+                        <td>${r.driver_name}</td>
+                    </tr>
+                `;
+            });
+
+            html += `</table>`;
+
+            if (allowExport) {
+                html += `<button onclick="exportCSV()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Export CSV</button>`;
+            }
+
+            document.getElementById(targetId).innerHTML = html;
+        }
+
+
+        async function openAllocated() {
+            const date = prompt("Enter date (YYYY-MM-DD)");
+            const shift = prompt("Enter shift (Shift1 / Shift2 / Shift3)");
+
+            const res = await fetch(
+                `${API_BASE_URL}/shifts/allocated?date=${date}&shift_type=${shift}`
+            );
+            const data = await res.json();
+
+            renderTable(data.data);
+            }
+
+        async function openHistory() {
+        const res = await fetch(`${API_BASE_URL}/shifts/history`);
+        const data = await res.json();
+        renderTable(data.data, true);
+        }
+
+        function renderTable(rows, allowExport = false) {
+        let html = `
+            <table class="w-full border mt-4">
+            <tr class="bg-gray-100">
+                <th>Date</th><th>Shift</th><th>Ambulance</th><th>Driver</th>
+            </tr>
+        `;
+
+        rows.forEach(r => {
+            html += `
+            <tr>
+                <td>${r.shift_date}</td>
+                <td>${r.shift_type}</td>
+                <td>${r.vehicle_number}</td>
+                <td>${r.driver_name}</td>
+            </tr>
+            `;
+        });
+
+        html += `</table>`;
+
+        if (allowExport) {
+            html += `<button onclick="exportCSV()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
+            Export CSV
+            </button>`;
+        }
+
+        document.getElementById("allocation-result").innerHTML = html;
+        }
+
+        function exportCSV() {
+        let csv = "Date,Shift,Ambulance,Driver\n";
+        document.querySelectorAll("table tr").forEach((row, i) => {
+            if (i === 0) return;
+            const cols = row.querySelectorAll("td");
+            csv += [...cols].map(td => td.innerText).join(",") + "\n";
+        });
+
+        const blob = new Blob([csv], { type: "text/csv" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "shift_history.csv";
+        a.click();
+        }
+
+
     </script>
 </body>
 </html>

@@ -58,51 +58,113 @@ router.post("/assign", (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  let startTime, endTime;
+  // 1️⃣ Check driver already assigned on same day
+  const driverCheck = `
+    SELECT 1 FROM ambulance_shifts
+    WHERE driver_id = ? AND shift_date = ?
+  `;
 
-  switch (shift_type) {
-    case "Shift1":
-      startTime = "06:00:00";
-      endTime = "14:00:00";
-      break;
-    case "Shift2":
-      startTime = "14:00:00";
-      endTime = "22:00:00";
-      break;
-    case "Shift3":
-      startTime = "22:00:00";
-      endTime = "06:00:00";
-      break;
-    default:
-      return res.status(400).json({ error: "Invalid shift type" });
-  }
+  db.query(driverCheck, [driver_id, shift_date], (err, rows) => {
+    if (rows.length > 0) {
+      return res.status(409).json({
+        error: "Driver already assigned for this date"
+      });
+    }
 
-  const shift_start = `${shift_date} ${startTime}`;
-  const shift_end =
-    shift_type === "Shift3"
-      ? `${new Date(new Date(shift_date).getTime() + 86400000)
-          .toISOString()
-          .split("T")[0]} ${endTime}`
-      : `${shift_date} ${endTime}`;
+    // 2️⃣ Check ambulance + shift already used
+    const ambCheck = `
+      SELECT 1 FROM ambulance_shifts
+      WHERE ambulance_id = ? AND shift_date = ? AND shift_type = ?
+    `;
 
-  db.query(
-    `INSERT INTO ambulance_shifts
-     (ambulance_id, driver_id, shift_type, shift_start, shift_end)
-     VALUES (?, ?, ?, ?, ?)`,
-    [ambulance_id, driver_id, shift_type, shift_start, shift_end],
-    err => {
-      if (err) {
-        console.error("❌ Shift insert error:", err.sqlMessage);
-        return res.status(500).json({ error: "Database error" });
+    db.query(ambCheck, [ambulance_id, shift_date, shift_type], (err2, rows2) => {
+      if (rows2.length > 0) {
+        return res.status(409).json({
+          error: "This ambulance shift is already assigned"
+        });
       }
 
-      res.status(201).json({
-        success: true,
-        message: "Shift assigned successfully"
-      });
+      // 3️⃣ Shift timings
+      const times = {
+        Shift1: ["06:00:00", "14:00:00"],
+        Shift2: ["14:00:00", "22:00:00"],
+        Shift3: ["22:00:00", "06:00:00"]
+      };
+
+      const [start, end] = times[shift_type];
+      const shift_start = `${shift_date} ${start}`;
+      const shift_end =
+        shift_type === "Shift3"
+          ? `${new Date(new Date(shift_date).getTime() + 86400000)
+              .toISOString()
+              .split("T")[0]} ${end}`
+          : `${shift_date} ${end}`;
+
+      // 4️⃣ Insert safely
+      db.query(
+        `
+        INSERT INTO ambulance_shifts
+        (ambulance_id, driver_id, shift_type, shift_date, shift_start, shift_end)
+        VALUES (?, ?, ?, ?, ?, ?)
+        `,
+        [ambulance_id, driver_id, shift_type, shift_date, shift_start, shift_end],
+        err3 => {
+          if (err3) {
+            return res.status(500).json({ error: "Database error" });
+          }
+          res.json({ success: true, message: "Shift assigned successfully" });
+        }
+      );
+    });
+  });
+});
+
+
+// 📊 Allocated (date + shift)
+router.get("/allocated", (req, res) => {
+  const { date, shift_type } = req.query;
+
+  db.query(
+    `
+    SELECT 
+      s.shift_date,
+      s.shift_type,
+      a.vehicle_number,
+      d.full_name AS driver_name
+    FROM ambulance_shifts s
+    JOIN ambulances a ON s.ambulance_id = a.ambulance_id
+    JOIN ambulance_drivers d ON s.driver_id = d.driver_id
+    WHERE s.shift_date = ? AND s.shift_type = ?
+    `,
+    [date, shift_type],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      res.json({ data: rows });
     }
   );
 });
+
+// 📜 Full History
+router.get("/history", (req, res) => {
+  db.query(
+    `
+    SELECT 
+      s.shift_date,
+      s.shift_type,
+      a.vehicle_number,
+      d.full_name AS driver_name
+    FROM ambulance_shifts s
+    JOIN ambulances a ON s.ambulance_id = a.ambulance_id
+    JOIN ambulance_drivers d ON s.driver_id = d.driver_id
+    ORDER BY s.shift_date DESC
+    `,
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      res.json({ data: rows });
+    }
+  );
+});
+
 
 /* =========================================================
    LIVE AVAILABILITY CHECK (CRITICAL)
