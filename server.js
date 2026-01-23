@@ -207,6 +207,10 @@ const ambulanceRoutes = require("./routes/Ambulance"); // Ambulance routes
 const shiftsRoutes = require("./routes/Shifts"); // Shifts routes
 const driversRoutes = require("./routes/Drivers"); // Drivers routes
 
+const ambulancebookingRoutes = require("./routes/ambulancebooking");
+app.use("/api", ambulancebookingRoutes);
+
+
 // Use the drivers routes
 app.use("/api/drivers", driversRoutes);
 

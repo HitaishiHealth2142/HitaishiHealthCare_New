@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book Ambulance | Hitaishi Healthcare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.form-box {
+  background: #fff;
+  width: 100%;
+  max-width: 500px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+h2 {
+  text-align: center;
+  color: #dc2626;
+}
+input, textarea, select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+button {
+  background: #dc2626;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+button:hover {
+  background: #b91c1c;
+}
+</style>
+</head>
+
+<body>
+<div class="form-box">
+  <h2>🚑 Ambulance Booking</h2>
+
+  <input type="text" id="name" placeholder="Patient Name" required>
+  <input type="tel" id="phone" placeholder="Mobile Number" required>
+  <input type="email" id="email" placeholder="Email (optional)">
+
+  <textarea id="pickup" placeholder="Pickup Address" required></textarea>
+  <textarea id="drop" placeholder="Drop Address" required></textarea>
+
+  <select id="emergency">
+    <option value="General">General</option>
+    <option value="Accident">Accident</option>
+    <option value="Heart Attack">Heart Attack</option>
+    <option value="Pregnancy">Pregnancy</option>
+  </select>
+
+  <select id="ambulanceType">
+    <option value="Basic">Basic Ambulance</option>
+    <option value="ICU">ICU Ambulance</option>
+    <option value="Ventilator">Ventilator Ambulance</option>
+  </select>
+
+  <button onclick="bookAmbulance()">Book Ambulance</button>
+</div>
+
+<script>
+function bookAmbulance() {
+  const data = {
+    patient_name: document.getElementById('name').value,
+    patient_phone: document.getElementById('phone').value,
+    patient_email: document.getElementById('email').value,
+    pickup_address: document.getElementById('pickup').value,
+    drop_address: document.getElementById('drop').value,
+    emergency_type: document.getElementById('emergency').value,
+    ambulance_type: document.getElementById('ambulanceType').value
+  };
+
+  fetch('https://www.hitaishihealthcare.com/api/ambulance/book', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (result.success) {
+      alert('🚑 Ambulance booked successfully!');
+    } else {
+      alert(result.message);
+    }
+  })
+  .catch(() => alert('Server error'));
+}
+</script>
+</body>
+</html>
