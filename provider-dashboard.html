@@ -435,6 +435,10 @@
 
             if (window.innerWidth < 1024) toggleSidebar();
 
+            // ✅ LOAD DATA ON TAB OPEN
+            if (tabName === 'ambulances') loadAmbulances();
+            if (tabName === 'drivers') loadDrivers();
+            if (tabName === 'shifts') prepareShiftDropdowns();
             if (tabName === 'allocated') loadAllocated();
             if (tabName === 'history') loadHistory();
         }
