@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partner Registration | Hitaishi Healthcare</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #e11d48; /* Healthcare Red */
@@ -35,6 +36,39 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #be123c 0%, #9d174d 100%);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
+        }
+
+        .back-button i {
+            font-size: 18px;
         }
 
         .container {
@@ -205,6 +239,11 @@
     </style>
 </head>
 <body>
+
+<!-- Back Button -->
+<a href="Ambulance.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back
+</a>
 
 <div class="container">
     <div class="header">
