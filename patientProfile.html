@@ -3,7 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Dashboard</title>
+    <title>Patient Profile Dashboard & Personal Health Records | Hitaishi Healthcare</title>
+    <meta name="description" content="Secure patient profile dashboard. Manage your personal health records, appointments, prescriptions & medical history in one place. Easy-to-use patient portal for healthcare management.">
+    <meta name="keywords" content="patient profile, patient dashboard, health records, personal medical records, appointment management, prescription tracker, patient portal, healthcare management, medical history, patient health portal, electronic health records">
+    <meta name="author" content="Hitaishi Healthcare">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta property="og:title" content="Patient Profile Dashboard & Personal Health Records | Hitaishi Healthcare">
+    <meta property="og:description" content="Secure patient portal for managing health records, appointments, and medical information in one central location.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.hitaishihealthcare.com/patientProfile.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Patient Profile Dashboard & Personal Health Records | Hitaishi Healthcare">
+    <meta name="twitter:description" content="Manage your patient profile, health records & appointments through our secure patient portal.">
+    <link rel="canonical" href="https://www.hitaishihealthcare.com/patientProfile.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalBusiness",
+      "name": "Hitaishi Healthcare - Patient Portal",
+      "description": "Secure patient profile and health records management system with appointment scheduling and prescription tracking",
+      "url": "https://www.hitaishihealthcare.com/patientProfile.html",
+      "telephone": "+91-9908793602",
+      "email": "support@hitaishihealthcare.com",
+      "serviceType": ["Patient Portal", "Health Records Management", "Appointment Scheduling", "Prescription Management"],
+      "areaServed": "IN",
+      "priceRange": "Free"
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -174,7 +200,8 @@
 
             <!-- Home Section -->
             <section id="home-view" class="content-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome <span id="welcome-name"></span></h2>
+                <h1 style="font-size: 32px; font-weight: bold; color: #0056d2; margin-bottom: 15px;">Patient Profile & Health Dashboard</h1>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Welcome <span id="welcome-name"></span> - Your Personal Health Portal</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Today's Appointments -->
                     <div class="bg-white p-6 rounded-lg shadow-md">
@@ -224,7 +251,7 @@
             <section id="doctor-appointments-view" class="content-section">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <i class="fas fa-user-doctor text-indigo-600 mr-2"></i>Doctor Appointments
+                        <i class="fas fa-user-doctor text-indigo-600 mr-2"></i>Doctor Appointments & Medical Consultations
                     </h2>
                     <button id="refresh-doctor-appointments" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
                         <i class="fas fa-sync-alt mr-2"></i>Refresh
@@ -243,7 +270,7 @@
             <section id="diagnostic-appointments-view" class="content-section">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <i class="fas fa-microscope text-indigo-600 mr-2"></i>Diagnostic Appointments
+                        <i class="fas fa-microscope text-indigo-600 mr-2"></i>Diagnostic Tests & Lab Appointments
                     </h2>
                     <button id="refresh-diagnostic-appointments" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
                         <i class="fas fa-sync-alt mr-2"></i>Refresh
@@ -262,7 +289,7 @@
             <section id="history-view" class="content-section">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <i class="fas fa-history text-indigo-600 mr-2"></i>Appointment History
+                        <i class="fas fa-history text-indigo-600 mr-2"></i>Appointment History & Medical Records
                     </h2>
                     <button id="refresh-history" class="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
                         <i class="fas fa-sync-alt mr-2"></i>Refresh
@@ -281,7 +308,7 @@
             <section id="profile-view" class="content-section">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <i class="fas fa-user-circle text-indigo-600 mr-2"></i>My Profile
+                        <i class="fas fa-user-circle text-indigo-600 mr-2"></i>My Patient Profile & Personal Health Information
                     </h2>
                     <button id="edit-profile-btn" class="px-6 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
                         <i class="fas fa-edit mr-2"></i>Edit Profile
@@ -305,7 +332,7 @@
             <!-- Edit Profile Section -->
             <section id="edit-profile-view" class="content-section">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                    <i class="fas fa-user-edit text-indigo-600 mr-2"></i>Edit Profile
+                    <i class="fas fa-user-edit text-indigo-600 mr-2"></i>Edit Patient Profile & Health Information
                 </h2>
                  <div class="bg-white p-6 rounded-lg shadow-md">
                     <div id="message-container" class="mb-6"></div>
