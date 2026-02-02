@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitaishi Healthcare Services</title>
+    <title>Online Doctor Consultation, Diagnostics & Clinics Near You | Hitaishi Healthcare</title>
+    <meta name="description" content="Book doctors, diagnostic tests, clinics and healthcare services online. Find trusted doctors near you, video consultations, lab tests and hospitals with Hitaishi Healthcare.">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <!-- <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,6 +31,80 @@
             window.location.href = "doctorProfile.html";
         }
     </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "HealthcareOrganization",
+        "name": "Hitaishi Healthcare",
+        "url": "https://hitaishihealthcare.com",
+        "logo": "https://hitaishihealthcare.com/images/Hitaishi HealthCare (1).png",
+        "description": "Hitaishi Healthcare is an online healthcare platform to book doctor appointments, diagnostic tests, clinics, hospitals and video consultations across India.",
+        "medicalSpecialty": [
+            "Cardiology",
+            "Neurology",
+            "Gynecology",
+            "Orthopedics",
+            "Dermatology",
+            "Pediatrics",
+            "Oncology",
+            "GeneralPractice",
+            "Radiology",
+            "Pathology"
+        ],
+        "areaServed": {
+            "@type": "Country",
+            "name": "India"
+        },
+        "sameAs": [
+            "https://www.facebook.com/share/1CC3vxsppD/",
+            "https://www.instagram.com/optic.bee/",
+            "https://x.com/BeeOptic",
+            "https://youtube.com/@opticbee-i7j"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-9908793602",
+            "contactType": "customer support",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi", "Telugu"]
+        }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "MedicalBusiness",
+        "name": "Hitaishi Healthcare",
+        "url": "https://hitaishihealthcare.com",
+        "image": "https://hitaishihealthcare.com/images/Hitaishi HealthCare (1).png",
+        "telephone": "+91-9908793602",
+        "priceRange": "₹₹",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "20.5937",
+            "longitude": "78.9629"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+            ],
+            "opens": "00:00",
+            "closes": "23:59"
+        }
+        }
+    </script>
+
     <script src="auth.js"></script>
 
 
@@ -1111,41 +1186,79 @@
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
         
         <!-- Content -->
-        <h1 style="position: relative; z-index: 1; color: #ffffff; margin-bottom: 3rem; text-align: center; font-size: 48px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Hitaishi Healthcare Services</h1>
+        <h1 style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 36px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Book Doctors, Diagnostics & Healthcare Services Near You</h1>
+        <p  style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 18px; margin-bottom: 2rem;">Powered by Hitaishi Healthcare – Your trusted healthcare platform</p>
 
         <!-- Cards Section -->
         <section class="discover-problem-area" style="position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 20px; box-sizing: border-box;">
 
             <!-- Card 1 -->
-            <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
-                <img src="images/doctor_patient_videoCall.png" alt="Instant Video Consultation" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+            <a href="meet.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/doctor_patient_videoCall.png" alt="Instant Video Consultation" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
                 <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Instant Video Consultation</h3>
                 <p style="font-size: 14px; color: #555;">Connect within 60 secs</p>
             </a>
 
             <!-- Card 2 -->
-            <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
-                <img src="images/find_doctors_near_you.png" alt="Find Doctors Near You" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+            <a href="doctors.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/find_doctors_near_you.png" alt="Book doctors near you online with Hitaishi Healthcare" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
                 <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold; color: #000;">Find Doctors Near You</h3>
-                <p style="font-size: 14px; color: #555;">Confirmed appointments</p>
+                <p style="font-size: 14px; color: #555;">Search and book appointments with verified doctors, specialists and physicians
+near your location. Consult online or visit clinics with confirmed bookings.</p>
             </a>
             
             <!-- Card 3 -->
-            <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
-                <img src="images/clinic-image.png" alt="Find Clinics" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+            <a href="clinic.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/clinic-image.png" alt="Find Clinics" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
                 <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Find Clinics Near You</h3>
                 <p style="font-size: 14px; color: #555;">Top Rated Clinics a click far from You</p>
             </a>
 
             <!-- Card 4 -->
-            <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
-                <img src="images/surgeries.png" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+            <a href="Diagnostics.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/surgeries.png" alt="Surgeries" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
                 <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Surgeries</h3>
                 <p style="font-size: 14px; color: #555;">Safe and trusted surgery centers</p>
             </a>
 
         </section>
     </main>
+
+
+    <section style="overflow:hidden; background:#004080; padding:0.8rem 0;">
+        <div class="scroll-text">
+            Your One-Stop Platform for Complete Healthcare Services • 
+            Hitaishi Healthcare is a digital healthcare platform that makes it easy to book doctor appointments, diagnostic tests, clinics, hospitals and online video consultations in one place • 
+            We connect patients with experienced and verified healthcare professionals across multiple specialties • 
+            Cardiologist • Neurologist • Gynecologist • General Physician • 
+            MRI Scans • Blood Tests • Pathology Labs • Fertility Care • 24/7 Ambulance Services • 
+            Find trusted doctors and diagnostic centers near you • Hitaishi Healthcare • Available across major cities in India
+        </div>
+    </section>
+
+    <style>
+        .scroll-text {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            color: #fff;
+            font-size: 14px;
+            animation: scrollText 90s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 768px) {
+            .scroll-text {
+                animation-duration: 120s;
+                font-size: 13px;
+            }
+        }
+    </style>
+
+
 
     <!-- Search for doctors and diagnostics -->
     <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8" style="font-family: 'Inter', sans-serif;">
