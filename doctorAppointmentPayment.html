@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Appointment Payment</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 850px;
+    width: 100%;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    color: #1a1a1a;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+h2 i {
+    color: #667eea;
+    font-size: 32px;
+}
+
+h3 {
+    color: #2d3748;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.details-box {
+    background: linear-gradient(135deg, #f8faff 0%, #f0f5ff 100%);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.1);
+}
+
+.details-box h3 {
+    font-size: 22px;
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.details-box p {
+    color: #4a5568;
+    font-size: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-box p strong {
+    color: #2d3748;
+    font-weight: 600;
+    min-width: 120px;
+}
+
+.amount-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 25px;
+    border-radius: 16px;
+    margin-top: 25px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.amount-box p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.amount-box p:last-of-type {
+    margin-bottom: 15px;
+}
+
+.amount-box h3 {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+    padding-top: 15px;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 25px 0;
+}
+
+.option {
+    border: 2px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: #4a5568;
+    background: white;
+}
+
+.option i {
+    font-size: 24px;
+    color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.option:hover {
+    border-color: #667eea;
+    background: #f8faff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+}
+
+.option.active {
+    border-color: #48bb78;
+    background: #f0fff4;
+    color: #2f855a;
+}
+
+.option.active i {
+    color: #48bb78;
+}
+
+.qr-box {
+    display: none;
+    text-align: center;
+    margin: 30px 0;
+    padding: 30px;
+    background: #f8faff;
+    border-radius: 20px;
+    border: 2px dashed #667eea;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.qr-box img {
+    border-radius: 16px;
+    padding: 15px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.qr-box p {
+    color: #4a5568;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.qr-box p::before {
+    content: '\f02b';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #667eea;
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+}
+
+.pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(72, 187, 120, 0.4);
+}
+
+.pay-btn:active {
+    transform: translateY(0);
+}
+
+.pay-btn i {
+    font-size: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 15px;
+    }
+    
+    .container {
+        padding: 25px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+    
+    .payment-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .details-box p strong {
+        min-width: 100px;
+    }
+    
+    .amount-box h3 {
+        font-size: 24px;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5a67d8;
+}
+
+/* Loading State for Button */
+.pay-btn.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.pay-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2><i class="fas fa-credit-card"></i> Complete Your Payment</h2>
+
+    <div class="details-box" id="appointmentDetails"></div>
+
+    <h3><i class="fas fa-wallet" style="color: #667eea; margin-right: 8px;"></i> Select Payment Method</h3>
+
+    <div class="payment-options">
+        <div class="option" onclick="selectMethod('card')" id="card">
+            <i class="fas fa-credit-card"></i> Card Payment
+        </div>
+        <div class="option" onclick="selectMethod('upi')" id="upi">
+            <i class="fas fa-mobile-alt"></i> UPI ID
+        </div>
+        <div class="option" onclick="selectMethod('netbanking')" id="netbanking">
+            <i class="fas fa-university"></i> Net Banking
+        </div>
+        <div class="option" onclick="selectMethod('qr')" id="qr">
+            <i class="fas fa-qrcode"></i> QR Code
+        </div>
+    </div>
+
+    <div class="qr-box" id="qrBox">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=demo@upi" alt="QR Code" />
+        <p>Scan with any UPI app</p>
+    </div>
+
+    <button class="pay-btn" onclick="makePayment()">
+        <i class="fas fa-lock"></i> Pay & Confirm Appointment
+    </button>
+</div>
+
+<script>
+
+const socket = io("https://24x7health.in", {
+    transports:["websocket","polling"]
+});
+
+let selectedMethod = null;
+let appointmentData = null;
+
+document.addEventListener("DOMContentLoaded", function(){
+
+let data =
+sessionStorage.getItem("appointmentPaymentData") ||
+sessionStorage.getItem("pendingAppointment");
+
+if(!data){
+alert("No appointment found.");
+window.location.href="doctors.html";
+return;
+}
+
+appointmentData = JSON.parse(data);
+
+document.getElementById("appointmentDetails").innerHTML = `
+
+<h3>${appointmentData.doctorName || ""}</h3>
+
+<p><strong>Specialization:</strong> ${appointmentData.specialization || "General Physician"}</p>
+
+<p><strong>Date:</strong> ${appointmentData.appointmentDate}</p>
+
+<p><strong>Time:</strong> ${appointmentData.appointmentTime}</p>
+
+<div class="amount-box">
+
+<p>Consultation Fee: ₹${appointmentData.consultationFee || 0}</p>
+
+<p>Discount: -₹${appointmentData.discount || 0}</p>
+
+<h3>Final Amount: ₹${appointmentData.finalAmount || 0}</h3>
+
+</div>
+`;
+
+});
+
+
+function selectMethod(method){
+
+selectedMethod = method;
+
+document.querySelectorAll(".option")
+.forEach(o=>o.classList.remove("active"));
+
+document.getElementById(method).classList.add("active");
+
+if(method==="qr"){
+document.getElementById("qrBox").style.display="block";
+}else{
+document.getElementById("qrBox").style.display="none";
+}
+
+}
+
+
+// Simulate payment process
+async function makePayment() {
+
+    if (!selectedMethod) {
+        alert("Please select payment method.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch('/api/payment/simulate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                appointmentId: appointmentData.appointmentId,
+                method: selectedMethod
+            })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            alert("Payment failed");
+            return;
+        }
+
+        alert("Payment Successful");
+
+        appointmentData =
+        JSON.parse(sessionStorage.getItem("appointmentPaymentData"));
+
+        if (appointmentData.flowType === "instant") {
+
+            const roomId = "apt_" + appointmentData.appointmentId;
+
+            sessionStorage.setItem("roomId", roomId);
+
+            window.location.href =
+            `meet.html?roomId=${roomId}&doctorUid=${appointmentData.doctorUid}`;
+
+        } else {
+
+            window.location.href = "patientProfile.html";
+
+        }
+
+    } catch (err) {
+
+        console.error("Payment error:", err);
+
+    }
+}
+
+</script>
+
+</body>
+</html>

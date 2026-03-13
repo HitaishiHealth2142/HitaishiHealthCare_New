@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Instant Video Consultation · 24x7Health</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+
+body{
+font-family: Inter;
+background: linear-gradient(145deg,#f0f4f8,#e6ecf3);
+padding:40px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+#doctorList{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.doctor-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.doctor-info{
+display:flex;
+gap:20px;
+align-items:center;
+}
+
+.doctor-img{
+width:70px;
+height:70px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.join-btn{
+background:#1e7b4b;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+}
+
+.status{
+background:#e2f5e9;
+color:#0f6e3f;
+padding:4px 12px;
+border-radius:20px;
+font-size:12px;
+}
+
+#specializationFilter{
+padding:10px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+<i class="fas fa-video"></i>
+Instant Video Consultation
+</h1>
+
+<select id="specializationFilter">
+<option value="">All Specializations</option>
+</select>
+
+<div id="doctorList">Loading doctors...</div>
+
+</div>
+
+<script>
+
+const socket = io("https://24x7health.in");
+
+const patientId = localStorage.getItem("userId");   // numeric id
+const patientUid = localStorage.getItem("uniqueId"); // string UID
+const patientName = localStorage.getItem("fullName");
+
+if(!patientName){
+alert("Please login as patient first");
+window.location.href="login.html";
+}
+
+/* -------------------------
+LOAD SPECIALIZATIONS
+--------------------------*/
+
+async function loadSpecializations(){
+
+const res = await fetch("/api/specializations");
+const specs = await res.json();
+
+const filter = document.getElementById("specializationFilter");
+
+specs.forEach(spec=>{
+
+const opt=document.createElement("option");
+opt.value=spec;
+opt.textContent=spec;
+
+filter.appendChild(opt);
+
+});
+
+}
+
+/* -------------------------
+LOAD DOCTORS
+--------------------------*/
+
+async function loadOnlineDoctors(){
+
+try{
+
+const specialization =
+document.getElementById("specializationFilter").value;
+
+let url="/api/online-doctors";
+
+if(specialization){
+url += "?specialization="+specialization;
+}
+
+const res = await fetch(url);
+const doctors = await res.json();
+
+const container = document.getElementById("doctorList");
+
+if(!doctors || doctors.length===0){
+container.innerHTML="<p>No doctors available right now.</p>";
+return;
+}
+
+container.innerHTML="";
+
+doctors.forEach(doc=>{
+
+const card=document.createElement("div");
+card.className="doctor-card";
+
+card.innerHTML=`
+
+<div class="doctor-info">
+
+<img class="doctor-img"
+src="${doc.profile_image_url || 'https://placehold.co/100'}">
+
+<div>
+
+<h3>Dr ${doc.first_name} ${doc.last_name}</h3>
+
+<p>
+<i class="fas fa-stethoscope"></i>
+${doc.specialization || "General Physician"}
+</p>
+
+<p>
+<i class="fas fa-map-marker-alt"></i>
+${doc.area || ""}, ${doc.city || ""}
+</p>
+
+<p>
+<i class="fas fa-money-bill"></i>
+₹${doc.consultation_fee || 500}
+</p>
+
+<span class="status">Online</span>
+
+</div>
+
+</div>
+
+<button class="join-btn" onclick="startConsult('${doc.uid}','${doc.first_name} ${doc.last_name}','${doc.consultation_fee}')">
+
+    <i class="fas fa-video"></i>
+    Join Video
+
+</button>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}catch(err){
+
+console.error(err);
+
+document.getElementById("doctorList")
+.innerHTML="<p>Failed to load doctors</p>";
+
+}
+
+}
+
+/* -------------------------
+START CONSULTATION
+--------------------------*/
+
+// In instant-consult.html
+async function startConsult(doctorUid, doctorName, fee) {
+    if (!patientId) {
+        alert("Please login first");
+        window.location.href = "login.html";
+        return;
+    }
+
+    // Get current date and time for the instant session
+    const now = new Date();
+    const currentDate = now.toISOString().split('T')[0]; 
+    const currentTime = now.toTimeString().split(' ')[0].substring(0, 5);
+
+    const appointmentData = {
+        doctor_uid: doctorUid,
+        doctor_name: doctorName,
+        patient_id: patientId,
+        patient_name: patientName,
+        appointment_date: currentDate,
+        appointment_time: currentTime,
+        original_fee: fee,
+        final_amount: fee,
+        status: 'Instant' // Mark as Instant to distinguish the flow
+    };
+
+    try {
+        // First, fetch doctor details to get required fields
+        const doctorResponse = await fetch(`/api/gdoctors/${doctorUid}`);
+        const doctor = await doctorResponse.json();
+
+        // Get patient details from localStorage (assuming they are stored)
+        const patientEmail = localStorage.getItem("email") || "";
+        const patientMobile = localStorage.getItem("mobile") || "";
+
+        const fullAppointmentData = {
+
+            patientId: parseInt(patientId),  // numeric for DB
+            patientUid: patientUid,
+            patientName: patientName,
+            patientEmail: patientEmail,
+            patientMobile: patientMobile,
+
+            doctorId: doctor.id,
+            doctorUid: doctorUid,
+            doctorName: doctorName,
+            doctorEmail: doctor.email,
+            doctorMobile: doctor.doctor_mobile || doctor.mobile,            
+            doctorSpecialization: doctor.specialization,
+
+            appointmentDate: currentDate,
+            appointmentTime: currentTime
+        };
+
+        // Create the record in the database
+        const response = await fetch('/api/appointments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fullAppointmentData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            const consultationFee = parseInt(fee) || 500;
+
+            const discount = Math.round(consultationFee * 0.30);
+
+            const finalAmount = consultationFee - discount;
+
+            const paymentData = {
+
+                appointmentId: result.appointmentId,
+
+                doctorUid: doctorUid,
+
+                doctorName: "Dr " + doctorName,
+
+                specialization: doctor.specialization || "General Physician",
+
+                appointmentDate: currentDate,
+
+                appointmentTime: currentTime,
+
+                consultationFee: consultationFee,
+
+                discount: discount,
+
+                finalAmount: finalAmount,
+
+                flowType: "instant"
+
+            };
+
+            sessionStorage.setItem(
+                "appointmentPaymentData",
+                JSON.stringify(paymentData)
+            );
+
+            window.location.href = "doctorAppointmentPayment.html";
+
+        } else {
+            alert("Unable to start consultation. Please try again.");
+        }
+    } catch (err) {
+        console.error("Booking error:", err);
+        alert("An error occurred while starting the consultation.");
+    }
+}
+
+/* -------------------------
+EVENTS
+--------------------------*/
+
+document.getElementById("specializationFilter")
+.addEventListener("change",loadOnlineDoctors);
+
+/* -------------------------
+INIT
+--------------------------*/
+
+loadSpecializations();
+loadOnlineDoctors();
+
+</script>
+
+</body>
+</html>
