@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Doctor Consultation, Diagnostics & Clinics Near You | 24x7 Health</title>
-    <meta name="description" content="Book doctors, diagnostic tests, clinics and healthcare services online. Find trusted doctors near you, video consultations, lab tests and hospitals with 24x7 Health.">
+    <title>Online Doctor Consultation, Diagnostics & Clinics Near You | Hitaishi Healthcare</title>
+    <meta name="description" content="Book doctors, diagnostic tests, clinics and healthcare services online. Find trusted doctors near you, video consultations, lab tests and hospitals with Hitaishi Healthcare.">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <!-- <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -35,10 +35,10 @@
         {
         "@context": "https://schema.org",
         "@type": "HealthcareOrganization",
-        "name": "24x7 Health",
+        "name": "Hitaishi Healthcare",
         "url": "https://24x7health.com",
         "logo": "https://24x7health.com/img/24x7health-logo.png",
-        "description": "24x7 Health is an online healthcare platform to book doctor appointments, diagnostic tests, clinics, hospitals and video consultations across India.",
+        "description": "Hitaishi Healthcare is an online healthcare platform to book doctor appointments, diagnostic tests, clinics, hospitals and video consultations across India.",
         "medicalSpecialty": [
             "Cardiology",
             "Neurology",
@@ -74,7 +74,7 @@
         {
         "@context": "https://schema.org",
         "@type": "MedicalBusiness",
-        "name": "24x7 Health",
+        "name": "Hitaishi Healthcare",
         "url": "https://24x7health.in",
         "image": "https://24x7health.in/img/24x7health-logo.png",
         "telephone": "+91-9908793602",
@@ -104,6 +104,12 @@
         }
         }
     </script>
+    <style>
+        #area-filters button{
+            font-weight:500;
+            border:1px solid #c7d2fe;
+        }
+    </style>
 
     <script src="auth.js"></script>
 
@@ -232,13 +238,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 18px;
+                font-size: 22px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 18px;
+                font-size: 16px;
             }
 
             .search-container {
@@ -512,11 +518,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 18px !important;
+                    font-size: 20px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 18px !important;
+                    font-size: 14px !important;
                 }
                 
                 .logo-section img {
@@ -559,10 +565,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
-                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
-                    <span class="logo-title">HEALTHCARE</span>
-                    <span class="logo-subtitle">SERVICES</span>
+                <img src="images/hitaishi-healthcare-logo.png" alt="Logo" style="height: 40px; border-radius: 50%;">
+                <div class="logo-text">
+                    <span class="logo-title">HITAISHI</span>
+                    <span class="logo-subtitle">HEALTHCARE</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -576,7 +582,7 @@
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
                 <a href="mailto:support@24x7health.in" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@24x7health.in
+                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -802,23 +808,39 @@
                     <div class="dropdown">
                         <a href="Physician.html" class="nav-link">Physicians <i class="fas fa-caret-down fa-xs"></i></a>
                         <div class="dropdown-menu mega-menu">
-                            <div class="mega-menu-grid">
-                                <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-                                <a href="neurologist.html" class="menu-item">Neurologist</a>
-                                <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-                                <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-                                <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-                                <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-                                <a href="urologist.html" class="menu-item">Urologist</a>
-                                <a href="oncologist.html" class="menu-item">Oncologist</a>
-                                <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-                                <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-                                <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-                                <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-                                <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-                                <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-                                <a href="general-physician.html" class="menu-item">General Physician</a>
-                            </div>
+                        <div class="mega-menu-grid">
+
+                            <a href="doctors.html?specialization=CARDIOLOGY" class="menu-item">Cardiologist</a>
+
+                            <a href="doctors.html?specialization=NEUROLOGIST" class="menu-item">Neurologist</a>
+
+                            <a href="doctors.html?specialization=DERMATOLOGIST" class="menu-item">Dermatologist</a>
+
+                            <a href="doctors.html?specialization=ORTHOPEDIC" class="menu-item">Orthopedic</a>
+
+                            <a href="doctors.html?specialization=PEDIATRICIAN" class="menu-item">Pediatrician</a>
+
+                            <a href="doctors.html?specialization=GYNACOLOGY" class="menu-item">Gynecologist</a>
+
+                            <a href="doctors.html?specialization=UROLOGIST" class="menu-item">Urologist</a>
+
+                            <a href="doctors.html?specialization=ONCOLOGY" class="menu-item">Oncologist</a>
+
+                            <a href="doctors.html?specialization=ENDOCRINOLOGIST" class="menu-item">Endocrinologist</a>
+
+                            <a href="doctors.html?specialization=GASTROENTEROLOGIST" class="menu-item">Gastroenterologist</a>
+
+                            <a href="doctors.html?specialization=PULMONOLOGIST" class="menu-item">Pulmonologist</a>
+
+                            <a href="doctors.html?specialization=RHEUMATOLOGIST" class="menu-item">Rheumatologist</a>
+
+                            <a href="doctors.html?specialization=PSYCHIATRIST" class="menu-item">Psychiatrist</a>
+
+                            <a href="doctors.html?specialization=OPHTHALMOLOGIST" class="menu-item">Ophthalmologist</a>
+
+                            <a href="doctors.html?specialization=GENERAL_PHYSICIAN" class="menu-item">General Physician</a>
+
+                        </div>
                         </div>
                     </div>
                     
@@ -1153,7 +1175,7 @@
                 const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "24x7 Health" or "24x7 Health Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "Hitaishi Healthcare" or "Hitaishi Healthcare Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
                 
                 document.body.style.opacity = '0.5';
                 document.body.style.pointerEvents = 'none';
@@ -1310,13 +1332,13 @@
         
         <!-- Content -->
         <h1 style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 36px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Book Doctors, Diagnostics & Healthcare Services Near You</h1>
-        <p  style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 18px; margin-bottom: 2rem;">Powered by 24x7 Health – Your trusted healthcare platform</p>
+        <p  style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 18px; margin-bottom: 2rem;">Powered by Hitaishi Healthcare – Your trusted healthcare platform</p>
 
         <!-- Cards Section -->
         <section class="discover-problem-area" style="position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 20px; box-sizing: border-box;">
 
             <!-- Card 1 -->
-            <a href="meet.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+            <a href="instant-consult.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
                 <img src="images/doctor_patient_videoCall.png" alt="Instant Video Consultation" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
                 <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Instant Video Consultation</h3>
                 <p style="font-size: 14px; color: #555;">Consult experienced and verified doctors online through secure video calls.
@@ -1325,7 +1347,7 @@ Get medical advice, prescriptions and follow-ups within minutes from your home.<
 
             <!-- Card 2 -->
             <a href="doctors.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
-                <img src="images/find_doctors_near_you.png" alt="Book doctors near you online with 24x7 Health" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+                <img src="images/find_doctors_near_you.png" alt="Book doctors near you online with Hitaishi Healthcare" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
                 <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold; color: #000;">Find Doctors Near You</h3>
                 <p style="font-size: 14px; color: #555;">Search and book appointments with verified doctors, specialists and physicians
 near your location. Consult online or visit clinics with confirmed bookings.</p>
@@ -1342,7 +1364,7 @@ treatments and follow-up care with trusted healthcare providers.</p>
             <!-- Card 4 -->
             <a href="Diagnostics.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
                 <img src="images/surgeries.png" alt="Surgeries" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
-                <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Surgeries</h3>
+                <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Diagnostics</h3>
                 <p style="font-size: 14px; color: #555;">Book diagnostic tests including blood tests, scans, MRI, X-ray and pathology
 services from trusted labs near your location. </p>
             </a>
@@ -1354,11 +1376,11 @@ services from trusted labs near your location. </p>
     <section style="overflow:hidden; background:#004080; padding:0.8rem 0;">
         <div class="scroll-text">
             Your One-Stop Platform for Complete Healthcare Services • 
-            24x7 Health is a digital healthcare platform that makes it easy to book doctor appointments, diagnostic tests, clinics, hospitals and online video consultations in one place • 
+            Hitaishi Healthcare is a digital healthcare platform that makes it easy to book doctor appointments, diagnostic tests, clinics, hospitals and online video consultations in one place • 
             We connect patients with experienced and verified healthcare professionals across multiple specialties • 
             Cardiologist • Neurologist • Gynecologist • General Physician • 
             MRI Scans • Blood Tests • Pathology Labs • Fertility Care • 24/7 Ambulance Services • 
-            Find trusted doctors and diagnostic centers near you • 24x7 Health • Available across major cities in India
+            Find trusted doctors and diagnostic centers near you • Hitaishi Healthcare • Available across major cities in India
         </div>
     </section>
 
@@ -1388,114 +1410,105 @@ services from trusted labs near your location. </p>
 
     <!-- Search for doctors and diagnostics -->
     <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8" style="font-family: 'Inter', sans-serif;">
-        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg px-8 py-10">
-            <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Find Healthcare Providers</h2>
-            <p class="text-gray-600 text-center mb-8">Search for doctors and diagnostic centers near you</p>
-
-            <!-- Search Filters -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <!-- Provider Type Dropdown -->
-                <div>
+        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg px-8 py-10"> 
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Find Healthcare Providers</h2> 
+            <p class="text-gray-600 text-center mb-8">Search for doctors and diagnostic centers near you</p> 
+            <!-- Search Filters --> 
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4"> 
+                <!-- Provider Type Dropdown --> 
+                <div> 
                     <label for="provider-type" class="block text-gray-700 mb-2 font-medium">Provider Type</label>
-                    <div class="relative">
-                        <select id="provider-type" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                            <option value="all">All Providers</option>
-                            <option value="doctor">Doctors Only</option>
-                            <option value="diagnostic">Diagnostics Only</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Country Dropdown -->
-                <div>
-                    <label for="country" class="block text-gray-700 mb-2 font-medium">Country</label>
-                    <div class="relative">
-                    <select id="country" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                        <option value="">Select Country</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    </div>
-                </div>
-
-                <!-- State Dropdown -->
-                <div>
-                    <label for="state" class="block text-gray-700 mb-2 font-medium">State</label>
-                    <div class="relative">
-                    <select id="state" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none">
-                        <option value="">Select State</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    </div>
-                </div>
-
-                <!-- Zip Code -->
-                <div>
-                    <label for="zipcode" class="block text-gray-700 mb-2 font-medium">Zip Code</label>
-                    <input type="text" id="zipcode" placeholder="Enter Zip Code" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-
-                <!-- Search Button -->
-                <div class="flex flex-col justify-end">
-                    <button id="search-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg transition flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-150">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                    </svg>
-                    Search
-                    </button>
-                </div>
-            </div>
-
-            <!-- Loading Indicator -->
-            <div id="loading" class="mt-8 hidden">
-            <div class="flex flex-col items-center justify-center py-8">
-                <div class="w-12 h-12 rounded-full bg-blue-100 animate-pulse flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                </div>
-                <p class="mt-4 text-gray-600">Searching providers...</p>
-            </div>
-            </div>
-
-            <!-- Results Section -->
-            <div id="results" class="mt-8 hidden">
-            <div class="flex items-center justify-between mb-6">
-                <h3 id="results-count" class="text-xl font-semibold text-gray-800"></h3>
-                <button id="clear-filters" class="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Clear filters
-                </button>
-            </div>
-            <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto max-h-[80vh]"></div>
-            </div>
-        </div>
+                    <div class="relative"> 
+                        <select id="provider-type" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"> 
+                            <option value="all">All Providers</option> 
+                            <option value="doctor">Doctors Only</option> 
+                            <option value="diagnostic">Diagnostics Only</option> 
+                        </select> 
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"> 
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> 
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /> 
+                            </svg> 
+                        </div> 
+                    </div> 
+                </div> 
+                <!-- Country Dropdown --> 
+                <div> 
+                    <label for="country" class="block text-gray-700 mb-2 font-medium">Country</label> 
+                    <div class="relative"> 
+                        <select id="country" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"> 
+                            <option value="">Select Country</option> 
+                        </select> <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"> 
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> 
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /> 
+                            </svg> 
+                        </div> 
+                    </div> 
+                </div> 
+                <!-- State Dropdown --> 
+                <div> 
+                    <label for="state" class="block text-gray-700 mb-2 font-medium">State</label> 
+                    <div class="relative"> 
+                        <select id="state" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"> 
+                            <option value="">Select State</option> 
+                        </select> 
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"> 
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> 
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /> 
+                            </svg> 
+                        </div> 
+                    </div> 
+                </div> 
+                <!-- Zip Code --> 
+                <div> 
+                    <label for="zipcode" class="block text-gray-700 mb-2 font-medium">Zip Code</label> 
+                    <input type="text" id="zipcode" placeholder="Enter Zip Code" class="w-full bg-white text-gray-800 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"> 
+                </div> 
+                <!-- Search Button --> 
+                <div class="flex flex-col justify-end"> 
+                    <button id="search-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg transition flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-150"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"> 
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /> 
+                        </svg> Search 
+                    </button> 
+                </div> 
+            </div> 
+            <!-- Loading Indicator --> 
+            <div id="loading" class="mt-8 hidden"> 
+                <div class="flex flex-col items-center justify-center py-8"> 
+                    <div class="w-12 h-12 rounded-full bg-blue-100 animate-pulse flex items-center justify-center"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /> 
+                        </svg> 
+                    </div> 
+                    <p class="mt-4 text-gray-600">Searching providers...</p> 
+                </div> 
+            </div> 
+            <!-- Results Section --> 
+            <div id="results" class="mt-8 hidden"> 
+                <div class="flex items-center justify-between mb-6"> 
+                    <h3 id="results-count" class="text-xl font-semibold text-gray-800"></h3> 
+                    <button id="clear-filters" class="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"> 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /> 
+                        </svg> Clear filters 
+                    </button> 
+                </div> 
+                <div id="area-filters" class="mb-6 flex flex-wrap gap-2"></div> 
+                <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto max-h-[80vh]"></div> 
+            </div> 
+        </div> 
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 let allProviders = [];
+                let selectedArea = null;
                 let displayedProviders = [];
                 let locationData = {};
                 let isLoading = false;
                 let offset = 0;
                 const BATCH_SIZE = 50;
-                const CACHE_KEY = 'providersData';
+                const CACHE_KEY = 'providersData_v6';
                 const CACHE_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
-
                 // DOM elements
                 const providerTypeSelect = document.getElementById('provider-type');
                 const countrySelect = document.getElementById('country');
@@ -1507,9 +1520,24 @@ services from trusted labs near your location. </p>
                 const resultsSection = document.getElementById('results');
                 const loadingSection = document.getElementById('loading');
                 const clearFiltersBtn = document.getElementById('clear-filters');
-                
-                // Google Maps Geocoding API
-                const GOOGLE_API_KEY = "AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg";
+
+                providerTypeSelect.addEventListener("change", () => {
+
+                    countrySelect.innerHTML = '<option value="">Select Country</option>';
+                    stateSelect.innerHTML = '<option value="">Select State</option>';
+
+                    loadCountries();
+
+                });
+
+                countrySelect.addEventListener("change", () => {
+                    const country = countrySelect.value;
+                    if (country) {
+                        loadStates(country);
+                    }
+                });
+                // ✅ Hide results on initial page load
+                resultsSection.classList.add('hidden');
 
                 // Function to geocode an address
                 const geocodeAddress = async (address) => {
@@ -1528,161 +1556,231 @@ services from trusted labs near your location. </p>
                     }
                     return { country: "", state: "", zip: "" };
                 };
-                
-                // Fetches all providers in the background to enable filtering
-                const fetchAllProviders = async () => {
-                    console.log("Fetching fresh data from API...");
-                    try {
-                        const [doctorsRes, diagnosticsRes] = await Promise.all([
-                            fetch(`https://www.24x7health.in/api/getdoctors`),
-                            fetch(`https://www.24x7health.in/api/diagnostics/all`)
-                        ]);
-                        
-                        if (!doctorsRes.ok) throw new Error('Failed to fetch doctors data.');
-                        if (!diagnosticsRes.ok) throw new Error('Failed to fetch diagnostics data.');
-                        
-                        const doctorsData = await doctorsRes.json();
-                        const diagnosticsData = await diagnosticsRes.json();
-                        
-                        const doctors = (Array.isArray(doctorsData) ? doctorsData : []).map(d => ({
-                            id: d.uid,
-                            type: 'doctor',
-                            name: `Dr. ${d.first_name} ${d.last_name}`,
-                            specialization: d.specialization,
-                            clinic: d.clinic,
-                            address: d.address
-                        }));
-                        
-                        const diagnostics = (diagnosticsData.users || []).map(d => {
-                            let services = [];
-                            try {
-                                services = d.services ? JSON.parse(d.services) : [];
-                            } catch (e) {
-                                console.error(`Error parsing services for center ID ${d.center_id}:`, e);
-                            }
-                            return {
-                                id: d.center_id,
-                                type: 'diagnostic',
-                                name: d.center_name,
-                                services: services,
-                                address: d.address
-                            };
-                        });
-                        
-                        allProviders = [...doctors, ...diagnostics];
-                        
-                        // Kick off background geocoding without waiting for it to finish
-                        await Promise.all(allProviders.map(async provider => {
-                            const { country, state, zip } = await geocodeAddress(provider.address);
-                            provider.country = country;
-                            provider.state = state;
-                            provider.zip_code = zip;
-                        }));
 
-                        // Store the fetched and geocoded data in local storage
-                        const cacheData = {
-                            data: allProviders,
-                            timestamp: new Date().getTime()
-                        };
-                        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-                        
-                        populateLocationFilters();
-                        
-                    } catch (error) {
-                        console.error("Error fetching providers:", error);
-                        // If fetching fails, and we have cached data, let's use that
-                        if (allProviders.length > 0) {
-                            console.warn("Using cached data due to API failure.");
-                        } else {
-                            resultsContainer.innerHTML = '<div class="col-span-full py-12 text-center text-red-500">Failed to load providers. Please try again later.</div>';
-                        }
+                const loadCountries = async () => {
+
+                    const providerType = providerTypeSelect.value;
+
+                    let countries = [];
+
+                    if (providerType === "doctor") {
+
+                        const res = await fetch("/api/doctor-countries");
+                        countries = await res.json();
+
+                    } else if (providerType === "diagnostic") {
+
+                        const res = await fetch("/api/diagnostic-countries");
+                        countries = await res.json();
+
+                    } else {
+
+                        const doctorRes = await fetch("/api/doctor-countries");
+                        const doctorCountries = await doctorRes.json();
+
+                        const diagRes = await fetch("/api/diagnostic-countries");
+                        const diagCountries = await diagRes.json();
+
+                        countries = [...doctorCountries, ...diagCountries];
                     }
+
+                    countrySelect.innerHTML = '<option value="">Select Country</option>';
+
+                    const unique = [...new Set(countries.map(c => c.country))];
+
+                    unique.forEach(country => {
+                        const option = new Option(country, country);
+                        countrySelect.add(option);
+                    });
                 };
+                
+                const loadStates = async (country) => {
 
-                const loadProvidersFromCache = () => {
-                    const cached = localStorage.getItem(CACHE_KEY);
-                    if (cached) {
-                        const cacheData = JSON.parse(cached);
-                        const now = new Date().getTime();
-                        if (now - cacheData.timestamp < CACHE_EXPIRY_MS) {
-                            console.log("Loading data from cache...");
-                            allProviders = cacheData.data;
-                            populateLocationFilters();
-                            return true;
-                        } else {
-                            console.log("Cached data expired, fetching new data in background.");
-                            // Fetch new data in the background
-                            fetchAllProviders();
-                        }
+                    const providerType = providerTypeSelect.value;
+
+                    let states = [];
+
+                    if (providerType === "doctor") {
+
+                        const res = await fetch(`/api/doctor-states?country=${country}`);
+                        states = await res.json();
+
+                    } else if (providerType === "diagnostic") {
+
+                        const res = await fetch(`/api/diagnostic-states?country=${country}`);
+                        states = await res.json();
+
+                    } else {
+
+                        const doctorRes = await fetch(`/api/doctor-states?country=${country}`);
+                        const doctorStates = await doctorRes.json();
+
+                        const diagRes = await fetch(`/api/diagnostic-states?country=${country}`);
+                        const diagStates = await diagRes.json();
+
+                        states = [...doctorStates, ...diagStates];
                     }
-                    return false;
+
+                    stateSelect.innerHTML = '<option value="">Select State</option>';
+
+                    const unique = [...new Set(states.map(s => s.state))];
+
+                    unique.forEach(state => {
+                        const option = new Option(state, state);
+                        stateSelect.add(option);
+                    });
                 };
                 
                 const fetchAndAppendProviders = async () => {
                     if (isLoading || offset >= displayedProviders.length) return;
-
                     isLoading = true;
                     // Add a small inline loading spinner at the bottom
-                    resultsContainer.insertAdjacentHTML('beforeend', `<div id="load-more-spinner" class="col-span-full flex justify-center items-center py-4"><div class="w-8 h-8 rounded-full bg-blue-100 animate-pulse flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg></div></div>`);
-                    
+                    resultsContainer.insertAdjacentHTML('beforeend',
+                        `<div id="load-more-spinner" class="col-span-full flex justify-center items-center py-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 animate-pulse flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </div>
+                        </div>`
+                    );
                     const nextBatch = displayedProviders.slice(offset, offset + BATCH_SIZE);
                     displayProvidersBatch(nextBatch);
                     offset += BATCH_SIZE;
-                    
                     document.getElementById('load-more-spinner')?.remove();
                     isLoading = false;
                 };
 
-                const populateLocationFilters = () => {
-                    locationData = {};
-                    allProviders.forEach(provider => {
-                        if (provider.country && provider.state) {
-                            if (!locationData[provider.country]) {
-                                locationData[provider.country] = new Set();
-                            }
-                            locationData[provider.country].add(provider.state);
-                        }
-                    });
-                    populateCountryFilter();
-                };
+                const loadAreaButtons = async () => {
 
-                const populateCountryFilter = () => {
-                    const currentVal = countrySelect.value;
-                    countrySelect.innerHTML = '<option value="">Select Country</option>';
-                    Object.keys(locationData).sort().forEach(country => {
-                        const option = new Option(country, country);
-                        countrySelect.add(option);
-                    });
-                    countrySelect.value = currentVal;
-                };
+                    const providerType = providerTypeSelect.value;
+                    const country = countrySelect.value;
+                    const state = stateSelect.value;
+                    const zip = zipInput.value;
 
-                const populateStateFilter = (country) => {
-                    stateSelect.innerHTML = '<option value="">Select State</option>';
-                    const states = locationData[country];
-                    if (states) {
-                        [...states].sort().forEach(state => {
-                            const option = new Option(state, state);
-                            stateSelect.add(option);
+                    let areas = [];
+
+                    if (providerType === "all" || providerType === "doctor") {
+
+                        const res = await fetch(`https://www.24x7health.in/api/doctor-areas?country=${country}&state=${state}&zipcode=${zip}`);
+                        const doctorAreas = await res.json();
+
+                        doctorAreas.forEach(a => {
+                            areas.push({ area: a.area, count: a.doctor_count });
                         });
                     }
-                };
 
-                const displayProvidersBatch = (providers) => {
-                    resultsSection.classList.remove('hidden');
-                    
-                    if (providers.length === 0 && offset === 0) {
-                        resultsContainer.innerHTML = `
-                            <div class="col-span-full py-12 text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <h3 class="mt-4 text-lg font-medium text-gray-700">No providers found</h3>
-                            <p class="mt-2 text-gray-500">Try adjusting your search filters</p>
-                            </div>`;
-                        resultsCount.textContent = `0 providers found`;
-                        return;
+                    if (providerType === "all" || providerType === "diagnostic") {
+
+                        const res = await fetch(`https://www.24x7health.in/api/diagnostic-areas?country=${country}&state=${state}&zipcode=${zip}`);
+                        const diagnosticAreas = await res.json();
+
+                        diagnosticAreas.forEach(a => {
+                            areas.push({ area: a.area, count: a.center_count });
+                        });
                     }
 
+                    const areaContainer = document.getElementById("area-filters");
+                    areaContainer.innerHTML = "";
+
+                    areas.forEach(a => {
+
+                        const btn = document.createElement("button");
+
+                        btn.textContent = `${a.area} (${a.count})`;
+
+                        btn.className = "px-3 py-1 rounded-full text-sm transition";
+
+                        if (selectedArea === a.area) {
+
+                            btn.classList.add("bg-blue-600", "text-white");
+
+                        } else {
+
+                            btn.classList.add(
+                                "bg-blue-100",
+                                "text-blue-700",
+                                "hover:bg-blue-600",
+                                "hover:text-white"
+                            );
+
+                        }
+
+                        btn.onclick = () => filterByArea(a.area);
+
+                        areaContainer.appendChild(btn);
+
+                    });
+                };
+                
+                
+                const filterByArea = async (area) => {
+
+                    selectedArea = area;
+
+                    const providerType = providerTypeSelect.value;
+                    const country = countrySelect.value;
+                    const state = stateSelect.value;
+                    const zip = zipInput.value;
+
+                    let doctors = [];
+                    let diagnostics = [];
+
+                    if (providerType === "all" || providerType === "doctor") {
+
+                        const res = await fetch(`/api/doctors/search?country=${country}&state=${state}&zipcode=${zip}&area=${area}`);
+                        const data = await res.json();
+
+                        doctors = data.map(d => ({
+                            id: d.uid,
+                            type: "doctor",
+                            name: `Dr. ${d.first_name} ${d.last_name}`,
+                            specialization: d.specialization,
+                            clinic: d.clinic,
+                            area: d.area,
+                            address: `${d.door_no}, ${d.area}, ${d.city}, ${d.state}, ${d.country} - ${d.zipcode}`
+                        }));
+                    }
+
+                    if (providerType === "all" || providerType === "diagnostic") {
+
+                        const res = await fetch(`/api/diagnostics/search?country=${country}&state=${state}&zipcode=${zip}&area=${area}`);
+                        const data = await res.json();
+
+                        diagnostics = data.map(d => ({
+                            id: d.center_id,
+                            type: "diagnostic",
+                            name: d.center_name,
+                            services: JSON.parse(d.services || "[]"),
+                            area: d.area,
+                            address: `${d.address}, ${d.area}, ${d.city}, ${d.state}, ${d.country} - ${d.pincode}`
+                        }));
+                    }
+
+                    displayedProviders = [...doctors, ...diagnostics];
+
+                    offset = 0;
+                    resultsContainer.innerHTML = "";
+
+                    displayProvidersBatch(displayedProviders.slice(0, BATCH_SIZE));
+                    await loadAreaButtons();
+
+                };
+                            
+                const displayProvidersBatch = (providers) => {
+                    resultsSection.classList.remove('hidden');
+                    if (providers.length === 0 && offset === 0) {
+                        resultsContainer.innerHTML =
+                            `<div class="col-span-full py-12 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <h3 class="mt-4 text-lg font-medium text-gray-700">No providers found</h3>
+                                <p class="mt-2 text-gray-500">Try adjusting your search filters</p>
+                            </div>`;
+                        resultsCount.textContent = "0 providers found";
+                        return;
+                    }
                     providers.forEach(provider => {
                         const card = document.createElement('div');
                         card.className = 'bg-white rounded-xl shadow p-5 border border-gray-100 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 cursor-pointer';
@@ -1693,86 +1791,107 @@ services from trusted labs near your location. </p>
                                 window.location.href = `DiagnosticsAppointments.html?id=${provider.id}`;
                             }
                         });
-                        
                         const fullAddress = provider.address;
-                        const typeIcon = provider.type === 'doctor' ? 
-                            '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>' :
-                            '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>';
-
-                        card.innerHTML = provider.type === 'doctor'
-                            ? `<div class="flex items-start mb-3">
-                                <div class="bg-blue-100 p-2 rounded-lg mr-3">${typeIcon}</div>
-                                <div>
-                                <h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
+                        const typeIcon = provider.type === 'doctor' ? '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>';
+                        card.innerHTML = provider.type === 'doctor' ?
+                            `<div class="flex items-start mb-3"> <div class="bg-blue-100 p-2 rounded-lg mr-3">${typeIcon}</div>
+                            <div> <h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
                                 <p class="text-blue-600 font-medium">${provider.specialization || ''}</p>
+                                </div> </div> <p class="text-sm text-gray-600 mb-2">${provider.clinic || ''}</p>
+                                <div class="flex items-center text-sm text-gray-500 mt-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg> ${fullAddress}
                                 </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">${provider.clinic || ''}</p>
-                            <div class="flex items-center text-sm text-gray-500 mt-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                ${fullAddress}
-                            </div>
-                            <div class="mt-3 text-sm text-blue-600 flex items-center">
-                                View doctor details
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </div>`
-                            : `<div class="flex items-start mb-3">
+                                <div class="mt-3 text-sm text-blue-600 flex items-center"> View doctor details
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </div>` :
+                            `<div class="flex items-start mb-3">
                                 <div class="bg-green-100 p-2 rounded-lg mr-3">${typeIcon}</div>
                                 <div>
-                                <h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
-                                <p class="text-sm text-gray-600">${(provider.services || []).join(', ')}</p>
+                                    <h4 class="text-lg font-bold text-gray-800">${provider.name}</h4>
+                                    <p class="text-sm text-gray-600">${(provider.services || []).join(', ')}</p>
                                 </div>
                             </div>
                             <div class="flex items-center text-sm text-gray-500 mt-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                ${fullAddress}
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg> ${fullAddress}
                             </div>
-                            <div class="mt-3 text-sm text-green-600 flex items-center">
-                                View diagnostic center details
+                            <div class="mt-3 text-sm text-green-600 flex items-center"> View diagnostic center details
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </div>`;
-
                         resultsContainer.appendChild(card);
                     });
-                    
                     resultsCount.textContent = `${displayedProviders.length} providers found`;
                 };
 
-                const filterAndDisplayProviders = () => {
-                    if (allProviders.length === 0) {
-                        alert("Provider data is still loading. Please wait a moment and try again.");
-                        return;
-                    }
+                const filterAndDisplayProviders = async () => {
 
                     const providerType = providerTypeSelect.value;
                     const country = countrySelect.value;
                     const state = stateSelect.value;
                     const zipCode = zipInput.value;
 
-                    const filtered = allProviders.filter(p => {
-                        const matchType = providerType === 'all' || p.type === providerType;
-                        const matchCountry = !country || (p.country && p.country.toLowerCase() === country.toLowerCase());
-                        const matchState = !state || (p.state && p.state.toLowerCase() === state.toLowerCase());
-                        const matchZip = !zipCode || (p.zip_code && p.zip_code.startsWith(zipCode));
-                        return matchType && matchCountry && matchState && matchZip;
-                    });
-                    
-                    displayedProviders = filtered;
+                    selectedArea = null;
+
+                    loadingSection.classList.remove('hidden');
+
+                    let doctors = [];
+                    let diagnostics = [];
+
+                    // 🔹 Doctors
+                    if (providerType === "all" || providerType === "doctor") {
+
+                        const res = await fetch(`https://www.24x7health.in/api/doctors/search?country=${country}&state=${state}&zipcode=${zipCode}`);
+                        doctors = await res.json();
+
+                        doctors = doctors.map(d => ({
+                            id: d.uid,
+                            type: "doctor",
+                            name: `Dr. ${d.first_name} ${d.last_name}`,
+                            specialization: d.specialization,
+                            clinic: d.clinic,
+                            area: d.area,
+                            address: `${d.door_no}, ${d.area}, ${d.city}, ${d.state}, ${d.country} - ${d.zipcode}`
+                        }));
+                    }
+
+                    // 🔹 Diagnostics
+                    if (providerType === "all" || providerType === "diagnostic") {
+
+                        const res = await fetch(`https://www.24x7health.in/api/diagnostics/search?country=${country}&state=${state}&zipcode=${zipCode}`);
+                        const data = await res.json();
+
+                        diagnostics = data.map(d => ({
+                            id: d.center_id,
+                            type: "diagnostic",
+                            name: d.center_name,
+                            services: JSON.parse(d.services || "[]"),
+                            area: d.area,
+                            address: `${d.address}, ${d.area}, ${d.city}, ${d.state}, ${d.country} - ${d.pincode}`
+                        }));
+                    }
+
+                    loadingSection.classList.add('hidden');
+
+                    // 🔹 merge results
+                    displayedProviders = [...doctors, ...diagnostics];
+
                     offset = 0;
                     resultsContainer.innerHTML = '';
-                    displayProvidersBatch(displayedProviders.slice(offset, offset + BATCH_SIZE));
-                };
 
+                    await loadAreaButtons();
+
+                    displayProvidersBatch(displayedProviders.slice(0, BATCH_SIZE));
+                };
+                
                 const clearFilters = () => {
                     providerTypeSelect.value = "all";
                     countrySelect.value = "";
@@ -1784,33 +1903,25 @@ services from trusted labs near your location. </p>
                     displayProvidersBatch(displayedProviders.slice(offset, offset + BATCH_SIZE));
                 };
 
-                countrySelect.addEventListener('change', function () {
-                    populateStateFilter(this.value);
-                });
-                
                 searchButton.addEventListener('click', filterAndDisplayProviders);
                 clearFiltersBtn.addEventListener('click', clearFilters);
-
                 zipInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         filterAndDisplayProviders();
                     }
                 });
-
                 // Infinite scroll logic
                 resultsContainer.addEventListener('scroll', () => {
                     if (resultsContainer.scrollTop + resultsContainer.clientHeight >= resultsContainer.scrollHeight - 100) {
                         fetchAndAppendProviders();
                     }
                 });
-
-                // Initial load
-                if (!loadProvidersFromCache()) {
-                    fetchAllProviders();
-                }
+                loadCountries();
             });
         </script>
+
     </section>
+
 
     <!-- Countries -->
     <div>
@@ -3384,7 +3495,7 @@ services from trusted labs near your location. </p>
                 ],
                 obesity: [
                     { title: "Weight Management Package", tests: 49, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "53%", price: "2999", linkName: "Weight Management Package" },
-                    { title: "24x7 Health All Inclusive Healthcheck with Cancer Test", tests: 61, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "4100", linkName: "24x7 Health All Inclusive Healthcheck with Cancer Test - HH Pack 18" }
+                    { title: "Hitaishi Healthcare All Inclusive Healthcheck with Cancer Test", tests: 61, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "4100", linkName: "Hitaishi Healthcare All Inclusive Healthcheck with Cancer Test - HH Pack 18" }
                 ],
                 smoking: [
                     { title: "Alcohol Impact Package", tests: 61, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "56%", price: "1299", linkName: "Alcohol Impact Package" },
@@ -4512,7 +4623,7 @@ services from trusted labs near your location. </p>
 
     <!-- info -->
     <div style="text-align: center; background-color: #f0f0f0; padding-bottom: 40px ;">
-        <h2 style="font-size: 42px; font-weight: bold; padding-top: 40px;">Popular Lab Tests Through 24x7 Health</h2>
+        <h2 style="font-size: 42px; font-weight: bold; padding-top: 40px;">Popular Lab Tests Through Hitaishi Healthcare</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 10px; width: 96%; justify-content: center; margin: auto;">
             <span style="color: teal;">FASTING PLASMA GLUCOSE</span> |
             <span style="color: teal;">COMPLETE BLOOD PICTURE (CBP)</span> |
@@ -4715,8 +4826,22 @@ services from trusted labs near your location. </p>
             </div>
             <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
-                <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
-                <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
+
+                <input 
+                    type="email" 
+                    id="newsletterEmail"
+                    placeholder="Enter your email"
+                    style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;"
+                >
+
+                <button 
+                    onclick="subscribeNewsletter()"
+                    style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;"
+                >
+                    Subscribe
+                </button>
+
+                <p id="newsletterMsg" style="font-size:13px; margin-top:10px;"></p>
             </div>
             <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
@@ -4745,11 +4870,50 @@ services from trusted labs near your location. </p>
             </div>
         </div>
         <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>&copy;Copyright 2026 By 24x7 Health Service. All Rights Reserved</p>
+            <p>&copy;Copyright 2026 By Hitaishi Healthcare Service. All Rights Reserved</p>
             <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
             <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
             <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
         </div>
+        <script>
+            async function subscribeNewsletter() {
+
+                const email = document.getElementById("newsletterEmail").value;
+                const msg = document.getElementById("newsletterMsg");
+
+                if (!email) {
+                    msg.style.color = "orange";
+                    msg.innerText = "Please enter your email";
+                    return;
+                }
+
+                try {
+
+                    const response = await fetch("https://24x7health.in/api/subscribers", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ email })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        msg.style.color = "lightgreen";
+                        msg.innerText = "Subscribed successfully!";
+                        document.getElementById("newsletterEmail").value = "";
+                    } else {
+                        msg.style.color = "red";
+                        msg.innerText = data.error || "Subscription failed";
+                    }
+
+                } catch (error) {
+                    msg.style.color = "red";
+                    msg.innerText = "Server error. Try again.";
+                }
+            }
+        </script>
     </footer>
 
 

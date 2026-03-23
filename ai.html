@@ -136,13 +136,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 18px;
+                font-size: 22px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 18px;
+                font-size: 16px;
             }
 
             .search-container {
@@ -416,11 +416,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 18px !important;
+                    font-size: 20px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 18px !important;
+                    font-size: 14px !important;
                 }
                 
                 .logo-section img {
@@ -463,10 +463,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
-                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
-                    <span class="logo-title">HEALTHCARE</span>
-                    <span class="logo-subtitle">SERVICES</span>
+                <img src="images/hitaishi-healthcare-logo.png" alt="Logo" style="height: 40px; border-radius: 50%;">
+                <div class="logo-text">
+                    <span class="logo-title">HITAISHI</span>
+                    <span class="logo-subtitle">HEALTHCARE</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -480,7 +480,7 @@
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
                 <a href="mailto:support@24x7health.in" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@24x7health.in
+                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -793,7 +793,6 @@
             </div>
         </div>
 
-        
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 // --- ADVANCED LOCATION SERVICES SCRIPT ---
@@ -874,7 +873,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`${API_BASE_URL}/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
