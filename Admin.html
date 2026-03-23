@@ -2,141 +2,319 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Hitaishi Healthcare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Admin Panel | Hitaishi Health Care</title>
+    <!-- Tailwind + Inter font -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons (Inline SVGs used for reliability) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- enhanced smooth & responsive styles -->
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .nav-active { background-color: rgb(37, 99, 235); color: white; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .card-anim { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .sidebar-item { transition: all 0.2s ease; }
+        * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        body { scroll-behavior: smooth; background: #f8fafc; }
+        .nav-active { background: #2563eb; color: white; box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.5); }
+        .card-anim { transition: all 0.25s ease; }
+        .sidebar-item { transition: all 0.2s; border-radius: 0.75rem; }
+        .mobile-bottom-fab { box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.4); }
         [v-cloak] { display: none; }
+        /* responsive table helper */
+        .wallet-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        /* subtle glass effect for cards */
+        .glass-panel { background: rgba(255,255,255,0.8); backdrop-filter: blur(2px); }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-slate-50 text-slate-900 antialiased">
 
-    <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" class="lg:hidden fixed bottom-6 right-6 z-50 bg-blue-600 text-white p-4 rounded-full shadow-2xl">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    <!-- floating mobile action button (menu) – repositioned slightly -->
+    <button id="mobileMenuBtn" class="lg:hidden fixed bottom-5 right-5 z-50 bg-blue-600 text-white p-4 rounded-full shadow-2xl active:scale-90 transition-transform mobile-bottom-fab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
 
-    <div class="flex min-h-screen">
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 transition-transform duration-300 ease-in-out">
-            <div class="p-6">
-                <h2 class="text-white text-xl font-bold flex items-center gap-2">
-                    <span class="bg-blue-600 p-1.5 rounded-lg">HH</span>
-                    Hitaishi Admin
-                </h2>
+    <div class="flex min-h-screen relative">
+        <!-- SIDEBAR – improved transition, better contrast, rounded right -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-200 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 transition-transform duration-300 ease-out rounded-r-3xl lg:rounded-r-none shadow-2xl lg:shadow-inner">
+            <div class="p-5 flex items-center gap-2 border-b border-slate-700/50">
+                <span class="bg-blue-600 text-white text-xl font-bold rounded-xl w-9 h-9 flex items-center justify-center shadow-md">HH</span>
+                <h2 class="text-white text-lg font-semibold tracking-tight">Hitaishi Health Care<span class="block text-xs text-blue-300 font-normal">administrator</span></h2>
             </div>
             
-            <nav class="mt-4 px-4 space-y-2">
-                <button onclick="switchTab('opinions')" id="tab-opinions" class="sidebar-item flex items-center gap-3 w-full p-3 rounded-lg hover:bg-slate-800 hover:text-white group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-400"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    Blogs & Opinions
+            <nav class="mt-6 px-3 space-y-1.5">
+                <button onclick="switchTab('opinions')" id="tab-opinions" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Blogs & Opinions</span>
                 </button>
                 
-                <button onclick="switchTab('ambulance')" id="tab-ambulance" class="sidebar-item flex items-center gap-3 w-full p-3 rounded-lg hover:bg-slate-800 hover:text-white group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-400"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                    Ambulance Partners
+                <button onclick="switchTab('ambulance')" id="tab-ambulance" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    <span>Ambulance Partners</span>
                 </button>
 
-                <div class="pt-10">
-                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">System</p>
+                <button onclick="switchTab('appointments')" id="tab-appointments" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+                    <span>Appointments</span>
+                </button>
+
+                <button onclick="switchTab('wallet')" id="tab-wallet" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6"></path><rect x="3" y="7" width="18" height="4" rx="2"></rect></svg>
+                    <span>Wallet</span>
+                </button>
+
+                <div class="pt-8 mt-4 border-t border-slate-700/40">
+                    <p class="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">System</p>
                     <button id="logoutBtn"
-                        class="mt-2 sidebar-item flex items-center gap-3 w-full p-3 rounded-lg hover:bg-red-900/20 hover:text-red-400">
+                        class="w-full sidebar-item flex items-center gap-3 p-3.5 rounded-xl hover:bg-red-900/30 hover:text-red-300 text-slate-300 group">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                             <polyline points="16 17 21 12 16 7"></polyline>
                             <line x1="21" y1="12" x2="9" y2="12"></line>
                         </svg>
                         Logout
                     </button>
-
                 </div>
             </nav>
+            <!-- subtle indicator -->
+            <div class="absolute bottom-3 left-6 text-xs text-slate-600 hidden lg:block">v2.4 · secure</div>
         </aside>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 p-4 lg:p-10">
-            <!-- Header Section -->
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h1 id="viewTitle" class="text-3xl font-bold text-slate-800">Blogs & Opinions</h1>
-                    <p id="viewSubtitle" class="text-slate-500">Respond to user feedback and publish insights.</p>
+        <!-- MAIN CONTENT AREA – responsive padding, max-width comfortable -->
+        <main class="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-7xl mx-auto">
+            <!-- Header card with dynamic gradient -->
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-6 md:mb-8 gap-3">
+                <div class="bg-white/70 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 w-full sm:w-auto">
+                    <h1 id="viewTitle" class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 tracking-tight">Blogs & Opinions</h1>
+                    <p id="viewSubtitle" class="text-sm md:text-base text-slate-500 mt-1">Respond to user feedback and publish insights.</p>
                 </div>
-                <div class="hidden md:block">
-                    <span class="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">Administrator Access</span>
+                <div class="flex items-center justify-end">
+                    <span class="text-xs md:text-sm bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold shadow-sm border border-blue-200">🔐 Admin Access</span>
                 </div>
             </div>
 
-            <!-- Opinions View -->
-            <section id="view-opinions" class="view-content space-y-6">
-                <div id="pendingOpinionsContainer" class="grid gap-6">
-                    <div class="animate-pulse bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-                        <div class="h-4 bg-slate-200 rounded w-1/4 mb-4"></div>
-                        <div class="h-6 bg-slate-200 rounded w-3/4"></div>
+            <!-- OPINIONS VIEW (pending) -->
+            <section id="view-opinions" class="view-content space-y-5 md:space-y-6">
+                <div id="pendingOpinionsContainer" class="grid gap-5 md:gap-6"></div>
+            </section>
+
+            <!-- AMBULANCE VIEW (providers) -->
+            <section id="view-ambulance" class="view-content hidden space-y-5">
+                <div id="providersContainer" class="grid gap-3 md:gap-4"></div>
+            </section>
+
+            <!-- APPOINTMENTS VIEW (analytics dashboard) -->
+            <section id="view-appointments" class="view-content hidden space-y-5 md:space-y-6">
+                <!-- Analytics Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs md:text-sm text-slate-500 font-medium uppercase tracking-wide">Total Appointments</p>
+                                <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mt-2" id="totalAppointmentsCard">0</h3>
+                            </div>
+                            <div class="bg-blue-100 text-blue-600 p-4 rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs md:text-sm text-slate-500 font-medium uppercase tracking-wide">Completed</p>
+                                <h3 class="text-2xl md:text-3xl font-bold text-green-600 mt-2" id="completedAppointmentsCard">0</h3>
+                            </div>
+                            <div class="bg-green-100 text-green-600 p-4 rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs md:text-sm text-slate-500 font-medium uppercase tracking-wide">Pending</p>
+                                <h3 class="text-2xl md:text-3xl font-bold text-amber-600 mt-2" id="pendingAppointmentsCard">0</h3>
+                            </div>
+                            <div class="bg-amber-100 text-amber-600 p-4 rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs md:text-sm text-slate-500 font-medium uppercase tracking-wide">Total Revenue</p>
+                                <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mt-2" id="totalRevenueCard">₹0</h3>
+                            </div>
+                            <div class="bg-purple-100 text-purple-600 p-4 rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Appointments by Hour</h3>
+                        <canvas id="hourlyChart" style="max-height: 300px;"></canvas>
+                    </div>
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Appointments by Area</h3>
+                        <canvas id="areaChart" style="max-height: 300px;"></canvas>
+                    </div>
+                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Appointments by Zipcode</h3>
+                        <canvas id="zipcodeChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Filters</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <input type="date" id="filterDate" class="border border-slate-200 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm">
+                        <select id="filterArea" class="border border-slate-200 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm">
+                            <option value="">All Areas</option>
+                        </select>
+                        <select id="filterZipcode" class="border border-slate-200 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm">
+                            <option value="">All Zipcodes</option>
+                        </select>
+                        <div class="flex gap-2">
+                            <button onclick="applyAppointmentsFilters()" class="flex-1 bg-blue-600 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition text-sm">Apply</button>
+                            <button onclick="resetAppointmentsFilters()" class="flex-1 bg-slate-200 text-slate-800 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-300 transition text-sm">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments Table -->
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                    <div class="wallet-scroll">
+                        <table class="min-w-full text-xs md:text-sm">
+                            <thead class="bg-slate-100 text-slate-600 uppercase tracking-wider">
+                                <tr>
+                                    <th class="px-3 py-4 md:px-4 text-left">Appointment ID</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Patient Name</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Mobile</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Doctor Name</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">State</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">City</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Area</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Zipcode</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Date</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Time</th>
+                                    <th class="px-3 py-4 md:px-4 text-left">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody" class="divide-y divide-slate-100"></tbody>
+                        </table>
                     </div>
                 </div>
             </section>
 
-            <!-- Ambulance View -->
-            <section id="view-ambulance" class="view-content hidden space-y-6">
-                <div id="providersContainer" class="grid gap-4">
-                    <!-- Providers will be rendered here -->
+            <!-- WALLET VIEW (responsive card & table) -->
+            <section id="view-wallet" class="view-content hidden space-y-5 md:space-y-6">
+                <!-- wallet summary card with better visual weight -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gradient-to-r from-white to-blue-50/30 p-5 md:p-6 rounded-2xl shadow-md border border-slate-200">
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-700 flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Admin Wallet Balance</h3>
+                        <p class="text-sm text-slate-500">Total earnings after processed payouts</p>
+                    </div>
+                    <div class="text-right mt-2 sm:mt-0">
+                        <div class="text-3xl md:text-4xl font-bold text-green-600">₹<span id="walletTotal">0</span></div>
+                        <p class="text-xs text-slate-400">updated balance</p>
+                    </div>
                 </div>
+
+                <!-- Wallet table – with horizontal scroll on small, improved readability -->
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                    <div class="wallet-scroll">
+                        <table class="min-w-full text-xs md:text-sm">
+                            <thead class="bg-slate-100 text-slate-600 uppercase tracking-wider">
+                                <tr>
+                                    <th class="px-3 py-4 md:px-4">Appointment ID</th>
+                                    <th class="px-3 py-4 md:px-4">Doctor</th>
+                                    <th class="px-3 py-4 md:px-4">Patient</th>
+                                    <th class="px-3 py-4 md:px-4">Payment Status</th>
+                                    <th class="px-3 py-4 md:px-4">Amount</th>
+                                    <th class="px-3 py-4 md:px-4">Payment ID</th>
+                                    <th class="px-3 py-4 md:px-4 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="walletTableBody" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- hint for processing -->
+                <p class="text-xs text-slate-400 italic px-2">Payments are final. Process to release doctor share.</p>
             </section>
         </main>
     </div>
 
+    <script src="config.js"></script>
     <script>
-        const API_BASE_URL = '/api';
+
+        const token = localStorage.getItem("adminToken");
+        if (!token) {
+            window.location.replace("AdminLogin.html");
+        }
+        // --- CONFIG --- (exactly same backend endpoints)
+
         let currentTab = 'opinions';
 
-        // --- Tab Management ---
+        // --- Tab Management (identical logic, but added smooth class toggles) ---
         function switchTab(tabId) {
             currentTab = tabId;
             document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('bg-blue-600', 'text-white'));
+            document.querySelectorAll('.sidebar-item').forEach(el => {
+                el.classList.remove('bg-blue-600', 'text-white', 'nav-active');
+            });
             
             document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabId}`).classList.add('bg-blue-600', 'text-white');
+            const activeTabEl = document.getElementById(`tab-${tabId}`);
+            activeTabEl.classList.add('bg-blue-600', 'text-white', 'nav-active');
 
             const titles = {
                 'opinions': ['Blogs & Opinions', 'Respond to user feedback and publish insights.'],
-                'ambulance': ['Ambulance Approvals', 'Manage and vet healthcare partner applications.']
+                'ambulance': ['Ambulance Approvals', 'Manage and vet healthcare partner applications.'],
+                'appointments': ['Appointments Dashboard', 'View analytics and manage appointment data.'],
+                'wallet': ['Wallet & Settlements', 'Manage admin earnings and doctor payouts.']
             };
 
             document.getElementById('viewTitle').textContent = titles[tabId][0];
             document.getElementById('viewSubtitle').textContent = titles[tabId][1];
 
-            // Load data for specific tab
+            // load data per tab (original calls)
             if (tabId === 'opinions') fetchPendingOpinions();
             if (tabId === 'ambulance') loadProviders();
+            if (tabId === 'appointments') fetchAppointmentsDashboard();
+            if (tabId === 'wallet') {
+                fetchAdminWallet();
+            }
 
-            // Close sidebar on mobile after selection
-            if(window.innerWidth < 1024) toggleSidebar();
+            // close sidebar on mobile (if open)
+            if(window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
         }
 
+        // toggle sidebar (same)
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
         }
 
         document.getElementById('mobileMenuBtn').addEventListener('click', toggleSidebar);
 
-        // --- Opinions Logic ---
+        // --- Opinions (identical fetch/render) ---
         async function fetchPendingOpinions() {
             const container = document.getElementById('pendingOpinionsContainer');
             try {
-                const response = await fetch(`${API_BASE_URL}/opinions/pending`);
+                const response = await fetch(`https://hitaishihealthcare.com/api/opinions/pending`);
                 const data = await response.json();
                 renderOpinions(data.opinions);
             } catch (error) {
-                container.innerHTML = `<div class="bg-red-50 text-red-600 p-6 rounded-xl border border-red-100">Failed to load opinions. Please check server connection.</div>`;
+                container.innerHTML = `<div class="bg-red-50 text-red-600 p-6 rounded-xl border border-red-200 shadow-sm">Failed to load opinions. Check connection.</div>`;
             }
         }
 
@@ -144,32 +322,32 @@
             const container = document.getElementById('pendingOpinionsContainer');
             if (!opinions || opinions.length === 0) {
                 container.innerHTML = `
-                    <div class="bg-white p-12 text-center rounded-2xl shadow-sm border border-slate-200">
-                        <div class="bg-green-100 text-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
-                        <h3 class="text-lg font-bold">No Pending Opinions</h3>
-                        <p class="text-slate-500">Your inbox is completely clear.</p>
+                    <div class="bg-white p-8 md:p-12 text-center rounded-2xl shadow-md border border-slate-200">
+                        <div class="bg-green-100 text-green-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl font-bold">✓</div>
+                        <h3 class="text-xl font-bold text-slate-800">All caught up!</h3>
+                        <p class="text-slate-500">No pending opinions to review.</p>
                     </div>`;
                 return;
             }
 
             container.innerHTML = opinions.map(opinion => `
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-anim hover:shadow-md" data-opinion-id="${opinion.id}">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="bg-white p-5 md:p-6 rounded-xl shadow-md border border-slate-200 card-anim hover:shadow-lg transition-shadow" data-opinion-id="${opinion.id}">
+                    <div class="flex flex-wrap justify-between items-start gap-2 mb-4">
                         <div>
                             <h4 class="font-bold text-slate-800 text-lg">${opinion.user_name}</h4>
-                            <p class="text-sm text-blue-600">${opinion.user_email}</p>
+                            <p class="text-sm text-blue-600 break-words">${opinion.user_email}</p>
                         </div>
-                        <span class="text-xs font-medium text-slate-400 bg-slate-100 px-2 py-1 rounded">
-                            ${new Date(opinion.created_at).toLocaleDateString()}
+                        <span class="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full whitespace-nowrap">
+                            ${new Date(opinion.created_at).toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'})}
                         </span>
                     </div>
-                    <p class="text-slate-700 bg-slate-50 p-4 rounded-lg italic mb-6 border-l-4 border-blue-500">"${opinion.opinion_text}"</p>
+                    <p class="text-slate-700 bg-slate-50 p-4 rounded-lg italic mb-5 border-l-4 border-blue-500 text-sm md:text-base">"${opinion.opinion_text}"</p>
                     
                     <form class="space-y-4" onsubmit="event.preventDefault(); handleOpinionSubmit(this, '${opinion.id}')">
-                        <textarea class="w-full p-4 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" 
+                        <textarea class="w-full p-4 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition text-sm" 
                             rows="3" placeholder="Write your professional response..." required></textarea>
-                        <button type="submit" class="w-full md:w-auto bg-slate-900 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-600 transition-colors">
-                            Submit & Publish Response
+                        <button type="submit" class="w-full sm:w-auto bg-slate-900 text-white px-7 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors shadow-sm text-sm md:text-base">
+                            ✍️ Submit & Publish Response
                         </button>
                     </form>
                 </div>
@@ -183,7 +361,7 @@
             btn.textContent = 'Publishing...';
 
             try {
-                const response = await fetch(`${API_BASE_URL}/opinions/${id}/answer`, {
+                const response = await fetch(`https://hitaishihealthcare.com/api/opinions/${id}/answer`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ answer_text: answerText })
@@ -193,77 +371,80 @@
                     const card = document.querySelector(`[data-opinion-id="${id}"]`);
                     card.classList.add('opacity-0', 'scale-95');
                     setTimeout(() => fetchPendingOpinions(), 300);
+                } else {
+                    throw new Error('server error');
                 }
             } catch (e) {
-                alert('Error submitting answer');
+                alert('Error submitting answer. Check network.');
                 btn.disabled = false;
                 btn.textContent = 'Submit & Publish Response';
             }
         }
 
-        // --- Ambulance Provider Logic ---
+        // --- Ambulance Provider Logic (identical, but improved mobile card layout) ---
         async function loadProviders() {
             const container = document.getElementById('providersContainer');
             try {
-                const res = await fetch(`${API_BASE_URL}/admin/providers`);
+                const res = await fetch(`https://hitaishihealthcare.com/api/admin/providers`);
                 const data = await res.json();
 
                 if (!data.providers || data.providers.length === 0) {
-                    container.innerHTML = `<div class="p-10 text-center text-slate-400">No providers found.</div>`;
+                    container.innerHTML = `<div class="p-12 text-center bg-white rounded-2xl border border-slate-200"><span class="text-slate-400">No providers found.</span></div>`;
                     return;
                 }
 
                 container.innerHTML = data.providers.map(p => `
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4 card-anim">
-                        <div class="flex gap-4 items-center">
-                            <div class="bg-blue-50 text-blue-600 p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <div class="bg-white p-4 md:p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 card-anim hover:shadow">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-50 text-blue-600 p-3 rounded-xl shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                             </div>
                             <div>
-                                <h2 class="font-bold text-slate-800">${p.provider_name}</h2>
-                                <p class="text-xs text-slate-500 uppercase tracking-tighter">${p.provider_type} • ${p.city}, ${p.state}</p>
+                                <h2 class="font-bold text-slate-800 text-base">${p.provider_name}</h2>
+                                <p class="text-xs text-slate-500">${p.provider_type} · ${p.city}, ${p.state}</p>
                             </div>
                         </div>
                         
-                        <div class="flex items-center gap-4">
-                            <div class="text-right">
-                                <span class="block text-[10px] font-bold text-slate-400 uppercase">Status</span>
-                                <span class="px-2 py-0.5 rounded-full text-xs font-bold ${
-                                    p.status === 'Pending' ? 'bg-amber-100 text-amber-700' : 
-                                    p.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                        <div class="flex flex-wrap items-center gap-3 sm:gap-4 ml-2 sm:ml-0">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-semibold text-slate-400 uppercase">Status</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${
+                                    p.status === 'Pending' ? 'bg-amber-100 text-amber-800' : 
+                                    p.status === 'Approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
                                 }">${p.status}</span>
                             </div>
 
-                            <div class="flex gap-2 border-l pl-4 border-slate-100">
+                            <div class="flex gap-2 border-l pl-3 sm:pl-4 border-slate-200">
                                 ${p.status === 'Pending' ? `
-                                    <button onclick="approveProvider('${p.provider_uid}')" class="bg-emerald-500 text-white p-2 rounded-lg hover:bg-emerald-600 transition-colors shadow-sm" title="Approve">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <button onclick="approveProvider('${p.provider_uid}')" class="bg-emerald-500 text-white p-2.5 rounded-xl hover:bg-emerald-600 transition shadow-sm" title="Approve">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                     </button>
-                                    <button onclick="rejectProvider('${p.provider_uid}')" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors shadow-sm" title="Reject">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    <button onclick="rejectProvider('${p.provider_uid}')" class="bg-red-500 text-white p-2.5 rounded-xl hover:bg-red-600 transition shadow-sm" title="Reject">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                     </button>
                                 ` : `
-                                    <span class="text-slate-300 italic text-xs">No Actions</span>
+                                    <span class="text-slate-300 italic text-xs px-2">no actions</span>
                                 `}
                             </div>
                         </div>
                     </div>
                 `).join('');
             } catch (err) {
-                container.innerHTML = `<p class="text-red-500">Error loading partners.</p>`;
+                container.innerHTML = `<p class="text-red-500 p-4 bg-red-50 rounded-xl">⚠️ Error loading partners.</p>`;
             }
         }
 
+        // approve/reject functions (unchanged)
         async function approveProvider(uid) {
             if(!confirm('Approve this partner?')) return;
-            await fetch(`${API_BASE_URL}/providers/approve/${uid}`, { method: 'PUT' });
+            await fetch(`https://hitaishihealthcare.com/api/providers/approve/${uid}`, { method: 'PUT' });
             loadProviders();
         }
 
         async function rejectProvider(uid) {
             const reason = prompt("Reason for rejection?");
             if (reason === null) return;
-            await fetch(`${API_BASE_URL}/providers/reject/${uid}`, {
+            await fetch(`https://hitaishihealthcare.com/api/providers/reject/${uid}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ reason })
@@ -271,24 +452,273 @@
             loadProviders();
         }
 
-        // --- Init ---
-        document.addEventListener('DOMContentLoaded', () => {
-            switchTab('opinions');
-        });
-    </script>
-    <script>
+        // --- Wallet identical backend functions ---
+        async function fetchAdminWallet() {
+            try {
+                const res = await fetch(`https://hitaishihealthcare.com/api/admin/appointments`);
+                const data = await res.json();
+                renderWalletTable(data);
+                loadWalletTotal();
+            } catch (err) {
+                console.error("Wallet fetch error:", err);
+                document.getElementById('walletTableBody').innerHTML = '<tr><td colspan="7" class="text-center py-6 text-red-500">Failed to load wallet</td></tr>';
+            }
+        }
+
+        function renderWalletTable(rows) {
+            const tbody = document.getElementById("walletTableBody");
+            tbody.innerHTML = "";
+
+            if (!rows || rows.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400">No paid appointments found.</td></tr>`;
+                return;
+            }
+
+            rows.forEach(row => {
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50/80";
+                tr.innerHTML = `
+                    <td class="px-3 py-4 md:px-4 font-mono text-xs md:text-sm text-slate-700">${row.appointment_uid}</td>
+                    <td class="px-3 py-4 md:px-4">
+                        <div class="font-medium text-sm">${row.doctor_name}</div>
+                        <div class="text-xs text-slate-500">${row.doctor_uid}</div>
+                        <div class="text-xs text-blue-600 break-words">${row.doctor_email}</div>
+                    </td>
+                    <td class="px-3 py-4 md:px-4">
+                        <div class="font-medium text-sm">${row.patient_name}</div>
+                        <div class="text-xs text-slate-500">ID: ${row.patient_id}</div>
+                        <div class="text-xs text-blue-600 break-words">${row.patient_email}</div>
+                    </td>
+                    <td class="px-3 py-4 md:px-4">
+                        <span class="px-2 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap ${
+                            row.payment_status === 'Paid' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
+                        }">${row.payment_status}</span>
+                    </td>
+                    <td class="px-3 py-4 md:px-4 font-bold text-slate-800">₹${row.final_amount}</td>
+                    <td class="px-3 py-4 md:px-4 text-xs text-slate-500 font-mono">${row.payment_id || '—'}</td>
+                    <td class="px-3 py-4 md:px-4 text-center">
+                        ${row.processed ? `<span class="text-green-600 font-semibold text-xs bg-green-50 px-3 py-1.5 rounded-full">Processed</span>` 
+                                        : `<button onclick="processPayment(${row.appointment_id})" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs hover:bg-blue-700 transition shadow-sm font-medium">Process</button>`}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function processPayment(appointmentId) {
+            if (!confirm("Process this payment and release doctor payout?")) return;
+            try {
+                const res = await fetch(`https://hitaishihealthcare.com/api/admin/process/${appointmentId}`, { method: "PUT" });
+                const data = await res.json();
+                if (data.success) fetchAdminWallet();
+                else alert('Processing failed');
+            } catch (err) {
+                console.error("Process error:", err);
+            }
+        }
+
+        async function loadWalletTotal() {
+            try {
+                const res = await fetch(`https://hitaishihealthcare.com/api/admin/wallet-total`);
+                const data = await res.json();
+                document.getElementById("walletTotal").innerText = data.total;
+            } catch (err) {
+                console.error("Wallet total error:", err);
+            }
+        }
+
+        // --- logout (exact same) ---
         document.getElementById("logoutBtn").addEventListener("click", () => {
-            // Clear auth data
             localStorage.removeItem("token");
             localStorage.removeItem("user");
-
-            // OR if using sessionStorage
             sessionStorage.clear();
-
-            // Redirect
             window.location.replace("index.html");
         });
-    </script>
 
+        // --- Appointments Dashboard Functions ---
+        let chartsInstances = {};
+        let allAppointmentsData = [];
+
+        async function fetchAppointmentsDashboard() {
+            const dateFilter = document.getElementById('filterDate').value;
+            const areaFilter = document.getElementById('filterArea').value || '';
+            const zipcodeFilter = document.getElementById('filterZipcode').value || '';
+            
+            const params = new URLSearchParams();
+            if (dateFilter) params.append('date', dateFilter);
+            if (areaFilter) params.append('area', areaFilter);
+            if (zipcodeFilter) params.append('zipcode', zipcodeFilter);
+
+            try {
+                const response = await fetch(`https://hitaishihealthcare.com/api/admin/appointments-dashboard?${params.toString()}`);
+                const data = await response.json();
+                
+                allAppointmentsData = data.appointments || [];
+                
+                // Update cards
+                document.getElementById('totalAppointmentsCard').textContent = data.totalAppointments || 0;
+                document.getElementById('completedAppointmentsCard').textContent = data.completed || 0;
+                document.getElementById('pendingAppointmentsCard').textContent = data.pending || 0;
+                document.getElementById('totalRevenueCard').textContent = '₹' + (data.revenue || 0);
+                
+                // Populate filter dropdowns
+                await populateAreaFilter(data.areaAnalytics || []);
+                await populateZipcodeFilter(data.zipcodeAnalytics || []);
+                
+                // Update charts
+                updateAppointmentsCharts(data);
+                
+                // Render table
+                renderAppointmentsTable(allAppointmentsData);
+            } catch (err) {
+                console.error('Error fetching appointments:', err);
+                document.getElementById('appointmentsTableBody').innerHTML = '<tr><td colspan="11" class="text-center py-6 text-red-500">Failed to load appointments</td></tr>';
+            }
+        }
+
+        function populateAreaFilter(areaData) {
+            const select = document.getElementById('filterArea');
+            const currentValue = select.value;
+            const options = Array.from(select.options).map(o => o.value);
+            
+            areaData.forEach(item => {
+                if (!options.includes(item.area) && item.area) {
+                    const option = document.createElement('option');
+                    option.value = item.area;
+                    option.textContent = `${item.area} (${item.count})`;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function populateZipcodeFilter(zipcodeData) {
+            const select = document.getElementById('filterZipcode');
+            const currentValue = select.value;
+            const options = Array.from(select.options).map(o => o.value);
+            
+            zipcodeData.forEach(item => {
+                if (!options.includes(item.zipcode) && item.zipcode) {
+                    const option = document.createElement('option');
+                    option.value = item.zipcode;
+                    option.textContent = `${item.zipcode} (${item.count})`;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function updateAppointmentsCharts(data) {
+            // Hourly Chart
+            if (chartsInstances.hourly) chartsInstances.hourly.destroy();
+            const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+            chartsInstances.hourly = new Chart(hourlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: (data.hourlyDistribution || []).map(h => h.hour + ':00'),
+                    datasets: [{
+                        label: 'Appointments',
+                        data: (data.hourlyDistribution || []).map(h => h.count),
+                        backgroundColor: '#3b82f6',
+                        borderColor: '#1e40af',
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: true }
+            });
+
+            // Area Chart (Pie)
+            if (chartsInstances.area) chartsInstances.area.destroy();
+            const areaCtx = document.getElementById('areaChart').getContext('2d');
+            chartsInstances.area = new Chart(areaCtx, {
+                type: 'pie',
+                data: {
+                    labels: (data.areaAnalytics || []).map(a => a.area || 'Unknown'),
+                    datasets: [{
+                        data: (data.areaAnalytics || []).map(a => a.count),
+                        backgroundColor: [
+                            '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff',
+                            '#ff9f40', '#ff6384', '#c9cbcf', '#4bc0c0', '#ff6384'
+                        ]
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: true }
+            });
+
+            // Zipcode Chart
+            if (chartsInstances.zipcode) chartsInstances.zipcode.destroy();
+            const zipcodeCtx = document.getElementById('zipcodeChart').getContext('2d');
+            chartsInstances.zipcode = new Chart(zipcodeCtx, {
+                type: 'bar',
+                data: {
+                    labels: (data.zipcodeAnalytics || []).map(z => z.zipcode).slice(0, 10),
+                    datasets: [{
+                        label: 'Count',
+                        data: (data.zipcodeAnalytics || []).map(z => z.count).slice(0, 10),
+                        backgroundColor: '#8b5cf6',
+                        borderColor: '#6d28d9',
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: true }
+            });
+        }
+
+        function renderAppointmentsTable(appointments) {
+            const tbody = document.getElementById('appointmentsTableBody');
+            tbody.innerHTML = '';
+
+            if (!appointments || appointments.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="11" class="text-center py-6 text-slate-400">No appointments found</td></tr>';
+                return;
+            }
+
+            appointments.slice(0, 500).forEach(apt => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80';
+                tr.innerHTML = `
+                    <td class="px-3 py-4 md:px-4 font-mono text-xs text-slate-700">${apt.appointment_uid}</td>
+                    <td class="px-3 py-4 md:px-4 font-medium">${apt.patient_name}</td>
+                    <td class="px-3 py-4 md:px-4 text-slate-600">${apt.patient_mobile || '—'}</td>
+                    <td class="px-3 py-4 md:px-4 font-medium">${apt.doctor_name}</td>
+                    <td class="px-3 py-4 md:px-4">${apt.state || '—'}</td>
+                    <td class="px-3 py-4 md:px-4">${apt.city || '—'}</td>
+                    <td class="px-3 py-4 md:px-4">${apt.area || '—'}</td>
+                    <td class="px-3 py-4 md:px-4 font-mono">${apt.zipcode || '—'}</td>
+                    <td class="px-3 py-4 md:px-4">${apt.appointment_date}</td>
+                    <td class="px-3 py-4 md:px-4">${apt.appointment_time}</td>
+                    <td class="px-3 py-4 md:px-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${
+                            apt.payment_status === 'Paid' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
+                        }">${apt.payment_status || 'Pending'}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function applyAppointmentsFilters() {
+            fetchAppointmentsDashboard();
+        }
+
+        function resetAppointmentsFilters() {
+
+            document.getElementById('filterDate').value = '';
+            document.getElementById('filterArea').value = '';
+            document.getElementById('filterZipcode').value = '';
+
+            fetchAppointmentsDashboard();
+        }
+
+        // --- Init (load appointments as default) ---
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            await loadConfig();   
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('filterDate').value = today;
+
+            switchTab('appointments');
+        });
+    </script>
+    <!-- ensure that any leftover inline styles don't break -->
 </body>
 </html>
