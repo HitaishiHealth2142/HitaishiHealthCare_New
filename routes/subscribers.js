@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {dbClinic} = require('../db'); // Adjust path to your db.js
+const db = require('../db');
 
 // Create the subscribers table if it doesn't exist
 const createTableQuery = `
@@ -11,11 +11,11 @@ const createTableQuery = `
   )
 `;
 
-dbClinic.query(createTableQuery, (err) => {
+db.query(createTableQuery, (err) => {
   if (err) {
     console.error("Error creating subscribers table:", err);
   } else {
-    console.log("Subscribers table ensured.");
+    console.log("✅ Subscribers table ensured.");
   }
 });
 
@@ -29,7 +29,7 @@ router.post('/subscribers', (req, res) => {
   const insertQuery = `INSERT INTO subscribers (email) VALUES (?) 
                        ON DUPLICATE KEY UPDATE subscribed_at = CURRENT_TIMESTAMP`;
 
-  dbClinic.query(insertQuery, [email], (err, result) => {
+  db.query(insertQuery, [email], (err, result) => {
     if (err) {
       console.error("Error inserting subscriber:", err);
       return res.status(500).json({ error: "Database error" });
@@ -47,7 +47,7 @@ router.delete('/subscribers', (req, res) => {
 
   const deleteQuery = `DELETE FROM subscribers WHERE email = ?`;
 
-  dbClinic.query(deleteQuery, [email], (err, result) => {
+  db.query(deleteQuery, [email], (err, result) => {
     if (err) {
       console.error("Error deleting subscriber:", err);
       return res.status(500).json({ error: "Database error" });

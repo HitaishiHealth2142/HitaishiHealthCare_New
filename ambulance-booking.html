@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Emergency Ambulance Booking | Hitaishi Healthcare</title>
+<title>Emergency Ambulance Booking | 24*7 Health</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -428,318 +428,323 @@ body {
 </head>
 
 <body>
-<!-- Back Button -->
-<a href="Ambulance.html" class="back-button">
-  <i class="fas fa-arrow-left"></i> Back
-</a>
+  <!-- Back Button -->
+  <a href="Ambulance.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back
+  </a>
 
-<div class="container">
-  <!-- Left Panel -->
-  <div class="left-panel">
-    <div class="left-content">
-      <div class="ambulance-icon-large">
-        <i class="fas fa-ambulance"></i>
-      </div>
-      <h1>Emergency Ambulance Service</h1>
-      <p>Book a fully-equipped ambulance with medical professionals for emergency and non-emergency medical transportation.</p>
-      
-      <div class="emergency-badge">
-        <i class="fas fa-phone-alt"></i> Emergency Hotline: 108
-      </div>
-      
-      <ul class="feature-list">
-        <li><i class="fas fa-check-circle"></i> 24/7 Emergency Service</li>
-        <li><i class="fas fa-check-circle"></i> Trained Medical Staff</li>
-        <li><i class="fas fa-check-circle"></i> Advanced Life Support</li>
-        <li><i class="fas fa-check-circle"></i> GPS Tracking</li>
-        <li><i class="fas fa-check-circle"></i> Multiple Vehicle Types</li>
-        <li><i class="fas fa-check-circle"></i> Fast Response Time</li>
-      </ul>
-    </div>
-    
-    <div class="contact-info">
-      <p><i class="fas fa-clock"></i> Available 24/7</p>
-      <p><i class="fas fa-map-marker-alt"></i> Serving entire city</p>
-    </div>
-  </div>
-  
-  <!-- Right Panel -->
-  <div class="right-panel">
-    <div class="form-header">
-      <h2>Book Ambulance Now</h2>
-      <p>Fill in the details below to request emergency medical transport</p>
-    </div>
-    
-    <form id="ambulanceForm">
-      <!-- Patient Information -->
-      <div class="form-group">
-        <label for="name">Patient Full Name <span>*</span></label>
-        <div class="input-with-icon">
-          <i class="fas fa-user"></i>
-          <input type="text" id="name" placeholder="Enter patient's full name" required>
+  <div class="container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <div class="left-content">
+        <div class="ambulance-icon-large">
+          <i class="fas fa-ambulance"></i>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="phone">Contact Number <span>*</span></label>
-        <div class="input-with-icon">
-          <i class="fas fa-phone"></i>
-          <input type="tel" id="phone" placeholder="Enter 10-digit mobile number" required maxlength="10">
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <div class="input-with-icon">
-          <i class="fas fa-envelope"></i>
-          <input type="email" id="email" placeholder="Enter email address (optional)">
-        </div>
-      </div>
-      
-      <!-- Address Information -->
-      <div class="form-group">
-        <label for="pickup">Pickup Address <span>*</span></label>
-        <div class="input-with-icon">
-          <i class="fas fa-map-marker-alt"></i>
-          <textarea id="pickup" placeholder="Enter complete pickup address with landmarks" required></textarea>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="drop">Destination/Hospital <span>*</span></label>
-        <div class="input-with-icon">
-          <i class="fas fa-hospital"></i>
-          <textarea id="drop" placeholder="Enter hospital or destination address" required></textarea>
-        </div>
-      </div>
-      
-      <!-- Emergency Type Selection -->
-      <div class="form-group">
-        <label>Emergency Type <span>*</span></label>
-        <div class="type-container" id="emergencyTypeContainer">
-          <div class="type-box" data-value="General">
-            <i class="fas fa-stethoscope"></i>
-            <h4>General</h4>
-            <p>Non-critical patient transfer</p>
-          </div>
-          <div class="type-box" data-value="Accident">
-            <i class="fas fa-car-crash"></i>
-            <h4>Accident</h4>
-            <p>Road accident injuries</p>
-          </div>
-          <div class="type-box" data-value="Heart">
-            <i class="fas fa-heartbeat"></i>
-            <h4>Cardiac</h4>
-            <p>Heart attack/stroke</p>
-          </div>
-        </div>
-        <input type="hidden" id="emergency" value="General">
-      </div>
-      
-      <!-- Ambulance Type Selection -->
-      <div class="form-group">
-        <label>Ambulance Type <span>*</span></label>
-        <div class="type-container" id="ambulanceTypeContainer">
-          <div class="type-box" data-value="Basic">
-            <i class="fas fa-ambulance"></i>
-            <h4>Basic ALS</h4>
-            <p>Basic life support</p>
-          </div>
-          <div class="type-box" data-value="ICU">
-            <i class="fas fa-procedures"></i>
-            <h4>ICU Ambulance</h4>
-            <p>Advanced monitoring</p>
-          </div>
-          <div class="type-box" data-value="Ventilator">
-            <i class="fas fa-lungs"></i>
-            <h4>Ventilator</h4>
-            <p>Critical care transport</p>
-          </div>
-        </div>
-        <input type="hidden" id="ambulanceType" value="Basic">
-      </div>
-      
-      <!-- Submit Button -->
-      <button type="button" class="submit-btn" onclick="bookAmbulance()">
-        <i class="fas fa-ambulance"></i>
-        <span id="btnText">Book Ambulance Now</span>
-      </button>
-      
-      <!-- Response Message -->
-      <div class="response-message" id="responseMessage">
-        <i class="fas fa-check-circle"></i>
-        <h3>Ambulance Booked Successfully!</h3>
-        <p>Our dispatch team has received your request. An ambulance with medical staff will reach you shortly. Please keep your phone accessible.</p>
-        <p style="margin-top: 15px; font-weight: 600;">Estimated arrival: 8-12 minutes</p>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-// Type selection functionality
-document.querySelectorAll('.type-box').forEach(box => {
-  box.addEventListener('click', function() {
-    const container = this.parentElement;
-    const inputId = container.id === 'emergencyTypeContainer' ? 'emergency' : 'ambulanceType';
-    
-    // Remove selected class from all boxes in container
-    container.querySelectorAll('.type-box').forEach(b => {
-      b.classList.remove('selected');
-    });
-    
-    // Add selected class to clicked box
-    this.classList.add('selected');
-    
-    // Update hidden input value
-    document.getElementById(inputId).value = this.getAttribute('data-value');
-  });
-});
-
-// Set initial selected boxes
-document.querySelector('.type-box[data-value="General"]').classList.add('selected');
-document.querySelector('.type-box[data-value="Basic"]').classList.add('selected');
-
-// Phone number validation
-document.getElementById('phone').addEventListener('input', function() {
-  this.value = this.value.replace(/\D/g, '').slice(0, 10);
-});
-
-function bookAmbulance() {
-  // Get form elements
-  const name = document.getElementById('name');
-  const phone = document.getElementById('phone');
-  const email = document.getElementById('email');
-  const pickup = document.getElementById('pickup');
-  const drop = document.getElementById('drop');
-  const emergency = document.getElementById('emergency');
-  const ambulanceType = document.getElementById('ambulanceType');
-  const btn = document.querySelector('.submit-btn');
-  const btnText = document.getElementById('btnText');
-  const responseMessage = document.getElementById('responseMessage');
-  
-  // Validate required fields
-  if (!name.value.trim() || !phone.value.trim() || !pickup.value.trim() || !drop.value.trim()) {
-    showError('Please fill in all required fields (marked with *)');
-    return;
-  }
-  
-  // Validate phone number
-  const phoneRegex = /^[0-9]{10}$/;
-  if (!phoneRegex.test(phone.value.trim())) {
-    showError('Please enter a valid 10-digit mobile number');
-    return;
-  }
-  
-  // Show loading state
-  btn.disabled = true;
-  btnText.innerHTML = 'Processing Request...';
-  btn.style.opacity = '0.8';
-  
-  // Prepare data
-  const data = {
-    patient_name: name.value,
-    patient_phone: phone.value,
-    patient_email: email.value,
-    pickup_address: pickup.value,
-    drop_address: drop.value,
-    emergency_type: emergency.value,
-    ambulance_type: ambulanceType.value
-  };
-
-  // Simulate API call (in reality, this would be your actual fetch call)
-  setTimeout(() => {
-    // For demo purposes, we'll simulate a successful response
-    // In production, replace this with your actual fetch call
-    
-    // Reset button
-    btn.disabled = false;
-    btnText.innerHTML = 'Book Ambulance Now';
-    btn.style.opacity = '1';
-    
-    // Show success message
-    responseMessage.style.display = 'block';
-    responseMessage.className = 'response-message success';
-    
-    // Scroll to response message
-    responseMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    
-    // Reset form after 8 seconds
-    setTimeout(() => {
-      name.value = '';
-      phone.value = '';
-      email.value = '';
-      pickup.value = '';
-      drop.value = '';
-      emergency.value = 'General';
-      ambulanceType.value = 'Basic';
-      
-      // Reset selections
-      document.querySelectorAll('.type-box').forEach(box => {
-        box.classList.remove('selected');
-      });
-      document.querySelector('.type-box[data-value="General"]').classList.add('selected');
-      document.querySelector('.type-box[data-value="Basic"]').classList.add('selected');
-      
-      // Hide response message
-      responseMessage.style.display = 'none';
-    }, 8000);
-    
-    /*
-    // Actual API call (commented out for demo)
-    fetch('https://www.hitaishihealthcare.com/api/ambulance/book', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(result => {
-      // Reset button
-      btn.disabled = false;
-      btnText.innerHTML = 'Book Ambulance Now';
-      btn.style.opacity = '1';
-      
-      if (result.success) {
-        // Show success message
-        responseMessage.style.display = 'block';
-        responseMessage.className = 'response-message success';
+        <h1>Emergency Ambulance Service</h1>
+        <p>Book a fully-equipped ambulance with medical professionals for emergency and non-emergency medical transportation.</p>
         
-        // Reset form after 5 seconds
-        setTimeout(() => {
-          document.getElementById('ambulanceForm').reset();
-          responseMessage.style.display = 'none';
-        }, 5000);
-      } else {
-        showError(result.message || 'Booking failed. Please try again.');
-      }
-    })
-    .catch(() => {
+        <div class="emergency-badge">
+          <i class="fas fa-phone-alt"></i> Emergency Hotline: 108
+        </div>
+        
+        <ul class="feature-list">
+          <li><i class="fas fa-check-circle"></i> 24/7 Emergency Service</li>
+          <li><i class="fas fa-check-circle"></i> Trained Medical Staff</li>
+          <li><i class="fas fa-check-circle"></i> Advanced Life Support</li>
+          <li><i class="fas fa-check-circle"></i> GPS Tracking</li>
+          <li><i class="fas fa-check-circle"></i> Multiple Vehicle Types</li>
+          <li><i class="fas fa-check-circle"></i> Fast Response Time</li>
+        </ul>
+      </div>
+      
+      <div class="contact-info">
+        <p><i class="fas fa-clock"></i> Available 24/7</p>
+        <p><i class="fas fa-map-marker-alt"></i> Serving entire city</p>
+      </div>
+    </div>
+    
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <div class="form-header">
+        <h2>Book Ambulance Now</h2>
+        <p>Fill in the details below to request emergency medical transport</p>
+      </div>
+      
+      <form id="ambulanceForm">
+        <!-- Patient Information -->
+        <div class="form-group">
+          <label for="name">Patient Full Name <span>*</span></label>
+          <div class="input-with-icon">
+            <i class="fas fa-user"></i>
+            <input type="text" id="name" placeholder="Enter patient's full name" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Contact Number <span>*</span></label>
+          <div class="input-with-icon">
+            <i class="fas fa-phone"></i>
+            <input type="tel" id="phone" placeholder="Enter 10-digit mobile number" required maxlength="10">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-with-icon">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="Enter email address (optional)">
+          </div>
+        </div>
+        
+        <!-- Address Information -->
+        <div class="form-group">
+          <label for="pickup">Pickup Address <span>*</span></label>
+          <div class="input-with-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            <textarea id="pickup" placeholder="Enter complete pickup address with landmarks" required></textarea>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="drop">Destination/Hospital <span>*</span></label>
+          <div class="input-with-icon">
+            <i class="fas fa-hospital"></i>
+            <textarea id="drop" placeholder="Enter hospital or destination address" required></textarea>
+          </div>
+        </div>
+        
+        <!-- Emergency Type Selection -->
+        <div class="form-group">
+          <label>Emergency Type <span>*</span></label>
+          <div class="type-container" id="emergencyTypeContainer">
+            <div class="type-box" data-value="General">
+              <i class="fas fa-stethoscope"></i>
+              <h4>General</h4>
+              <p>Non-critical patient transfer</p>
+            </div>
+            <div class="type-box" data-value="Accident">
+              <i class="fas fa-car-crash"></i>
+              <h4>Accident</h4>
+              <p>Road accident injuries</p>
+            </div>
+            <div class="type-box" data-value="Heart">
+              <i class="fas fa-heartbeat"></i>
+              <h4>Cardiac</h4>
+              <p>Heart attack/stroke</p>
+            </div>
+          </div>
+          <input type="hidden" id="emergency" value="General">
+        </div>
+        
+        <!-- Ambulance Type Selection -->
+        <div class="form-group">
+          <label>Ambulance Type <span>*</span></label>
+          <div class="type-container" id="ambulanceTypeContainer">
+            <div class="type-box" data-value="Basic">
+              <i class="fas fa-ambulance"></i>
+              <h4>Basic ALS</h4>
+              <p>Basic life support</p>
+            </div>
+            <div class="type-box" data-value="ICU">
+              <i class="fas fa-procedures"></i>
+              <h4>ICU Ambulance</h4>
+              <p>Advanced monitoring</p>
+            </div>
+            <div class="type-box" data-value="Ventilator">
+              <i class="fas fa-lungs"></i>
+              <h4>Ventilator</h4>
+              <p>Critical care transport</p>
+            </div>
+          </div>
+          <input type="hidden" id="ambulanceType" value="Basic">
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="button" class="submit-btn" onclick="bookAmbulance()">
+          <i class="fas fa-ambulance"></i>
+          <span id="btnText">Book Ambulance Now</span>
+        </button>
+        
+        <!-- Response Message -->
+        <div class="response-message" id="responseMessage">
+          <i class="fas fa-check-circle"></i>
+          <h3>Ambulance Booked Successfully!</h3>
+          <p>Our dispatch team has received your request. An ambulance with medical staff will reach you shortly. Please keep your phone accessible.</p>
+          <p style="margin-top: 15px; font-weight: 600;">Estimated arrival: 8-12 minutes</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    document.addEventListener('DOMCONTENTLOADED', async () => {
+      await LoadConfig();
+    });
+
+  // Type selection functionality
+  document.querySelectorAll('.type-box').forEach(box => {
+    box.addEventListener('click', function() {
+      const container = this.parentElement;
+      const inputId = container.id === 'emergencyTypeContainer' ? 'emergency' : 'ambulanceType';
+      
+      // Remove selected class from all boxes in container
+      container.querySelectorAll('.type-box').forEach(b => {
+        b.classList.remove('selected');
+      });
+      
+      // Add selected class to clicked box
+      this.classList.add('selected');
+      
+      // Update hidden input value
+      document.getElementById(inputId).value = this.getAttribute('data-value');
+    });
+  });
+
+  // Set initial selected boxes
+  document.querySelector('.type-box[data-value="General"]').classList.add('selected');
+  document.querySelector('.type-box[data-value="Basic"]').classList.add('selected');
+
+  // Phone number validation
+  document.getElementById('phone').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 10);
+  });
+
+  function bookAmbulance() {
+    // Get form elements
+    const name = document.getElementById('name');
+    const phone = document.getElementById('phone');
+    const email = document.getElementById('email');
+    const pickup = document.getElementById('pickup');
+    const drop = document.getElementById('drop');
+    const emergency = document.getElementById('emergency');
+    const ambulanceType = document.getElementById('ambulanceType');
+    const btn = document.querySelector('.submit-btn');
+    const btnText = document.getElementById('btnText');
+    const responseMessage = document.getElementById('responseMessage');
+    
+    // Validate required fields
+    if (!name.value.trim() || !phone.value.trim() || !pickup.value.trim() || !drop.value.trim()) {
+      showError('Please fill in all required fields (marked with *)');
+      return;
+    }
+    
+    // Validate phone number
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone.value.trim())) {
+      showError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    
+    // Show loading state
+    btn.disabled = true;
+    btnText.innerHTML = 'Processing Request...';
+    btn.style.opacity = '0.8';
+    
+    // Prepare data
+    const data = {
+      patient_name: name.value,
+      patient_phone: phone.value,
+      patient_email: email.value,
+      pickup_address: pickup.value,
+      drop_address: drop.value,
+      emergency_type: emergency.value,
+      ambulance_type: ambulanceType.value
+    };
+
+    // Simulate API call (in reality, this would be your actual fetch call)
+    setTimeout(() => {
+      // For demo purposes, we'll simulate a successful response
+      // In production, replace this with your actual fetch call
+      
       // Reset button
       btn.disabled = false;
       btnText.innerHTML = 'Book Ambulance Now';
       btn.style.opacity = '1';
-      showError('Network error. Please check your connection and try again.');
-    });
-    */
-    
-  }, 1500); // Simulate network delay
-}
+      
+      // Show success message
+      responseMessage.style.display = 'block';
+      responseMessage.className = 'response-message success';
+      
+      // Scroll to response message
+      responseMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // Reset form after 8 seconds
+      setTimeout(() => {
+        name.value = '';
+        phone.value = '';
+        email.value = '';
+        pickup.value = '';
+        drop.value = '';
+        emergency.value = 'General';
+        ambulanceType.value = 'Basic';
+        
+        // Reset selections
+        document.querySelectorAll('.type-box').forEach(box => {
+          box.classList.remove('selected');
+        });
+        document.querySelector('.type-box[data-value="General"]').classList.add('selected');
+        document.querySelector('.type-box[data-value="Basic"]').classList.add('selected');
+        
+        // Hide response message
+        responseMessage.style.display = 'none';
+      }, 8000);
+      
+      /*
+      // Actual API call (commented out for demo)
+      fetch(`${API_BASE_URL}/ambulance/book`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(result => {
+        // Reset button
+        btn.disabled = false;
+        btnText.innerHTML = 'Book Ambulance Now';
+        btn.style.opacity = '1';
+        
+        if (result.success) {
+          // Show success message
+          responseMessage.style.display = 'block';
+          responseMessage.className = 'response-message success';
+          
+          // Reset form after 5 seconds
+          setTimeout(() => {
+            document.getElementById('ambulanceForm').reset();
+            responseMessage.style.display = 'none';
+          }, 5000);
+        } else {
+          showError(result.message || 'Booking failed. Please try again.');
+        }
+      })
+      .catch(() => {
+        // Reset button
+        btn.disabled = false;
+        btnText.innerHTML = 'Book Ambulance Now';
+        btn.style.opacity = '1';
+        showError('Network error. Please check your connection and try again.');
+      });
+      */
+      
+    }, 1500); // Simulate network delay
+  }
 
-function showError(message) {
-  const responseMessage = document.getElementById('responseMessage');
-  responseMessage.innerHTML = `
-    <i class="fas fa-exclamation-circle" style="color: #dc2626;"></i>
-    <h3 style="color: #dc2626;">Booking Failed</h3>
-    <p>${message}</p>
-  `;
-  responseMessage.style.display = 'block';
-  responseMessage.className = 'response-message error';
-  
-  // Hide error after 5 seconds
-  setTimeout(() => {
-    responseMessage.style.display = 'none';
-  }, 5000);
-}
-</script>
+  function showError(message) {
+    const responseMessage = document.getElementById('responseMessage');
+    responseMessage.innerHTML = `
+      <i class="fas fa-exclamation-circle" style="color: #dc2626;"></i>
+      <h3 style="color: #dc2626;">Booking Failed</h3>
+      <p>${message}</p>
+    `;
+    responseMessage.style.display = 'block';
+    responseMessage.className = 'response-message error';
+    
+    // Hide error after 5 seconds
+    setTimeout(() => {
+      responseMessage.style.display = 'none';
+    }, 5000);
+  }
+  </script>
 </body>
 </html>

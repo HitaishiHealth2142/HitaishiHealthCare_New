@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>Admin Panel | Hitaishi Health Care</title>
+    <title>Admin Panel | 24X7 Health</title>
     <!-- Tailwind + Inter font -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-200 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 transition-transform duration-300 ease-out rounded-r-3xl lg:rounded-r-none shadow-2xl lg:shadow-inner">
             <div class="p-5 flex items-center gap-2 border-b border-slate-700/50">
                 <span class="bg-blue-600 text-white text-xl font-bold rounded-xl w-9 h-9 flex items-center justify-center shadow-md">HH</span>
-                <h2 class="text-white text-lg font-semibold tracking-tight">Hitaishi Health Care<span class="block text-xs text-blue-300 font-normal">administrator</span></h2>
+                <h2 class="text-white text-lg font-semibold tracking-tight">24X7 Health<span class="block text-xs text-blue-300 font-normal">administrator</span></h2>
             </div>
             
             <nav class="mt-6 px-3 space-y-1.5">
@@ -310,7 +310,7 @@
         async function fetchPendingOpinions() {
             const container = document.getElementById('pendingOpinionsContainer');
             try {
-                const response = await fetch(`https://hitaishihealthcare.com/api/opinions/pending`);
+                const response = await fetch(`${API_BASE_URL}/opinions/pending`);
                 const data = await response.json();
                 renderOpinions(data.opinions);
             } catch (error) {
@@ -361,7 +361,7 @@
             btn.textContent = 'Publishing...';
 
             try {
-                const response = await fetch(`https://hitaishihealthcare.com/api/opinions/${id}/answer`, {
+                const response = await fetch(`${API_BASE_URL}/opinions/${id}/answer`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ answer_text: answerText })
@@ -385,7 +385,7 @@
         async function loadProviders() {
             const container = document.getElementById('providersContainer');
             try {
-                const res = await fetch(`https://hitaishihealthcare.com/api/admin/providers`);
+                const res = await fetch(`${API_BASE_URL}/admin/providers`);
                 const data = await res.json();
 
                 if (!data.providers || data.providers.length === 0) {
@@ -437,14 +437,14 @@
         // approve/reject functions (unchanged)
         async function approveProvider(uid) {
             if(!confirm('Approve this partner?')) return;
-            await fetch(`https://hitaishihealthcare.com/api/providers/approve/${uid}`, { method: 'PUT' });
+            await fetch(`${API_BASE_URL}/providers/approve/${uid}`, { method: 'PUT' });
             loadProviders();
         }
 
         async function rejectProvider(uid) {
             const reason = prompt("Reason for rejection?");
             if (reason === null) return;
-            await fetch(`https://hitaishihealthcare.com/api/providers/reject/${uid}`, {
+            await fetch(`${API_BASE_URL}/providers/reject/${uid}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ reason })
@@ -455,7 +455,7 @@
         // --- Wallet identical backend functions ---
         async function fetchAdminWallet() {
             try {
-                const res = await fetch(`https://hitaishihealthcare.com/api/admin/appointments`);
+                const res = await fetch(`${API_BASE_URL}/admin/appointments`);
                 const data = await res.json();
                 renderWalletTable(data);
                 loadWalletTotal();
@@ -508,7 +508,7 @@
         async function processPayment(appointmentId) {
             if (!confirm("Process this payment and release doctor payout?")) return;
             try {
-                const res = await fetch(`https://hitaishihealthcare.com/api/admin/process/${appointmentId}`, { method: "PUT" });
+                const res = await fetch(`${API_BASE_URL}/admin/process/${appointmentId}`, { method: "PUT" });
                 const data = await res.json();
                 if (data.success) fetchAdminWallet();
                 else alert('Processing failed');
@@ -519,7 +519,7 @@
 
         async function loadWalletTotal() {
             try {
-                const res = await fetch(`https://hitaishihealthcare.com/api/admin/wallet-total`);
+                const res = await fetch(`${API_BASE_URL}/admin/wallet-total`);
                 const data = await res.json();
                 document.getElementById("walletTotal").innerText = data.total;
             } catch (err) {
@@ -550,7 +550,7 @@
             if (zipcodeFilter) params.append('zipcode', zipcodeFilter);
 
             try {
-                const response = await fetch(`https://hitaishihealthcare.com/api/admin/appointments-dashboard?${params.toString()}`);
+                const response = await fetch(`${API_BASE_URL}/admin/appointments-dashboard?${params.toString()}`);
                 const data = await response.json();
                 
                 allAppointmentsData = data.appointments || [];

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Register | 24x7 Health</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 to-blue-900 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+
+        <h2 class="text-2xl font-bold text-center mb-6 text-slate-800">
+            🛡 Admin Registration
+        </h2>
+
+        <!-- STEP 1: EMAIL + PASSWORD -->
+        <form id="registerForm" class="space-y-4">
+
+            <div>
+                <label class="text-sm font-medium text-slate-600">Email</label>
+                <input type="email" id="email" required
+                    class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div>
+                <label class="text-sm font-medium text-slate-600">Password</label>
+                <input type="password" id="password" required minlength="6"
+                    class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Send OTP
+            </button>
+        </form>
+
+        <!-- STEP 2: OTP VERIFY -->
+        <form id="otpForm" class="space-y-4 hidden mt-4">
+
+            <div>
+                <label class="text-sm font-medium text-slate-600">Enter OTP</label>
+                <input type="text" id="otp" maxlength="6" required
+                    class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none text-center text-lg tracking-widest">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                Verify & Complete Registration
+            </button>
+        </form>
+
+        <p id="message" class="text-center text-sm mt-4"></p>
+
+        <div class="text-center mt-6 text-sm">
+            Already registered?
+            <a href="AdminLogin.html" class="text-blue-600 font-semibold hover:underline">
+                Login Here
+            </a>
+        </div>
+
+    </div>
+
+
+    <script src="config.js"></script>
+    <script>
+        document.addEventListener('DOMCONTENTLOADED', async () => {
+            await LoadConfig();
+        })
+
+        const registerForm = document.getElementById("registerForm");
+        const otpForm = document.getElementById("otpForm");
+        const message = document.getElementById("message");
+
+        let savedEmail = "";
+
+        /* ==============================
+        STEP 1: REGISTER
+        ============================== */
+        registerForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            message.innerText = "Sending OTP...";
+            message.className = "text-blue-600 text-center text-sm mt-4";
+
+            const res = await fetch(`${API_BASE_URL}/admin/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                savedEmail = email;
+                registerForm.classList.add("hidden");
+                otpForm.classList.remove("hidden");
+
+                message.innerText = "OTP sent to your email.";
+                message.className = "text-green-600 text-center text-sm mt-4";
+            } else {
+                message.innerText = data.message;
+                message.className = "text-red-600 text-center text-sm mt-4";
+            }
+        });
+
+
+        /* ==============================
+        STEP 2: VERIFY OTP
+        ============================== */
+        otpForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const otp = document.getElementById("otp").value;
+
+            message.innerText = "Verifying OTP...";
+            message.className = "text-blue-600 text-center text-sm mt-4";
+
+            const res = await fetch(`${API_BASE_URL}/admin/verify-register-otp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: savedEmail, otp })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                message.innerText = "Admin Registered Successfully!";
+                message.className = "text-green-600 text-center text-sm mt-4";
+
+                setTimeout(() => {
+                    window.location.href = "AdminLogin.html";
+                }, 2000);
+            } else {
+                message.innerText = data.message;
+                message.className = "text-red-600 text-center text-sm mt-4";
+            }
+        });
+    </script>
+
+</body>
+</html>

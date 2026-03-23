@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS diagnostic_centers (
   address TEXT,
   city VARCHAR(100),
   state VARCHAR(100),
+  country VARCHAR(100),
+  area VARCHAR(100),
   pincode VARCHAR(10),
   map_url TEXT,
   registration_number VARCHAR(100),
@@ -71,16 +73,18 @@ db.query(createTable, (err) => {
 
 // EMAIL SETUP
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.zoho.in",
+  port: 465,
+  secure: true,
   auth: {
-    user: 'spltechnologycorp@gmail.com',
-    pass: 'cbkm ntdm cuvp vygh' // App password
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
   }
 });
 
 async function sendEmail(to, subject, html) {
   try {
-    await transporter.sendMail({ from: 'spltechnologycorp@gmail.com', to, subject, html });
+    await transporter.sendMail({ from: `"24x7 Health Care Services" <${process.env.ZOHO_EMAIL}>`, to, subject, html });
     console.log('✅ OTP Email sent');
   } catch (err) {
     console.error('❌ Email error:', err);
@@ -140,7 +144,74 @@ router.post('/diagnostics/send-otp', (req, res) => {
     db.query(sql, [email, otp, otp], (err) => {
       if (err) return res.status(500).json({ error: 'DB error during OTP gen' });
 
-      const html = `<p>Your OTP is: <strong>${otp}</strong>. Valid for 10 minutes.</p>`;
+    const html = `
+    <div style="margin:0;padding:0;background-color:#f4f6fb;font-family:Arial,Helvetica,sans-serif;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="padding:30px 0;">
+        <tr>
+          <td align="center">
+            <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08);">
+              
+              <!-- Header -->
+              <tr>
+                <td style="background:linear-gradient(90deg,#2563eb,#1e3a8a);padding:25px;text-align:center;color:#ffffff;">
+                  <h2 style="margin:0;font-size:24px;">24x7 Health Care Services</h2>
+                  <p style="margin:5px 0 0;font-size:14px;opacity:0.9;">Secure Email Verification</p>
+                </td>
+              </tr>
+
+              <!-- Body -->
+              <tr>
+                <td style="padding:40px 30px;text-align:center;">
+                  <h3 style="margin-top:0;color:#111827;">Verify Your Email Address</h3>
+                  <p style="color:#4b5563;font-size:15px;line-height:1.6;">
+                    Thank you for choosing <strong>24x7 Health Care Services</strong>.<br>
+                    Please use the One-Time Password (OTP) below to complete your verification process.
+                  </p>
+
+                  <!-- OTP Box -->
+                  <div style="margin:30px 0;">
+                    <span style="
+                      display:inline-block;
+                      padding:15px 30px;
+                      font-size:26px;
+                      letter-spacing:6px;
+                      font-weight:bold;
+                      color:#2563eb;
+                      background:#f1f5ff;
+                      border-radius:8px;
+                      border:2px dashed #2563eb;">
+                      ${otp}
+                    </span>
+                  </div>
+
+                  <p style="color:#6b7280;font-size:14px;">
+                    This OTP is valid for <strong>10 minutes</strong>.<br>
+                    Do not share this code with anyone for security reasons.
+                  </p>
+                </td>
+              </tr>
+
+              <!-- Divider -->
+              <tr>
+                <td style="padding:0 30px;">
+                  <hr style="border:none;border-top:1px solid #e5e7eb;">
+                </td>
+              </tr>
+
+              <!-- Footer -->
+              <tr>
+                <td style="padding:20px 30px;text-align:center;font-size:13px;color:#9ca3af;">
+                  © ${new Date().getFullYear()} 24x7 Health Care Services<br>
+                  This is an automated message. Please do not reply to this email.
+                </td>
+              </tr>
+
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    `;
       sendEmail(email, 'Hitaishi OTP Verification', html);
       res.json({ success: true, message: 'OTP sent successfully.' });
     });
@@ -180,7 +251,7 @@ function localRoleLock(targetRole) {
 router.post('/diagnostics/register', localRoleLock('diagnostic'), (req, res) => {
   const {
     email, centerName, ownerName, centerType, phone, altPhone, whatsapp,
-    address, city, state, pincode, mapUrl, registrationNumber, gstNumber,
+    address, area,  city, state, country, pincode, mapUrl, registrationNumber, gstNumber,
     accountHolderName, bankName, accountNumber, ifscCode, upiId,
     fromTime, toTime, services, homeSample, password
   } = req.body;
@@ -194,14 +265,14 @@ router.post('/diagnostics/register', localRoleLock('diagnostic'), (req, res) => 
     const sql = `
       UPDATE diagnostic_centers SET 
         center_id=?, center_name=?, owner_name=?, center_type=?,
-        phone=?, alt_phone=?, whatsapp=?, address=?, city=?, state=?, pincode=?, map_url=?,
+        phone=?, alt_phone=?, whatsapp=?, address=?, area=?,  city=?, state=?, country=?, pincode=?, map_url=?,
         registration_number=?, gst_number=?, services=?, home_sample=?, operational_hours=?,
         account_holder_name=?, bank_name=?, account_number=?, ifsc_code=?, upi_id=?, password=?
       WHERE email=? AND is_verified=1
     `;
     const values = [
       center_id, centerName, ownerName, centerType,
-      phone, altPhone, whatsapp, address, city, state, pincode, mapUrl,
+      phone, altPhone, whatsapp, address, area,  city, state, country, pincode, mapUrl,
       registrationNumber, gstNumber, JSON.stringify(services), homeSample, operational_hours,
       accountHolderName, bankName, accountNumber, ifscCode, upiId, password, email
     ];
@@ -311,6 +382,156 @@ router.get('/diagnostics/all', (req, res) => {
     });
 });
 
+// Get all diagnostic countries
+router.get("/diagnostic-countries", (req, res) => {
+
+  const sql = `
+    SELECT DISTINCT country
+    FROM diagnostic_centers
+    WHERE country IS NOT NULL
+    ORDER BY country
+  `;
+
+  db.query(sql, (err, results) => {
+
+    if (err) {
+      console.error("Country query error:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json(results);
+
+  });
+
+});
+
+// Get states by country
+router.get("/diagnostic-states", (req, res) => {
+
+  const { country } = req.query;
+
+  let sql = `
+    SELECT DISTINCT state
+    FROM diagnostic_centers
+    WHERE 1=1
+  `;
+
+  const params = [];
+
+  if (country) {
+    sql += " AND country = ?";
+    params.push(country);
+  }
+
+  sql += " ORDER BY state";
+
+  db.query(sql, params, (err, results) => {
+
+    if (err) {
+      console.error("State query error:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json(results);
+
+  });
+
+});
+
+// Get diagnostic areas with count
+router.get("/diagnostic-areas", (req, res) => {
+
+  const { country, state, zipcode } = req.query;
+
+  let sql = `
+    SELECT area, COUNT(*) as center_count
+    FROM diagnostic_centers
+    WHERE 1=1
+  `;
+
+  const params = [];
+
+  if (country) {
+    sql += " AND country = ?";
+    params.push(country);
+  }
+
+  if (state) {
+    sql += " AND state = ?";
+    params.push(state);
+  }
+
+  if (zipcode) {
+    sql += " AND pincode LIKE ?";
+    params.push(`${zipcode}%`);
+  }
+
+  sql += `
+    GROUP BY area
+    ORDER BY center_count DESC
+  `;
+
+  db.query(sql, params, (err, results) => {
+
+    if (err) {
+      console.error("Area query error:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json(results);
+
+  });
+
+});
+
+// Search diagnostics by location
+router.get("/diagnostics/search", (req, res) => {
+
+  const { country, state, zipcode, area } = req.query;
+
+  let sql = `
+    SELECT center_id, center_name, services,
+           address, area, city, state, country, pincode
+    FROM diagnostic_centers
+    WHERE is_verified = 1
+  `;
+
+  const params = [];
+
+  if (country) {
+    sql += " AND country = ?";
+    params.push(country);
+  }
+
+  if (state) {
+    sql += " AND state = ?";
+    params.push(state);
+  }
+
+  if (zipcode) {
+    sql += " AND pincode LIKE ?";
+    params.push(`${zipcode}%`);
+  }
+
+  if (area) {
+    sql += " AND area = ?";
+    params.push(area);
+  }
+
+  db.query(sql, params, (err, results) => {
+
+    if (err) {
+      console.error("Diagnostic search error:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json(results);
+
+  });
+
+});
+
+
 // =================================================================
 // ✅ CORRECTED: Get User by Center ID
 // =================================================================
@@ -322,7 +543,6 @@ router.get('/diagnostics/:centerId', (req, res) => {
         res.json({ success: true, user: result[0] });
     });
 });
-
 
 
 
@@ -339,7 +559,7 @@ router.put('/diagnostics/:centerId', upload.single('profile_image'), (req, res) 
 
     const allowedColumns = [
         'center_name', 'owner_name', 'center_type', 'phone', 'alt_phone', 'whatsapp',
-        'address', 'city', 'state', 'pincode', 'map_url', 'registration_number',
+        'address', 'city', 'state', 'country', 'pincode', 'map_url', 'registration_number',
         'gst_number', 'account_holder_name', 'bank_name', 'account_number',
         'ifsc_code', 'upi_id', 'operational_hours', 'services', 'home_sample',
         'profile_image_url'

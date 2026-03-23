@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitaishi Healthcare Services</title>
+    <title>24x7 Health Services</title>
     <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -132,13 +132,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .search-container {
@@ -412,11 +412,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 20px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 14px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-section img {
@@ -459,10 +459,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
-                <div class="logo-text">
-                    <span class="logo-title">HITAISHI</span>
-                    <span class="logo-subtitle">HEALTHCARE</span>
+                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                    <span class="logo-title">HEALTHCARE</span>
+                    <span class="logo-subtitle">SERVICES</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -475,8 +475,8 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
+                <a href="mailto:support@24x7health.in" class="contact-link">
+                    <i class="fas fa-envelope"></i> support@24x7health.in
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -518,10 +518,133 @@
                 </div>
                 
                 <!-- Profile Icon -->
-                <a href="login.html" id="loginNav1" title="Login/Profile" class="social-link" style="margin-left: 10px;">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="userName1"></span>
-                </a>
+                <div style="position: relative; display: inline-block; margin-left: 10px;">
+
+                    <!-- User Icon -->
+                    <div onclick="toggleDropdown()" 
+                        style="cursor:pointer; display:flex; align-items:center; gap:5px; color:white;">
+                        <i class="fas fa-user-circle" style="font-size:22px;"></i>
+                        <span id="userName1" style="font-size:14px;"></span>
+                        <i class="fas fa-caret-down" style="font-size:12px;"></i>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdown" 
+                        style="
+                            display:none;
+                            position:absolute;
+                            right:0;
+                            top:35px;
+                            background:#ffffff;
+                            min-width:220px;
+                            border-radius:8px;
+                            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                            padding:8px 0;
+                            z-index:9999;
+                        ">
+
+                        <!-- Login / Register Links -->
+                        <a href="login.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔐 Unified Login
+                        </a>
+
+                        <a href="doctor.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🩺 Doctor Register
+                        </a>
+
+                        <a href="diagnosticRegistration.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🧪 Diagnostic Register
+                        </a>
+
+                        <a href="AdminLogin.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔑 Admin Login
+                        </a>
+
+                        <!-- Divider -->
+                        <div style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
+
+                        <!-- Logout -->
+                        <div id="logoutBtn"
+                            style="display:none; padding:10px 15px; font-size:14px; color:#dc2626; cursor:pointer;"
+                            onmouseover="this.style.background='#fee2e2'"
+                            onmouseout="this.style.background='white'">
+                            🚪 Logout
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("userDropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close dropdown outside click
+                    window.addEventListener("click", function(e) {
+                        if (!e.target.closest('#userDropdown') &&
+                            !e.target.closest('[onclick="toggleDropdown()"]')) {
+                            document.getElementById("userDropdown").style.display = "none";
+                        }
+                    });
+
+                    /* =========================
+                    USER LOGIN CHECK
+                    ========================= */
+
+                    document.addEventListener("DOMContentLoaded", function () {
+
+                        const userNameSpan = document.getElementById("userName1");
+                        const logoutBtn = document.getElementById("logoutBtn");
+
+                        const patientName = localStorage.getItem("fullName");
+                        const doctorName = localStorage.getItem("doctorName");
+                        const diagnosticName = localStorage.getItem("diagnosticName");
+                        const adminToken = localStorage.getItem("adminToken");
+
+                        let currentUser = patientName || doctorName || diagnosticName;
+
+                        if (adminToken) {
+                            currentUser = "Admin";
+                        }
+
+                        if (currentUser) {
+                            userNameSpan.textContent = currentUser;
+                            logoutBtn.style.display = "block";
+                        } else {
+                            userNameSpan.textContent = "";
+                            logoutBtn.style.display = "none";
+                        }
+
+                        /* Logout Function */
+                        logoutBtn.addEventListener("click", function () {
+
+                            // Clear all possible login data
+                            localStorage.removeItem("fullName");
+                            localStorage.removeItem("doctorName");
+                            localStorage.removeItem("diagnosticName");
+                            localStorage.removeItem("adminToken");
+                            localStorage.removeItem("uid");
+                            sessionStorage.clear();
+
+                            window.location.href = "index.html";
+                        });
+
+                    });
+                </script>
             </div>
         </div>
 
@@ -579,23 +702,39 @@
                     <div class="dropdown">
                         <a href="Physician.html" class="nav-link">Physicians <i class="fas fa-caret-down fa-xs"></i></a>
                         <div class="dropdown-menu mega-menu">
-                            <div class="mega-menu-grid">
-                                <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-                                <a href="neurologist.html" class="menu-item">Neurologist</a>
-                                <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-                                <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-                                <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-                                <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-                                <a href="urologist.html" class="menu-item">Urologist</a>
-                                <a href="oncologist.html" class="menu-item">Oncologist</a>
-                                <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-                                <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-                                <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-                                <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-                                <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-                                <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-                                <a href="general-physician.html" class="menu-item">General Physician</a>
-                            </div>
+                        <div class="mega-menu-grid">
+
+                            <a href="doctors.html?specialization=CARDIOLOGY" class="menu-item">Cardiologist</a>
+
+                            <a href="doctors.html?specialization=NEUROLOGIST" class="menu-item">Neurologist</a>
+
+                            <a href="doctors.html?specialization=DERMATOLOGIST" class="menu-item">Dermatologist</a>
+
+                            <a href="doctors.html?specialization=ORTHOPEDIC" class="menu-item">Orthopedic</a>
+
+                            <a href="doctors.html?specialization=PEDIATRICIAN" class="menu-item">Pediatrician</a>
+
+                            <a href="doctors.html?specialization=GYNACOLOGY" class="menu-item">Gynecologist</a>
+
+                            <a href="doctors.html?specialization=UROLOGIST" class="menu-item">Urologist</a>
+
+                            <a href="doctors.html?specialization=ONCOLOGY" class="menu-item">Oncologist</a>
+
+                            <a href="doctors.html?specialization=ENDOCRINOLOGIST" class="menu-item">Endocrinologist</a>
+
+                            <a href="doctors.html?specialization=GASTROENTEROLOGIST" class="menu-item">Gastroenterologist</a>
+
+                            <a href="doctors.html?specialization=PULMONOLOGIST" class="menu-item">Pulmonologist</a>
+
+                            <a href="doctors.html?specialization=RHEUMATOLOGIST" class="menu-item">Rheumatologist</a>
+
+                            <a href="doctors.html?specialization=PSYCHIATRIST" class="menu-item">Psychiatrist</a>
+
+                            <a href="doctors.html?specialization=OPHTHALMOLOGIST" class="menu-item">Ophthalmologist</a>
+
+                            <a href="doctors.html?specialization=GENERAL_PHYSICIAN" class="menu-item">General Physician</a>
+
+                        </div>
                         </div>
                     </div>
                     
@@ -643,6 +782,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ambulance -->
+                    <a href="Ambulance.html" class="nav-link">Ambulance</a>
                 </div>
             </div>
         </div>
@@ -727,7 +869,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -927,7 +1069,7 @@
                 const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "Hitaishi" or "Hitaishi HealthCare Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "24x7 Health" or "24x7 Health Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
                 
                 document.body.style.opacity = '0.5';
                 document.body.style.pointerEvents = 'none';
@@ -970,7 +1112,7 @@
                 }
             });
         </script>
-    <!-- Navbar Code Ends-- -->
+    <!-- Navbar Code Ends -->
 
 
 
@@ -1163,7 +1305,7 @@
                     }
 
                     try {
-                        const response = await fetch('https://hitaishihealthcare.com/api/eyeform', {
+                        const response = await fetch('https://24x7health.in/api/eyeform', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -1229,7 +1371,7 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
+                    <span>support@24x7health.in</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>
@@ -1247,7 +1389,7 @@
             </div>
         </div>
         <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
+            <p>© Copyright 2025 By 24x7 Health Service. All Rights Reserved</p>
             <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
             <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
             <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Call - Hitaishi HealthCare</title>
+    <title>Video Call - 24x7 Health Services</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -180,13 +180,18 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const ROOM_ID = urlParams.get('roomId');
+        const doctorUid = urlParams.get('doctorUid');
         
         if (!ROOM_ID) {
             document.body.innerHTML = '<div class="status-message">Error: Room ID is missing.</div>';
             throw new Error("No roomId provided in the URL.");
         }
 
-        const socket = io("https://hitaishihealthcare.com", { transports: ["websocket", "polling"] });
+        const socket = io("https://24x7health.in", { transports: ["websocket", "polling"] });
+        socket.emit("join-call-room",{
+            roomId: ROOM_ID,
+            doctorUid: doctorUid
+        });
 
         const ICE_SERVERS = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 

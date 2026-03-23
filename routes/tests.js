@@ -70,23 +70,23 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
     const {
       test_name, test_code, category, sample_required, description,
       pre_test_instructions, test_duration, report_time, price, discount,
-      final_price, available_from, diagnostic_id, status, tags, home_collection
+      final_price, available_from, center_id, status, tags, home_collection
     } = req.body;
 
-    if (!diagnostic_id || !test_name || !price || !category) {
+    if (!center_id || !test_name || !price || !category) {
       return res.status(400).json({ success: false, error: 'Missing required fields.' });
     }
     
     const [centerResult] = await db.promise().query(
-      'SELECT center_name, center_id FROM diagnostic_centers WHERE id = ?',
-      [diagnostic_id]
+      'SELECT center_name, center_id FROM diagnostic_centers WHERE center_id = ?',
+      [center_id]
     );
 
     if (!centerResult.length) {
       return res.status(404).json({ success: false, error: 'Diagnostic center not found.' });
     }
 
-    const { center_name, center_id } = centerResult[0];
+    const { center_name } = centerResult[0];
     const map_url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center_name)}`;
     const test_id = generateTestId();
     const test_image = req.file ? `/uploads/tests/${req.file.filename}` : null;
@@ -102,7 +102,7 @@ router.post('/test/register', upload.single('test_image'), async (req, res) => {
     const values = [
       test_id, test_name, test_code || null, category, sample_required, description,
       pre_test_instructions, test_duration, report_time, price, discount,
-      final_price, available_from, diagnostic_id, center_id, center_name,
+      final_price, available_from, null, center_id, center_name,
       status, tags, home_collection, test_image, map_url
     ];
 

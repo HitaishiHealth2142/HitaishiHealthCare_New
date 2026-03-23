@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagnostic Center Dashboard | Hitaishi Healthcare</title>
+  <title>Diagnostic Center Dashboard | 24x7 Health Services</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background-color: #f8f9fa; }
@@ -52,8 +52,8 @@
 <nav class="main-nav">
   <!-- Logo and Brand Name -->
   <div class="nav-brand">
-    <img src="images/Hitaishi HealthCare (1).png" alt="Hitaishi Healthcare Logo" class="nav-logo">
-    <span class="brand-name">Hitaishi Healthcare</span>
+    <img src="img/24x7health-logo.png" alt="24x7 Health Services Logo" class="nav-logo">
+    <span class="brand-name">24x7 Health Services</span>
   </div>
 
   <!-- Marquee Announcement -->
@@ -61,7 +61,7 @@
     <div class="marquee-container">
       <div class="marquee-content">
         <span class="announcement-icon">📢</span>
-        <span class="announcement-text">Welcome to Hitaishi Healthcare – Your trusted partner for diagnostic services, medical checkups, and more! Book your appointment today at +91-99087 93602</span>
+        <span class="announcement-text">Welcome to 24x7 Health Services – Your trusted partner for diagnostic services, medical checkups, and more! Book your appointment today at +91-99087 93602</span>
       </div>
     </div>
   </div>
@@ -395,7 +395,7 @@
     <div class="main-content">
       <!-- Home Content (Default) -->
       <div id="homeContent">
-        <h2>Welcome to Hitaishi HealthCare Diagnostic Services</h2>
+        <h2>Welcome to 24x7 Health Services Diagnostic Services</h2>
         <p class="text-muted">Select an option from the sidebar to manage your center.</p>
         <div class="mt-4">
           <div class="card">
@@ -531,7 +531,7 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label class="form-label">Center Name / ID</label>
-              <input type="text" class="form-control" name="center_id" required>
+              <input type="hidden" name="center_id" id="center_id">
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label">Status</label>
@@ -807,7 +807,10 @@
           return;
         }
 
-        const res = await fetch(`${API_BASE}/session/status`);
+        const res = await fetch(`${API_BASE}/session/status`, {
+          method: "GET",
+          credentials: "include"
+        });
         if (!res.ok) {
           logout();
           return;
@@ -902,7 +905,9 @@
         return;
       }
 
-      fetch(`${API_BASE}/diagnostics/${centerId}/stats`)
+      fetch(`${API_BASE}/diagnostics/${centerId}/stats`, {
+        credentials: "include"
+      })
         .then(response => response.json())
         .then(data => {
           if (data.success && data.stats) {
@@ -971,7 +976,8 @@
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
-        const diagnosticId = localStorage.getItem('diagnosticId'); // This might be needed for other purposes
+        // const diagnosticId = localStorage.getItem('diagnosticId'); // This might be needed for other purposes
+        const diagnosticId = localStorage.getItem('diagnosticCenterId');
 
         document.querySelector("input[name='price']").addEventListener("input", calculateFinalPrice);
         document.querySelector("input[name='discount']").addEventListener("input", calculateFinalPrice);
@@ -984,8 +990,10 @@
         }
 
         if (diagnosticId) {
-          formData.append('diagnostic_id', diagnosticId);
+          formData.append('center_id', diagnosticId);
         }
+        
+        formData.set("center_id", diagnosticId);
 
         fetch(`${API_BASE}/test/register`, {
           method: 'POST',
@@ -1015,7 +1023,9 @@
             return;
           }
 
-          fetch(`${API_BASE}/test/center/${diagnosticCenterId}`)
+          fetch(`${API_BASE}/test/center/${diagnosticCenterId}`, {
+            credentials: "include"
+          })
             .then(response => response.json())
             .then(data => {
               const tbody = document.getElementById('ourTestsTableBody');
@@ -1122,7 +1132,7 @@
     
     function populateProfileForm(userData) {
       const placeholder = 'https://placehold.co/150x150/EFEFEF/AAAAAA&text=No+Image';
-      const profileImageUrl = userData.profile_image_url ? `https://hitaishihealthcare.com${userData.profile_image_url}` : placeholder; 
+      const profileImageUrl = userData.profile_image_url ? `https://24x7health.in${userData.profile_image_url}` : placeholder; 
 
       
       document.getElementById('profileImageSidebar').src = profileImageUrl;
@@ -1226,6 +1236,7 @@
       
       fetch(`${API_BASE}/diagnostics/${centerId}`, {
         method: 'PUT',
+        credentials: "include",
         body: formData
       })
       .then(response => response.json())
@@ -1281,6 +1292,8 @@
         console.error("Server logout failed, but proceeding with client-side cleanup:", error);
       } finally {
         localStorage.clear();
+        // stay for 5 seconds
+        
         window.location.href = 'login.html';
       }
     }  

@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitaishi Healthcare Services</title>
+    <title>Online Doctor Consultation, Diagnostics & Clinics Near You | 24x7 Health</title>
+    <meta name="description" content="Book doctors, diagnostic tests, clinics and healthcare services online. Find trusted doctors near you, video consultations, lab tests and hospitals with 24x7 Health.">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4x..." crossorigin="anonymous"referrerpolicy="no-referrer"/>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Google Maps API Script with your key -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqW6tsp_sUG5-Xf6aXFzYuqrvRiGehGXg&libraries=places"></script>
@@ -27,11 +31,86 @@
             window.location.href = "doctorProfile.html";
         }
     </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "HealthcareOrganization",
+        "name": "24x7 Health",
+        "url": "https://24x7health.com",
+        "logo": "https://24x7health.com/img/24x7health-logo.png",
+        "description": "24x7 Health is an online healthcare platform to book doctor appointments, diagnostic tests, clinics, hospitals and video consultations across India.",
+        "medicalSpecialty": [
+            "Cardiology",
+            "Neurology",
+            "Gynecology",
+            "Orthopedics",
+            "Dermatology",
+            "Pediatrics",
+            "Oncology",
+            "GeneralPractice",
+            "Radiology",
+            "Pathology"
+        ],
+        "areaServed": {
+            "@type": "Country",
+            "name": "India"
+        },
+        "sameAs": [
+            "https://www.facebook.com/share/1CC3vxsppD/",
+            "https://www.instagram.com/optic.bee/",
+            "https://x.com/BeeOptic",
+            "https://youtube.com/@opticbee-i7j"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+91-9908793602",
+            "contactType": "customer support",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Hindi", "Telugu"]
+        }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "MedicalBusiness",
+        "name": "24x7 Health",
+        "url": "https://24x7health.in",
+        "image": "https://24x7health.in/img/24x7health-logo.png",
+        "telephone": "+91-9908793602",
+        "priceRange": "₹₹",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "20.5937",
+            "longitude": "78.9629"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+            ],
+            "opens": "00:00",
+            "closes": "23:59"
+        }
+        }
+    </script>
+
     <script src="auth.js"></script>
 
 
 </head>
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #fff;">
+
 
     <!-- Navbar Code -->
         <style>
@@ -153,13 +232,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .search-container {
@@ -433,11 +512,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 20px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 14px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-section img {
@@ -480,10 +559,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
-                <div class="logo-text">
-                    <span class="logo-title">HITAISHI</span>
-                    <span class="logo-subtitle">HEALTHCARE</span>
+                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                    <span class="logo-title">HEALTHCARE</span>
+                    <span class="logo-subtitle">SERVICES</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -496,8 +575,8 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
+                <a href="mailto:support@24x7health.in" class="contact-link">
+                    <i class="fas fa-envelope"></i> support@24x7health.in
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -539,10 +618,133 @@
                 </div>
                 
                 <!-- Profile Icon -->
-                <a href="login.html" id="loginNav1" title="Login/Profile" class="social-link" style="margin-left: 10px;">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="userName1"></span>
-                </a>
+                <div style="position: relative; display: inline-block; margin-left: 10px;">
+
+                    <!-- User Icon -->
+                    <div onclick="toggleDropdown()" 
+                        style="cursor:pointer; display:flex; align-items:center; gap:5px; color:white;">
+                        <i class="fas fa-user-circle" style="font-size:22px;"></i>
+                        <span id="userName1" style="font-size:14px;"></span>
+                        <i class="fas fa-caret-down" style="font-size:12px;"></i>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdown" 
+                        style="
+                            display:none;
+                            position:absolute;
+                            right:0;
+                            top:35px;
+                            background:#ffffff;
+                            min-width:220px;
+                            border-radius:8px;
+                            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                            padding:8px 0;
+                            z-index:9999;
+                        ">
+
+                        <!-- Login / Register Links -->
+                        <a href="login.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔐 Unified Login
+                        </a>
+
+                        <a href="doctor.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🩺 Doctor Register
+                        </a>
+
+                        <a href="diagnosticRegistration.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🧪 Diagnostic Register
+                        </a>
+
+                        <a href="AdminLogin.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔑 Admin Login
+                        </a>
+
+                        <!-- Divider -->
+                        <div style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
+
+                        <!-- Logout -->
+                        <div id="logoutBtn"
+                            style="display:none; padding:10px 15px; font-size:14px; color:#dc2626; cursor:pointer;"
+                            onmouseover="this.style.background='#fee2e2'"
+                            onmouseout="this.style.background='white'">
+                            🚪 Logout
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("userDropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close dropdown outside click
+                    window.addEventListener("click", function(e) {
+                        if (!e.target.closest('#userDropdown') &&
+                            !e.target.closest('[onclick="toggleDropdown()"]')) {
+                            document.getElementById("userDropdown").style.display = "none";
+                        }
+                    });
+
+                    /* =========================
+                    USER LOGIN CHECK
+                    ========================= */
+
+                    document.addEventListener("DOMContentLoaded", function () {
+
+                        const userNameSpan = document.getElementById("userName1");
+                        const logoutBtn = document.getElementById("logoutBtn");
+
+                        const patientName = localStorage.getItem("fullName");
+                        const doctorName = localStorage.getItem("doctorName");
+                        const diagnosticName = localStorage.getItem("diagnosticName");
+                        const adminToken = localStorage.getItem("adminToken");
+
+                        let currentUser = patientName || doctorName || diagnosticName;
+
+                        if (adminToken) {
+                            currentUser = "Admin";
+                        }
+
+                        if (currentUser) {
+                            userNameSpan.textContent = currentUser;
+                            logoutBtn.style.display = "block";
+                        } else {
+                            userNameSpan.textContent = "";
+                            logoutBtn.style.display = "none";
+                        }
+
+                        /* Logout Function */
+                        logoutBtn.addEventListener("click", function () {
+
+                            // Clear all possible login data
+                            localStorage.removeItem("fullName");
+                            localStorage.removeItem("doctorName");
+                            localStorage.removeItem("diagnosticName");
+                            localStorage.removeItem("adminToken");
+                            localStorage.removeItem("uid");
+                            sessionStorage.clear();
+
+                            window.location.href = "index.html";
+                        });
+
+                    });
+                </script>
             </div>
         </div>
 
@@ -664,6 +866,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ambulance -->
+                    <a href="Ambulance.html" class="nav-link">Ambulance</a>
                 </div>
             </div>
         </div>
@@ -748,7 +953,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -948,7 +1153,7 @@
                 const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "Hitaishi" or "Hitaishi HealthCare Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "24x7 Health" or "24x7 Health Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
                 
                 document.body.style.opacity = '0.5';
                 document.body.style.pointerEvents = 'none';
@@ -991,23 +1196,199 @@
                 }
             });
         </script>
-    <!-- Navbar Code Ends-- -->
-
-
+    <!-- Navbar Code Ends -->
 
     <!-- Main Section -->
-    <main style="position: relative; padding: 6rem 2rem; max-width: 100%; height: 60vh; margin: 0 auto; background-image: url(https://img.freepik.com/premium-photo/futuristic-hospital-radiology-room-with-mri-scanner-xray-machine-robotic-surgical-equipment-concept-medical-technology-radiology-room-futuristic-healthcare-mri-xray-machines_864588-70800.jpg); background-size: cover; background-position: center; color: #fff;">
+    <main style="position: relative; padding: 3rem 2rem 4rem; max-width: 100%; margin: 0 auto; background-image: url(https://img.freepik.com/premium-photo/futuristic-hospital-radiology-room-with-mri-scanner-xray-machine-robotic-surgical-equipment-concept-medical-technology-radiology-room-futuristic-healthcare-mri-xray-machines_864588-70800.jpg); background-size: cover; background-position: center; color: #fff;">
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: "Segoe UI", sans-serif;
+            }
+
+            body {
+                background: #f5f5f5;
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 25px;
+                color: #004080;
+            }
+
+            .test-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: center;
+            }
+
+            .test-card {
+                background-color: white;
+                border-radius: 16px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                width: 280px;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                transition: transform 0.3s;
+            }
+
+            .test-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .test-name {
+                font-size: 1.2em;
+                font-weight: bold;
+                color: #004080;
+                margin-bottom: 10px;
+            }
+
+            .test-info {
+                font-size: 14px;
+                margin-bottom: 8px;
+                color: #333;
+            }
+
+            .test-price {
+                color: #e60000;
+                font-size: 1.1em;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+
+            .test-icons {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .test-icons span {
+                font-size: 13px;
+                color: #444;
+            }
+
+            .test-icons img {
+                width: 18px;
+                height: 18px;
+            }
+
+            .book-btn {
+                margin-top: auto;
+                background-color: #004080;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .book-btn:hover {
+                background-color: #0059b3;
+            }
+
+            @media (max-width: 768px) {
+                .test-grid {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .test-card {
+                    width: 90%;
+                }
+            }
+        </style>
         <!-- Overlay -->
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
         
         <!-- Content -->
-        <h1 style="position: relative; z-index: 1; color: #ffffff; margin-bottom: 2rem; padding-bottom: 0.5rem; text-align: center; font-size: 52px; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Hitaishi Healthcare Services</h1>
+        <h1 style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 36px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Book Doctors, Diagnostics & Healthcare Services Near You</h1>
+        <p  style="position: relative; z-index: 1; color: #ffffff; text-align: center; font-size: 18px; margin-bottom: 2rem;">Powered by 24x7 Health – Your trusted healthcare platform</p>
+
+        <!-- Cards Section -->
+        <section class="discover-problem-area" style="position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 20px; box-sizing: border-box;">
+
+            <!-- Card 1 -->
+            <a href="meet.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/doctor_patient_videoCall.png" alt="Instant Video Consultation" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+                <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Instant Video Consultation</h3>
+                <p style="font-size: 14px; color: #555;">Consult experienced and verified doctors online through secure video calls.
+Get medical advice, prescriptions and follow-ups within minutes from your home.</p>
+            </a>
+
+            <!-- Card 2 -->
+            <a href="doctors.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/find_doctors_near_you.png" alt="Book doctors near you online with 24x7 Health" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+                <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold; color: #000;">Find Doctors Near You</h3>
+                <p style="font-size: 14px; color: #555;">Search and book appointments with verified doctors, specialists and physicians
+near your location. Consult online or visit clinics with confirmed bookings.</p>
+            </a>
+            
+            <!-- Card 3 -->
+            <a href="clinic.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/clinic-image.png" alt="Find Clinics" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+                <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Find Clinics Near You</h3>
+                <p style="font-size: 14px; color: #555;">Discover top-rated clinics and hospitals near you for consultations,
+treatments and follow-up care with trusted healthcare providers.</p>
+            </a>
+
+            <!-- Card 4 -->
+            <a href="Diagnostics.html" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
+                <img src="images/surgeries.png" alt="Surgeries" loading="lazy" style="width: 100%; height: auto; border-radius: 8px; object-fit: cover;">
+                <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;color: #000;">Surgeries</h3>
+                <p style="font-size: 14px; color: #555;">Book diagnostic tests including blood tests, scans, MRI, X-ray and pathology
+services from trusted labs near your location. </p>
+            </a>
+
+        </section>
     </main>
+
+
+    <section style="overflow:hidden; background:#004080; padding:0.8rem 0;">
+        <div class="scroll-text">
+            Your One-Stop Platform for Complete Healthcare Services • 
+            24x7 Health is a digital healthcare platform that makes it easy to book doctor appointments, diagnostic tests, clinics, hospitals and online video consultations in one place • 
+            We connect patients with experienced and verified healthcare professionals across multiple specialties • 
+            Cardiologist • Neurologist • Gynecologist • General Physician • 
+            MRI Scans • Blood Tests • Pathology Labs • Fertility Care • 24/7 Ambulance Services • 
+            Find trusted doctors and diagnostic centers near you • 24x7 Health • Available across major cities in India
+        </div>
+    </section>
+
+    <style>
+        .scroll-text {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            color: #fff;
+            font-size: 14px;
+            animation: scrollText 90s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 768px) {
+            .scroll-text {
+                animation-duration: 120s;
+                font-size: 13px;
+            }
+        }
+    </style>
+
 
 
     <!-- Search for doctors and diagnostics -->
     <section class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8" style="font-family: 'Inter', sans-serif;">
-        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg p-6">
+        <div class="max-w-5xl mx-auto bg-white rounded-xl border border-gray-200 shadow-lg px-8 py-10">
             <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Find Healthcare Providers</h2>
             <p class="text-gray-600 text-center mb-8">Search for doctors and diagnostic centers near you</p>
 
@@ -1153,8 +1534,8 @@
                     console.log("Fetching fresh data from API...");
                     try {
                         const [doctorsRes, diagnosticsRes] = await Promise.all([
-                            fetch(`https://www.hitaishihealthcare.com/api/getdoctors`),
-                            fetch(`https://www.hitaishihealthcare.com/api/diagnostics/all`)
+                            fetch(`https://www.24x7health.in/api/getdoctors`),
+                            fetch(`https://www.24x7health.in/api/diagnostics/all`)
                         ]);
                         
                         if (!doctorsRes.ok) throw new Error('Failed to fetch doctors data.');
@@ -1211,7 +1592,7 @@
                         console.error("Error fetching providers:", error);
                         // If fetching fails, and we have cached data, let's use that
                         if (allProviders.length > 0) {
-                             console.warn("Using cached data due to API failure.");
+                            console.warn("Using cached data due to API failure.");
                         } else {
                             resultsContainer.innerHTML = '<div class="col-span-full py-12 text-center text-red-500">Failed to load providers. Please try again later.</div>';
                         }
@@ -1430,9 +1811,6 @@
             });
         </script>
     </section>
-
-
-
 
     <!-- Countries -->
     <div>
@@ -1907,7 +2285,7 @@
       
                 <a href="index.html" class="supplier-link">
                   <div class="supplier-item">
-                      <img src="img/Türkiye.jpeg" alt="Turkey" class="flag-icon">
+                      <img src="img/turkie.jpeg" alt="Turkey" class="flag-icon">
                       <span>Türkiye</span>
                   </div>
               </a>
@@ -2365,7 +2743,7 @@
               </a>
               <a href="index.html" class="supplier-link">
                   <div class="supplier-item">
-                      <img src="img/São Tomé and Príncipe.jpeg" alt="São Tomé and Príncipe" class="flag-icon">
+                      <img src="img/SaoTomeandPrincipe.jpeg" alt="São Tomé and Príncipe" class="flag-icon">
                       <span>São Tomé and Príncipe</span>
                   </div>
               </a>
@@ -2749,29 +3127,26 @@
 
     
     <!-- find doctors near you -->
-    <section class="discover-problem-area" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; padding: 20px; box-sizing: border-box;">
+    <!-- <section class="discover-problem-area" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 50px; padding: 20px; box-sizing: border-box;">
 
-    <!-- Card 1 -->
     <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
         <img src="images/doctor_patient_videoCall.png" alt="Instant Video Consultation" style="width: 100%; height: auto; border-radius: 8px;">
         <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Instant Video Consultation</h3>
         <p style="font-size: 14px; color: #555;">Connect within 60 secs</p>
     </a>
 
-    <!-- Card 2 -->
     <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
         <img src="images/find_doctors_near_you.png" alt="Find Doctors Near You" style="width: 100%; height: auto; border-radius: 8px;">
         <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Find Doctors Near You</h3>
         <p style="font-size: 14px; color: #555;">Confirmed appointments</p>
     </a>
-    <!-- Card 3 -->
+
     <a href="" class="card1" style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
         <img src="images/clinic-image.png" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px;">
         <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Find Clinics Near You</h3>
         <p style="font-size: 14px; color: #555;">Top Rated Clinics a click far from You</p>
     </a>
 
-    <!-- Card 4 -->
     <a href="" class="card1"  style="display: block; width: 100%; max-width: 300px; text-align: center; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #fff; text-decoration: none; color: inherit; flex-shrink: 0;">
         <img src="images/surgeries.png" alt="Surgeries" style="width: 100%; height: auto; border-radius: 8px;">
         <h3 style="margin-top: 15px; font-size: 18px; font-weight: bold;">Surgeries</h3>
@@ -2885,647 +3260,287 @@
             width: 90%;
         }
         }
-    </style>
+    </style> -->
 
 
     <!-- new tests -->
-    <section style=" font-family:sans-serif; background:#f0f0f0; margin-top: 50px;">
+    <section class="font-sans bg-gray-50 py-12 md:py-20">
 
-    <!-- HEADER SECTION -->
-    <div style="margin: auto;">
-        <h2 style="color:#0A0A57; font-size: 32px;padding-top: 20px; margin-bottom: 20px;">LifeStyle Health Check Packages</h2>
+        <!-- HEADER SECTION -->
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-[42px] font-bold text-gray-800 mb-4">LifeStyle Health Check Packages</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-10">Choose a category to find the perfect health package for your needs.</p>
 
-        <!-- CATEGORY CARDS -->
-        <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: flex-start;">
-        <div onclick="showTests('women')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
-            <img src="images/women-health.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Women's Health</div>
-        </div>
-        <div onclick="showTests('obesity')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
-            <img src="images/obesity.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Obesity</div>
-        </div>
-        <div onclick="showTests('smoking')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
-            <img src="images/smoking&alcohol.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Smoking & Alcohol</div>
-        </div>
-        <div onclick="showTests('diabetic')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
-            <img src="images/diabetic.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Diabetic</div>
-        </div>
-        <div onclick="showTests('thyroid')" style="cursor:pointer;flex: 1 1 150px; min-width: 140px; max-width: 180px; background: #fff; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); padding: 20px; text-align: center;">
-            <img src="images/thyroid-png.png" style="width:60px;height:60px;margin-bottom:10px;"><div style="font-size:14px;color:#0A0A57;">Thyroid Issues</div>
-        </div>
-        </div>
-    </div>
-
-    <!-- TEST CARDS SECTION -->
-    <div id="test-sections" style="max-width:1200px;margin:auto;padding:20px;">
-
-        <!-- Women-Health -->
-        <div id="women" style="display:none;">
-        <h3 style="color:#0A0A57;">Women's Health Packages</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:15px;">
-
-            <!-- Card 1 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Women’s Staying Strong Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 92 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">50% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹3499/-</p>
-            <a href="payment.html?name=Women’s+Staying+Strong+Health+Checkup&price=3499" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
+            <!-- CATEGORY CARDS -->
+            <div id="category-cards" class="flex flex-wrap gap-4 md:gap-6 justify-center">
+                <div onclick="showTests('women', this)" class="category-card cursor-pointer flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 w-32 h-32 md:w-40 md:h-40 border-2 border-transparent">
+                    <img src="images/women-health.png" alt="Women's Health Icon" class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/80x80/E9D5FF/6D28D9?text=Women';">
+                    <div class="text-sm font-semibold text-gray-700">Women's Health</div>
+                </div>
+                <div onclick="showTests('obesity', this)" class="category-card cursor-pointer flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 w-32 h-32 md:w-40 md:h-40 border-2 border-transparent">
+                    <img src="images/obesity.png" alt="Obesity Icon" class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/80x80/D1FAE5/065F46?text=Obesity';">
+                    <div class="text-sm font-semibold text-gray-700">Obesity</div>
+                </div>
+                <div onclick="showTests('smoking', this)" class="category-card cursor-pointer flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 w-32 h-32 md:w-40 md:h-40 border-2 border-transparent">
+                    <img src="images/smoking&alcohol.png" alt="Smoking & Alcohol Icon" class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/80x80/FEE2E2/991B1B?text=Habits';">
+                    <div class="text-sm font-semibold text-gray-700">Smoking & Alcohol</div>
+                </div>
+                <div onclick="showTests('diabetic', this)" class="category-card cursor-pointer flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 w-32 h-32 md:w-40 md:h-40 border-2 border-transparent">
+                    <img src="images/diabets.png" alt="Diabetic Icon" class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/80x80/DBEAFE/1E40AF?text=Diabetes';">
+                    <div class="text-sm font-semibold text-gray-700">Diabetic</div>
+                </div>
+                <div onclick="showTests('thyroid', this)" class="category-card cursor-pointer flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 w-32 h-32 md:w-40 md:h-40 border-2 border-transparent">
+                    <img src="images/thyroid-png.png" alt="Thyroid Icon" class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/80x80/FEF3C7/92400E?text=Thyroid';">
+                    <div class="text-sm font-semibold text-gray-700">Thyroid Issues</div>
+                </div>
             </div>
-
-            <!-- Card 2 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Women’s Golden Gift Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 103 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">50% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4699/-</p>
-            <a href="payment.html?name=Women’s+Golden+Gift+Health+Checkup&price=4699" 
-                style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 3 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Women's Primary Prevention Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 88 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">50% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2299/-</p>
-            <a href="payment.html?name=Women’s+Primary+Prevention+Health+Checkup&price=2299" 
-                style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 4 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Stress Level Package</h4>
-            <p style="margin:5px 0;">✅ 27 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">40% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹899/-</p>
-            <a href="payment.html?name=Stress+Level+Package&price=899" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 5 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Hormone Profile - Female</h4>
-            <p style="margin:5px 0;">✅ 9 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 6 - 8 Hrs</p>
-            <p style="margin:5px 0;color:green;">50% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1999/-</p>
-            <a href="payment.html?name=Hormone+Profile+-+Female&price=1999" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 6 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Weight Management Package</h4>
-            <p style="margin:5px 0;">✅ 49 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">53% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2999/-</p>
-            <a href="payment.html?name=Weight+Management+Package&price=2999" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 7 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15</h4>
-            <p style="margin:5px 0;">✅ 45 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1900/-</p>
-            <a href="payment.html?name=MediBuddy+Women+Healthcheck+with+Cancer+Screening+-+MB+Pack+15&price=1900" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 8 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Extensive Health Screening for Women - MB Pack 21</h4>
-            <p style="margin:5px 0;">✅ 59 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4520/-</p>
-            <a href="payment.html?name=MediBuddy+Extensive+Health+Screening+for+Women+-+MB+Pack+21&price=4520" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Card 9 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy All Inclusive Healthcheck (Young Women) - MB Pack 17</h4>
-            <p style="margin:5px 0;">✅ 43 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2800/-</p>
-            <a href="payment.html?name=MediBuddy+All+Inclusive+Healthcheck+Young+Women+-+MB+Pack+17&price=2800" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-
-        </div>
         </div>
 
+        <!-- TEST CARDS SECTION -->
+        <div id="test-sections" class="container mx-auto px-4 mt-16">
 
-        <!-- Obesity -->
-        <div id="obesity" style="display:none;">
-        <h3 style="color:#0A0A57;">Obesity Packages</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:15px;">
-            <!-- Weight Management Package -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Weight Management Package</h4>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">✅ 49 Tests</p>
-            <p style="margin:5px 0;">• Complete Blood Count (CBC)...</p>
-            <p style="margin:5px 0;">• Glycosylated Hemoglobin...</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">53% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2999/-</p>
-            <a href="payment.html?name=Weight+Management+Package&price=2999" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
+            <!-- Helper function to create a test card -->
+            <script>
+                function createTestCard(title, tests, reports, availability, fasting, discount, price, linkName) {
+                    const link = `payment.html?name=${encodeURIComponent(linkName)}&price=${price}`;
+                    return `
+                        <div class="bg-white rounded-lg shadow-md p-6 flex flex-col hover:shadow-xl transition-shadow duration-300">
+                            <h4 class="text-lg font-bold text-gray-800 flex-grow">${title}</h4>
+                            <div class="my-4 space-y-2 text-sm text-gray-600">
+                                <p class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg> ${tests} Tests</p>
+                                <p class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z" clip-rule="evenodd" /></svg> Reports in ${reports}</p>
+                                <p class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" /></svg> Available at: ${availability}</p>
+                                <p class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13z" clip-rule="evenodd" /></svg> Fasting: ${fasting}</p>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-gray-100">
+                                <p class="text-lg font-semibold text-green-600">${discount} OFF</p>
+                                <p class="text-2xl font-bold text-gray-900 my-1">₹${price}/-</p>
+                                <a href="${link}" class="w-full block text-center mt-2">
+                                    <button class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300">
+                                    Buy Now
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+            </script>
             
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Hitaishi All Inclusive Healthcheck with Cancer Test - HH Pack 18</h4>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">✅ 61 Tests</p>
-            <p style="margin:5px 0;">• Bilirubin Profile (Total, Direct...)</p>
-            <p style="margin:5px 0;">• Complete Blood Count (CBC)...</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;">🧪 Includes: Radiology</p>
-            <p style="margin:5px 0;">👨‍⚕️ 1 Consultation</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4100/-</p>
-            <a href="payment.html?name=Hitaishi+All+Inclusive+Healthcheck+with+Cancer+Test+-+HH+Pack+18&price=4100" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-        </div>
-        </div>
-
-        <!-- Smoking & Drinking -->
-        <div id="smoking" style="display:none;">
-        <h3 style="color:#0A0A57;">Smoking & Alcohol Packages</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:15px;">
-            <!-- Alcohol Impact Package -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Alcohol Impact Package</h4>
-            <p style="margin:5px 0;">✅ 61 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">56% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1299/-</p>
-            <a href="payment.html?name=Alcohol+Impact+Package&price=1299" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
+            <!-- Women-Health -->
+            <div id="women" class="test-category" style="display:none;">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Women's Health Packages</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be injected by JS -->
+                </div>
             </div>
 
-            <!-- Smokers Health Checkup -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Smokers Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 72 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 6 - 8 Hrs</p>
-            <p style="margin:5px 0;color:green;">52% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2399/-</p>
-            <a href="payment.html?name=Smokers+Health+Checkup&price=2399" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
+            <!-- Obesity -->
+            <div id="obesity" class="test-category" style="display:none;">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Obesity Packages</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be injected by JS -->
+                </div>
+            </div>
+            
+            <!-- Smoking & Alcohol -->
+            <div id="smoking" class="test-category" style="display:none;">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Smoking & Alcohol Packages</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be injected by JS -->
+                </div>
+            </div>
+            
+            <!-- Diabetic -->
+            <div id="diabetic" class="test-category" style="display:none;">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Diabetic Packages</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be injected by JS -->
+                </div>
             </div>
 
-            <!-- MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15</h4>
-            <p style="margin:5px 0;">✅ 45 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1900/-</p>
-            <a href="payment.html?name=Women+Healthcheck+Cancer+Screening+Pack+15&price=1900" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
+            <!-- Thyroid Issues -->
+            <div id="thyroid" class="test-category" style="display:none;">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center md:text-left">Thyroid Packages</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be injected by JS -->
+                </div>
             </div>
 
-            <!-- MediBuddy All Inclusive Healthcheck with Cancer Test - MB Pack 18 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy All Inclusive Healthcheck with Cancer Test - MB Pack 18</h4>
-            <p style="margin:5px 0;">✅ 61 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹4100/-</p>
-            <a href="payment.html?name=Inclusive+Healthcheck+Cancer+Test+Pack+18&price=4100" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- Master Full Body Health Checkup - Male (with cancer screening) -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Master Full Body Health Checkup - Male (with cancer screening)</h4>
-            <p style="margin:5px 0;">✅ 88 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">51% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2299/-</p>
-            <a href="payment.html?name=Master+Full+Body+Checkup+Male+Cancer&price=2299" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Basic Extended Health Checkup With Cancer Screening -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Basic Extended Health Checkup With Cancer Screening</h4>
-            <p style="margin:5px 0;">✅ 65 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">46% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1599/-</p>
-            <a href="payment.html?name=Basic+Extended+Cancer+Screening&price=1599" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Basic Extended Health Checkup With Cancer Screening Male -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;
-            box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Basic Extended Health Checkup With Cancer Screening Male</h4>
-            <p style="margin:5px 0;">✅ 65 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8 - 72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10 - 12 Hrs</p>
-            <p style="margin:5px 0;color:green;">27% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1599/-</p>
-            <a href="payment.html?name=Basic+Extended+Checkup+Male+Cancer&price=1599" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;
-                border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-        </div>
         </div>
 
+        <!-- DATA & JS LOGIC -->
+        <script>
+            const testData = {
+                women: [
+                    { title: "Women’s Staying Strong Health Checkup", tests: 92, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "50%", price: "3499", linkName: "Women’s Staying Strong Health Checkup" },
+                    { title: "Women’s Golden Gift Health Checkup", tests: 103, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "50%", price: "4699", linkName: "Women’s Golden Gift Health Checkup" },
+                    { title: "Women's Primary Prevention Health Checkup", tests: 88, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "50%", price: "2299", linkName: "Women’s Primary Prevention Health Checkup" },
+                    { title: "Stress Level Package", tests: 27, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "40%", price: "899", linkName: "Stress Level Package" },
+                    { title: "Hormone Profile - Female", tests: 9, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "6-8 Hrs", discount: "50%", price: "1999", linkName: "Hormone Profile - Female" },
+                    { title: "Weight Management Package", tests: 49, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "53%", price: "2999", linkName: "Weight Management Package" },
+                    { title: "MediBuddy Women Healthcheck with Cancer Screening", tests: 45, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "1900", linkName: "MediBuddy Women Healthcheck with Cancer Screening - MB Pack 15" },
+                    { title: "MediBuddy Extensive Health Screening for Women", tests: 59, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "4520", linkName: "MediBuddy Extensive Health Screening for Women - MB Pack 21" },
+                    { title: "MediBuddy All Inclusive Healthcheck (Young Women)", tests: 43, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "2800", linkName: "MediBuddy All Inclusive Healthcheck Young Women - MB Pack 17" }
+                ],
+                obesity: [
+                    { title: "Weight Management Package", tests: 49, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "53%", price: "2999", linkName: "Weight Management Package" },
+                    { title: "24x7 Health All Inclusive Healthcheck with Cancer Test", tests: 61, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "4100", linkName: "24x7 Health All Inclusive Healthcheck with Cancer Test - HH Pack 18" }
+                ],
+                smoking: [
+                    { title: "Alcohol Impact Package", tests: 61, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "56%", price: "1299", linkName: "Alcohol Impact Package" },
+                    { title: "Smokers Health Checkup", tests: 72, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "6-8 Hrs", discount: "52%", price: "2399", linkName: "Smokers Health Checkup" },
+                    { title: "MediBuddy Women Healthcheck with Cancer Screening", tests: 45, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "1900", linkName: "Women Healthcheck Cancer Screening Pack 15" },
+                    { title: "Master Full Body Health Checkup - Male (with cancer screening)", tests: 88, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "51%", price: "2299", linkName: "Master Full Body Checkup Male Cancer" },
+                ],
+                diabetic: [
+                    { title: "MediBuddy Diabetes Screening", tests: 54, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "51%", price: "1299", linkName: "MediBuddy Diabetes Screening" },
+                    { title: "Essential Healthcheck with X-Ray & Ultrasound", tests: 47, reports: "8-72 Hrs", availability: "🏥 Center", fasting: "10-12 Hrs", discount: "23%", price: "2500", linkName: "Essential Healthcheck MB Pack 16" },
+                    { title: "MediBuddy Basic Health Checkup", tests: 59, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "10-12 Hrs", discount: "52%", price: "1099", linkName: "MediBuddy Basic Health Checkup" },
+                    { title: "Advance Health Checkup", tests: 82, reports: "8-72 Hrs", availability: "🏠 Home", fasting: "6-8 Hrs", discount: "48%", price: "1799", linkName: "Advance Health Checkup" },
+                ],
+                thyroid: [
+                    { title: "MediBuddy Full Body Health Checkup", tests: 81, reports: "8–72 Hrs", availability: "🏠 Home", fasting: "10–12 Hrs", discount: "53%", price: "1399", linkName: "MediBuddy Full Body Health Checkup" },
+                    { title: "Primary Health Check with Thyroid - MB Pack 14", tests: 50, reports: "8–72 Hrs", availability: "🏥 Center", fasting: "10–12 Hrs", discount: "23%", price: "1800", linkName: "Primary Health Check Thyroid MB 14" },
+                    { title: "All Inclusive Healthcheck - MB Pack 17", tests: 43, reports: "8–72 Hrs", availability: "🏥 Center", fasting: "10–12 Hrs", discount: "23%", price: "2800", linkName: "All Inclusive Healthcheck MB 17" },
+                    { title: "Standard Health Screening Package", tests: 59, reports: "8–72 Hrs", availability: "🏠 Home", fasting: "6–8 Hrs", discount: "54%", price: "999", linkName: "Standard Health Screening Package" },
+                ],
+            };
+
+            // Populate the cards on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                for (const category in testData) {
+                    const container = document.querySelector(`#${category} .grid`);
+                    if (container) {
+                        let cardsHtml = '';
+                        testData[category].forEach(data => {
+                            cardsHtml += createTestCard(data.title, data.tests, data.reports, data.availability, data.fasting, data.discount, data.price, data.linkName);
+                        });
+                        container.innerHTML = cardsHtml;
+                    }
+                }
+            });
+
+            function showTests(category, element) {
+                // Hide all test sections
+                document.querySelectorAll('.test-category').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show the selected one
+                const activeSection = document.getElementById(category);
+                if(activeSection) {
+                    activeSection.style.display = 'block';
+                }
+
+                // Update active state for category cards
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.classList.remove('active-category', 'shadow-lg');
+                    card.classList.add('shadow-sm');
+                });
+                if (element) {
+                    element.classList.add('active-category', 'shadow-lg');
+                    element.classList.remove('shadow-sm');
+                }
+
+                // Smooth scroll to the test section
+                window.scrollTo({
+                    top: document.getElementById('test-sections').offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            }
+        </script>
         
-        <div id="diabetic" style="display:none;">
-        <h3 style="color:#0A0A57;">Diabetic Packages</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:15px;">
-            <!-- MediBuddy Diabetes Screening -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Diabetes Screening</h4>
-            <p style="margin:5px 0;">✅ 54 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">51% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1299/-</p>
-            <a href="payment.html?name=MediBuddy+Diabetes+Screening&price=1299" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Essential Healthcheck - MB Pack 16 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Essential Healthcheck with X-Ray & Ultrasound</h4>
-            <p style="margin:5px 0;">✅ 47 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2500/-</p>
-            <a href="payment.html?name=Essential+Healthcheck+MB+Pack+16&price=2500" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Basic Health Checkup -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Basic Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 59 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">52% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1099/-</p>
-            <a href="payment.html?name=MediBuddy+Basic+Health+Checkup&price=1099" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Quick Health Check - MB Pack 2 -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Quick Health Check - MB Pack 2</h4>
-            <p style="margin:5px 0;">✅ 42 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10-12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1820/-</p>
-            <a href="payment.html?name=Quick+Health+Check+MB+Pack+2&price=1820" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Advance Health Checkup -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Advance Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 82 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8-72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 6-8 Hrs</p>
-            <p style="margin:5px 0;color:green;">48% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1799/-</p>
-            <a href="payment.html?name=Advance+Health+Checkup&price=1799" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">
-                Buy Now
-                </button>
-            </a>
-            </div>
-        </div>
-        </div>
-
-        <div id="thyroid" style="display:none;">
-        <h3 style="color:#0A0A57;">Thyroid Packages</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:15px;">
-            <!-- MediBuddy Full Body Health Checkup -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">MediBuddy Full Body Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 81 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
-            <p style="margin:5px 0;color:green;">53% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1399/-</p>
-            <a href="payment.html?name=MediBuddy+Full+Body+Health+Checkup&price=1399" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Primary Health Check with Thyroid Profile -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Primary Health Check with Thyroid - MB Pack 14</h4>
-            <p style="margin:5px 0;">✅ 50 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹1800/-</p>
-            <a href="payment.html?name=Primary+Health+Check+Thyroid+MB+14&price=1800" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
-            </a>
-            </div>
-
-            <!-- MediBuddy All Inclusive Healthcheck (Young Women) -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">All Inclusive Healthcheck - MB Pack 17</h4>
-            <p style="margin:5px 0;">✅ 43 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏥 Center</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
-            <p style="margin:5px 0;color:green;">23% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2800/-</p>
-            <a href="payment.html?name=All+Inclusive+Healthcheck+MB+17&price=2800" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
-            </a>
-            </div>
-
-            <!-- MediBuddy Prime Comprehensive Health Checkup -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Prime Comprehensive Health Checkup</h4>
-            <p style="margin:5px 0;">✅ 85 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 10–12 Hrs</p>
-            <p style="margin:5px 0;color:green;">50% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹2299/-</p>
-            <a href="payment.html?name=Prime+Comprehensive+Health+Checkup&price=2299" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
-            </a>
-            </div>
-
-            <!-- Standard Health Screening Package -->
-            <div style="flex:1 1 280px;background:#fff;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,0.1);padding:20px;">
-            <h4 style="margin:0 0 10px;">Standard Health Screening Package</h4>
-            <p style="margin:5px 0;">✅ 59 Tests</p>
-            <p style="margin:5px 0;">⏱ Reports in 8–72 Hrs</p>
-            <p style="margin:5px 0;">📍 Available at: 🏠 Home</p>
-            <p style="margin:5px 0;">⏳ Fasting: 6–8 Hrs</p>
-            <p style="margin:5px 0;color:green;">54% OFF</p>
-            <p style="font-weight:bold;font-size:18px;margin:5px 0;">₹999/-</p>
-            <a href="payment.html?name=Standard+Health+Screening+Package&price=999" style="text-decoration:none;">
-                <button style="padding:5px 15px;border:1px solid #0A0A57;border-radius:5px;background:white;color:#0A0A57;cursor:pointer;">Buy Now</button>
-            </a>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- JS TOGGLE -->
-    <script>
-        function showTests(category) {
-        const ids = ['women', 'obesity', 'smoking', 'diabetic', 'thyroid'];
-        ids.forEach(id => {
-            document.getElementById(id).style.display = id === category ? 'block' : 'none';
-        });
-        window.scrollTo({ top: document.getElementById(category).offsetTop - 10, behavior: 'smooth' });
-        }
-    </script>
+        <!-- Style for the active category card -->
+        <style>
+            .active-category {
+                border-color: #4f46e5; /* indigo-600 */
+                transform: translateY(-5px);
+            }
+        </style>
     </section>
 
+
+
     <!-- Popular Test -->
-    <div style="color: #f0f0f0; background-color: #e1edff; padding-bottom: 20px;">
-    <h2 style="font-size: 32px; padding-top: 20px;">Popular Tests</h2>
+    <div style="color: #f0f0f0; background-color: #e1edff; padding-bottom: 80px;">
+        <h2 style="font-size: 42px; padding-top: 80px; font-weight: bold;">Popular Tests</h2>
 
-    <div class="test-grid">
-        <div class="test-card">
-        <div class="test-name">PCOD Profile</div>
-        <div class="test-info">Includes: 9 Test Parameter(s)</div>
-        <div class="test-icons">
-            <img src="images/thyroid.png" alt="blood">
-            <span>Sample: Blood</span>
-        </div>
-        <div class="test-icons">
-            <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
-            <span>Reports in 6 hours</span>
-        </div>
-        <div class="test-price">₹6520/-</div>
-        <a href="payment.html?test=PCOD%20Profile&price=6520" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
-        </div>
+        <div class="test-grid">
+            <div class="test-card">
+            <div class="test-name">PCOD Profile</div>
+            <div class="test-info">Includes: 9 Test Parameter(s)</div>
+            <div class="test-icons">
+                <img src="images/thyroid.png" alt="blood">
+                <span>Sample: Blood</span>
+            </div>
+            <div class="test-icons">
+                <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
+                <span>Reports in 6 hours</span>
+            </div>
+            <div class="test-price">₹6520/-</div>
+            <a href="payment.html?test=PCOD%20Profile&price=6520" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
+            </div>
 
-        <div class="test-card">
-        <div class="test-name">Arthritis Profile</div>
-        <div class="test-info">Includes: 13 Test Parameter(s)</div>
-        <div class="test-icons">
-            <img src="images/artherisis.png" alt="blood">
-            <span>Sample: Blood</span>
-        </div>
-        <div class="test-icons">
-            <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
-            <span>Reports in 6 hours</span>
-        </div>
-        <div class="test-price">₹9020/-</div>
-        <a href="payment.html?test=Arthritis%20Profile&price=9020" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
-        </div>
+            <div class="test-card">
+            <div class="test-name">Arthritis Profile</div>
+            <div class="test-info">Includes: 13 Test Parameter(s)</div>
+            <div class="test-icons">
+                <img src="images/artherisis.png" alt="blood">
+                <span>Sample: Blood</span>
+            </div>
+            <div class="test-icons">
+                <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
+                <span>Reports in 6 hours</span>
+            </div>
+            <div class="test-price">₹9020/-</div>
+            <a href="payment.html?test=Arthritis%20Profile&price=9020" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
+            </div>
 
-        <div class="test-card">
-        <div class="test-name">Anti-Aging/Nutrition Panel</div>
-        <div class="test-info">Includes: 6 Test Parameter(s)</div>
-        <div class="test-icons">
-            <img src="images/anti-aging.png" alt="blood">
-            <span>Sample: Blood</span>
-        </div>
-        <div class="test-icons">
-            <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
-            <span>Reports in 6 hours</span>
-        </div>
-        <div class="test-price">₹5550/-</div>
-        <a href="payment.html?test=Anti-Aging/Nutrition%20Panel&price=5550" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
-        </div>
+            <div class="test-card">
+            <div class="test-name">Anti-Aging/Nutrition Panel</div>
+            <div class="test-info">Includes: 6 Test Parameter(s)</div>
+            <div class="test-icons">
+                <img src="images/anti-aging.png" alt="blood">
+                <span>Sample: Blood</span>
+            </div>
+            <div class="test-icons">
+                <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
+                <span>Reports in 6 hours</span>
+            </div>
+            <div class="test-price">₹5550/-</div>
+            <a href="payment.html?test=Anti-Aging/Nutrition%20Panel&price=5550" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
+            </div>
 
-        <div class="test-card">
-        <div class="test-name">Anaemia Profile</div>
-        <div class="test-info">Includes: 7 Test Parameter(s)</div>
-        <div class="test-icons">
-            <img src="images/anemia.png" alt="blood">
-            <span>Sample: Blood</span>
-        </div>
-        <div class="test-icons">
-            <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
-            <span>Reports in 6 hours</span>
-        </div>
-        <div class="test-price">₹5420/-</div>
-        <a href="payment.html?test=Anaemia%20Profile&price=5420" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
-        </div>
+            <div class="test-card">
+            <div class="test-name">Anaemia Profile</div>
+            <div class="test-info">Includes: 7 Test Parameter(s)</div>
+            <div class="test-icons">
+                <img src="images/anemia.png" alt="blood">
+                <span>Sample: Blood</span>
+            </div>
+            <div class="test-icons">
+                <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
+                <span>Reports in 6 hours</span>
+            </div>
+            <div class="test-price">₹5420/-</div>
+            <a href="payment.html?test=Anaemia%20Profile&price=5420" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
+            </div>
 
-        <div class="test-card">
-        <div class="test-name">Obesity Profile</div>
-        <div class="test-info">Includes: 11 Test Parameter(s)</div>
-        <div class="test-icons">
-            <img src="images/obesity_clinic.png" alt="blood">
-            <span>Sample: Blood</span>
+            <div class="test-card">
+            <div class="test-name">Obesity Profile</div>
+            <div class="test-info">Includes: 11 Test Parameter(s)</div>
+            <div class="test-icons">
+                <img src="images/obesity_clinic.png" alt="blood">
+                <span>Sample: Blood</span>
+            </div>
+            <div class="test-icons">
+                <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
+                <span>Reports in 6 hours</span>
+            </div>
+            <div class="test-price">₹13220/-</div>
+            <a href="payment.html?test=Obesity%20Profile&price=13220" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
+            </div>
         </div>
-        <div class="test-icons">
-            <img src="https://img.icons8.com/ios/50/report-card.png" alt="report">
-            <span>Reports in 6 hours</span>
-        </div>
-        <div class="test-price">₹13220/-</div>
-        <a href="payment.html?test=Obesity%20Profile&price=13220" style="text-align: center; text-decoration: none; display: inline-block;" class="book-btn">Book Now</a>
-        </div>
-    </div>
     </div>
 
     <!-- our qualified doctor -->
@@ -3765,7 +3780,7 @@
                 });
             };
             
-            fetch('https://www.hitaishihealthcare.com/api/test/all')
+            fetch('https://www.24x7health.in/api/test/all')
                 .then(res => res.json())
                 .then(data => {
                     if (!data.success || !data.tests.length) {
@@ -3801,763 +3816,721 @@
         </script>
     </section> -->
 
-    <!-- Book Lab Tests -->
-    <div style="font-family: Arial, sans-serif; text-align: center;border-radius: 10px 10px 0 0 ; border: 1px solid rgb(216, 216, 216);  background-color: #fff; margin: 30px auto 0; padding: 0; width: 80%;">  
-        <h1 style="color: #00A6A6; font-size: 32px;font-weight: bold; padding-top: 30px; margin-bottom: 20px;">Book Lab Tests Online</h1>
+    <!-- Book Lab Test's -->
+    <section>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            /* Custom scrollbar for better aesthetics */
+            #booking-modal::-webkit-scrollbar {
+            width: 8px;
+            }
+            #booking-modal::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            }
+            #booking-modal::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+            }
+            #booking-modal::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            }
+            .category-item.active {
+                background-color: #e0f2f1; /* A light teal background for active state */
+                border-color: #009688;
+                color: #009688;
+            }
+        </style>
 
-        <div style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 0; width: 90%; margin: 0 auto; padding-bottom: 20px; position: relative;">
-            
-            <!-- Row 1 -->
-            <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer;border: 1px solid #edecec; border-radius: 10px;  padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Diabetes')">
-                <img src="images/diabets.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;">Diabetes</span>
-            </div>
-            <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0;border: 1px solid #edecec; border-radius: 10px; position: relative; z-index: 2;" onclick="filterTests('Pregnancy')">
-                <img src="images/pregnancy.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Pregnancy</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px;display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Thyroid')">
-                <img src="images/thyroid.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Thyroid</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px;display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Liver')">
-                <img src="images/liver.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Liver</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px;display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('COVID')">
-                <img src="images/covid.png" style="width: 80px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">COVID</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px;display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Prostate')">
-                <img src="images/prostate.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Prostate</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Fertility')">
-                <img src="images/fertility.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Fertility</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Bone')">
-                <img src="images/bone.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Bone</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Gastro')">
-                <img src="images/gastro.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Gastro</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Cervix')">
-                <img src="images/cervix.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Cervix</span>
-            </div>
-            
-            <!-- Row 2 -->
-            <div style="border: 1px solid #edecec; border-radius: 10px;display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Heart')">
-                <img src="images/heart.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Heart</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Kidney')">
-                <img src="images/kidney.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Kidney</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Cancer')">
-                <img src="images/cancer.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Cancer</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Breast')">
-                <img src="images/breast.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Breast</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Vitamins')">
-                <img src="images/vitamins.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Vitamins</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Tuberculosis')">
-                <img src="images/tb.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Tuberculosis</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Anemia')">
-                <img src="images/anemia.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Anemia</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px;display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Lungs')">
-                <img src="images/lungs.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Lungs</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Fever')">
-                <img src="images/fever.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Fever</span>
-            </div>
-            <div style="border: 1px solid #edecec; border-radius: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 20px 0; position: relative; z-index: 2;" onclick="filterTests('Allergy')">
-                <img src="images/allergy.png" style="width: 60px; height: 60px; border-radius: 50%; background-color: #fff; padding: 10px;">
-                <span style="font-size: 12px;  ">Allergy</span>
+        <div class="bg-gray-50 font-sans p-4 md:p-8">
+            <!-- Main container for the lab test booking section -->
+            <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200">
+                
+                <!-- Header -->
+                <h1 class="text-[42px] font-bold text-center text-teal-700 pt-8 pb-4">Book Lab Tests Online</h1>
+                
+                <!-- Categories Grid -->
+                <div id="categories-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-3 p-4 md:p-6">
+                    <!-- Categories will be dynamically inserted here -->
+                </div>
+
+                <!-- Divider -->
+                <hr class="mx-4 md:mx-6 border-gray-200">
+
+                <!-- Search and Filter Section -->
+                <div class="p-4 md:p-6">
+                    <div id="search-bar-container" class="flex flex-col md:flex-row items-center gap-4">
+                        <div class="text-xl font-bold text-gray-800 whitespace-nowrap">Search a Test</div>
+                        <input type="text" id="search-box" placeholder="Search for test and health checkup" class="flex-grow p-3 border-2 border-teal-500 rounded-lg w-full md:w-auto focus:ring-2 focus:ring-teal-300 focus:border-teal-500 transition">
+                        <select id="sort-by" class="p-3 border-2 border-gray-300 rounded-lg w-full md:w-auto cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-teal-500">
+                            <option value="popular">Sort by: Popular</option>
+                            <option value="price-low-to-high">Sort by: Price (Low to High)</option>
+                            <option value="price-high-to-low">Sort by: Price (High to Low)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Loading/Error/Tests Grid -->
+                <div id="test-grid-container" class="p-4 md:p-6 pt-0">
+                    <div id="loading-state" class="text-center py-10 text-gray-500 text-lg">Loading tests...</div>
+                    <div id="error-state" class="hidden text-center py-10 text-red-600 font-semibold"></div>
+                    <div id="test-prices-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Test items will be rendered here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Show More/Less Button Container -->
+                <div id="show-more-container" class="hidden text-center pt-2 pb-8 px-6">
+                    <div class="flex justify-center gap-6 items-center max-w-md mx-auto">
+                        <button id="show-less-btn" class="bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-md hover:bg-gray-300 transition invisible">Show Less</button>
+                        <button id="show-more-btn" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition">Show More</button>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <script>
+            // --- STATE MANAGEMENT ---
+            let allTests = [];
+            let currentDisplayList = [];
+            let activeCategory = 'All';
+            const TESTS_PER_PAGE = 8;
+            let displayedItemsCount = TESTS_PER_PAGE;
+
+            // --- DOM ELEMENTS ---
+            const grid = document.getElementById("test-prices-grid");
+            const categoriesGrid = document.getElementById("categories-grid");
+            const searchBox = document.getElementById("search-box");
+            const sortBy = document.getElementById("sort-by");
+            const showMoreContainer = document.getElementById("show-more-container");
+            const showMoreBtn = document.getElementById("show-more-btn");
+            const showLessBtn = document.getElementById("show-less-btn");
+            const loadingState = document.getElementById("loading-state");
+            const errorState = document.getElementById("error-state");
+
+
+            // --- DATA FETCHING ---
+            async function fetchTests() {
+                try {
+                    const response = await fetch('https://www.24x7health.in/api/test/all');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    if (data.success && Array.isArray(data.tests)) {
+                        allTests = data.tests.map(test => ({
+                            ...test,
+                            name: test.test_name,
+                            price: parseFloat(test.final_price || test.price),
+                            rating: 4 + Math.random(),
+                            category: test.category || 'General'
+                        }));
+                        currentDisplayList = [...allTests];
+                        
+                        loadingState.classList.add('hidden');
+                        grid.classList.remove('hidden');
+
+                        renderCategories();
+                        renderTests();
+                    } else {
+                        throw new Error("Invalid data structure from API.");
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch tests:", error);
+                    loadingState.classList.add('hidden');
+                    errorState.classList.remove('hidden');
+                    errorState.textContent = `Failed to load tests. Please try again later.`;
+                }
+            }
+
+
+            // --- UI RENDERING ---
+            function renderCategories() {
+                const categories = ['All', ...new Set(allTests.map(t => t.category))];
+                categoriesGrid.innerHTML = ''; 
+                
+                categories.forEach(category => {
+                    const categoryEl = document.createElement('div');
+                    categoryEl.className = `category-item flex flex-col items-center justify-center text-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-100 transition ${category === activeCategory ? 'active' : ''}`;
+                    categoryEl.onclick = () => filterByCategory(category);
+                    
+                    const iconPlaceholder = `<div class="w-10 h-10 bg-teal-100 rounded-full mb-2 flex items-center justify-center text-teal-600 text-lg font-bold">${category.charAt(0)}</div>`;
+
+                    categoryEl.innerHTML = `
+                        ${iconPlaceholder}
+                        <span class="text-xs font-medium text-gray-700">${category}</span>
+                    `;
+                    categoriesGrid.appendChild(categoryEl);
+                });
+            }
+
+            function renderTests() {
+                grid.innerHTML = ""; 
+
+                const testsToRender = currentDisplayList.slice(0, displayedItemsCount);
+
+                if (testsToRender.length === 0) {
+                    grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">No tests found matching your criteria.</p>`;
+                    showMoreContainer.classList.add("hidden");
+                    return;
+                }
+
+                testsToRender.forEach(test => {
+                    const item = document.createElement("div");
+                    const originalPrice = test.price && test.discount ? Math.round(test.price / (1 - parseFloat(test.discount) / 100)) : test.price * 1.25;
+
+                    item.className = "bg-white p-4 rounded-lg shadow-md border border-gray-200 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300";
+                    item.innerHTML = `
+                        <div>
+                            <div class="font-bold text-gray-800 mb-2 h-12">${test.name}</div>
+                            <div class="mb-2 flex items-center">
+                                ${generateStarRating(test.rating)}
+                                <span class="ml-2 text-sm text-gray-600">${test.rating.toFixed(1)}</span>
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-xl font-bold text-black">₹${test.price}</span>
+                                ${test.discount ? `
+                                <span class="text-gray-500 line-through ml-2">₹${originalPrice.toFixed(0)}</span>
+                                <span class="text-green-600 font-semibold ml-2">${test.discount}% off</span>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="flex justify-end mt-2">
+                            <button onclick="openBookingForm('${test.name.replace(/'/g, "\\'")}', ${test.price}, '${test.test_id}', '${encodeURIComponent(test.center_name)}', '${test.center_id}')" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-md hover:bg-blue-700 transition w-full">
+                                BOOK
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(item);
+                });
+                
+                updateShowMoreLessButtons();
+            }
+
+            function updateShowMoreLessButtons() {
+                if (currentDisplayList.length > TESTS_PER_PAGE) {
+                    showMoreContainer.classList.remove("hidden");
+
+                    if (displayedItemsCount >= currentDisplayList.length) {
+                        showMoreBtn.classList.add("invisible");
+                    } else {
+                        showMoreBtn.classList.remove("invisible");
+                    }
+
+                    if (displayedItemsCount > TESTS_PER_PAGE) {
+                        showLessBtn.classList.remove("invisible");
+                    } else {
+                        showLessBtn.classList.add("invisible");
+                    }
+                } else {
+                    showMoreContainer.classList.add("hidden");
+                }
+            }
+
+            function generateStarRating(rating) {
+                let starsHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    starsHTML += `<span class="text-gray-300">★</span>`;
+                }
+                return `<div class="relative">${starsHTML}<div class="absolute top-0 left-0 whitespace-nowrap overflow-hidden" style="width:${(rating/5) * 100}%"><span class="text-yellow-400">★★★★★</span></div></div>`;
+            }
+            
+            function filterByCategory(category) {
+                activeCategory = category;
+                handleFilterOrSort(); 
+                
+                document.querySelectorAll('.category-item').forEach(el => {
+                    el.classList.remove('active');
+                    if (el.querySelector('span').textContent === category) {
+                        el.classList.add('active');
+                    }
+                });
+            }
+
+            function handleFilterOrSort() {
+                const searchTerm = searchBox.value.toLowerCase();
+                const sortValue = sortBy.value;
+
+                let filteredTests = [...allTests];
+
+                if (activeCategory !== 'All') {
+                    filteredTests = filteredTests.filter(test => test.category === activeCategory);
+                }
+
+                if (searchTerm) {
+                    filteredTests = filteredTests.filter(test =>
+                        test.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                switch (sortValue) {
+                    case "price-low-to-high":
+                        filteredTests.sort((a, b) => a.price - b.price);
+                        break;
+                    case "price-high-to-low":
+                        filteredTests.sort((a, b) => b.price - a.price);
+                        break;
+                    case "popular": 
+                    default:
+                        break;
+                }
+
+                currentDisplayList = filteredTests;
+                displayedItemsCount = TESTS_PER_PAGE; 
+                renderTests();
+            }
+
+
+            searchBox.addEventListener("input", handleFilterOrSort);
+            sortBy.addEventListener("change", handleFilterOrSort);
+
+            showMoreBtn.addEventListener('click', () => {
+                displayedItemsCount += TESTS_PER_PAGE;
+                if (displayedItemsCount > currentDisplayList.length) {
+                    displayedItemsCount = currentDisplayList.length;
+                }
+                renderTests();
+            });
+
+            showLessBtn.addEventListener('click', () => {
+                displayedItemsCount -= TESTS_PER_PAGE;
+                if (displayedItemsCount < TESTS_PER_PAGE) {
+                    displayedItemsCount = TESTS_PER_PAGE;
+                }
+                renderTests();
+            });
+
+
+            // --- REDIRECTION LOGIC ---
+            function openBookingForm(testName, testPrice, testId, centerName, centerId) {
+                const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+                
+                const params = new URLSearchParams({
+                    test: testName,
+                    price: testPrice,
+                    id: testId,
+                    center: centerName,
+                    centerId: centerId,
+                });
+
+                if (loggedInUser) {
+                    params.set('userName', loggedInUser.name);
+                    params.set('userEmail', loggedInUser.email);
+                    params.set('userMobile', loggedInUser.mobile);
+                    params.set('userUniqueId', loggedInUser.uniqueId); 
+                }
+
+                window.location.href = `newPayment.html?${params.toString()}`;
+            }
+            
+            document.addEventListener('DOMContentLoaded', fetchTests);
+        </script>
+    </section>
+
+
+
+    <!-- Our Services -->
+    <section class="services-container">
+        <!-- Our Services -->
+        <div class="services-content">
+            <h2 class="services-title">Our Services</h2>
+
+            <!-- Service Category Buttons -->
+            <div id="service-buttons" class="category-buttons-wrapper">
+            <button class="category-btn active" data-category="pathology">Pathology Services</button>
+            <button class="category-btn" data-category="imaging">Basic Imaging</button>
+            <button class="category-btn" data-category="advanced">Advanced Imaging</button>
+            <button class="category-btn" data-category="genetics">Genetics</button>
+            <button class="category-btn" data-category="specialized">Specialized Tests</button>
+            <button class="category-btn" data-category="radiology">Radiology</button>
+            <button class="category-btn" data-category="cardiac">Cardiac Tests</button>
+            </div>
+
+            <!-- Service Cards Container -->
+            <div id="cards-container" class="services-cards-container">
+            <!-- Cards will be injected by JavaScript -->
+            </div>
+
+            <!-- View More Link -->
+            <div class="view-more-wrapper">
+            <a href="diagnostic-services.html" class="view-more-link">VIEW MORE &gt;&gt;</a>
+            </div>
+        </div>
+
+
+        <!-- Styles for the Services Section -->
         <style>
-            @media (max-width: 1200px) {
-                div[style*="grid-template-columns: repeat(10, 1fr)"] {
-                    grid-template-columns: repeat(5, 1fr) !important;
-                }
-                
-                div[style*="position: absolute; top: 0; bottom: 0; left: 10%"] {
-                    display: none !important;
-                }
-                
-                div[style*="position: absolute; top: 40px; left: 0"] {
-                    top: 50% !important;
-                }
-                
-                div[style*="position: absolute; top: 130px; left: 0"] {
-                    display: none !important;
-                }
+            .services-container {
+            margin: 0 auto;
+            width: 100%;
+            background-color: #f8f9fa; /* Lighter grey for a modern look */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            box-sizing: border-box;
+            }
+
+            .services-content {
+            text-align: center;
+            padding: 50px 15px;
+            box-sizing: border-box;
+            max-width: 1200px;
+            margin: 0 auto;
+            }
+
+            .services-title {
+            color: #212529; /* Darker text for better contrast */
+            font-size: 42px; /* Larger font size */
+            font-weight: bold;
+            margin-bottom: 25px;
+            }
+
+            .category-buttons-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            }
+
+            .category-btn {
+            border: 2px solid #dee2e6; /* Softer border color */
+            background: white;
+            color: #495057;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            }
+
+            .category-btn:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+            }
+
+            .category-btn.active {
+            background-color: #0097A7; /* Theme color */
+            color: white;
+            border-color: #0097A7;
+            }
+
+            .services-cards-container {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 5px; /* Add padding for scroll shadow effect */
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
             }
             
+            .services-cards-container::-webkit-scrollbar {
+                display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+            }
+
+            .service-card {
+            flex: 0 0 280px; /* Base width for mobile cards */
+            background: white;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+            }
+
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+            }
+
+            .service-card h3 {
+            color: #3E2E92;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+            }
+
+            .service-card p {
+            font-size: 0.95rem;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 110px; /* Ensure cards have similar height */
+            }
+
+            .service-card-button {
+            padding: 10px 20px;
+            border: 2px solid #0097A7;
+            background: white;
+            color: #0097A7;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            }
+
+            .service-card-button:hover {
+                background: #0097A7;
+                color: white;
+            }
+
+            .view-more-wrapper {
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 30px;
+            }
+
+            .view-more-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 12px 25px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            }
+
+            .view-more-link:hover {
+                background-color: #f8f9fa;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            }
+            
+            /* Tablet View */
+            @media (min-width: 768px) {
+                .services-cards-container {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    overflow-x: visible; /* Allow wrapping */
+                }
+                .service-card {
+                    flex-basis: 320px; /* A bit wider for tablets */
+                }
+            }
+
+            /* Desktop View */
+            @media (min-width: 1024px) {
+                .service-card {
+                    flex-basis: 350px; /* Wider for desktops for a 3-column layout */
+                }
+                .service-card p {
+                min-height: 140px; /* Adjust height for more text */
+                }
+            }
+        </style>
+
+        <!-- Service Cards JavaScript Logic -->
+        <script>
+            const cardsData = {
+                pathology: [
+                { title: "CLINICAL PATHOLOGY", desc: "Clinical Pathology is a highly specialized branch in health care. Its realm is vast and variegated. Also known as Laboratory medicine, it is vital for diagnosis of a disease by paving the way to right treatment.", link: "diagnostic-services.html" },
+                { title: "MICROBIOLOGY", desc: "In the unseen landscape teeming beneath the microscope tip and beyond the naked eye lies the captivating world of microbiology, the study of microorganisms – the Unseen Warriors of our ecosystem.", link: "diagnostic-services.html" },
+                { title: "HAEMATOLOGY", desc: "The domain of Hematology is a pivotal field in medical science dedicated to the comprehensive study of blood & its diverse spectrum of disorders.", link: "diagnostic-services.html" },
+                { title: "SEROLOGY", desc: "Serology, a cornerstone of diagnostic medicine, meticulously examines antibodies in bodily fluids, playing a vital role in medical investigations.", link: "diagnostic-services.html" },
+                { title: "HISTOPATHOLOGY", desc: "Pathology, the study of disease, encompasses various specialized fields, including histopathology. Breaking down the term, 'Histo' denotes 'tissue,' emphasizing the focus on studying tissues at microscopic level.", link: "diagnostic-services.html" },
+                { title: "BIOCHEMISTRY", desc: "Biochemistry diagnostic testing involves the analysis of blood and other body fluids to assess the function of organs, detect diseases, and monitor treatment effectiveness.", link: "diagnostic-services.html" }
+                ],
+                imaging: [
+                    { title: "X-RAY", desc: "X-rays also commonly referred to as radiography are a medical imaging technique used to visualise and capture internal body structures on a film. X-rays employ small and safe doses of ionising radiation.", link: "diagnostic-services.html" },
+                    { title: "ULTRASOUND", desc: "An Ultrasound scan is a non-invasive imaging technique that employs high frequency sound waves to construct a real-time video or images of the internal organs and soft tissues in your body.", link: "diagnostic-services.html" },
+                    { title: "MAMMOGRAPHY", desc: "Mammography is a specialized medical imaging technique that uses low-dose X-rays to examine the human breast for early detection of breast cancer and other abnormalities.", link: "diagnostic-services.html" },
+                    { title: "BONE DENSITOMETRY (DEXA)", desc: "A DEXA scan is a special type of X-ray that measures bone mineral density to assess bone health and detect osteoporosis or risk of fractures.", link: "diagnostic-services.html" },
+                    { title: "FLUOROSCOPY", desc: "Fluoroscopy is an imaging technique that uses X-rays to obtain real-time moving images of the internal structures of the body, often used during diagnostic and therapeutic procedures.", link: "diagnostic-services.html" }
+                ],
+                advanced: [
+                    { title: "CT SCAN", desc: "A Computed Tomography Scan more commonly known as a CT scan is a medical imaging technique that provides detailed views of the human body's internal structures. A CT Scanner uses X-rays to create cross-sectional images.", link: "diagnostic-services.html" },
+                    { title: "MRI", desc: "Magnetic Resonance Imaging, more commonly referred to as MRI, is a powerful non-invasive medical imaging technique & diagnostic tool that relies on strong magnets & radio waves to produce detailed images.", link: "diagnostic-services.html" },
+                    { title: "MRI-3T", desc: "3 Tesla MRI, more commonly referred to as the 3T MRI, is an imaging technique used as a crucial tool in medical diagnostics. MRI stands for Magnetic Resonance Imaging and the T stands for Tesla, the unit of magnetic field strength.", link: "diagnostic-services.html" },
+                    { title: "PET CT", desc: "Positron Emission Tomography, also commonly referred to as a PET scan, is a nuclear medicine based imaging technique which uses a radioactive tracer to reveal the health, functioning and metabolism of your tissues and organs.", link: "diagnostic-services.html" },
+                    { title: "SPECT SCAN", desc: "Single Photon Emission Computed Tomography (SPECT) is an advanced nuclear imaging technique that uses gamma rays to provide 3D images of internal organs and assess blood flow and activity.", link: "diagnostic-services.html" },
+                    { title: "DOPPLER ULTRASOUND", desc: "A Doppler Ultrasound is a specialized imaging technique that evaluates blood flow through blood vessels, identifying blockages, clots, or narrowing of arteries.", link: "diagnostic-services.html" }
+                    ],
+                genetics: [
+                    { title: "CYTOGENETICS", desc: "Cytogenetics is the study of chromosomes, structures found in the cell nuclei. Chromosomes are intricate packages containing DNA and proteins and they hold the key to understanding genetic disorders.", link: "https://www.24x7health.in/diagnostic-services.html?category=genetic" },
+                    { title: "MOLECULAR DIAGNOSTICS", desc: "Molecular diagnostics refers to a category of diagnostic tests that evaluate an individual's health at the cellular and molecular level, detecting and measuring specific alterations in cells, genetic material (DNA/RNA), and proteins.", link: "https://www.24x7health.in/diagnostic-services.html?category=genetic" },
+                    { title: "GENETIC COUNSELING", desc: "Genetic counseling involves evaluating family history and genetic information to assess the risk of inherited conditions and support individuals in making informed healthcare decisions.", link: "https://www.24x7health.in/diagnostic-services.html?category=genetic" },
+                    { title: "CARRIER SCREENING", desc: "Carrier screening is a genetic test used to determine if a person carries a gene for a recessive inherited condition, often performed before or during pregnancy.", link: "https://www.24x7health.in/diagnostic-services.html?category=genetic" },
+                    { title: "PHARMACOGENOMICS", desc: "Pharmacogenomics studies how genes affect an individual's response to drugs, enabling personalized medicine by tailoring drug therapy based on genetic profiles.", link: "https://www.24x7health.in/diagnostic-services.html?category=genetic" },
+                    { title: "NEXT-GENERATION SEQUENCING (NGS)", desc: "NGS is a powerful genetic testing method that allows for rapid sequencing of entire genomes or targeted regions, identifying mutations and aiding in precise disease diagnosis.", link: "https://www.24x7health.in/diagnostic-services.html?category=genetic" }
+                    ],
+                specialized: [
+                    { title: "CARDIOLOGY", desc: "Cardiology is a branch of internal medicine dedicated to the diagnosis, treatment, and prevention of diseases affecting your heart and blood vessels, collectively referred to as the cardiovascular system.", link: "diagnostic-services.html" },
+                    { title: "GASTROENTEROLOGY", desc: "Gastroenterology encompasses the study, diagnosis, and treatment of conditions affecting the gastrointestinal (GI) tract, liver, gallbladder and pancreas.", link: "diagnostic-services.html" },
+                    { title: "NEUROLOGY", desc: "Neurology focuses on diagnosing and treating disorders of the nervous system, including the brain, spinal cord, and peripheral nerves.", link: "diagnostic-services.html" },
+                    { title: "ENDOCRINOLOGY", desc: "Endocrinology is the medical specialty dealing with hormone-producing glands and the treatment of hormonal imbalances and metabolic disorders.", link: "diagnostic-services.html" },
+                    { title: "PULMONOLOGY", desc: "Pulmonology specializes in diseases of the respiratory system, including conditions like asthma, COPD, pneumonia, and other lung-related disorders.", link: "diagnostic-services.html" },
+                    { title: "NEPHROLOGY", desc: "Nephrology deals with the diagnosis and treatment of kidney-related diseases and disorders, including hypertension and electrolyte imbalances.", link: "diagnostic-services.html" }
+                    ],
+                radiology: [
+                    { title: "RADIOLOGY SERVICES", desc: "Comprehensive radiology services providing diagnostic imaging using various modalities to aid in detection and diagnosis of medical conditions.", link: "diagnostic-services.html" },
+                    { title: "ADVANCED RADIOLOGY SERVICES", desc: "State-of-the-art radiology services utilizing cutting-edge technology for precise diagnostic imaging and interventional procedures.", link: "diagnostic-services.html" },
+                    { title: "NUCLEAR MEDICINE", desc: "Nuclear medicine is a specialized branch of medicine in which radioactive materials known as radioisotopes or radiopharmaceuticals or radioactive tracers are used to diagnose, monitor and treat various diseases.", link: "diagnostic-services.html" },
+                    { title: "INTERVENTIONAL RADIOLOGY", desc: "Interventional radiology involves minimally invasive procedures guided by imaging techniques such as X-ray, CT, or ultrasound for diagnosis and treatment.", link: "diagnostic-services.html" },
+                    { title: "DIGITAL X-RAY", desc: "Digital X-ray uses advanced sensors instead of traditional photographic film, offering faster results and reduced radiation exposure for imaging bones and internal structures.", link: "diagnostic-services.html" },
+                    { title: "BREAST IMAGING (MAMMOGRAPHY)", desc: "Breast imaging, including mammography, is used to screen for and diagnose breast diseases such as cancer, using low-dose X-rays or other imaging methods.", link: "diagnostic-services.html" }
+                    ],
+                cardiac: [
+                    { title: "ECG", desc: "Electrocardiogram (ECG) is a test that measures the electrical activity of your heart to detect heart problems and monitor heart health.", link: "diagnostic-services.html" },
+                    { title: "2D ECHO", desc: "2D Echocardiography uses sound waves to create real-time images of the heart, helping evaluate heart function and detect abnormalities.", link: "diagnostic-services.html" },
+                    { title: "TMT", desc: "Treadmill Test (TMT) assesses how the heart responds to stress or exercise, helping diagnose coronary artery disease and other heart conditions.", link: "diagnostic-services.html" },
+                    { title: "3D/4D ULTRASOUND", desc: "3D/4D Ultrasound offers advanced imaging for cardiac and fetal assessments, providing dynamic and detailed real-time visuals.", link: "diagnostic-services.html" },
+                    { title: "Holter Monitoring", desc: "Holter Monitoring is a continuous 24- to 48-hour ECG recording to detect irregular heart rhythms and assess heart function over time.",link: "diagnostic-services.html"},
+                    {title: "Stress Echocardiography", desc: "Stress Echo combines ultrasound imaging with exercise to evaluate how well your heart and blood vessels are working under stress.", link: "diagnostic-services.html"}
+                ],
+            };
+
+            const container = document.getElementById("cards-container");
+            const categoryButtons = document.querySelectorAll(".category-btn");
+
+            function renderCards(category) {
+                container.innerHTML = ""; // Clear existing cards
+                cardsData[category].forEach(card => {
+                const cardHTML = `
+                    <div class="service-card">
+                        <h3>${card.title}</h3>
+                        <p>${card.desc}</p>
+                        <button onclick="location.href='${card.link}'" class="service-card-button">Know more &gt;</button>
+                    </div>
+                `;
+                container.insertAdjacentHTML("beforeend", cardHTML);
+                });
+            }
+
+            // Add click event listeners to buttons
+            categoryButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    // Remove 'active' class from all buttons
+                    categoryButtons.forEach(b => b.classList.remove("active"));
+                    // Add 'active' class to the clicked button
+                    btn.classList.add("active");
+                    
+                    const category = btn.getAttribute("data-category");
+                    renderCards(category);
+                });
+            });
+
+            // Initial render on page load
+            document.addEventListener("DOMContentLoaded", () => {
+                // Find the initially active button and render its cards
+                const initialCategory = document.querySelector(".category-btn.active")?.getAttribute("data-category") || "pathology";
+                renderCards(initialCategory);
+            });
+
+        </script>
+    </section>
+
+
+    <!-- highlight section -->
+    <div style="background: #276cd2; color: white; text-align: center; padding: 0 20px 60px 20px; ">
+
+        <h2 style="margin: 0; font-size: 42px; font-weight: bold; color: #fff; padding-top: 80px;">World's Largest Healthcare Platform</h2>
+
+        <div class="highlight-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1100px; margin: 30px auto; gap: 30px; text-align: center;">
+            
+            <div style="padding: 4% 2%;">
+            <div style="font-size: 40px; font-weight: bold;">200+</div>
+            <div style="font-size: 18px; font-weight: bold;">Professionals</div>
+            <div style="font-size: 14px;">Radiologists, Pathologists & Microbiologists</div>
+            </div>
+
+            <div>
+            <div style="font-size: 40px; font-weight: bold;">50+</div>
+            <div style="font-size: 18px; font-weight: bold;">Million Customers and Counting</div>
+            <div style="font-size: 14px;">Trusted by Every Age Group</div>
+            </div>
+
+            <div>
+            <div style="font-size: 40px; font-weight: bold;">40+</div>
+            <div style="font-size: 18px; font-weight: bold;">Years of Experience</div>
+            <div style="font-size: 14px;">in Delivering Quality Diagnostic Services</div>
+            </div>
+
+            <div style="border-top: 1px solid white; padding-top: 20px;">
+            <div style="font-size: 40px; font-weight: bold;">140+</div>
+            <div style="font-size: 18px; font-weight: bold;">Diagnostic Centres and Counting</div>
+            <div style="font-size: 14px;">State-of-the-art Facilities with Best Customer Service</div>
+            </div>
+
+            <div style="border-top: 1px solid white; padding-top: 20px;">
+            <div style="font-size: 40px; font-weight: bold;">20+</div>
+            <div style="font-size: 18px; font-weight: bold;">Cities Across India</div>
+            <div style="font-size: 14px;">India's Largest Comprehensive Diagnostic Centre</div>
+            </div>
+
+            <div style="border-top: 1px solid white; padding-top: 20px;">
+            <div style="font-size: 40px; font-weight: bold;">250+</div>
+            <div style="font-size: 18px; font-weight: bold;">Corporate Clients and Counting</div>
+            <div style="font-size: 14px;">Most Preferred Diagnostic Partner</div>
+            </div>
+
+        </div>
+
+        <!-- Mobile Responsive Style -->
+        <style>
             @media (max-width: 768px) {
-                div[style*="grid-template-columns: repeat(10, 1fr)"] {
-                    grid-template-columns: repeat(4, 1fr) !important;
-                }
-                
-                div[style*="position: absolute; top: 0; bottom: 0; left: 20%"] {
-                    display: none !important;
-                }
+            .highlight-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
             }
-            
-            @media (max-width: 480px) {
-                div[style*="grid-template-columns: repeat(10, 1fr)"] {
-                    grid-template-columns: repeat(3, 1fr) !important;
-                }
-                
-                div[style*="grid-template-columns: repeat(10, 1fr)"] img {
-                    width: 50px !important;
-                    height: 50px !important;
-                }
-                
-                h1 {
-                    font-size: 24px !important;
-                    padding-top: 20px !important;
-                }
-                
-                div[style*="position: absolute; top: 0; bottom: 0; left: 30%"] {
-                    display: none !important;
-                }
-            }
-            
-            @media (max-width: 360px) {
-                div[style*="grid-template-columns: repeat(10, 1fr)"] {
-                    grid-template-columns: repeat(2, 1fr) !important;
-                }
-                
-                div[style*="position: absolute; top: 0; bottom: 0; left: 50%"] {
-                    display: none !important;
-                }
             }
         </style>
     </div>
 
-
-
-<!-- Search a Test -->
-<div style="width: 80%; margin: auto; border: 1px solid rgb(226, 226, 226);">
-
-    <style>
-        .test-price-item {
-        border: 2px solid #d1c4e9;
-        border-radius: 8px;
-        padding: 20px;
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 150px;
-        }
-        .test-price-item div {
-        font-size: 16px;
-        font-weight: bold;
-        color: #000;
-        }
-        .test-price-item div.price {
-        font-size: 18px;
-        font-weight: bold;
-        color: #2e3192;
-        }
-        .test-price-item a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #17b8c2;
-        color: #fff;
-        text-decoration: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        font-size: 14px;
-        font-weight: bold;
-        border: 1px solid #17b8c2;
-        }
-        .test-price-item a img {
-        width: 14px;
-        margin-left: 5px;
-        }
-
-        /* Responsive for grid and layout */
-        @media (max-width: 768px) {
-        #search-bar-container {
-            flex-direction: column;
-            gap: 10px;
-            align-items: flex-start !important;
-        }
-
-        #search-bar-container input,
-        #search-bar-container select {
-            width: 100% !important;
-        }
-
-        #test-prices-grid {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-        }
-
-        #booking-modal {
-            width: 90% !important;
-        }
-        }
-        
-    </style>
-
-    <!-- Search Bar -->
-    <div style="background-color: #e1edff; padding: auto; ">
-        <div id="search-bar-container" style="display: flex; align-items: center;  flex-wrap: wrap; gap: 20px; padding: 15px;  border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin: auto;">
-        <!-- Title -->
-        <div style="font-size: 22px; font-weight: bold; color: #000;">Search a Test</div>
-
-        <!-- Search -->
-        <input type="text" id="search-box" placeholder="Search for test and health checkup"
-            style="border: 2px solid #17b8c2; padding: 12px; width: 350px; max-width: 100%; font-size: 16px; color: #333; border-radius: 6px; outline: none;"
-            onfocus="this.style.borderColor='#0fa3af';" onblur="this.style.borderColor='#17b8c2';">
-
-        <!-- Dropdown -->
-        <select id="sort-by" style="background: #f9f9f9; padding: 12px; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; font-size: 16px;">
-            <option value="popular">Sort by: Popular </option>
-            <option value="price-low-to-high">Sort by: Price (Low to High)</option>
-            <option value="price-high-to-low">Sort by: Price (High to Low)</option>
-            <option value="ratings">Sort by: Ratings</option>
-        </select>
-        </div>
-    </div>
-
-    <!-- Test Grid -->
-    <div id="test-prices-grid" style="background-color: #fff; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 10px 15px 20px 15px; border-radius: 10px;">
-        <!-- Test items will be rendered here by JavaScript -->
-    </div>
-    
-    <!-- Show More/Less Button Container -->
-    <div id="show-more-container" style="background-color: #fff; text-align: center; padding-bottom: 20px; display: none;">
-        <button id="show-more-btn" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;">Show More</button>
-    </div>
-
-
-    <!-- Modal Overlay -->
-    <div id="booking-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
-        <div id="booking-modal" style="position: relative; background: #fff; max-width: 500px; width: 100%; padding: 25px 20px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; font-family: 'Arial', sans-serif;">
-
-            <!-- Close Icon -->
-            <button onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 22px; font-weight: bold; color: #999; cursor: pointer;">&times;</button>
-
-            <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Book Test</h2>
-
-            <form id="booking-form" onsubmit="submitForm(event)" style="display: flex; flex-direction: column; gap: 12px;">
-                <input type="text" id="test-name" readonly placeholder="Test Name" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9f9f9;">
-                <input type="text" id="name" placeholder="Your Name" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="phone" placeholder="Phone Number" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="email" id="email" placeholder="E-Mail Address" required style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="floor" placeholder="Floor" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="house-number" placeholder="House Number" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="area" placeholder="Area" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="mandal" placeholder="Mandal" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="district" placeholder="District" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                <input type="text" id="pincode" placeholder="Pincode" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-
-                <!-- Action Buttons -->
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
-                    <button type="submit" style="flex: 1; background: #28a745; color: #fff; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Confirm Booking</button>
-                    <button type="button" onclick="closeModal()" style="flex: 1; background: #dc3545; color: #fff; padding: 10px; border-radius: 5px; border: none; cursor: pointer;">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <script>
-        // --- DATA & STATE MANAGEMENT ---
-        const tests = [
-            { name: "FASTING PLASMA GLUCOSE", price: 120, rating: 4.5, category: "Diabetes" },
-            { name: "COMPLETE BLOOD PICTURE (CBP)", price: 390, rating: 4.2, category: "General" },
-            { name: "CREATININE", price: 260, rating: 4.0, category: "Kidney" },
-            { name: "POST LUNCH GLUCOSE", price: 120, rating: 3.8, category: "Diabetes" },
-            { name: "GLYCATED HEMOGLOBIN (HbA1c)", price: 580, rating: 4.7, category: "Diabetes" },
-            { name: "THYROID PROFILE", price: 650, rating: 4.6, category: "Thyroid" },
-            { name: "LIPID PROFILE", price: 750, rating: 4.4, category: "Heart" },
-            { name: "COMPLETE URINE EXAMINATION (CUE)", price: 150, rating: 3.9, category: "Kidney" },
-            { name: "LIVER FUNCTION TEST (LFT-A)", price: 450, rating: 4.1, category: "Liver" },
-            { name: "ELECTROCARDIOGRAM (ECG)", price: 250, rating: 4.3, category: "Heart" },
-            { name: "THYROID STIMULATING HORMONE (TSH)- Ultrasensitive", price: 250, rating: 4.0, category: "Thyroid" },
-            { name: "ERYTHROCYTE SEDIMENTATION RATE (ESR)", price: 290, rating: 3.7, category: "General" },
-            { name: "UREA", price: 150, rating: 3.5, category: "Kidney" },
-            { name: "X-CHEST PA VIEW", price: 250, rating: 4.2, category: "Lungs" },
-            { name: "URIC ACID", price: 180, rating: 3.8, category: "Kidney" },
-            { name: "ULTRASOUND-ABDOMEN AND PELVIS", price: 1200, rating: 4.8, category: "Liver" },
-            { name: "RANDOM PLASMA GLUCOSE", price: 120, rating: 3.9, category: "Diabetes" },
-            { name: "C-REACTIVE PROTEIN (CRP)", price: 250, rating: 4.1, category: "General" },
-            { name: "VITAMIN B12", price: 250, rating: 4.0, category: "Vitamins" },
-            { name: "ELECTROLYTES", price: 250, rating: 3.6, category: "General" },
-            { name: "CALCIUM", price: 250, rating: 3.7, category: "Bone" },
-            { name: "PREGNANCY TEST (URINE)", price: 200, rating: 4.0, category: "Pregnancy" },
-            { name: "BETA HCG (QUANTITATIVE)", price: 400, rating: 4.2, category: "Pregnancy" },
-            { name: "PROSTATE SPECIFIC ANTIGEN (PSA)", price: 600, rating: 4.1, category: "Prostate" },
-            { name: "SEMEN ANALYSIS", price: 500, rating: 4.0, category: "Fertility" },
-            { name: "MAMMOGRAPHY", price: 1500, rating: 4.5, category: "Breast" },
-            { name: "TUBERCULOSIS TEST (TB GOLD)", price: 1200, rating: 4.3, category: "Tuberculosis" },
-            { name: "COMPLETE HEMOGRAM", price: 300, rating: 4.1, category: "Anemia" },
-            { name: "ALLERGY PANEL TEST", price: 2500, rating: 4.4, category: "Allergy" },
-            { name: "FEBRILE ANTIBODY TEST", price: 350, rating: 3.9, category: "Fever" },
-            { name: "COVID-19 ANTIBODY TEST", price: 800, rating: 4.6, category: "COVID" },
-            { name: "COVID-19 PCR TEST", price: 1500, rating: 4.8, category: "COVID" },
-            { name: "COVID-19 RAPID ANTIGEN TEST", price: 600, rating: 4.5, category: "COVID" },
-            { name: "COVID-19 VACCINATION CERTIFICATE", price: 0, rating: 4.0, category: "COVID" },
-            { name: "HIV ANTIBODY TEST", price: 500, rating: 4.2, category: "General" },
-            { name: "HIV TEST", price: 500, rating: 4.2, category: "General" },
-            { name: "HEPATITIS B SURFACE ANTIGEN (HBsAg)", price: 600, rating: 4.3, category: "Liver" },
-            { name: "HEPATITIS C ANTIBODY", price: 600, rating: 4.1, category: "Liver" },
-            { name: "VITAMIN D", price: 700, rating: 4.5, category: "Vitamins" },
-            { name: "IRON STUDIES", price: 800, rating: 4.0, category: "Anemia" },
-            { name: "BONE DENSITY TEST", price: 1200, rating: 4.4, category: "Bone" },
-            { name: "GASTROINTESTINAL PANEL", price: 1500, rating: 4.2, category: "Gastro" },
-            { name: "CERVICAL CANCER SCREENING (PAP SMEAR)", price: 1000, rating: 4.3, category: "Cervix" },
-            { name: "HEART HEALTH CHECKUP", price: 2000, rating: 4.7, category: "Heart" },
-            { name: "KIDNEY FUNCTION TEST", price: 800, rating: 4.1, category: "Kidney" },
-            { name: "CANCER MARKERS PANEL", price: 2500, rating: 4.5, category: "Cancer" },
-            { name: "LUNG FUNCTION TEST (PFT)", price: 1200, rating: 4.3, category: "Lungs" }
-        ];
-        
-        // State variables
-        const INITIAL_DISPLAY_COUNT = 8;
-        let displayedItemsCount = INITIAL_DISPLAY_COUNT;
-        let currentDisplayList = [...tests];
-
-        // --- DOM ELEMENTS ---
-        const grid = document.getElementById("test-prices-grid");
-        const searchBox = document.getElementById("search-box");
-        const sortBy = document.getElementById("sort-by");
-        const showMoreContainer = document.getElementById("show-more-container");
-        const showMoreBtn = document.getElementById("show-more-btn");
-
-        // --- UTILITY FUNCTIONS ---
-
-        function openBookingForm(testName) {
-            document.getElementById("test-name").value = testName;
-            document.getElementById("booking-modal-overlay").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("booking-form").reset();
-            document.getElementById("booking-modal-overlay").style.display = "none";
-        }
-
-        function generateStarRating(rating) {
-            let starsHTML = '';
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 !== 0;
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<span style="color: gold;">★</span>';
-            }
-            if (hasHalfStar) {
-                starsHTML += '<span style="color: gold;">⯨</span>';
-            }
-            const emptyStars = 5 - Math.ceil(rating);
-            for (let i = 0; i < emptyStars; i++) {
-                starsHTML += '<span style="color: lightgray;">★</span>';
-            }
-            return starsHTML;
-        }
-
-        // --- CORE RENDERING LOGIC ---
-
-        function renderTests() {
-            grid.innerHTML = ""; // Clear the grid
-
-            const testsToRender = currentDisplayList.slice(0, displayedItemsCount);
-
-            testsToRender.forEach(test => {
-                const item = document.createElement("div");
-                const discount = Math.floor(Math.random() * (85 - 10 + 1)) + 10;
-                const originalPrice = Math.round(test.price / (1 - discount / 100));
-
-                item.style.cssText = "background: #f9f9f9; padding: 15px; border-radius: 10px; transition: box-shadow 0.3s ease; border: 1px solid #ddd; display: flex; flex-direction: column; height: 100%;";
-                item.onmouseover = () => { item.style.boxShadow = "0 6px 12px rgba(0,0,0,0.1)"; };
-                item.onmouseout = () => { item.style.boxShadow = "none"; };
-
-                item.innerHTML = `
-                    <div style="font-weight: bold; margin-bottom: 10px; flex-grow: 1;">${test.name}</div>
-                    <div style="margin-bottom: 8px; display: flex; align-items: center;">
-                        ${generateStarRating(test.rating)}
-                        <span style="margin-left: 5px; font-size: 14px;">${test.rating.toFixed(1)}</span>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <span style="font-size: 18px; font-weight: bold; color: #000;">₹${test.price}</span>
-                        <span style="text-decoration: line-through; color: gray; margin-left: 8px; font-size: 14px;">₹${originalPrice}</span>
-                        <span style="color: green; margin-left: 8px; font-size: 14px;">${discount}% off</span>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: auto;">
-                        <button onclick="openBookingForm('${test.name.replace(/'/g, "\\'")}')" 
-                                style="background: #007bff; color: #fff; padding: 8px 15px; border-radius: 5px; border: none; cursor: pointer;">
-                            BOOK
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(item);
-            });
-
-            // Manage the "Show More" / "Show Less" button state
-            if (currentDisplayList.length > INITIAL_DISPLAY_COUNT) {
-                showMoreContainer.style.display = "block";
-                if (displayedItemsCount < currentDisplayList.length) {
-                    showMoreBtn.textContent = "Show More";
-                } else {
-                    showMoreBtn.textContent = "Show Less";
-                }
-            } else {
-                showMoreContainer.style.display = "none";
-            }
-        }
-
-        // --- EVENT LISTENERS ---
-
-        function handleFilterOrSort() {
-            const searchTerm = searchBox.value.toLowerCase();
-            const sortValue = sortBy.value;
-
-            let filteredTests = tests.filter(test => 
-                test.name.toLowerCase().includes(searchTerm)
-            );
-
-            switch (sortValue) {
-                case "price-low-to-high":
-                    filteredTests.sort((a, b) => a.price - b.price);
-                    break;
-                case "price-high-to-low":
-                    filteredTests.sort((a, b) => b.price - a.price);
-                    break;
-                case "ratings":
-                    filteredTests.sort((a, b) => b.rating - a.rating);
-                    break;
-            }
-            
-            currentDisplayList = filteredTests;
-            displayedItemsCount = INITIAL_DISPLAY_COUNT; // Reset count
-            renderTests();
-        }
-
-        searchBox.addEventListener("input", handleFilterOrSort);
-        sortBy.addEventListener("change", handleFilterOrSort);
-
-        // Show More/Less button functionality
-        showMoreBtn.addEventListener('click', () => {
-            // If not all items are shown, show all. Otherwise, show initial count.
-            if (displayedItemsCount < currentDisplayList.length) {
-                displayedItemsCount = currentDisplayList.length;
-            } else {
-                displayedItemsCount = INITIAL_DISPLAY_COUNT;
-            }
-            renderTests();
-        });
-
-        // Form submission
-        function submitForm(event) {
-            event.preventDefault();
-            const requiredFields = ['name', 'phone', 'email'];
-            let isFormValid = true;
-            
-            requiredFields.forEach(id => {
-                const field = document.getElementById(id);
-                if (field.value.trim() === '') {
-                    isFormValid = false;
-                    field.style.borderColor = 'red';
-                } else {
-                    field.style.borderColor = '#ccc';
-                }
-            });
-
-            if (!isFormValid) {
-                console.error('Please fill in all required fields.');
-                return;
-            }
-
-            const formData = {
-                testName: document.getElementById('test-name').value,
-                name: document.getElementById('name').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                floor: document.getElementById('floor').value.trim(),
-                houseNumber: document.getElementById('house-number').value.trim(),
-                area: document.getElementById('area').value.trim(),
-                mandal: document.getElementById('mandal').value.trim(),
-                district: document.getElementById('district').value.trim(),
-                pincode: document.getElementById('pincode').value.trim()
-            };
-
-            console.log('Form Data:', formData);
-            closeModal();
-            console.log('Booking confirmed!');
-        }
-
-        // --- INITIAL RENDER ---
-        renderTests();
-    </script>
-</div>
-
-    <!-- Our Services -->
-    <div style="margin: 0 auto; width: 100%; background-color: #f0f0f0;">
-    <div style="text-align: center; padding: 40px 15px; box-sizing: border-box;">
-        <h2 style="color: #000; font-size: 24px; font-weight: bold; margin-bottom: 20px;">Our Services</h2>
-
-        <!-- Service Category Buttons -->
-        <div id="service-buttons" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 25px;">
-        <button class="category-btn" data-category="pathology" style="border: 2px solid #000; background: #f0f0f0; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Pathology Services</button>
-        <button class="category-btn" data-category="imaging" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Basic Imaging</button>
-        <button class="category-btn" data-category="advanced" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Advanced Imaging</button>
-        <button class="category-btn" data-category="genetics" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Genetics</button>
-        <button class="category-btn" data-category="specialized" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Specialized Tests</button>
-        <button class="category-btn" data-category="radiology" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Radiology</button>
-        <button class="category-btn" data-category="cardiac" style="border: 2px solid #000; background: white; padding: 8px 16px; border-radius: 30px; font-size: 14px; cursor: pointer;">Cardiac Tests</button>
-
-        </div>
-
-        <div id="cards-container" class="services-cards-container" style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 15px; padding: 10px; box-sizing: border-box; scroll-behavior: smooth;">
-        <!-- Cards will be injected by JavaScript -->
-        </div>
-
-        <div style="margin: 0 auto; text-align: center; margin-top: 20px; padding-right: 10px; background-color: #fff; border-radius: 10px; border: 1px solid rgb(230, 230, 230); width: 150px;">
-        <a href="diagnostic-services.html" style="text-decoration: none; color: #0097A7; font-weight: bold; font-size: 16px;">VIEW MORE >></a>
-        </div>
-    </div>
-    </div>
-
-    <style>
-    @media (max-width: 768px) {
-        .services-cards-container {
-        gap: 10px !important;
-        padding: 0 5px !important;
-        }
-
-        .services-cards-container > div {
-        width: 220px !important;
-        }
-    }
-
-    @media (min-width: 769px) {
-        .services-cards-container {
-        justify-content: center;
-        }
-    }
-    </style>
-
-    <!-- Service Cards JS -->
-    <script>
-    const cardsData = {
-        pathology: [
-        { title: "CLINICAL PATHOLOGY", desc: "Clinical Pathology is a highly specialized branch in health care. Its realm is vast and variegated. Also known as Laboratory medicine, it is vital for diagnosis of a disease by paving the way to right treatment.", link: "diagnostic-services.html" },
-        { title: "MICROBIOLOGY", desc: "In the unseen landscape teeming beneath the microscope tip and beyond the naked eye lies the captivating world of microbiology, the study of microorganisms – the Unseen Warriors of our ecosystem.", link: "diagnostic-services.html" },
-        { title: "HAEMATOLOGY", desc: "The domain of Hematology is a pivotal field in medical science dedicated to the comprehensive study of blood & its diverse spectrum of disorders.", link: "diagnostic-services.html" },
-        { title: "SEROLOGY", desc: "Serology, a cornerstone of diagnostic medicine, meticulously examines antibodies in bodily fluids, playing a vital role in medical investigations.", link: "diagnostic-services.html" },
-        { title: "HISTOPATHOLOGY", desc: "Pathology, the study of disease, encompasses various specialized fields, including histopathology. Breaking down the term, 'Histo' denotes 'tissue,' emphasizing the focus on studying tissues at microscopic level.", link: "diagnostic-services.html" },
-        { title: "BIOCHEMISTRY", desc: "Biochemistry diagnostic testing involves the analysis of blood and other body fluids to assess the function of organs, detect diseases, and monitor treatment effectiveness.", link: "diagnostic-services.html" }
-        ],
-        imaging: [
-            { title: "X-RAY", desc: "X-rays also commonly referred to as radiography are a medical imaging technique used to visualise and capture internal body structures on a film. X-rays employ small and safe doses of ionising radiation.", link: "diagnostic-services.html" },
-            { title: "ULTRASOUND", desc: "An Ultrasound scan is a non-invasive imaging technique that employs high frequency sound waves to construct a real-time video or images of the internal organs and soft tissues in your body.", link: "diagnostic-services.html" },
-            { title: "MAMMOGRAPHY", desc: "Mammography is a specialized medical imaging technique that uses low-dose X-rays to examine the human breast for early detection of breast cancer and other abnormalities.", link: "diagnostic-services.html" },
-            { title: "BONE DENSITOMETRY (DEXA)", desc: "A DEXA scan is a special type of X-ray that measures bone mineral density to assess bone health and detect osteoporosis or risk of fractures.", link: "diagnostic-services.html" },
-            { title: "FLUOROSCOPY", desc: "Fluoroscopy is an imaging technique that uses X-rays to obtain real-time moving images of the internal structures of the body, often used during diagnostic and therapeutic procedures.", link: "diagnostic-services.html" }
-        ],
-        advanced: [
-            { title: "CT SCAN", desc: "A Computed Tomography Scan more commonly known as a CT scan is a medical imaging technique that provides detailed views of the human body's internal structures. A CT Scanner uses X-rays to create cross-sectional images.", link: "diagnostic-services.html" },
-            { title: "MRI", desc: "Magnetic Resonance Imaging, more commonly referred to as MRI, is a powerful non-invasive medical imaging technique & diagnostic tool that relies on strong magnets & radio waves to produce detailed images.", link: "diagnostic-services.html" },
-            { title: "MRI-3T", desc: "3 Tesla MRI, more commonly referred to as the 3T MRI, is an imaging technique used as a crucial tool in medical diagnostics. MRI stands for Magnetic Resonance Imaging and the T stands for Tesla, the unit of magnetic field strength.", link: "diagnostic-services.html" },
-            { title: "PET CT", desc: "Positron Emission Tomography, also commonly referred to as a PET scan, is a nuclear medicine based imaging technique which uses a radioactive tracer to reveal the health, functioning and metabolism of your tissues and organs.", link: "diagnostic-services.html" },
-            { title: "SPECT SCAN", desc: "Single Photon Emission Computed Tomography (SPECT) is an advanced nuclear imaging technique that uses gamma rays to provide 3D images of internal organs and assess blood flow and activity.", link: "diagnostic-services.html" },
-            { title: "DOPPLER ULTRASOUND", desc: "A Doppler Ultrasound is a specialized imaging technique that evaluates blood flow through blood vessels, identifying blockages, clots, or narrowing of arteries.", link: "diagnostic-services.html" }
-            ],
-        genetics: [
-            { title: "CYTOGENETICS", desc: "Cytogenetics is the study of chromosomes, structures found in the cell nuclei. Chromosomes are intricate packages containing DNA and proteins and they hold the key to understanding genetic disorders.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
-            { title: "MOLECULAR DIAGNOSTICS", desc: "Molecular diagnostics refers to a category of diagnostic tests that evaluate an individual's health at the cellular and molecular level, detecting and measuring specific alterations in cells, genetic material (DNA/RNA), and proteins.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
-            { title: "GENETIC COUNSELING", desc: "Genetic counseling involves evaluating family history and genetic information to assess the risk of inherited conditions and support individuals in making informed healthcare decisions.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
-            { title: "CARRIER SCREENING", desc: "Carrier screening is a genetic test used to determine if a person carries a gene for a recessive inherited condition, often performed before or during pregnancy.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
-            { title: "PHARMACOGENOMICS", desc: "Pharmacogenomics studies how genes affect an individual's response to drugs, enabling personalized medicine by tailoring drug therapy based on genetic profiles.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" },
-            { title: "NEXT-GENERATION SEQUENCING (NGS)", desc: "NGS is a powerful genetic testing method that allows for rapid sequencing of entire genomes or targeted regions, identifying mutations and aiding in precise disease diagnosis.", link: "https://www.hitaishihealthcare.com/diagnostic-services.html?category=genetic" }
-            ],
-        specialized: [
-            { title: "CARDIOLOGY", desc: "Cardiology is a branch of internal medicine dedicated to the diagnosis, treatment, and prevention of diseases affecting your heart and blood vessels, collectively referred to as the cardiovascular system.", link: "diagnostic-services.html" },
-            { title: "GASTROENTEROLOGY", desc: "Gastroenterology encompasses the study, diagnosis, and treatment of conditions affecting the gastrointestinal (GI) tract, liver, gallbladder and pancreas.", link: "diagnostic-services.html" },
-            { title: "NEUROLOGY", desc: "Neurology focuses on diagnosing and treating disorders of the nervous system, including the brain, spinal cord, and peripheral nerves.", link: "diagnostic-services.html" },
-            { title: "ENDOCRINOLOGY", desc: "Endocrinology is the medical specialty dealing with hormone-producing glands and the treatment of hormonal imbalances and metabolic disorders.", link: "diagnostic-services.html" },
-            { title: "PULMONOLOGY", desc: "Pulmonology specializes in diseases of the respiratory system, including conditions like asthma, COPD, pneumonia, and other lung-related disorders.", link: "diagnostic-services.html" },
-            { title: "NEPHROLOGY", desc: "Nephrology deals with the diagnosis and treatment of kidney-related diseases and disorders, including hypertension and electrolyte imbalances.", link: "diagnostic-services.html" }
-            ],
-        radiology: [
-            { title: "RADIOLOGY SERVICES", desc: "Comprehensive radiology services providing diagnostic imaging using various modalities to aid in detection and diagnosis of medical conditions.", link: "diagnostic-services.html" },
-            { title: "ADVANCED RADIOLOGY SERVICES", desc: "State-of-the-art radiology services utilizing cutting-edge technology for precise diagnostic imaging and interventional procedures.", link: "diagnostic-services.html" },
-            { title: "NUCLEAR MEDICINE", desc: "Nuclear medicine is a specialized branch of medicine in which radioactive materials known as radioisotopes or radiopharmaceuticals or radioactive tracers are used to diagnose, monitor and treat various diseases.", link: "diagnostic-services.html" },
-            { title: "INTERVENTIONAL RADIOLOGY", desc: "Interventional radiology involves minimally invasive procedures guided by imaging techniques such as X-ray, CT, or ultrasound for diagnosis and treatment.", link: "diagnostic-services.html" },
-            { title: "DIGITAL X-RAY", desc: "Digital X-ray uses advanced sensors instead of traditional photographic film, offering faster results and reduced radiation exposure for imaging bones and internal structures.", link: "diagnostic-services.html" },
-            { title: "BREAST IMAGING (MAMMOGRAPHY)", desc: "Breast imaging, including mammography, is used to screen for and diagnose breast diseases such as cancer, using low-dose X-rays or other imaging methods.", link: "diagnostic-services.html" }
-            ],
-        cardiac: [
-            { title: "ECG", desc: "Electrocardiogram (ECG) is a test that measures the electrical activity of your heart to detect heart problems and monitor heart health.", link: "diagnostic-services.html" },
-            { title: "2D ECHO", desc: "2D Echocardiography uses sound waves to create real-time images of the heart, helping evaluate heart function and detect abnormalities.", link: "diagnostic-services.html" },
-            { title: "TMT", desc: "Treadmill Test (TMT) assesses how the heart responds to stress or exercise, helping diagnose coronary artery disease and other heart conditions.", link: "diagnostic-services.html" },
-            { title: "3D/4D ULTRASOUND", desc: "3D/4D Ultrasound offers advanced imaging for cardiac and fetal assessments, providing dynamic and detailed real-time visuals.", link: "diagnostic-services.html" },
-            { title: "Holter Monitoring", desc: "Holter Monitoring is a continuous 24- to 48-hour ECG recording to detect irregular heart rhythms and assess heart function over time.",link: "diagnostic-services.html"},
-            {title: "Stress Echocardiography", desc: "Stress Echo combines ultrasound imaging with exercise to evaluate how well your heart and blood vessels are working under stress.", link: "diagnostic-services.html"},
-        ],
-    };
-
-    const container = document.getElementById("cards-container");
-
-    function renderCards(category) {
-        container.innerHTML = "";
-        cardsData[category].forEach(card => {
-        const cardHTML = `
-            <div style="flex: 0 0 auto; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; padding: 20px; width: 250px; text-align: left;">
-            <h3 style="color: #3E2E92; font-size: 18px; font-weight: bold;">${card.title}</h3>
-            <p style="font-size: 14px; color: #333;">${card.desc}</p>
-            <button onclick="location.href='${card.link}'" style="margin-top: 10px; padding: 8px 15px; border: 2px solid #0097A7; background: white; color: #0097A7; border-radius: 20px; cursor: pointer; font-size: 14px;">Know more ></button>
-            </div>
-        `;
-        container.insertAdjacentHTML("beforeend", cardHTML);
-        });
-    }
-
-    // Default: load Pathology cards
-    renderCards("pathology");
-
-    // Event listeners
-    document.querySelectorAll(".category-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-        document.querySelectorAll(".category-btn").forEach(b => b.style.background = "white");
-        btn.style.background = "#f0f0f0";
-        const category = btn.getAttribute("data-category");
-        renderCards(category);
-        });
-    });
-    </script>
-
-    <!-- highlight section -->
-    <div style="background: #276cd2; color: white; text-align: center; padding: 0 20px 40px 20px; ">
-
-    <h2 style="margin: 0; font-size: 24px; font-weight: bold; color: #fff; padding-top: 20px;">WORLD'S LARGEST HEALTHCARE PLATFORM</h2>
-
-    <div class="highlight-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1100px; margin: 30px auto; gap: 30px; text-align: center;">
-        
-        <div style="padding: 4% 2%;">
-        <div style="font-size: 40px; font-weight: bold;">200+</div>
-        <div style="font-size: 18px; font-weight: bold;">Professionals</div>
-        <div style="font-size: 14px;">Radiologists, Pathologists & Microbiologists</div>
-        </div>
-
-        <div>
-        <div style="font-size: 40px; font-weight: bold;">50+</div>
-        <div style="font-size: 18px; font-weight: bold;">Million Customers and Counting</div>
-        <div style="font-size: 14px;">Trusted by Every Age Group</div>
-        </div>
-
-        <div>
-        <div style="font-size: 40px; font-weight: bold;">40+</div>
-        <div style="font-size: 18px; font-weight: bold;">Years of Experience</div>
-        <div style="font-size: 14px;">in Delivering Quality Diagnostic Services</div>
-        </div>
-
-        <div style="border-top: 1px solid white; padding-top: 20px;">
-        <div style="font-size: 40px; font-weight: bold;">140+</div>
-        <div style="font-size: 18px; font-weight: bold;">Diagnostic Centres and Counting</div>
-        <div style="font-size: 14px;">State-of-the-art Facilities with Best Customer Service</div>
-        </div>
-
-        <div style="border-top: 1px solid white; padding-top: 20px;">
-        <div style="font-size: 40px; font-weight: bold;">20+</div>
-        <div style="font-size: 18px; font-weight: bold;">Cities Across India</div>
-        <div style="font-size: 14px;">India's Largest Comprehensive Diagnostic Centre</div>
-        </div>
-
-        <div style="border-top: 1px solid white; padding-top: 20px;">
-        <div style="font-size: 40px; font-weight: bold;">250+</div>
-        <div style="font-size: 18px; font-weight: bold;">Corporate Clients and Counting</div>
-        <div style="font-size: 14px;">Most Preferred Diagnostic Partner</div>
-        </div>
-
-    </div>
-
-    <!-- Mobile Responsive Style -->
-    <style>
-        @media (max-width: 768px) {
-        .highlight-grid {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-        }
-        }
-    </style>
-    </div>
- 
-
-
     <!-- Health Record Analysis Section -->
     <section style="background: linear-gradient(to right, #e6f0ff, #ffffff); padding: 60px 20px;">
-    <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px;">
-        
-        <!-- Left: Image or illustration-->
-        <div style="flex: 1; min-width: 300px; text-align: center;">
-        <img src="images/healthy-AI.png" 
-            alt="Health file upload illustration" 
-            style="max-width: 100%; height: auto;">
-        </div>
+        <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px;">
+            
+            <!-- Left: Image or illustration-->
+            <div style="flex: 1; min-width: 300px; text-align: center;">
+            <img src="images/healthy-AI.png" 
+                alt="Health file upload illustration" 
+                style="max-width: 100%; height: auto;">
+            </div>
 
 
-        <!-- Right: Text content  -->
-        <div style="flex: 1; min-width: 300px;">
-        <h2 style="font-size: 2.5rem; color: #0A0A57; margin-bottom: 20px;">Upload & Analyze Your Health Records</h2>
-        <p style="font-size: 1.1rem; color: #444; margin-bottom: 30px;">
-            Save time and get personalized insights before your doctor visit. Upload your lab reports, prescriptions, or health files securely — our system will analyze and summarize them for your doctor in advance.
-        </p>
-        <button onclick="window.location.href='analyze.html'" 
-                style="padding: 12px 30px; background-color: #0A0A57; color: white; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;">
-            Upload & Analyze
-        </button>
+            <!-- Right: Text content  -->
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="font-size: 32px; font-weight: bold; color: #0A0A57; margin-bottom: 20px;">Analyze Health Records</h2>
+                <p style="font-size: 1.1rem; color: #444; margin-bottom: 30px;">
+                    Save time and get personalized insights before your doctor visit. Upload your lab reports, prescriptions, or health files securely — our system will analyze and summarize them for your doctor in advance.
+                </p>
+                <button onclick="window.location.href='analyze.html'" 
+                        style="padding: 12px 30px; background-color: #0A0A57; color: white; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s;">
+                    Upload & Analyze
+                </button>
+            </div>
+            
+            
         </div>
-        
-        
-    </div>
     </section>
 
 
     <!-- info -->
-    <div style="text-align: center; background-color: #f0f0f0; padding-bottom: 20px ;">
-    <h2 style="font-weight: bold; padding-top: 20px;">Popular Lab Tests Through Hitaishi HealthCare</h2>
+    <div style="text-align: center; background-color: #f0f0f0; padding-bottom: 40px ;">
+        <h2 style="font-size: 42px; font-weight: bold; padding-top: 40px;">Popular Lab Tests Through 24x7 Health</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 10px; width: 96%; justify-content: center; margin: auto;">
-        <span style="color: teal;">FASTING PLASMA GLUCOSE</span> |
-        <span style="color: teal;">COMPLETE BLOOD PICTURE (CBP)</span> |
-        <span style="color: teal;">CREATININE</span> |
-        <span style="color: teal;">POST LUNCH GLUCOSE</span> |
-        <span style="color: teal;">GLYCATED HEMOGLOBIN (HbA1c)</span> |
-        <span style="color: teal;">THYROID PROFILE</span> |
-        <span style="color: teal;">LIPID PROFILE</span> |
-        <span style="color: teal;">COMPLETE URINE EXAMINATION (CUE)</span> |
-        <span style="color: teal;">LIVER FUNCTION TEST (LFT-A)</span> |
-        <span style="color: teal;">ECG</span> |
-        <span style="color: teal;">THYROID STIMULATING HORMONE (TSH)- Ultrasensitive</span> |
-        <span style="color: teal;">ERYTHROCYTE SEDIMENTATION RATE (ESR)</span> |
-        <span style="color: teal;">UREA</span> |
-        <span style="color: teal;">X-CHEST PA VIEW</span> |
-        <span style="color: teal;">URIC ACID</span> |
-        <span style="color: teal;">ULTRASOUND-ABDOMEN AND PELVIS</span>
-    </div>
-        
-            
+            <span style="color: teal;">FASTING PLASMA GLUCOSE</span> |
+            <span style="color: teal;">COMPLETE BLOOD PICTURE (CBP)</span> |
+            <span style="color: teal;">CREATININE</span> |
+            <span style="color: teal;">POST LUNCH GLUCOSE</span> |
+            <span style="color: teal;">GLYCATED HEMOGLOBIN (HbA1c)</span> |
+            <span style="color: teal;">THYROID PROFILE</span> |
+            <span style="color: teal;">LIPID PROFILE</span> |
+            <span style="color: teal;">COMPLETE URINE EXAMINATION (CUE)</span> |
+            <span style="color: teal;">LIVER FUNCTION TEST (LFT-A)</span> |
+            <span style="color: teal;">ECG</span> |
+            <span style="color: teal;">THYROID STIMULATING HORMONE (TSH)- Ultrasensitive</span> |
+            <span style="color: teal;">ERYTHROCYTE SEDIMENTATION RATE (ESR)</span> |
+            <span style="color: teal;">UREA</span> |
+            <span style="color: teal;">X-CHEST PA VIEW</span> |
+            <span style="color: teal;">URIC ACID</span> |
+            <span style="color: teal;">ULTRASOUND-ABDOMEN AND PELVIS</span>
+        </div>
     </div>
 
     <!-- world map -->
@@ -4565,7 +4538,7 @@
 
         <section class="global-map-section py-10 md:py-16  w-4/5 mx-auto">
             <div class="container mx-auto px-4 max-w-6xl">
-                <h2 class="text-center text-teal-600 text-3xl md:text-4xl font-bold mb-8">Our Global Presence</h2>
+                <h2 class="text-center text-teal-600 text-[42px] font-bold mb-8">Our Global Presence</h2>
                 
                 <!-- Map Container -->
                 <div id="map-wrapper" class="map-wrapper relative w-full mx-auto" style="max-width: 1000px;">
@@ -4747,18 +4720,18 @@
             </div>
             <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
-                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
+                <img src="images/24x7health-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
             </div>
             
             <div style="flex: 1; min-width: 200px;">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
+                    <span>support@24x7health.in</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>
-                    <span>8790170525</span>
+                    <span>+91-9908793602</span>
                 </div>
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
                 <div>
@@ -4772,7 +4745,7 @@
             </div>
         </div>
         <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
+            <p>&copy;Copyright 2026 By 24x7 Health Service. All Rights Reserved</p>
             <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
             <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
             <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>

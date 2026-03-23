@@ -589,5 +589,116 @@ router.put('/appointments/complete/:id', (req, res) => {
   });
 });
 
+// ================= APPOINTMENTS DASHBOARD ANALYTICS =================
+router.get('/admin/appointments-dashboard', (req, res) => {
+  const { date, area, zipcode } = req.query;
+
+  // Build WHERE clause dynamically
+  let whereConditions = [];
+  let queryParams = [];
+
+  if (date) {
+    whereConditions.push('a.appointment_date = ?');
+    queryParams.push(date);
+  }
+
+  if (area) {
+    whereConditions.push('d.area = ?');
+    queryParams.push(area);
+  }
+
+  if (zipcode) {
+    whereConditions.push('d.zipcode = ?');
+    queryParams.push(zipcode);
+  }
+
+  const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
+
+  // Query 1: Total Appointments
+  db.query(`SELECT COUNT(*) as totalCount FROM appointments a JOIN doctors d ON a.doctor_uid = d.uid ${whereClause}`, queryParams, (err1, result1) => {
+    if (err1) {
+      console.error('Error counting total appointments:', err1);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    const totalAppointments = result1[0]?.totalCount || 0;
+
+    // Query 2: Completed Appointments
+    let completedParams = [...queryParams];
+    completedParams.push('Completed');
+    db.query(`SELECT COUNT(*) as completedCount FROM appointments a JOIN doctors d ON a.doctor_uid = d.uid ${whereClause} ${whereClause ? 'AND' : 'WHERE'} a.status = ?`, completedParams, (err2, result2) => {
+      if (err2) {
+        console.error('Error counting completed:', err2);
+      }
+
+      const completed = result2?.[0]?.completedCount || 0;
+      const pending = totalAppointments - completed;
+
+      // Query 3: Total Revenue
+      let revenueParams = [...queryParams];
+      revenueParams.push('Paid');
+      db.query(`SELECT COALESCE(SUM(a.final_amount), 0) as revenue FROM appointments a JOIN doctors d ON a.doctor_uid = d.uid ${whereClause} ${whereClause ? 'AND' : 'WHERE'} a.payment_status = ?`, revenueParams, (err3, result3) => {
+        if (err3) {
+          console.error('Error calculating revenue:', err3);
+        }
+
+        const revenue = result3?.[0]?.revenue || 0;
+
+        // Query 4: Hourly Distribution
+        db.query(`SELECT HOUR(a.appointment_time) as hour, COUNT(*) as count FROM appointments a JOIN doctors d ON a.doctor_uid = d.uid ${whereClause} GROUP BY HOUR(a.appointment_time) ORDER BY hour`, queryParams, (err4, hourlyResult) => {
+          if (err4) {
+            console.error('Error getting hourly distribution:', err4);
+          }
+
+          const hourlyDistribution = hourlyResult || [];
+
+          // Query 5: Area Distribution
+          db.query(`SELECT d.area, COUNT(*) as count FROM appointments a JOIN doctors d ON a.doctor_uid = d.uid ${whereClause} GROUP BY d.area ORDER BY count DESC`, queryParams, (err5, areaResult) => {
+            if (err5) {
+              console.error('Error getting area distribution:', err5);
+            }
+
+            const areaAnalytics = areaResult || [];
+
+            // Query 6: Zipcode Distribution
+            db.query(`SELECT d.zipcode, COUNT(*) as count FROM appointments a JOIN doctors d ON a.doctor_uid = d.uid ${whereClause} GROUP BY d.zipcode ORDER BY count DESC`, queryParams, (err6, zipcodeResult) => {
+              if (err6) {
+                console.error('Error getting zipcode distribution:', err6);
+              }
+
+              const zipcodeAnalytics = zipcodeResult || [];
+
+              // Query 7: Full Appointment Records
+              db.query(`SELECT 
+                a.appointment_uid, a.patient_name, a.patient_mobile, a.doctor_name,
+                d.state, d.city, d.area, d.zipcode,
+                a.appointment_date, a.appointment_time, a.payment_status
+              FROM appointments a 
+              JOIN doctors d ON a.doctor_uid = d.uid
+              ${whereClause} 
+              ORDER BY a.appointment_date DESC, a.appointment_time DESC
+              LIMIT 500`, queryParams, (err7, appointments) => {
+                if (err7) {
+                  console.error('Error fetching appointments:', err7);
+                }
+
+                res.json({
+                  totalAppointments,
+                  completed,
+                  pending,
+                  revenue,
+                  hourlyDistribution,
+                  areaAnalytics,
+                  zipcodeAnalytics,
+                  appointments: appointments || []
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
 
 module.exports = router;

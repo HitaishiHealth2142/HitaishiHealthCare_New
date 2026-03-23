@@ -219,7 +219,7 @@
         }
 
         function sendToBackend(data) {
-            fetch('https://hitaishihealthcare.com/api/newpayment/register', {
+            fetch('https://24x7health.in/api/newpayment/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -292,12 +292,17 @@
         function closeLoginAlert() {
             const overlay = document.getElementById('login-alert-overlay');
             overlay.classList.add('opacity-0');
-            setTimeout(() => overlay.classList.add('hidden'), 300);
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                window.location.href = "login.html";
+            }, 300);
         }
 
         function goBack() {
             window.history.back();
         }
+    
     </script>
 
 </body>

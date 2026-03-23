@@ -1,69 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancer Care & Oncologist Registration — Hitaishi Healthcare</title>
-    <meta name="description" content="Register as a cancer specialist or find oncologists at Hitaishi Healthcare. Medical, surgical, and radiation oncology services, expertise, and facilities for comprehensive cancer care.">
-    <meta name="keywords" content="Cancer Care, Oncologist, Oncology Specialist, Cancer Treatment, Chemotherapy, Radiation Therapy, Hitaishi Healthcare">
-    <link rel="canonical" href="https://hitaishihealthcare.com/Cancer.html">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
-    <meta property="og:locale" content="en_US">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Cancer Care & Oncologist Registration — Hitaishi Healthcare">
-    <meta property="og:description" content="Register as a cancer specialist or find oncologists at Hitaishi Healthcare. Comprehensive oncology services including chemo, surgery, and radiation therapy.">
-    <meta property="og:url" content="https://hitaishihealthcare.com/Cancer.html">
-    <meta property="og:image" content="https://hitaishihealthcare.com/images/Hitaishi%20HealthCare%20(1).png">
-    <meta property="og:site_name" content="Hitaishi Healthcare">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Cancer Care & Oncologist Registration — Hitaishi Healthcare">
-    <meta name="twitter:description" content="Register as a cancer specialist or find oncologists at Hitaishi Healthcare.">
-    <meta name="twitter:image" content="https://hitaishihealthcare.com/images/Hitaishi%20HealthCare%20(1).png">
-
-    <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "name": "Hitaishi Healthcare",
-          "url": "https://hitaishihealthcare.com",
-          "logo": "https://hitaishihealthcare.com/images/Hitaishi%20HealthCare%20(1).png",
-          "sameAs": [
-            "https://www.facebook.com/",
-            "https://www.instagram.com/",
-            "https://x.com/"
-          ]
-        },
-        {
-          "@type": "WebPage",
-          "name": "Cancer Care & Oncologist Registration",
-          "url": "https://hitaishihealthcare.com/Cancer.html",
-          "description": "Register as a cancer specialist or find oncologists at Hitaishi Healthcare.",
-          "isPartOf": { "@id": "https://hitaishihealthcare.com" }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hitaishihealthcare.com/index.html" },
-            { "@type": "ListItem", "position": 2, "name": "Cancer", "item": "https://hitaishihealthcare.com/Cancer.html" }
-          ]
-        }
-      ]
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cancer Care & Oncology Services | 24x7 Health Services</title>
+  <!-- SEO meta -->
+  <meta name="description" content="24x7 Health Services offers comprehensive cancer care: early detection, advanced treatment, and compassionate support. Find top oncologists, screening, and support services.">
+  <meta name="keywords" content="Cancer Care, Oncologist, Oncology Specialist, Chemotherapy, Radiation Therapy, Immunotherapy, Targeted Therapy, Cancer Screening, Tumor Board, 24x7 health">
+  <link rel="canonical" href="https://24x7health.in/cancer-care.html">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph -->
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cancer Care & Oncology Services – 24x7 Health Services">
+  <meta property="og:description" content="Comprehensive oncology: early detection, advanced treatment, and compassionate support.">
+  <meta property="og:url" content="https://24x7health.in/cancer-care.html">
+  <meta property="og:image" content="https://24x7health.in/images/og-cancer.jpg">
+  <meta property="og:site_name" content="24x7 Health Services">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cancer Care & Oncology Services">
+  <meta name="twitter:description" content="Expert oncologists, modern treatments, and support services.">
+  <meta name="twitter:image" content="https://24x7health.in/images/twitter-cancer.jpg">
+  <!-- Font Awesome & base style -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text x='0' y='14' fill='%23e63946'>⚕️</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
-    </script>
+    body {
+      background-color: #ffffff;
+      color: #1e2a41;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+    /* sticky navigation */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      padding: 0.75rem 5%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #1e2a41;
+    }
+    .logo span {
+      color: #e63946;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+    .nav-links a:hover {
+      color: #e63946;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    /* hero - full width */
+    .hero {
+      width: 100%;
+      background: linear-gradient(135deg, #007bff 0%, #0b2545 100%), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2080&auto=format&fit=crop') center/cover no-repeat;
+      background-blend-mode: overlay;
+      padding: 4rem 5%;
+      position: relative;
+      color: white;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+    .hero > * {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1.2;
+      max-width: 600px;
+      margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero .sub {
+      font-size: 1.25rem;
+      color: #f0f7ff;
+      margin: 1.5rem 0 2rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn {
+      display: inline-block;
+      background: #e63946;
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 14px rgba(230,57,70,0.25);
+      transition: 0.2s;
+      border: none;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      box-shadow: none;
+    }
+    .btn-outline:hover {
+      background: white;
+      color: #e63946;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 1.5rem 2rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      color: white;
+      transition: 0.3s;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+    .stat-card i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #f0f7ff;
+    }
+    .stat-card h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    .stat-card p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    /* section headings */
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      color: #0b2545;
+      position: relative;
+      text-align: center;
+    }
+    h2 i {
+      color: #e63946;
+      margin-right: 12px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0 4rem;
+    }
+    .cancer-card, .treatment-card, .screening-card, .doctor-card, .support-card, .testimonial-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 10px 25px -8px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,123,255,0.1);
+      cursor: pointer;
+    }
+    .cancer-card:hover, .treatment-card:hover, .screening-card:hover, .doctor-card:hover, .support-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -8px rgba(230,57,70,0.15);
+      border-color: #e6394620;
+    }
+    .cancer-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .cancer-card i {
+      font-size: 2.5rem;
+      color: #007bff;
+      margin-bottom: 0.8rem;
+    }
+    .cancer-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .badge {
+      background: #f0f7ff;
+      color: #007bff;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-top: 0.8rem;
+    }
+    /* cancer sections */
+    .cancer-section {
+      background: #f9fcff;
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 4rem;
+      border-left: 6px solid #e63946;
+      transition: 0.3s;
+    }
+    .cancer-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    .cancer-section h3 {
+      font-size: 2rem;
+      color: #0b2545;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+    .cancer-overview p {
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      color: #1e2a41;
+    }
+    .cancer-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .cancer-symptoms h4, .cancer-facts h4 {
+      font-size: 1.2rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .cancer-symptoms ul, .cancer-facts ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cancer-symptoms li, .cancer-facts li {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: flex-start;
+      line-height: 1.6;
+    }
+    .cancer-symptoms li i, .cancer-facts li i {
+      color: #e63946;
+      margin-right: 0.5rem;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+    /* doctor cards */
+    .doctor-card {
+      text-align: center;
+    }
+    .doctor-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 10px 20px rgba(0,123,255,0.2);
+      margin-bottom: 1rem;
+    }
+    .doctor-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 0.2rem;
+    }
+    .doctor-card .branch {
+      color: #e63946;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .doctor-card .fee {
+      font-weight: 700;
+      margin: 0.7rem 0;
+    }
+    .btn-book {
+      background: #e63946;
+      border: none;
+      color: white;
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+    }
+    .btn-book:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+    /* support & screening */
+    .support-card, .screening-card {
+      text-align: center;
+    }
+    .support-card i, .screening-card i {
+      font-size: 2.2rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+    }
+    /* testimonial */
+    .testimonial-card {
+      background: #f0f7ff;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .testimonial-card img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+    .faq-item {
+      background: white;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.02);
+    }
+    .faq-question {
+      padding: 1.2rem 1.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eaeef2;
+    }
+    .faq-answer {
+      padding: 0 1.8rem 1.5rem 1.8rem;
+      display: none;
+      color: #3c4b64;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    .emergency-banner {
+      background: linear-gradient(135deg, #e63946, #d62b3a);
+      color: white;
+      border-radius: 40px;
+      padding: 2.5rem 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin: 4rem 0;
+    }
+    .emergency-banner h3 {
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .emergency-banner .phone {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    /* footer */
+    footer {
+      background: #0b2545;
+      color: #d9e2ef;
+      padding: 3rem 5% 1.5rem;
+      border-radius: 40px 40px 0 0;
+      margin-top: 4rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 2rem;
+    }
+    .footer-grid a {
+      color: #d9e2ef;
+      text-decoration: none;
+      display: block;
+      margin: 0.5rem 0;
+    }
+    .footer-grid a:hover {
+      color: white;
+    }
+    .social i {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #e63946;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(230,57,70,0.3);
+      transition: 0.2s;
+      border: none;
+      z-index: 99;
+    }
+    .scroll-top:hover {
+      background: #c82333;
+    }
+    .highlight-section {
+      outline: 3px solid #e63946;
+      transition: 0.3s;
+    }
+    hr {
+      opacity: 0.2;
+      margin: 1rem 0;
+    }
+    /* responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero .sub {
+        font-size: 1rem;
+      }
+      .stats {
+        flex-direction: column;
+        align-items: center;
+      }
+      .cancer-columns {
+        grid-template-columns: 1fr;
+      }
+      h2 {
+        font-size: 2rem;
+      }
+      .emergency-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
-<body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-
-    
+<body>
 
     <!-- Navbar Code -->
         <style>
@@ -185,13 +613,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .search-container {
@@ -465,11 +893,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 20px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 14px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-section img {
@@ -512,10 +940,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
-                <div class="logo-text">
-                    <span class="logo-title">HITAISHI</span>
-                    <span class="logo-subtitle">HEALTHCARE</span>
+                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                    <span class="logo-title">HEALTHCARE</span>
+                    <span class="logo-subtitle">SERVICES</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -528,8 +956,8 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
+                <a href="mailto:support@24x7health.in" class="contact-link">
+                    <i class="fas fa-envelope"></i> support@24x7health.in
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -571,10 +999,133 @@
                 </div>
                 
                 <!-- Profile Icon -->
-                <a href="login.html" id="loginNav1" title="Login/Profile" class="social-link" style="margin-left: 10px;">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="userName1"></span>
-                </a>
+                <div style="position: relative; display: inline-block; margin-left: 10px;">
+
+                    <!-- User Icon -->
+                    <div onclick="toggleDropdown()" 
+                        style="cursor:pointer; display:flex; align-items:center; gap:5px; color:white;">
+                        <i class="fas fa-user-circle" style="font-size:22px;"></i>
+                        <span id="userName1" style="font-size:14px;"></span>
+                        <i class="fas fa-caret-down" style="font-size:12px;"></i>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdown" 
+                        style="
+                            display:none;
+                            position:absolute;
+                            right:0;
+                            top:35px;
+                            background:#ffffff;
+                            min-width:220px;
+                            border-radius:8px;
+                            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                            padding:8px 0;
+                            z-index:9999;
+                        ">
+
+                        <!-- Login / Register Links -->
+                        <a href="login.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔐 Unified Login
+                        </a>
+
+                        <a href="doctor.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🩺 Doctor Register
+                        </a>
+
+                        <a href="diagnosticRegistration.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🧪 Diagnostic Register
+                        </a>
+
+                        <a href="AdminLogin.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔑 Admin Login
+                        </a>
+
+                        <!-- Divider -->
+                        <div style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
+
+                        <!-- Logout -->
+                        <div id="logoutBtn"
+                            style="display:none; padding:10px 15px; font-size:14px; color:#dc2626; cursor:pointer;"
+                            onmouseover="this.style.background='#fee2e2'"
+                            onmouseout="this.style.background='white'">
+                            🚪 Logout
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("userDropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close dropdown outside click
+                    window.addEventListener("click", function(e) {
+                        if (!e.target.closest('#userDropdown') &&
+                            !e.target.closest('[onclick="toggleDropdown()"]')) {
+                            document.getElementById("userDropdown").style.display = "none";
+                        }
+                    });
+
+                    /* =========================
+                    USER LOGIN CHECK
+                    ========================= */
+
+                    document.addEventListener("DOMContentLoaded", function () {
+
+                        const userNameSpan = document.getElementById("userName1");
+                        const logoutBtn = document.getElementById("logoutBtn");
+
+                        const patientName = localStorage.getItem("fullName");
+                        const doctorName = localStorage.getItem("doctorName");
+                        const diagnosticName = localStorage.getItem("diagnosticName");
+                        const adminToken = localStorage.getItem("adminToken");
+
+                        let currentUser = patientName || doctorName || diagnosticName;
+
+                        if (adminToken) {
+                            currentUser = "Admin";
+                        }
+
+                        if (currentUser) {
+                            userNameSpan.textContent = currentUser;
+                            logoutBtn.style.display = "block";
+                        } else {
+                            userNameSpan.textContent = "";
+                            logoutBtn.style.display = "none";
+                        }
+
+                        /* Logout Function */
+                        logoutBtn.addEventListener("click", function () {
+
+                            // Clear all possible login data
+                            localStorage.removeItem("fullName");
+                            localStorage.removeItem("doctorName");
+                            localStorage.removeItem("diagnosticName");
+                            localStorage.removeItem("adminToken");
+                            localStorage.removeItem("uid");
+                            sessionStorage.clear();
+
+                            window.location.href = "index.html";
+                        });
+
+                    });
+                </script>
             </div>
         </div>
 
@@ -632,23 +1183,39 @@
                     <div class="dropdown">
                         <a href="Physician.html" class="nav-link">Physicians <i class="fas fa-caret-down fa-xs"></i></a>
                         <div class="dropdown-menu mega-menu">
-                            <div class="mega-menu-grid">
-                                <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-                                <a href="neurologist.html" class="menu-item">Neurologist</a>
-                                <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-                                <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-                                <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-                                <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-                                <a href="urologist.html" class="menu-item">Urologist</a>
-                                <a href="oncologist.html" class="menu-item">Oncologist</a>
-                                <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-                                <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-                                <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-                                <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-                                <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-                                <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-                                <a href="general-physician.html" class="menu-item">General Physician</a>
-                            </div>
+                        <div class="mega-menu-grid">
+
+                            <a href="doctors.html?specialization=CARDIOLOGY" class="menu-item">Cardiologist</a>
+
+                            <a href="doctors.html?specialization=NEUROLOGIST" class="menu-item">Neurologist</a>
+
+                            <a href="doctors.html?specialization=DERMATOLOGIST" class="menu-item">Dermatologist</a>
+
+                            <a href="doctors.html?specialization=ORTHOPEDIC" class="menu-item">Orthopedic</a>
+
+                            <a href="doctors.html?specialization=PEDIATRICIAN" class="menu-item">Pediatrician</a>
+
+                            <a href="doctors.html?specialization=GYNACOLOGY" class="menu-item">Gynecologist</a>
+
+                            <a href="doctors.html?specialization=UROLOGIST" class="menu-item">Urologist</a>
+
+                            <a href="doctors.html?specialization=ONCOLOGY" class="menu-item">Oncologist</a>
+
+                            <a href="doctors.html?specialization=ENDOCRINOLOGIST" class="menu-item">Endocrinologist</a>
+
+                            <a href="doctors.html?specialization=GASTROENTEROLOGIST" class="menu-item">Gastroenterologist</a>
+
+                            <a href="doctors.html?specialization=PULMONOLOGIST" class="menu-item">Pulmonologist</a>
+
+                            <a href="doctors.html?specialization=RHEUMATOLOGIST" class="menu-item">Rheumatologist</a>
+
+                            <a href="doctors.html?specialization=PSYCHIATRIST" class="menu-item">Psychiatrist</a>
+
+                            <a href="doctors.html?specialization=OPHTHALMOLOGIST" class="menu-item">Ophthalmologist</a>
+
+                            <a href="doctors.html?specialization=GENERAL_PHYSICIAN" class="menu-item">General Physician</a>
+
+                        </div>
                         </div>
                     </div>
                     
@@ -696,6 +1263,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ambulance -->
+                    <a href="Ambulance.html" class="nav-link">Ambulance</a>
                 </div>
             </div>
         </div>
@@ -780,7 +1350,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -980,7 +1550,7 @@
                 const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "Hitaishi" or "Hitaishi HealthCare Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "24x7 Health" or "24x7 Health Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
                 
                 document.body.style.opacity = '0.5';
                 document.body.style.pointerEvents = 'none';
@@ -1023,178 +1593,503 @@
                 }
             });
         </script>
-    <!-- Navbar Code Ends-- -->
-  
+    <!-- Navbar Code Ends -->
 
-    <div style="max-width: 800px; margin: 0 auto; padding: 30px; font-family: Arial, sans-serif; background: #f8f9fa; color: #333;">
-      <h1 style="text-align: center; color: #2c3e50; margin-bottom: 30px;">Register Cancer Specialist</h1>
 
-      <form id="specialistForm" style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
-          <input type="url" id="image" placeholder="Doctor Image URL" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <input type="text" id="name" placeholder="Doctor Name" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <input type="number" id="fee" placeholder="Consultation Fee (₹)" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <input type="text" id="degree" placeholder="Degree" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <select id="branch" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            <option value="">Select Branch</option>
-            <option value="Medical Oncology">Medical Oncology</option>
-            <option value="Surgical Oncology">Surgical Oncology</option>
-            <option value="Radiation Oncology">Radiation Oncology</option>
-          </select>
-          <input type="text" id="expertise" placeholder="Expertise" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-          <select id="specialization" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            <option value="">Select Specialization</option>
-            <option value="Chemotherapy">Chemotherapy</option>
-            <option value="Immunotherapy">Immunotherapy</option>
-          </select>
-          <input type="text" id="location" placeholder="Location" required style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        </div>
-
-        <textarea id="description" placeholder="Description" style="width: 100%; margin-top: 20px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; min-height: 80px;"></textarea>
-
-        <button type="submit" style="margin-top: 20px; padding: 12px 20px; background-color: #e63946; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
-          Submit
-        </button>
-
-        <div id="message" style="text-align: center; margin-top: 20px; display: none; font-weight: bold;"></div>
-      </form>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Comprehensive Cancer Care</h1>
+    <p class="sub">Early detection, advanced treatment, and compassionate support — all in one place.</p>
+    <div class="cta-group">
+      <a href="#oncologists" class="btn">Find Oncologist <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#contact" class="btn btn-outline">Book Consultation</a>
     </div>
-   
+    <div class="stats">
+      <div class="stat-card"><i class="fa-solid fa-magnifying-glass"></i><h3>80%</h3><p>Early detection success</p></div>
+      <div class="stat-card"><i class="fa-solid fa-chart-line"></i><h3>65%</h3><p>Survival improvement</p></div>
+      <div class="stat-card"><i class="fa-solid fa-hand-holding-medical"></i><h3>12+</h3><p>Oncology specialists</p></div>
+      <div class="stat-card"><i class="fa-solid fa-clock"></i><h3>24/7</h3><p>Patient support</p></div>
+    </div>
+  </section>
 
-    <!-- footer -->
-    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; ">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Quick Links</h3>
-                <a href="Diagnostics.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Diagnostics</a>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Test's</a>
-                <a href="doctor.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Doctor</a>
-                <a href="Dental.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find A Tooth Expert</a>
-                <a href="Eyecare.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Eye Care</a>
-                <a href="donations.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Organ Donors</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Services</h3>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
-                <a href="blood.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blood Donations</a>
-                <a href="healthRecords.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">health Reports</a>
-                <a href="fertility.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Fertility</a>
-                <a href="Cancer.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Cancer Care</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
-                <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
-                <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
-                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
-            </div>
-            
-            <div style="flex: 1; min-width: 200px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-envelope"></i>
-                    <span>support@hitaishihealth.com</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-phone"></i>
-                    <span>8790170525</span>
-                </div>
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
-                <div>
-                    <a href="https://www.instagram.com/optic.bee/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/share/1CC3vxsppD/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-facebook"></i></a>
-                    <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-twitter"></i> </a>
-                    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-linkedin"></i> </a>
-                    <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-youtube"></i> </a>
+  <div class="container">
 
-                </div>
-            </div>
+    <!-- Cancer Types Navigation Grid -->
+    <h2 id="cancer-types"><i class="fa-solid fa-table-cells"></i> Cancer types</h2>
+    <div class="card-grid" id="cancer-nav-grid">
+      <!-- 12 cancer cards (using icons) -->
+      <div class="cancer-card"><a href="#breast-cancer"><i class="fa-solid fa-ribbon"></i><h3>Breast Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#lung-cancer"><i class="fa-solid fa-lungs"></i><h3>Lung Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#prostate-cancer"><i class="fa-solid fa-mars"></i><h3>Prostate Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#colorectal-cancer"><i class="fa-solid fa-stethoscope"></i><h3>Colorectal</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#skin-cancer"><i class="fa-solid fa-sun"></i><h3>Skin Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#leukemia"><i class="fa-solid fa-droplet"></i><h3>Leukemia</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#lymphoma"><i class="fa-solid fa-virus"></i><h3>Lymphoma</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#pancreatic-cancer"><i class="fa-solid fa-pancreas"></i><h3>Pancreatic</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#ovarian-cancer"><i class="fa-solid fa-venus"></i><h3>Ovarian Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#bladder-cancer"><i class="fa-solid fa-toilet"></i><h3>Bladder Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#kidney-cancer"><i class="fa-solid fa-kidneys"></i><h3>Kidney Cancer</h3><span class="badge">learn more</span></a></div>
+      <div class="cancer-card"><a href="#thyroid-cancer"><i class="fa-solid fa-shield"></i><h3>Thyroid Cancer</h3><span class="badge">learn more</span></a></div>
+    </div>
+
+    <!-- Individual Cancer Sections (abbreviated for length but complete structure) -->
+    <section id="breast-cancer" class="cancer-section">
+      <h3>Breast Cancer</h3>
+      <div class="cancer-overview">
+        <p>Breast cancer is a type of cancer that forms in the cells of the breasts. It is the most common cancer among women worldwide, affecting millions each year. While it primarily impacts women, men can also develop breast cancer, though less frequently. Early detection through regular screenings like mammograms is crucial and can lead to high cure rates. The disease involves abnormal cell growth in breast tissue, which can spread if not treated. With advancements in medical technology, survival rates have significantly improved, especially for early-stage diagnoses. Treatment success depends on the stage at diagnosis, with localized cancers having excellent outcomes.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Lump or thickening in the breast</li>
+            <li><i class="fa-solid fa-circle"></i> Change in breast size or shape</li>
+            <li><i class="fa-solid fa-circle"></i> Nipple discharge</li>
+            <li><i class="fa-solid fa-circle"></i> Skin changes on the breast</li>
+            <li><i class="fa-solid fa-circle"></i> Pain in the breast or nipple</li>
+          </ul>
         </div>
-        <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
-            <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
-            <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
-            <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 40+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Genetics, age, hormone exposure</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 90% for early detection</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Mammogram, self-exam</li>
+          </ul>
         </div>
-    </footer>
-    
-    <script>
-      const form = document.getElementById('specialistForm');
-      const message = document.getElementById('message');
+      </div>
+    </section>
+    <!-- Lung cancer (abbr.) -->
+    <section id="lung-cancer" class="cancer-section">
+      <h3>Lung Cancer</h3>
+      <div class="cancer-overview">
+        <p>Lung cancer is the leading cause of cancer-related deaths worldwide. It develops in the lungs, often in the cells lining the air passages. While smoking is the primary risk factor, non-smokers can also develop lung cancer due to environmental exposures or genetics. Early detection is challenging because symptoms often appear late. However, screening with low-dose CT scans for high-risk individuals has shown promise in improving outcomes. The disease can be broadly classified into small cell and non-small cell lung cancer, each with different treatment approaches. Advances in targeted therapies and immunotherapies have improved survival rates, especially for patients with specific genetic mutations.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Persistent cough</li>
+            <li><i class="fa-solid fa-circle"></i> Chest pain</li>
+            <li><i class="fa-solid fa-circle"></i> Shortness of breath</li>
+            <li><i class="fa-solid fa-circle"></i> Fatigue</li>
+            <li><i class="fa-solid fa-circle"></i> Unexplained weight loss</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 50+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Smoking, radon, asbestos</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 20% overall, higher for early stages</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: CT scan, chest X-ray</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="prostate-cancer" class="cancer-section">
+      <div class="cancer-header">
+        <h3>Prostate Cancer</h3>
+      </div>
+      <div class="cancer-content">
+        <div class="cancer-overview">
+          <h4>Overview</h4>
+          <p>Prostate cancer originates in the prostate gland, a small walnut-sized organ that produces seminal fluid in men. It is one of the most common cancers among men, particularly those over 50. The cancer grows slowly in most cases, and many men may never experience symptoms or require treatment. Early detection through PSA testing and digital rectal exams is key to successful management. While aggressive forms exist, most prostate cancers are indolent and can be monitored rather than immediately treated. Treatment decisions depend on the cancer's stage, grade, and the patient's overall health. Modern approaches include active surveillance, surgery, radiation, and hormone therapy, with excellent outcomes for localized disease.</p>
+        </div>
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Frequent urination</li>
+            <li><i class="fa-solid fa-circle"></i> Difficulty starting urination</li>
+            <li><i class="fa-solid fa-circle"></i> Weak urine stream</li>
+            <li><i class="fa-solid fa-circle"></i> Blood in urine</li>
+            <li><i class="fa-solid fa-circle"></i> Pain in the pelvic area</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 50+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Age, family history, race</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 98% for localized disease</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: PSA test, biopsy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- Remaining 9 cancers: compact but present with anchor, keep layout -->
+    <section id="colorectal-cancer" class="cancer-section">
+      <h3>Colorectal Cancer</h3>
+      <div class="cancer-overview">
+        <p>Colorectal cancer affects the colon or rectum, parts of the digestive system. It typically develops from polyps in the colon that become cancerous over time. Regular screening through colonoscopy can prevent cancer by removing polyps before they turn malignant. The disease affects both men and women equally and is more common in older adults. Early-stage colorectal cancer is highly treatable, with surgery often being curative. Advanced cases may require chemotherapy, radiation, or targeted therapies. Lifestyle factors like diet and exercise play a role in prevention. With proper screening and early intervention, colorectal cancer has one of the highest cure rates among cancers.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Blood in stool</li>
+            <li><i class="fa-solid fa-circle"></i> Abdominal pain</li>
+            <li><i class="fa-solid fa-circle"></i> Change in bowel habits</li>
+            <li><i class="fa-solid fa-circle"></i> Unexplained weight loss</li>
+            <li><i class="fa-solid fa-circle"></i> Fatigue</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 45+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Age, family history, polyps</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 90% for early stages</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Colonoscopy, stool test</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="skin-cancer" class="cancer-section">
+      <h3>Skin Cancer</h3>
+      <div class="cancer-overview">
+        <p>Skin cancer is the most common form of cancer, primarily caused by ultraviolet (UV) radiation from the sun or tanning beds. It develops in the skin cells and can be broadly categorized into melanoma and non-melanoma types. Basal cell and squamous cell carcinomas are non-melanoma types that are usually not life-threatening but can cause significant damage if untreated. Melanoma is less common but more dangerous, capable of spreading to other parts of the body. Early detection is crucial, as skin cancers are often visible and can be diagnosed through simple skin examinations. Prevention through sun protection and regular skin checks can dramatically reduce risk. Most skin cancers are highly treatable, especially when caught early.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> New mole or skin growth</li>
+            <li><i class="fa-solid fa-circle"></i> Change in existing mole</li>
+            <li><i class="fa-solid fa-circle"></i> Irregular borders</li>
+            <li><i class="fa-solid fa-circle"></i> Asymmetrical shape</li>
+            <li><i class="fa-solid fa-circle"></i> Itching or bleeding</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: Any age, increases with age</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: UV exposure, fair skin, family history</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 99% for non-melanoma, varies for melanoma</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Skin exam, biopsy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="leukemia" class="cancer-section">
+      <h3>Leukemia</h3>
+      <div class="cancer-overview">
+        <p>Leukemia is a cancer of the blood and bone marrow, where abnormal white blood cells are produced in large quantities. It affects the body's ability to fight infection and produce normal blood cells. There are several types, including acute and chronic forms, as well as lymphocytic and myeloid varieties. Acute leukemias progress rapidly and require immediate treatment, while chronic forms develop more slowly. The disease can affect people of any age, though some types are more common in children or adults. Modern treatments including chemotherapy, stem cell transplants, and targeted therapies have significantly improved outcomes. Early diagnosis through blood tests is essential for effective management and potential cure.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Fatigue and weakness</li>
+            <li><i class="fa-solid fa-circle"></i> Frequent infections</li>
+            <li><i class="fa-solid fa-circle"></i> Easy bruising or bleeding</li>
+            <li><i class="fa-solid fa-circle"></i> Fever</li>
+            <li><i class="fa-solid fa-circle"></i> Bone pain</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: Any age, varies by type</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Radiation, chemicals, genetics</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 60-90% depending on type and stage</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Blood tests, bone marrow biopsy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="lymphoma" class="cancer-section">
+      <h3>Lymphoma</h3>
+      <div class="cancer-overview">
+        <p>Lymphoma is a cancer that originates in the lymphatic system, which is part of the body's immune system. It affects lymphocytes, a type of white blood cell that helps fight infection. There are two main types: Hodgkin lymphoma and non-Hodgkin lymphoma, each with different characteristics and treatment approaches. The disease can spread through the lymphatic system and may involve lymph nodes, spleen, or other organs. While the exact cause is often unknown, certain risk factors like immune system disorders or infections can increase susceptibility. Modern treatments including chemotherapy, radiation, immunotherapy, and stem cell transplants have made many lymphomas highly treatable. Early diagnosis and appropriate staging are crucial for determining the best treatment strategy.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Swollen lymph nodes</li>
+            <li><i class="fa-solid fa-circle"></i> Fever</li>
+            <li><i class="fa-solid fa-circle"></i> Night sweats</li>
+            <li><i class="fa-solid fa-circle"></i> Unexplained weight loss</li>
+            <li><i class="fa-solid fa-circle"></i> Fatigue</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 20-40 for Hodgkin, 60+ for non-Hodgkin</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Immune disorders, infections, age</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 80-90% for Hodgkin, varies for non-Hodgkin</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Lymph node biopsy, imaging</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="pancreatic-cancer" class="cancer-section">
+      <h3>Pancreatic Cancer</h3>
+      <div class="cancer-overview">
+        <p>Pancreatic cancer develops in the pancreas, an organ that produces digestive enzymes and hormones like insulin. It is often diagnosed at an advanced stage because early symptoms are subtle and non-specific. The disease has one of the lowest survival rates among cancers due to its aggressive nature and late detection. Risk factors include smoking, obesity, diabetes, and genetic predisposition. While challenging to treat, advances in surgery, chemotherapy, and targeted therapies have improved outcomes for some patients. The Whipple procedure is a common surgical approach for resectable tumors. Research into early detection methods and new treatments continues to offer hope for better prognosis in the future.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Jaundice</li>
+            <li><i class="fa-solid fa-circle"></i> Abdominal pain</li>
+            <li><i class="fa-solid fa-circle"></i> Unexplained weight loss</li>
+            <li><i class="fa-solid fa-circle"></i> Loss of appetite</li>
+            <li><i class="fa-solid fa-circle"></i> Nausea</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 60+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Smoking, diabetes, family history</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 10% overall, higher for early stages</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: CT scan, biopsy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="ovarian-cancer" class="cancer-section">
+      <h3>Ovarian Cancer</h3>
+      <div class="cancer-overview">
+        <p>Ovarian cancer begins in the ovaries, the female reproductive organs that produce eggs and hormones. It is often called the "silent killer" because symptoms are vague and appear late in the disease process. The cancer can spread quickly to nearby organs and is typically diagnosed at advanced stages. Risk factors include age, family history, and genetic mutations like BRCA1 and BRCA2. Early detection is challenging, but regular pelvic exams and awareness of symptoms can help. Treatment usually involves surgery to remove as much cancer as possible, followed by chemotherapy. Advances in targeted therapies, including PARP inhibitors, have improved outcomes for certain patients. Ongoing research focuses on better screening methods and personalized treatments.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Abdominal bloating</li>
+            <li><i class="fa-solid fa-circle"></i> Pelvic pain</li>
+            <li><i class="fa-solid fa-circle"></i> Difficulty eating</li>
+            <li><i class="fa-solid fa-circle"></i> Frequent urination</li>
+            <li><i class="fa-solid fa-circle"></i> Fatigue</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 50+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Age, genetics, family history</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 45% overall, higher for early stages</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Pelvic exam, ultrasound, CA-125</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="bladder-cancer" class="cancer-section">
+      <h3>Bladder Cancer</h3>
+      <div class="cancer-overview">
+        <p>Bladder cancer develops in the bladder, the organ that stores urine. It typically affects the inner lining of the bladder and can spread to other layers if not treated. Smoking is the leading risk factor, accounting for about half of all cases. The disease is more common in men than women and usually occurs in older adults. Blood in the urine is often the first sign, prompting medical evaluation. Treatment depends on the stage and grade of the cancer, ranging from surgery to remove tumors to more extensive procedures. Non-invasive bladder cancer has excellent cure rates, while invasive forms require more aggressive treatment. Regular follow-up is important due to the risk of recurrence.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Blood in urine</li>
+            <li><i class="fa-solid fa-circle"></i> Frequent urination</li>
+            <li><i class="fa-solid fa-circle"></i> Painful urination</li>
+            <li><i class="fa-solid fa-circle"></i> Pelvic pain</li>
+            <li><i class="fa-solid fa-circle"></i> Back pain</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 60+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Smoking, chemicals, age</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 80% for non-invasive, varies for invasive</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Urine test, cystoscopy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="kidney-cancer" class="cancer-section">
+      <h3>Kidney Cancer</h3>
+      <div class="cancer-overview">
+        <p>Kidney cancer, also known as renal cancer, originates in the kidneys, the organs responsible for filtering blood and producing urine. Renal cell carcinoma is the most common type. The disease often grows without symptoms until later stages, making early detection challenging. Risk factors include smoking, obesity, high blood pressure, and certain genetic conditions. Treatment options vary by stage and may include surgery to remove part or all of the kidney, ablation procedures, or systemic therapies. Advances in targeted therapies and immunotherapies have significantly improved outcomes for advanced kidney cancer. Regular monitoring and lifestyle modifications can help manage risk and detect the disease early.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Blood in urine</li>
+            <li><i class="fa-solid fa-circle"></i> Flank pain</li>
+            <li><i class="fa-solid fa-circle"></i> Unexplained weight loss</li>
+            <li><i class="fa-solid fa-circle"></i> Fatigue</li>
+            <li><i class="fa-solid fa-circle"></i> Fever</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 50+</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Smoking, obesity, hypertension</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 75% overall, higher for localized</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: CT scan, ultrasound</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="thyroid-cancer" class="cancer-section">
+      <h3>Thyroid Cancer</h3>
+      <div class="cancer-overview">
+        <p>Thyroid cancer develops in the thyroid gland, a butterfly-shaped organ at the base of the neck that regulates metabolism. It is relatively rare but has been increasing in incidence, possibly due to better detection methods. Most thyroid cancers are highly treatable, with excellent survival rates. The disease is more common in women and can occur at any age, though it's often diagnosed in younger adults. Papillary and follicular types are the most common and have very good prognoses. Treatment typically involves surgery to remove part or all of the thyroid, followed by radioactive iodine therapy if needed. Ongoing thyroid hormone replacement is usually required after surgery. Regular monitoring ensures long-term health and early detection of any recurrence.</p>
+      </div>
+      <div class="cancer-columns">
+        <div class="cancer-symptoms">
+          <h4>Symptoms</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle"></i> Neck lump or swelling</li>
+            <li><i class="fa-solid fa-circle"></i> Difficulty swallowing</li>
+            <li><i class="fa-solid fa-circle"></i> Hoarseness</li>
+            <li><i class="fa-solid fa-circle"></i> Neck pain</li>
+            <li><i class="fa-solid fa-circle"></i> Enlarged lymph nodes</li>
+          </ul>
+        </div>
+        <div class="cancer-facts">
+          <h4>Key Facts</h4>
+          <ul>
+            <li><i class="fa-solid fa-user"></i> Common age group: 30-50</li>
+            <li><i class="fa-solid fa-exclamation-triangle"></i> Risk factors: Radiation exposure, genetics</li>
+            <li><i class="fa-solid fa-chart-line"></i> Survival rate: 98% overall</li>
+            <li><i class="fa-solid fa-search"></i> Detection method: Ultrasound, biopsy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-      form.addEventListener('submit', async (e) => {
+    <!-- 4️⃣ Oncology Treatment Options -->
+    <h2 id="treatment-options"><i class="fa-solid fa-flask"></i> Oncology Treatment Options</h2>
+    <div class="card-grid">
+      <div class="treatment-card"><i class="fa-solid fa-syringe" style="color:#007bff; font-size:2.2rem;"></i><h3>Chemotherapy</h3><p>Drugs to kill cancer cells, often systemic.</p></div>
+      <div class="treatment-card"><i class="fa-solid fa-radiation" style="color:#007bff;"></i><h3>Radiation Therapy</h3><p>High-energy rays to destroy tumors.</p></div>
+      <div class="treatment-card"><i class="fa-solid fa-scalpel"></i><h3>Surgery</h3><p>Removing tumor and nearby tissue.</p></div>
+      <div class="treatment-card"><i class="fa-solid fa-shield"></i><h3>Immunotherapy</h3><p>Boosts immune system to fight cancer.</p></div>
+      <div class="treatment-card"><i class="fa-solid fa-bullseye"></i><h3>Targeted Therapy</h3><p>Drugs targeting specific genes/proteins.</p></div>
+      <div class="treatment-card"><i class="fa-solid fa-droplet"></i><h3>Hormone Therapy</h3><p>Blocks hormones that fuel cancers.</p></div>
+    </div>
+
+    <!-- 5️⃣ Screening & Diagnosis -->
+    <h2 id="screening"><i class="fa-solid fa-microscope"></i> Cancer Screening & Diagnosis</h2>
+    <div class="card-grid">
+      <div class="screening-card"><i class="fa-solid fa-ultrasound"></i><h3>Mammogram</h3><p>Breast cancer screening</p></div>
+      <div class="screening-card"><i class="fa-solid fa-syringe"></i><h3>Biopsy</h3><p>Tissue sample analysis</p></div>
+      <div class="screening-card"><i class="fa-solid fa-cube"></i><h3>CT Scan</h3><p>Detailed cross-section imaging</p></div>
+      <div class="screening-card"><i class="fa-solid fa-circle-radiation"></i><h3>PET Scan</h3><p>Metabolic activity imaging</p></div>
+      <div class="screening-card"><i class="fa-solid fa-flask"></i><h3>Blood Tests</h3><p>Tumor markers, CBC</p></div>
+      <div class="screening-card"><i class="fa-solid fa-dna"></i><h3>Genetic Testing</h3><p>Hereditary cancer risk</p></div>
+    </div>
+
+    <!-- 6️⃣ Meet Our Oncologists (placeholder doctors) -->
+    <h2 id="oncologists"><i class="fa-solid fa-user-doctor"></i> Meet Our Oncologists</h2>
+    <div class="card-grid">
+      <div class="doctor-card"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Priya"><h4>Dr. Priya Sharma</h4><div class="branch">Medical Oncology</div><p>MBBS, MD (Oncology) · 15y exp</p><p class="fee">₹1200 consultation</p><button class="btn-book">Book Appointment</button></div>
+      <div class="doctor-card"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Raj"><h4>Dr. Raj Mehta</h4><div class="branch">Surgical Oncology</div><p>MS, MCh (Surg Onc) · 12y exp</p><p class="fee">₹1500 consultation</p><button class="btn-book">Book Appointment</button></div>
+      <div class="doctor-card"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dr. Anjali"><h4>Dr. Anjali Nair</h4><div class="branch">Radiation Oncology</div><p>MD (Radiotherapy) · 9y exp</p><p class="fee">₹1100 consultation</p><button class="btn-book">Book Appointment</button></div>
+      <div class="doctor-card"><img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Dr. Vikram"><h4>Dr. Vikram Singh</h4><div class="branch">Medical Oncology</div><p>DM Medical Onc · 10y exp</p><p class="fee">₹1300 consultation</p><button class="btn-book">Book Appointment</button></div>
+    </div>
+
+    <!-- 7️⃣ Support Services -->
+    <h2 id="support"><i class="fa-solid fa-hand-holding-heart"></i> Cancer Support Services</h2>
+    <div class="card-grid">
+      <div class="support-card"><i class="fa-solid fa-utensils"></i><h3>Nutritional Counseling</h3></div>
+      <div class="support-card"><i class="fa-solid fa-brain"></i><h3>Psychological Support</h3></div>
+      <div class="support-card"><i class="fa-solid fa-bandage"></i><h3>Pain Management</h3></div>
+      <div class="support-card"><i class="fa-solid fa-person-walking"></i><h3>Rehabilitation</h3></div>
+      <div class="support-card"><i class="fa-solid fa-hands"></i><h3>Palliative Care</h3></div>
+    </div>
+
+    <!-- 8️⃣ Patient Success Stories -->
+    <h2><i class="fa-solid fa-star"></i> Patient Success Stories</h2>
+    <div class="card-grid">
+      <div class="testimonial-card"><img src="https://randomuser.me/api/portraits/women/17.jpg" alt="patient"><p><i class="fa-solid fa-quote-left"></i> The team supported me through breast cancer. Now cancer-free! </p><span>- Meera, Breast Cancer</span></div>
+      <div class="testimonial-card"><img src="https://randomuser.me/api/portraits/men/62.jpg" alt="patient"><p><i class="fa-solid fa-quote-left"></i> Advanced lung cancer, but targeted therapy gave me years. </p><span>- Ramesh, Lung Cancer</span></div>
+      <div class="testimonial-card"><img src="https://randomuser.me/api/portraits/women/50.jpg" alt="patient"><p><i class="fa-solid fa-quote-left"></i> Compassionate palliative care made all the difference. </p><span>- Sunita, Pancreatic</span></div>
+    </div>
+
+    <!-- 9️⃣ FAQ (accordion) -->
+    <h2 id="faq"><i class="fa-regular fa-circle-question"></i> Frequently Asked Questions</h2>
+    <div class="faq-item active"><div class="faq-question">What are early warning signs of cancer? <i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer">Unexplained weight loss, lumps, persistent cough, changes in bowel/bladder, unusual bleeding. Always consult a doctor.</div></div>
+    <div class="faq-item"><div class="faq-question">How is cancer diagnosed? <i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer">Imaging (CT/MRI), biopsy, lab tests, and genetic profiling. Multidisciplinary team reviews.</div></div>
+    <div class="faq-item"><div class="faq-question">What treatment options are available? <i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer">Surgery, chemo, radiation, immunotherapy, targeted therapy, hormone therapy, and clinical trials.</div></div>
+    <div class="faq-item"><div class="faq-question">Can cancer be cured? <i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer">Many cancers can be cured if detected early. Advanced cancers often managed as chronic disease with modern therapies.</div></div>
+
+    <!-- 🔟 Emergency Banner -->
+    <div class="emergency-banner">
+      <div><h3>Emergency oncology consultation</h3><p class="phone"><i class="fa-solid fa-phone"></i> 1800-102-1022</p></div>
+      <a href="#oncologists" class="btn" style="background:white; color:#e63946;">Quick CTA</a>
+    </div>
+  </div> 
+  <!-- container end -->
+
+  <!-- 11️⃣ Footer -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <div><h4>Quick Links</h4><a href="#">Diagnostics</a><a href="#">Find Doctor</a><a href="#">Cancer Care</a><a href="#">Eye Care</a></div>
+      <div><h4>Services</h4><a href="#">Health Checkups</a><a href="#">Blood Donations</a><a href="#">Fertility</a><a href="#">Organ Donors</a></div>
+      <div><h4>Subscribe</h4><input type="email" placeholder="Your email" style="padding:8px; border-radius:40px; border:none;"><button style="background:#e63946; color:white; border:none; padding:8px 16px; border-radius:40px; margin-top:0.5rem;">Subscribe</button></div>
+      <div><h4>Contact</h4><i class="fa-solid fa-envelope"></i> support@24x7health.in <br><i class="fa-solid fa-phone"></i> 8790170525 <br><div class="social"><i class="fab fa-instagram"></i><i class="fab fa-facebook"></i><i class="fab fa-twitter"></i></div></div>
+    </div>
+    <hr style="border-color:#3a5575;">
+    <p style="text-align:center; margin-top:2rem;">© 2025 24x7 Health Services. All rights reserved.</p>
+  </footer>
+
+  <!-- scroll to top -->
+  <div class="scroll-top" id="scrollTop"><i class="fa-solid fa-arrow-up"></i></div>
+
+  <!-- scripts -->
+  <script>
+    // smooth scroll for all anchor links with hash
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
         e.preventDefault();
-
-        const formData = {
-          image: document.getElementById('image').value.trim(),
-          name: document.getElementById('name').value.trim(),
-          fee: document.getElementById('fee').value.trim(),
-          degree: document.getElementById('degree').value.trim(),
-          branch: document.getElementById('branch').value,
-          expertise: document.getElementById('expertise').value.trim(),
-          specialization: document.getElementById('specialization').value,
-          location: document.getElementById('location').value.trim(),
-          description: document.getElementById('description').value.trim()
-        };
-
-        try {
-          const response = await fetch('https://hitaishihealthcare.com/api/specialists', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          });
-
-          if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to register');
-          }
-
-          message.textContent = '✅ Specialist registered successfully!';
-          message.style.color = '#155724';
-          message.style.display = 'block';
-          message.style.backgroundColor = '#d4edda';
-          form.reset();
-
-        } catch (error) {
-          message.textContent = '❌ ' + error.message;
-          message.style.color = '#721c24';
-          message.style.display = 'block';
-          message.style.backgroundColor = '#f8d7da';
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          // optional highlight
+          target.classList.add('highlight-section');
+          setTimeout(() => target.classList.remove('highlight-section'), 1500);
         }
+      });
+    });
 
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+
+    // scroll to top button
+    const scrollBtn = document.getElementById('scrollTop');
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // highlight section when clicking from nav (bonus: if URL has hash on load)
+    if (window.location.hash) {
+      const el = document.querySelector(window.location.hash);
+      if (el) {
         setTimeout(() => {
-          message.style.display = 'none';
-        }, 4000);
-      });
-    </script>
+          el.scrollIntoView({ behavior: 'smooth' });
+          el.classList.add('highlight-section');
+          setTimeout(() => el.classList.remove('highlight-section'), 2000);
+        }, 200);
+      }
+    }
 
-<!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
-
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
-
-        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-        // ✅ So, we must find and re-run those <script> blocks manually:
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
-        });
-      });
-</script>
-
+    // simple book appointment button alert (placeholder)
+    document.querySelectorAll('.btn-book').forEach(btn => {
+      btn.addEventListener('click', () => alert('Appointment booking coming soon.'));
+    });
+  </script>
 </body>
 </html>

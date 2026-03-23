@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Login | Hitaishi HealthCare</title>
+  <title>Doctor Login | 24x7 Health Services</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet" />
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -248,7 +248,7 @@
         messageElement.style.color = '#555';
 
         try {
-          const response = await fetch("https://hitaishihealthcare.com/api/doctorlogin", {
+          const response = await fetch("/api/doctorlogin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Important for session cookies

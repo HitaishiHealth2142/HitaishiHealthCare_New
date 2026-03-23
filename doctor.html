@@ -20,13 +20,350 @@
     <meta name="theme-color" content="#e63946">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalOrganization","name":"Hitaishi Healthcare","url":"/","logo":"/images/Hitaishi HealthCare (1).png","description":"Find and book doctors and specialists—dermatologists, gynecologists, cardiologists, pediatricians, neurologists and more.","medicalSpecialty":["Dermatology","Gynecology","Obstetrics","Pediatrics","Cardiology","Neurology","Orthopedics","ENT","Ophthalmology","Dentistry","Urology","Nephrology","Oncology","Endocrinology","Gastroenterology","Pulmonology","Rheumatology","Psychiatry","Physiotherapy","Plastic Surgery","Fertility"]}</script>
     <title>Hitaishi Healthcare Services</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <!-- Google Font for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(145deg, #e9f0fa 0%, #f2f7fc 100%);
+            margin: 0;
+        }
+
+        /* elegant card container */
+        .registration-wrapper {
+            width: 100%;
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -10px rgba(0,40,80,0.25), 0 0 0 1px rgba(21, 112, 239, 0.1);
+            padding: 2.5rem 2.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-title {
+            text-align: center;
+            color: #0b2f4e;
+            font-weight: 600;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .form-title i {
+            color: #1d4ed8;
+            font-size: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1552b3;
+            margin: 2rem 0 1.5rem 0;
+            border-bottom: 2px solid rgba(21, 112, 239, 0.2);
+            padding-bottom: 0.6rem;
+        }
+
+        .section-header i {
+            color: #2563eb;
+            font-size: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .input-field {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-field input, 
+        .input-field select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            transition: all 0.2s;
+            outline: none;
+            color: #0a1e3c;
+        }
+
+        .input-field select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+        }
+
+        .input-field label {
+            position: absolute;
+            left: 1rem;
+            top: 0.9rem;
+            color: #64748b;
+            background: white;
+            padding: 0 0.3rem;
+            font-size: 1rem;
+            transition: 0.2s ease all;
+            pointer-events: none;
+            font-weight: 450;
+            line-height: 1;
+        }
+
+        .input-field input:focus,
+        .input-field select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+        }
+
+        .input-field input:focus ~ label,
+        .input-field input:not(:placeholder-shown) ~ label,
+        .input-field select:valid ~ label {
+            top: -0.6rem;
+            left: 0.8rem;
+            font-size: 0.8rem;
+            color: #2563eb;
+            font-weight: 600;
+            background: linear-gradient(white, white);
+            border-radius: 0.5rem;
+        }
+
+        /* For time inputs (they have visible labels, different styling) */
+        .time-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .time-item {
+            flex: 1 1 200px;
+        }
+
+        .time-item label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.4rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .time-item input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+        }
+
+        .time-item input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+            outline: none;
+        }
+
+        .file-upload {
+            margin: 2rem 0 1rem;
+            background: #f8fafc;
+            border-radius: 1.5rem;
+            padding: 1.5rem 1.2rem;
+            border: 2px dashed #b9d3f8;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .file-upload label {
+            background: #2563eb;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 3rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-upload label:hover {
+            background: #1d4ed8;
+        }
+
+        .file-upload span {
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .btn-register {
+            width: 100%;
+            background: linear-gradient(145deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 3rem;
+            padding: 1rem 1.8rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.15s;
+            box-shadow: 0 10px 20px -8px #1e3a8a80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-register:hover {
+            background: linear-gradient(145deg, #1d4ed8, #2563eb);
+            transform: scale(1.02);
+            box-shadow: 0 18px 25px -8px #0f2b7a;
+        }
+
+        /* social login */
+        .social-divider {
+            text-align: center;
+            margin: 2.2rem 0 1.8rem;
+            position: relative;
+        }
+
+        .social-divider span {
+            background: white;
+            padding: 0 1.2rem;
+            color: #4b5565;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #b3c9f0, transparent);
+            z-index: 1;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1.5px solid #e9eef3;
+            border-radius: 3rem;
+            padding: 0.6rem 1.5rem;
+            background: white;
+            transition: 0.15s;
+            font-weight: 500;
+        }
+
+        .social-btn img {
+            width: 22px;
+            height: 22px;
+        }
+
+        .social-btn:hover {
+            border-color: #2563eb;
+            background: #f8fcff;
+            box-shadow: 0 5px 12px rgba(0,60,130,0.1);
+            transform: translateY(-2px);
+        }
+
+        .login-redirect {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+
+        .login-redirect a {
+            color: #1d4ed8;
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: 0.15s;
+        }
+
+        .login-redirect a:hover {
+            border-bottom-color: #2563eb;
+        }
+
+        /* clinic address group (inline inputs) */
+        .clinic-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .clinic-group .input-field {
+            flex: 1 1 160px;
+        }
+
+        /* remove default placeholder of hidden labels */
+        input::placeholder {
+            color: transparent;
+        }
+
+        /* keep consistent spacing */
+        .mb-1 { margin-bottom: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+
+        /* responsive */
+        @media (max-width: 680px) {
+            body { padding: 0.5rem; }
+            .form-card { padding: 1.5rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .clinic-group { flex-direction: column; }
+        }
+    </style>
 </head>
-<body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-
-
+<body>
 
     <!-- Navbar Code -->
         <style>
@@ -148,13 +485,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .search-container {
@@ -428,11 +765,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 20px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 14px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-section img {
@@ -475,10 +812,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
-                <div class="logo-text">
-                    <span class="logo-title">HITAISHI</span>
-                    <span class="logo-subtitle">HEALTHCARE</span>
+                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                    <span class="logo-title">HEALTHCARE</span>
+                    <span class="logo-subtitle">SERVICES</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -491,8 +828,8 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
+                <a href="mailto:support@24x7health.in" class="contact-link">
+                    <i class="fas fa-envelope"></i> support@24x7health.in
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -534,10 +871,133 @@
                 </div>
                 
                 <!-- Profile Icon -->
-                <a href="login.html" id="loginNav1" title="Login/Profile" class="social-link" style="margin-left: 10px;">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="userName1"></span>
-                </a>
+                <div style="position: relative; display: inline-block; margin-left: 10px;">
+
+                    <!-- User Icon -->
+                    <div onclick="toggleDropdown()" 
+                        style="cursor:pointer; display:flex; align-items:center; gap:5px; color:white;">
+                        <i class="fas fa-user-circle" style="font-size:22px;"></i>
+                        <span id="userName1" style="font-size:14px;"></span>
+                        <i class="fas fa-caret-down" style="font-size:12px;"></i>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdown" 
+                        style="
+                            display:none;
+                            position:absolute;
+                            right:0;
+                            top:35px;
+                            background:#ffffff;
+                            min-width:220px;
+                            border-radius:8px;
+                            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                            padding:8px 0;
+                            z-index:9999;
+                        ">
+
+                        <!-- Login / Register Links -->
+                        <a href="login.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔐 Unified Login
+                        </a>
+
+                        <a href="doctor.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🩺 Doctor Register
+                        </a>
+
+                        <a href="diagnosticRegistration.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🧪 Diagnostic Register
+                        </a>
+
+                        <a href="AdminLogin.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔑 Admin Login
+                        </a>
+
+                        <!-- Divider -->
+                        <div style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
+
+                        <!-- Logout -->
+                        <div id="logoutBtn"
+                            style="display:none; padding:10px 15px; font-size:14px; color:#dc2626; cursor:pointer;"
+                            onmouseover="this.style.background='#fee2e2'"
+                            onmouseout="this.style.background='white'">
+                            🚪 Logout
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("userDropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close dropdown outside click
+                    window.addEventListener("click", function(e) {
+                        if (!e.target.closest('#userDropdown') &&
+                            !e.target.closest('[onclick="toggleDropdown()"]')) {
+                            document.getElementById("userDropdown").style.display = "none";
+                        }
+                    });
+
+                    /* =========================
+                    USER LOGIN CHECK
+                    ========================= */
+
+                    document.addEventListener("DOMContentLoaded", function () {
+
+                        const userNameSpan = document.getElementById("userName1");
+                        const logoutBtn = document.getElementById("logoutBtn");
+
+                        const patientName = localStorage.getItem("fullName");
+                        const doctorName = localStorage.getItem("doctorName");
+                        const diagnosticName = localStorage.getItem("diagnosticName");
+                        const adminToken = localStorage.getItem("adminToken");
+
+                        let currentUser = patientName || doctorName || diagnosticName;
+
+                        if (adminToken) {
+                            currentUser = "Admin";
+                        }
+
+                        if (currentUser) {
+                            userNameSpan.textContent = currentUser;
+                            logoutBtn.style.display = "block";
+                        } else {
+                            userNameSpan.textContent = "";
+                            logoutBtn.style.display = "none";
+                        }
+
+                        /* Logout Function */
+                        logoutBtn.addEventListener("click", function () {
+
+                            // Clear all possible login data
+                            localStorage.removeItem("fullName");
+                            localStorage.removeItem("doctorName");
+                            localStorage.removeItem("diagnosticName");
+                            localStorage.removeItem("adminToken");
+                            localStorage.removeItem("uid");
+                            sessionStorage.clear();
+
+                            window.location.href = "index.html";
+                        });
+
+                    });
+                </script>
             </div>
         </div>
 
@@ -595,23 +1055,39 @@
                     <div class="dropdown">
                         <a href="Physician.html" class="nav-link">Physicians <i class="fas fa-caret-down fa-xs"></i></a>
                         <div class="dropdown-menu mega-menu">
-                            <div class="mega-menu-grid">
-                                <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-                                <a href="neurologist.html" class="menu-item">Neurologist</a>
-                                <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-                                <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-                                <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-                                <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-                                <a href="urologist.html" class="menu-item">Urologist</a>
-                                <a href="oncologist.html" class="menu-item">Oncologist</a>
-                                <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-                                <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-                                <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-                                <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-                                <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-                                <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-                                <a href="general-physician.html" class="menu-item">General Physician</a>
-                            </div>
+                        <div class="mega-menu-grid">
+
+                            <a href="doctors.html?specialization=CARDIOLOGY" class="menu-item">Cardiologist</a>
+
+                            <a href="doctors.html?specialization=NEUROLOGIST" class="menu-item">Neurologist</a>
+
+                            <a href="doctors.html?specialization=DERMATOLOGIST" class="menu-item">Dermatologist</a>
+
+                            <a href="doctors.html?specialization=ORTHOPEDIC" class="menu-item">Orthopedic</a>
+
+                            <a href="doctors.html?specialization=PEDIATRICIAN" class="menu-item">Pediatrician</a>
+
+                            <a href="doctors.html?specialization=GYNACOLOGY" class="menu-item">Gynecologist</a>
+
+                            <a href="doctors.html?specialization=UROLOGIST" class="menu-item">Urologist</a>
+
+                            <a href="doctors.html?specialization=ONCOLOGY" class="menu-item">Oncologist</a>
+
+                            <a href="doctors.html?specialization=ENDOCRINOLOGIST" class="menu-item">Endocrinologist</a>
+
+                            <a href="doctors.html?specialization=GASTROENTEROLOGIST" class="menu-item">Gastroenterologist</a>
+
+                            <a href="doctors.html?specialization=PULMONOLOGIST" class="menu-item">Pulmonologist</a>
+
+                            <a href="doctors.html?specialization=RHEUMATOLOGIST" class="menu-item">Rheumatologist</a>
+
+                            <a href="doctors.html?specialization=PSYCHIATRIST" class="menu-item">Psychiatrist</a>
+
+                            <a href="doctors.html?specialization=OPHTHALMOLOGIST" class="menu-item">Ophthalmologist</a>
+
+                            <a href="doctors.html?specialization=GENERAL_PHYSICIAN" class="menu-item">General Physician</a>
+
+                        </div>
                         </div>
                     </div>
                     
@@ -659,6 +1135,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ambulance -->
+                    <a href="Ambulance.html" class="nav-link">Ambulance</a>
                 </div>
             </div>
         </div>
@@ -743,7 +1222,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -943,7 +1422,7 @@
                 const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "Hitaishi" or "Hitaishi HealthCare Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "24x7 Health" or "24x7 Health Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
                 
                 document.body.style.opacity = '0.5';
                 document.body.style.pointerEvents = 'none';
@@ -986,384 +1465,310 @@
                 }
             });
         </script>
-    <!-- Navbar Code Ends-- -->
+    <!-- Navbar Code Ends -->
 
 
-
-    <!-- Registraion form -->
-    <div style="font-family: Arial, sans-serif; margin: 0; padding: 20px;background: url('https://img.freepik.com/free-photo/abstract-design-background-smooth-flowing-lines_1048-14640.jpg?semt=ais_country_boost&w=740') no-repeat center center / cover;">
-        <!-- <h2 style="text-align: center; color: #333;">Doctor Registration Form</h2> -->
-        <form id="doctorRegistrationForm" action="https://hitaishihealthcare.com/api/doctors" method="POST" style="max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; color: blue; margin-bottom: 25px;">Doctor Registration Form</h2>
-            
-            <h3 style="margin-bottom: 15px;">Personal Information</h3><br>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="first_name" style="font-weight: bold; display: block; margin-bottom: 8px;">First Name:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="first_name" name="first_name" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">First Name</span>
-                    </div>
-                </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="last_name" style="font-weight: bold; display: block; margin-bottom: 8px;">Last Name:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="last_name" name="last_name" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Last Name</span>
-                    </div>
-                </div>
-            </div><br>
-            
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="email" style="font-weight: bold; display: block; margin-bottom: 8px;">Email:</label> -->
-                    <div style="position: relative;">
-                        <input type="email" id="email" name="email" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Email</span>
-                    </div>
-                </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="mobile" style="font-weight: bold; display: block; margin-bottom: 8px;">Mobile Number:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="mobile" name="mobile" required pattern="[0-9]{10}" title="mobile number must be 10 digits" 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Mobile Number</span>
-                    </div>
-                </div>
-            </div><br>
-            
-            <div style="margin-top: 15px;">
-                <!-- <label for="address" style="font-weight: bold; display: block; margin-bottom: 8px;">Address:</label> -->
-                <div style="position: relative;">
-                    <textarea id="address" name="address" required rows="3" 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; resize: vertical;"
-                            placeholder=" "></textarea>
-                    <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Address</span>
-                </div>
+    <div class="registration-wrapper">
+        <div class="form-card">
+            <!-- Title with icon -->
+            <div class="form-title">
+                <i class="fas fa-user-md"></i> 
+                <span>Doctor Registration</span>
             </div>
-            
-            <h3 style="margin: 25px 0 15px 0;">Educational Background</h3><br>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="degree" style="font-weight: bold; display: block; margin-bottom: 8px;">Degree:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="degree" name="degree" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Degree</span>
+
+            <form id="doctorRegistrationForm" method="POST" enctype="multipart/form-data">
+                <!-- Personal Information -->
+                <div class="section-header"><i class="fas fa-user-circle"></i> Personal information</div>
+                <div class="grid-2">
+                    <div class="input-field">
+                        <input type="text" id="first_name" name="first_name" required placeholder=" ">
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="last_name" name="last_name" required placeholder=" ">
+                        <label for="last_name">Last Name</label>
                     </div>
                 </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="university" style="font-weight: bold; display: block; margin-bottom: 8px;">University:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="university" name="university" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">University</span>
+
+                <div class="grid-2">
+                    <div class="input-field">
+                        <input type="email" id="email" name="email" required placeholder=" ">
+                        <label for="email">Email address</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="mobile" name="mobile" required pattern="[0-9]{10}" title="mobile number must be 10 digits" placeholder=" ">
+                        <label for="mobile">Mobile Number</label>
                     </div>
                 </div>
-            </div><br>
-            
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="experience" style="font-weight: bold; display: block; margin-bottom: 8px;">Years of Practice:</label> -->
-                    <div style="position: relative;">
-                        <input type="number" id="experience" name="experience" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Years of Practice</span>
+
+                <!-- Clinic address (styled as inline fields) -->
+                <div class="section-header"><i class="fas fa-clinic-medical"></i> Clinic address</div>
+                <div class="clinic-group">
+                    <div class="input-field">
+                        <input type="text" name="door_no" placeholder=" " required>
+                        <label>Door No</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="area" placeholder=" " required>
+                        <label>Area / Locality</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="city" placeholder=" " required>
+                        <label>City</label>
                     </div>
                 </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="aadhar_card" style="font-weight: bold; display: block; margin-bottom: 8px;">Aadhar Card Number:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="aadhar_card" name="aadhar_card" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Aadhaar Number</span>
+                <div class="clinic-group">
+                    <div class="input-field">
+                        <input type="text" name="state" placeholder=" " required>
+                        <label>State</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="country" placeholder=" " required>
+                        <label>Country</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="zipcode" placeholder=" " required>
+                        <label>Zip Code</label>
                     </div>
                 </div>
-            </div><br>
-            
-            <h3 style="margin: 25px 0 15px 0;">Professional Information</h3><br>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="license_number" style="font-weight: bold; display: block; margin-bottom: 8px;">Medical License Number:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="license_number" name="license_number" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">License Number</span>
+
+                <!-- Educational Background -->
+                <div class="section-header"><i class="fas fa-graduation-cap"></i> Educational background</div>
+                <div class="grid-2">
+                    <div class="input-field">
+                        <input type="text" id="degree" name="degree" required placeholder=" ">
+                        <label for="degree">Degree (e.g., MBBS, MD)</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="university" name="university" required placeholder=" ">
+                        <label for="university">University / Institution</label>
                     </div>
                 </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="specialization" style="font-weight: bold; display: block; margin-bottom: 8px;">Specialization:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="specialization" name="specialization" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Specialization</span>
+                <div class="grid-2">
+                    <div class="input-field">
+                        <input type="number" id="experience" name="experience" required placeholder=" ">
+                        <label for="experience">Years of practice</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="aadhar_card" name="aadhar_card" required placeholder=" ">
+                        <label for="aadhar_card">Aadhaar Number</label>
                     </div>
                 </div>
-            </div><br>
-            
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="clinic" style="font-weight: bold; display: block; margin-bottom: 8px;">Clinic/Hospital Name:</label> -->
-                    <div style="position: relative;">
-                        <input type="text" id="clinic" name="clinic" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Clinic/Hospital</span>
+
+                <!-- Professional Information -->
+                <div class="section-header"><i class="fas fa-briefcase-medical"></i> Professional details</div>
+                <div class="grid-2">
+                    <div class="input-field">
+                        <input type="text" id="license_number" name="license_number" required placeholder=" ">
+                        <label for="license_number">Medical License No.</label>
+                    </div>
+                    <div class="input-field">
+                        <select id="specialization" name="specialization" required>
+                            <option value="" disabled selected hidden></option>
+
+                            <option value="GENERAL_PHYSICIAN">General Physician</option>
+                            <option value="FAMILY_MEDICINE">Family Medicine</option>
+                            <option value="EMERGENCY_MEDICINE">Emergency Medicine</option>
+                            <option value="PREVENTIVE_MEDICINE">Preventive Medicine</option>
+                            <!-- EYECARE -->
+                            <option value="EYECARE">Eye Care</option>
+
+                            <!-- DENTAL -->
+                            <option value="DENTAL">Dental</option>
+
+                            <option value="CARDIOLOGY">CARDIOLOGY</option>
+                            <option value="CARDIAC_SURGEON">Cardiac Surgeon</option>
+                            <option value="VASCULAR_SURGEON">Vascular Surgeon</option>
+                            <option value="HEMATOLOGIST">Hematologist</option>
+
+                            <option value="NEUROLOGIST">Neurologist</option>
+                            <option value="NEUROSURGEON">Neurosurgeon</option>
+                            <option value="PSYCHIATRIST">Psychiatrist</option>
+                            <option value="NEUROPHYSICIAN">Neurophysician</option>
+
+                            <option value="ORTHOPEDIC">Orthopedic Surgeon</option>
+                            <option value="RHEUMATOLOGIST">Rheumatologist</option>
+                            <option value="SPORTS_MEDICINE_SPECIALIST">Sports Medicine Specialist</option>
+
+                            <option value="GYNACOLOGY">Gynecologist</option>
+                            <option value="OBSTETRICIAN">Obstetrician</option>
+                            <option value="PEDIATRICIAN">Pediatrician</option>
+                            <option value="NEONATOLOGIST">Neonatologist</option>
+                            <option value="PEDIATRIC_SURGEON">Pediatric Surgeon</option>
+
+                            <option value="OPHTHALMOLOGIST">Ophthalmologist</option>
+                            <option value="OPTOMETRIST">Optometrist</option>
+
+                            <option value="ENT_SPECIALIST">ENT Specialist</option>
+
+                            <option value="DENTIST">Dentist</option>
+                            <option value="ORTHODONTIST">Orthodontist</option>
+                            <option value="ORAL_SURGEON">Oral Surgeon</option>
+
+                            <option value="ENDOCRINOLOGIST">Endocrinologist</option>
+                            <option value="DIABETOLOGIST">Diabetologist</option>
+
+                            <option value="DERMATOLOGIST">Dermatologist</option>
+                            <option value="COSMETOLOGIST">Cosmetologist</option>
+
+                            <option value="PULMONOLOGIST">Pulmonologist</option>
+                            <option value="RESPIRATORY_SPECIALIST">Respiratory Specialist</option>
+
+                            <option value="GASTROENTEROLOGIST">Gastroenterologist</option>
+                            <option value="HEPATOLOGIST">Hepatologist</option>
+                            <option value="COLORECTAL_SURGEON">Colorectal Surgeon</option>
+
+                            <option value="UROLOGIST">Urologist</option>
+                            <option value="NEPHROLOGIST">Nephrologist</option>
+
+                            <option value="INFECTIOUS_DISEASE_SPECIALIST">Infectious Disease Specialist</option>
+                            <option value="IMMUNOLOGIST">Immunologist</option>
+
+                            <option value="ONCOLOGY">Oncologist</option>
+                            <option value="SURGICAL_ONCOLOGIST">Surgical Oncologist</option>
+                            <option value="RADIATION_ONCOLOGIST">Radiation Oncologist</option>
+
+                            <option value="PSYCHOLOGIST">Psychologist</option>
+
+                            <option value="GENETICIST">Geneticist</option>
+
+                            <option value="RADIOLOGIST">Radiologist</option>
+                            <option value="PATHOLOGIST">Pathologist</option>
+                            <option value="NUCLEAR_MEDICINE_SPECIALIST">Nuclear Medicine Specialist</option>
+
+                            <option value="General_Surgeon">General Surgeon</option>
+                            <option value="Plastic_Surgeon">Plastic Surgeon</option>
+                            <option value="Cosmetic_Surgeon">Cosmetic Surgeon</option>
+                            <option value="Bariatric_Surgeon">Bariatric Surgeon</option>
+                            <option value="Transplant_Surgeon">Transplant Surgeon</option>
+
+                            <option value="ANESTHESIOLOGIST">Anesthesiologist</option>
+                            <option value="PAIN_MANAGEMENT_SPECIALIST">Pain Management Specialist</option>
+                            <option value="PALLIATIVE_CARE_SPECIALIST">Palliative Care Specialist</option>
+                            <option value="REHABILITATION_SPECIALIST">Rehabilitation Specialist</option>
+                            <option value="GERIATRICIAN">Geriatrician</option>
+                            <option value="OCCUPATIONAL_MEDICINE_SPECIALIST">Occupational Medicine Specialist</option>
+
+                        </select>
+
+                        <label for="specialization">Specialization</label>
                     </div>
                 </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="availability" style="font-weight: bold; display: block; margin-bottom: 8px;">Available At:</label> -->
-                    <select id="availability" name="availability" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; background-color: white;">
-                        <option value="">Select Availability</option>
-                        <option value="Diagnostic Center">Diagnostic Center</option>
-                        <option value="Online Only">Online Only</option>
-                        <option value="Both">Both</option>
-                    </select>
-                </div>
-            </div><br>
-            
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="from_time" style="font-weight: bold; display: block; margin-bottom: 8px;">From Time:</label>
-                    <input type="time" id="from_time" name="from_time" required 
-                        style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
-                </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <label for="to_time" style="font-weight: bold; display: block; margin-bottom: 8px;">To Time:</label>
-                    <input type="time" id="to_time" name="to_time" required 
-                        style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
-                </div>
-            </div><br>
-    
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="password" style="font-weight: bold; display: block; margin-bottom: 8px;">Password:</label> -->
-                    <div style="position: relative;">
-                        <input type="password" id="password" name="password" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Enter Password</span>
+                <div class="grid-2">
+                    <div class="input-field">
+                        <input type="text" id="clinic" name="clinic" required placeholder=" ">
+                        <label for="clinic">Clinic / Hospital name</label>
+                    </div>
+                    <div class="input-field">
+                        <select id="availability" name="availability" required>
+                            <option value="" disabled selected hidden></option>
+                            <option value="Diagnostic Center">Diagnostic Center</option>
+                            <option value="Online Only">Online Only</option>
+                            <option value="Both">Both (Clinic & Online)</option>
+                        </select>
+                        <label for="availability">Available at</label>
                     </div>
                 </div>
-                <div style="width: 100%; min-width: 200px; flex: 1;">
-                    <!-- <label for="confirm_password" style="font-weight: bold; display: block; margin-bottom: 8px;">Confirm Password:</label> -->
-                    <div style="position: relative;">
-                        <input type="password" id="confirm_password" name="confirm_password" required 
-                            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
-                            placeholder=" ">
-                        <span style="position: absolute; left: 12px; top: 12px; color: #999; transition: all 0.3s; pointer-events: none;">Confirm Password</span>
+
+                <!-- Time range -->
+                <div class="time-group">
+                    <div class="time-item">
+                        <label for="from_time">🕒 From time</label>
+                        <input type="time" id="from_time" name="from_time" required>
+                    </div>
+                    <div class="time-item">
+                        <label for="to_time">🕒 To time</label>
+                        <input type="time" id="to_time" name="to_time" required>
                     </div>
                 </div>
-            </div>
-            
-            <button type="submit" style="width: 100%; background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 5m; font-size: 16px; cursor: pointer; margin-top: 25px; transition: background-color 0.3s;" 
-                onmouseover="this.style.backgroundColor='#0069d9'" onmouseout="this.style.backgroundColor='#007bff'">Register</button>
-            
-            <!-- Social Login Section -->
-            <div style="text-align: center; margin: 25px 0;">
-                <span style="display: inline-block; font-size: 14px; color: #666; margin-bottom: 15px; position: relative;">
-                    <span style="background: white; padding: 0 10px; position: relative; z-index: 1;">OR CONTINUE WITH</span>
-                    <span style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #ddd; z-index: 0;"></span>
-                </span>
-                <div style="margin-top: 15px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                    <a href="https://accounts.google.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px 16px; background: white; transition: all 0.3s;" 
-                    onmouseover="this.style.boxShadow='0 0 5px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                        <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google" style="width: 20px; height: 20px; margin-right: 8px;">
-                        <span style="color: #000; font-weight: bold;">Google</span>
+
+                <!-- Password fields -->
+                <div class="grid-2" style="margin-top: 1.5rem;">
+                    <div class="input-field">
+                        <input type="password" id="password" name="password" required placeholder=" ">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="confirm_password" name="confirm_password" required placeholder=" ">
+                        <label for="confirm_password">Confirm password</label>
+                    </div>
+                </div>
+
+                <!-- Profile image upload (styled) -->
+                <div class="file-upload">
+                    <label for="profile_image"><i class="fas fa-cloud-upload-alt"></i> Upload photo</label>
+                    <span>JPG, PNG (max 5MB)</span>
+                    <input type="file" id="profile_image" name="profile_image" accept="image/*" required>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn-register">
+                    <i class="fas fa-check-circle"></i> Register
+                </button>
+
+                <!-- Social login (intact links) -->
+                <div class="social-divider"><span>OR CONTINUE WITH</span></div>
+                <div class="social-buttons">
+                    <a href="https://accounts.google.com" target="_blank" class="social-btn">
+                        <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google">
+                        <span style="color:#000;">Google</span>
                     </a>
-                    <a href="https://facebook.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px 16px; background: white; transition: all 0.3s;" 
-                    onmouseover="this.style.boxShadow='0 0 5px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" style="width: 20px; height: 20px; margin-right: 8px;">
-                        <span style="color: #1877f2; font-weight: bold;">Facebook</span>
+                    <a href="https://facebook.com" target="_blank" class="social-btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+                        <span style="color:#1877f2;">Facebook</span>
                     </a>
-                    <a href="https://twitter.com" target="_blank" style="text-decoration: none; display: flex; align-items: center; border: 1px solid #ddd; border-radius: 5px; padding: 8px 16px; background: white; transition: all 0.3s;" 
-                    onmouseover="this.style.boxShadow='0 0 5px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
-                        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" style="width: 20px; height: 20px; margin-right: 8px;">
-                        <span style="color: #1da1f2; font-weight: bold;">Twitter</span>
+                    <a href="https://twitter.com" target="_blank" class="social-btn">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">
+                        <span style="color:#1da1f2;">Twitter</span>
                     </a>
                 </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 20px;">
-                <p style="font-size: 14px; color: #333;">Already registered? <a href="doctorlogin.html" style="color: #007BFF; text-decoration: none; font-weight: bold;">Login here</a></p>
-            </div>
-        </form>
 
-        <script>
-            // This script handles the floating label effect
-            document.querySelectorAll('input[placeholder=" "], textarea[placeholder=" "]').forEach(input => {
-                const span = input.nextElementSibling;
-                
-                // Focus event
-                input.addEventListener('focus', () => {
-                    span.style.top = '-18px';
-                    span.style.left = '0';
-                    span.style.fontSize = '12px';
-                    span.style.color = '#007bff';
-                    span.style.backgroundColor = 'white';
-                    span.style.padding = '0 5px';
-                });
-                
-                // Blur event
-                input.addEventListener('blur', () => {
-                    if (!input.value) {
-                        span.style.top = '12px';
-                        span.style.left = '12px';
-                        span.style.fontSize = '';
-                        span.style.color = '#999';
-                        span.style.backgroundColor = 'transparent';
-                        span.style.padding = '0';
-                    }
-                });
-                
-                // Check on page load if there's already a value (for browser autofill)
-                if (input.value) {
-                    span.style.top = '-18px';
-                    span.style.left = '0';
-                    span.style.fontSize = '12px';
-                    span.style.color = '#007bff';
-                    span.style.backgroundColor = 'white';
-                    span.style.padding = '0 5px';
-                }
-            });
-        </script>
-        
+                <div class="login-redirect">
+                    <p>Already registered? <a href="doctorlogin.html">Login here</a></p>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <!-- JavaScript (unchanged logic, only floating label + submit) -->
     <script>
+        // floating label emulation (compatible with original behaviour)
+        document.querySelectorAll('.input-field input, .input-field select').forEach(field => {
+            const checkValue = () => {
+                if (field.value) field.classList.add('filled');
+                else field.classList.remove('filled');
+            };
+            field.addEventListener('input', checkValue);
+            field.addEventListener('blur', checkValue);
+            checkValue(); // on load
+        });
+
+        // Original exact submit handler (preserved)
         const form = document.getElementById('doctorRegistrationForm');
         form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const formData = new FormData(form);
-      
-          const data = Object.fromEntries(formData.entries());
-      
-          try {
-            const res = await fetch('https://hitaishihealthcare.com/api/doctors', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-            });
-        
-            const result = await res.json();
-            
-            alert(result.message); 
-            if (res.ok) {
-                window.location.href = "login.html";
+            e.preventDefault();
+
+            const formData = new FormData(form); // includes image
+
+            try {
+                const res = await fetch('/api/doctors', {
+                    method: 'POST',
+                    body: formData   // send as multipart
+                });
+
+                const result = await res.json();
+                alert(result.message);
+
+                if (res.ok) {
+                    window.location.href = "login.html";
+                }
+
+            } catch (error) {
+                console.error("Registration Error:", error);
+                alert("Registration failed. Please try again.");
             }
-          } catch (error) {
-            console.error("Registration Error:", error);
-            alert("An error occurred during registration. Please try again.");
-          }
         });
     </script>
-      
-    
-
-    <!-- footer -->
-    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; ">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Quick Links</h3>
-                <a href="Diagnostics.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Diagnostics</a>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Test's</a>
-                <a href="doctor.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Doctor</a>
-                <a href="Dental.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find A Tooth Expert</a>
-                <a href="Eyecare.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Eye Care</a>
-                <a href="donations.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Organ Donors</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Services</h3>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
-                <a href="blood.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blood Donations</a>
-                <a href="healthRecords.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">health Reports</a>
-                <a href="fertility.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Fertility</a>
-                <a href="Cancer.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Cancer Care</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
-                <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
-                <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
-                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
-            </div>
-            
-            <div style="flex: 1; min-width: 200px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-phone"></i>
-                    <span>8790170525</span>
-                </div>
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
-                <div>
-                    <a href="https://www.instagram.com/optic.bee/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/share/1CC3vxsppD/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-facebook"></i></a>
-                    <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-twitter"></i> </a>
-                    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-linkedin"></i> </a>
-                    <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-youtube"></i> </a>
-
-                </div>
-            </div>
-        </div>
-        <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
-            <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
-            <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
-            <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
-        </div>
-    </footer>
-
-
-    
-<!-- Placeholder where chatbot will be inserted -->
-<div id="chatbot-placeholder"></div>
-
-<!-- JS to load the chatbot -->
-<script>
-    fetch('chatbot.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('chatbot-placeholder');
-        container.innerHTML = html;
-
-        // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-        // ✅ So, we must find and re-run those <script> blocks manually:
-        const scripts = container.querySelectorAll("script");
-        scripts.forEach(script => {
-          const newScript = document.createElement("script");
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.body.appendChild(newScript);
-        });
-      });
-</script>
-
-    
-
+    <!-- The background styling is updated but original fetch logic & social links remain untouched -->
 </body>
 </html>

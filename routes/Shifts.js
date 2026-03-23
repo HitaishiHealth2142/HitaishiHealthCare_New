@@ -65,7 +65,15 @@ router.post("/assign", (req, res) => {
   `;
 
   db.query(driverCheck, [driver_id, shift_date], (err, rows) => {
-    if (rows.length > 0) {
+
+    // ✅ Always check error first
+    if (err) {
+      console.error("Driver Check Error:", err);
+      return res.status(500).json({ error: "Database error during driver check" });
+    }
+
+    // ✅ Safe length check
+    if (Array.isArray(rows) && rows.length > 0) {
       return res.status(409).json({
         error: "Driver already assigned for this date"
       });
@@ -78,7 +86,15 @@ router.post("/assign", (req, res) => {
     `;
 
     db.query(ambCheck, [ambulance_id, shift_date, shift_type], (err2, rows2) => {
-      if (rows2.length > 0) {
+
+      // ✅ Always check error
+      if (err2) {
+        console.error("Ambulance Check Error:", err2);
+        return res.status(500).json({ error: "Database error during ambulance check" });
+      }
+
+      // ✅ Safe length check
+      if (Array.isArray(rows2) && rows2.length > 0) {
         return res.status(409).json({
           error: "This ambulance shift is already assigned"
         });
@@ -91,8 +107,15 @@ router.post("/assign", (req, res) => {
         Shift3: ["22:00:00", "06:00:00"]
       };
 
+      // ✅ Validate shift type
+      if (!times[shift_type]) {
+        return res.status(400).json({ error: "Invalid shift type" });
+      }
+
       const [start, end] = times[shift_type];
+
       const shift_start = `${shift_date} ${start}`;
+
       const shift_end =
         shift_type === "Shift3"
           ? `${new Date(new Date(shift_date).getTime() + 86400000)
@@ -108,11 +131,17 @@ router.post("/assign", (req, res) => {
         VALUES (?, ?, ?, ?, ?, ?)
         `,
         [ambulance_id, driver_id, shift_type, shift_date, shift_start, shift_end],
-        err3 => {
+        (err3) => {
+
           if (err3) {
-            return res.status(500).json({ error: "Database error" });
+            console.error("Insert Shift Error:", err3);
+            return res.status(500).json({ error: "Database error while assigning shift" });
           }
-          res.json({ success: true, message: "Shift assigned successfully" });
+
+          return res.json({
+            success: true,
+            message: "Shift assigned successfully"
+          });
         }
       );
     });

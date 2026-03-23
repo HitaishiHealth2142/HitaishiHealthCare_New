@@ -2,18 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Admin Login | 24x7 Health</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Join 24x7 Health Services' blood and organ donation program to save lives. Register today to make a difference in underserved communities.">
-    <meta name="keywords" content="24x7 Health Services, blood donation, organ donation, save lives, healthcare nonprofit, donor registration">
-    <meta name="author" content="24x7 Health Services">
-    <meta name="robots" content="index, follow">
-    <title>Blood & Organ Donation - 24x7 Health Services</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- optional extra custom smoothness -->
+    <style>
+        /* subtle hover transition for cards */
+        .dual-card {
+            transition: box-shadow 0.3s ease;
+        }
+        .dual-card:hover {
+            box-shadow: 0 30px 50px -10px rgba(0, 20, 40, 0.4);
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; color: #333;">
 
+<!-- <body class="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 items-center justify-center min-h-screen p-4"> -->
 
+<body>
 
     <!-- Navbar Code -->
         <style>
@@ -462,8 +468,8 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
-                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;">
+                <div class="logo-text">
                     <span class="logo-title">HEALTHCARE</span>
                     <span class="logo-subtitle">SERVICES</span>
                 </div>
@@ -705,39 +711,23 @@
                     <div class="dropdown">
                         <a href="Physician.html" class="nav-link">Physicians <i class="fas fa-caret-down fa-xs"></i></a>
                         <div class="dropdown-menu mega-menu">
-                        <div class="mega-menu-grid">
-
-                            <a href="doctors.html?specialization=CARDIOLOGY" class="menu-item">Cardiologist</a>
-
-                            <a href="doctors.html?specialization=NEUROLOGIST" class="menu-item">Neurologist</a>
-
-                            <a href="doctors.html?specialization=DERMATOLOGIST" class="menu-item">Dermatologist</a>
-
-                            <a href="doctors.html?specialization=ORTHOPEDIC" class="menu-item">Orthopedic</a>
-
-                            <a href="doctors.html?specialization=PEDIATRICIAN" class="menu-item">Pediatrician</a>
-
-                            <a href="doctors.html?specialization=GYNACOLOGY" class="menu-item">Gynecologist</a>
-
-                            <a href="doctors.html?specialization=UROLOGIST" class="menu-item">Urologist</a>
-
-                            <a href="doctors.html?specialization=ONCOLOGY" class="menu-item">Oncologist</a>
-
-                            <a href="doctors.html?specialization=ENDOCRINOLOGIST" class="menu-item">Endocrinologist</a>
-
-                            <a href="doctors.html?specialization=GASTROENTEROLOGIST" class="menu-item">Gastroenterologist</a>
-
-                            <a href="doctors.html?specialization=PULMONOLOGIST" class="menu-item">Pulmonologist</a>
-
-                            <a href="doctors.html?specialization=RHEUMATOLOGIST" class="menu-item">Rheumatologist</a>
-
-                            <a href="doctors.html?specialization=PSYCHIATRIST" class="menu-item">Psychiatrist</a>
-
-                            <a href="doctors.html?specialization=OPHTHALMOLOGIST" class="menu-item">Ophthalmologist</a>
-
-                            <a href="doctors.html?specialization=GENERAL_PHYSICIAN" class="menu-item">General Physician</a>
-
-                        </div>
+                            <div class="mega-menu-grid">
+                                <a href="cardiologist.html" class="menu-item">Cardiologist</a>
+                                <a href="neurologist.html" class="menu-item">Neurologist</a>
+                                <a href="dermatologist.html" class="menu-item">Dermatologist</a>
+                                <a href="orthopedic.html" class="menu-item">Orthopedic</a>
+                                <a href="pediatrician.html" class="menu-item">Pediatrician</a>
+                                <a href="gynecologist.html" class="menu-item">Gynecologist</a>
+                                <a href="urologist.html" class="menu-item">Urologist</a>
+                                <a href="oncologist.html" class="menu-item">Oncologist</a>
+                                <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
+                                <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
+                                <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
+                                <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
+                                <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
+                                <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
+                                <a href="general-physician.html" class="menu-item">General Physician</a>
+                            </div>
                         </div>
                     </div>
                     
@@ -1118,483 +1108,174 @@
     <!-- Navbar Code Ends -->
 
 
-
-    <!-- Hero Section -->
-    <div style="background: url('https://img.luxtimes.lu/public/luxembourg/ri8dl4-just-under-14000-people-donated-blood-in-luxembourg-in-2021-but-the-average-age-of-donors-was-43-years.-the-red-cross-hopes-to-encourage-younger-donors/alternates/SIXTEEN_NINE_1200/Just%20under%2014000%20people%20donated%20blood%20in%202021%20but%20the%20average%20age%20of%20donors%20was%2043%20years.%20The%20Red%20Cross%20hopes%20to%20encourage%20younger%20donors') center/cover no-repeat; padding: 20px; text-align: center; color: #fefefe; height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <div style="background: rgba(0, 0, 0, 0.5); padding: 30px; border-radius: 10px; max-width: 900px;">
-          <h1 style="font-size: 48px; font-weight: bold; margin: 0 0 20px; text-shadow: 2px 2px 5px rgba(0,0,0,0.4);">Save Lives with 24x7 Health Services</h1>
-          <p style="font-size: 20px; line-height: 1.6; margin: 0 0 30px;">
-            Your blood and organ donation can give hope to those in need. Register today to join our life-saving mission.
-          </p>
-          <a href="#donor-form" style="display: inline-block; padding: 15px 30px; background-color: #e63946; color: #fff; text-decoration: none; font-size: 18px; border-radius: 5px; box-shadow: 0 3px 6px rgba(0,0,0,0.3);">
-            Become a Donor
-          </a>
-        </div>
-    </div>
-     
-     
-     
-
-    <!-- Mission Section -->
-    <div style="padding: 60px 20px; background-color: #fff; text-align: center;">
-
-        <h2 style="font-size: 42px; font-weight: bold; color: #227eda; margin: 0 0 20px; text-align: center;">Our Mission</h2>
-
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
-
-            <!-- Left Image Section -->
-            <div style="flex: 1 1 100%; max-width: 600px; text-align: center;">
-            <img src="https://www.livemint.com/lm-img/img/2023/09/28/600x338/People-can-sign-a-pledge-form-with-NOTTO-or-expres_1695920309339.jpg"
-                alt="24x7 Health Services blood donation drive"
-                style="width: 100%; max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <!-- main container: wider card (approx 75% width on large screens) with two inner panels -->
+    <div class="dual-card bg-white rounded-3xl shadow-2xl w-full max-w-5xl flex flex-col md:flex-row overflow-hidden" style="margin-left: auto; margin-right: auto; margin-top: 10%; margin-bottom: auto;" >
+        
+        <!-- LEFT PANEL: about 24x7 health (40% width on md+) -->
+        <div class="bg-gradient-to-br from-blue-800 to-indigo-900 text-white p-8 md:p-10 flex flex-col justify-center md:w-2/5">
+            <div class="mb-4">
+                <!-- subtle icon / brand mark -->
+                <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                    <span class="text-3xl">🏥</span>
+                </div>
+                <h2 class="text-3xl font-bold leading-tight">24x7 Health</h2>
+                <p class="text-blue-100 text-lg mt-2 font-light">Care around the clock</p>
             </div>
-
-            <!-- Right Text Section -->
-            <div style="flex: 1 1 100%; max-width: 600px; text-align: left;">
-            <p style="font-size: 18px; line-height: 1.6; margin: 20px 0;">
-                24x7 Health Services is committed to saving lives through blood and organ donation programs. We organize donation drives and facilitate organ pledges to support critical medical needs in underserved communities.
-            </p>
-            <p style="font-size: 18px; line-height: 1.6; margin: 20px 0;">
-                By empowering individuals to donate blood, platelets, and pledge organs, we aim to strengthen our healthcare system and ensure that life-saving resources reach those in need. Our network of dedicated volunteers, healthcare professionals, and community organizations work together to promote these life-saving causes and make a real difference in people's lives.
-            </p>
-            </div>
-
-        </div>
-    </div>
-
-
-
-
-    <!-- Power of Donors Section -->
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px; margin: 40px 0;">
-
-        <!-- Left Text Section -->
-        <div style="flex: 1 1 100%; max-width: 600px; text-align: left;">
-            <h2 style="font-size: 42px; font-weight: bold; margin-bottom: 20px; color: hotpink;">The Power of Donors: Changing Lives</h2>
-            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 20px;">
-            Donors are the lifeblood of 24x7 Health Services, making a profound impact on individuals and communities alike. Their selfless contributions provide the critical resources needed to save lives, from blood donations to organ pledges.
-            </p>
-            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 20px;">
-            Every donor becomes a beacon of hope, bringing essential medical supplies to those in desperate need. By empowering individuals to donate, we ensure that healthcare remains accessible to all, regardless of their circumstances.
-            </p>
-        </div>
-
-        <!-- Right Image Section -->
-        <div style="flex: 1 1 100%; max-width: 600px; text-align: center;">
-            <img src="https://images.rawpixel.com/image_social_landscape/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYxNjcwMDAwLXdpa2ltZWRpYS1pbWFnZS1rb3dhemwzZC5qcGc.jpg"
-                alt="24x7 Health Services blood donation drive"
-                style="width: 100%; max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-
-    <!-- Healthcare Donation Section -->
-    <section style="padding: 80px 20px; background: #f8f9fa;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <!-- Header -->
-            <div style="text-align: center; margin-bottom: 50px;">
-                <h1 style="color: #2c3e50; font-size: 42px; font-weight: bold; margin: 0 0 20px;">
-                    Support 24x7 Health Services Mission
-                </h1>
-                <p style="color: #666; font-size: 1.2em; max-width: 800px; margin: 0 auto;">
-                    Your donation helps us provide free medical care, essential treatments, and health education to underserved communities
+            <div class="space-y-4 text-sm md:text-base text-blue-50/90">
+                <p class="flex items-start gap-2">
+                    <span class="text-blue-200 text-xl">✓</span>
+                    <span>Secure, HIPAA‑compliant admin portal</span>
+                </p>
+                <p class="flex items-start gap-2">
+                    <span class="text-blue-200 text-xl">✓</span>
+                    <span>Two‑factor authentication via email OTP</span>
+                </p>
+                <p class="flex items-start gap-2">
+                    <span class="text-blue-200 text-xl">✓</span>
+                    <span>Real‑time patient & appointment overview</span>
+                </p>
+                <p class="flex items-start gap-2">
+                    <span class="text-blue-200 text-xl">✓</span>
+                    <span>Role‑based access for staff members</span>
                 </p>
             </div>
-
-
-            <!-- Donation Impact Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px;">
-                <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
-                    <div style="width: 60px; height: 60px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                        <span style="color: #fff; font-size: 28px;">❤</span>
-                    </div>
-                    <h3 style="color: #2c3e50; margin: 0 0 15px;">Critical Care Support</h3>
-                    <p style="color: #666; line-height: 1.6;">
-                        Fund emergency treatments for heart patients, cancer care, and neonatal intensive care
-                    </p>
-                </div>
-
-
-                <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
-                    <div style="width: 60px; height: 60px; background: #27ae60; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                        <span style="color: #fff; font-size: 28px;">🏥</span>
-                    </div>
-                    <h3 style="color: #2c3e50; margin: 0 0 15px;">Rural Health Camps</h3>
-                    <p style="color: #666; line-height: 1.6;">
-                        Sponsor mobile clinics reaching remote villages with free screenings and medications
-                    </p>
-                </div>
-
-
-                <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);">
-                    <div style="width: 60px; height: 60px; background: #2e86de; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                        <span style="color: #fff; font-size: 28px;">📚</span>
-                    </div>
-                    <h3 style="color: #2c3e50; margin: 0 0 15px;">Medical Education</h3>
-                    <p style="color: #666; line-height: 1.6;">
-                        Support training programs for rural healthcare workers and community awareness
-                    </p>
-                </div>
-            </div>
-
-
-            <!-- Donation Options -->
-        
-
-
-    
-            <!-- Other Ways to Help -->
-            <div style="background: #2c3e50; border-radius: 12px; padding: 40px; text-align: center;">
-                <h3 style="color: #fff; margin: 0 0 25px; font-size: 1.8em;">Other Ways to Support</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <div style="padding: 20px;">
-                        <div style="width: 60px; height: 60px; background: #e74c3c; border-radius: 50%; margin: 0 auto 15px;"></div>
-                        <p style="color: #fff; margin: 0;">Corporate Partnerships</p>
-                    </div>
-                    <div style="padding: 20px;">
-                        <div style="width: 60px; height: 60px; background: #27ae60; border-radius: 50%; margin: 0 auto 15px;"></div>
-                        <p style="color: #fff; margin: 0;">In-Kind Donations</p>
-                    </div>
-                    <div style="padding: 20px;">
-                        <div style="width: 60px; height: 60px; background: #2e86de; border-radius: 50%; margin: 0 auto 15px;"></div>
-                        <p style="color: #fff; margin: 0;">Volunteer Programs</p>
-                    </div>
-                </div>
+            <div class="mt-8 border-t border-white/20 pt-6 text-blue-100 text-sm">
+                “Your gateway to manage 24x7 Health services.”
             </div>
         </div>
-    </section>
- 
-    <!-- Donor Registration Form Section -->
-    <div style="padding: 60px 20px; background-color: #fff; text-align: center;">
-        <h2 style="font-size: 42px; font-weight: bold; color: red; margin: 0 0 20px; position: relative; text-align: center;">
-        Join Us in Making a Difference </h2>
-        <br>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-                <div style="width: 250px; padding: 20px; background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                    <h3 style="font-size: 24px; margin: 0 0 10px;">5,000+</h3>
-                    <p style="font-size: 16px; margin: 0;">Blood Units Donated</p>
-                </div>
-                <div style="width: 250px; padding: 20px; background: linear-gradient(135deg, #007bff, #00d4ff); color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                    <h3 style="font-size: 24px; margin: 0 0 10px;">1,000+</h3>
-                    <p style="font-size: 16px; margin: 0;">Organ Pledges</p>
-                </div>
-                <div style="width: 250px; padding: 20px; background: linear-gradient(135deg, #28a745, #27ae60); color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                    <h3 style="font-size: 24px; margin: 0 0 10px;">100+</h3>
-                    <p style="font-size: 16px; margin: 0;">Donation Drives</p>
-                </div>
-                <div style="width: 250px; padding: 20px; background: linear-gradient(135deg, #f39c12, #f1c40f); color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                    <h3 style="font-size: 24px; margin: 0 0 10px;">200+</h3>
-                    <p style="font-size: 16px; margin: 0;">Volunteer Hours</p>
-                </div>
-            </div>
-    </div>
-    
- 
 
-
-    <!-- Testimonials Section -->
-    <div style="padding: 60px 20px; background: linear-gradient(135deg, #f0f4f8, #dfe9f3); text-align: center; position: relative;">
-        <h2 style="font-size: 42px; font-weight: bold; color: #2c3e50; margin: 0 0 20px; position: relative; text-align: center;">
-        What Our Donors Say
-    
-    
-        </h2>
-        <br>
-        
-        <div id="scroll-container" style="display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 20px; padding: 10px; width: 80%; text-align: center; margin: 0 auto;">
-        
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #ffecb3; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"Donating blood through 24x7 Health Services was simple and rewarding. I know I helped save a life."</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Priya S., Blood Donor</p>
-            </div>
-    
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #c8e6c9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"Pledging my organs with 24x7 Health Services gave me peace knowing I can help others."</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Anil K., Organ Donor</p>
-            </div>
-    
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #f8bbd0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"I feel proud to be a part of the cause through 24x7 Health Services. Amazing experience!"</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Ramesh D., Blood Donor</p>
-            </div>
-    
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #d1c4e9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"The organ donation pledge was hassle-free and the team guided me properly."</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Sunita R., Organ Donor</p>
-            </div>
-    
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #ffcc80; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"I donated platelets for the first time and 24x7 Health Services made it so easy and comfortable."</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Neha V., Platelet Donor</p>
-            </div>
-    
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #b3e5fc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"The staff at 24x7 Health Services are very supportive and encouraging throughout the donation."</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Arjun P., Blood Donor</p>
-            </div>
-    
-            <div style="width: 150px; height: 150px; flex: 0 0 auto; padding: 20px; background-color: #fff59d; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <p style="font-size: 16px; line-height: 1.6; margin: 0 0 15px;">"Registering as a donor was one of the best decisions I made, thanks to 24x7 Health Services."</p>
-                <p style="font-size: 14px; color: #666; margin: 0;">- Meena S., Organ Donor</p>
-            </div>
-        
-        </div>
-    </div>
- 
- 
-     <!-- Scroll Buttons -->
-     <button onclick="scrollLeft()" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background-color: #3498db; color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer;">&#8592;</button>
-     <button onclick="scrollRight()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background-color: #3498db; color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer;">&#8594;</button>
- 
-
- 
-    <script>
-        function scrollLeft() {
-            document.getElementById('scroll-container').scrollBy({ left: -320, behavior: 'smooth' });
-        }
-        function scrollRight() {
-            document.getElementById('scroll-container').scrollBy({ left: 320, behavior: 'smooth' });
-        }
-    </script>
-
-
-
-
-    <!-- Community Impact Section -->
-    <section style="padding: 80px 20px; background: #fff;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <!-- Section Header -->
-            <div style="text-align: center; margin-bottom: 50px;">
-                <h2 style="color: #2c3e50; font-size: 42px; font-weight: bold; margin: 0 0 15px;">
-                    Transforming Lives Together
+        <!-- RIGHT PANEL: login forms (60% width on md+) -->
+        <div class="bg-white p-8 md:p-10 md:w-3/5 flex flex-col justify-center">
+            <div class="mb-6 md:mb-8">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="bg-blue-100 text-blue-700 p-2 rounded-xl">🔐</span> 
+                    Admin Access
                 </h2>
-                <p style="color: #666; font-size: 1.1em; max-width: 800px; margin: 0 auto;">
-                    See how your support makes a real difference in healthcare accessibility and community wellness
-                </p>
+                <p class="text-slate-500 text-sm mt-1">Enter your credentials to receive a one‑time code</p>
             </div>
 
-
-            <!-- Impact Statistics -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 60px;">
-                <div style="text-align: center; padding: 30px; background: #fff5f5; border-radius: 12px;">
-                    <div style="font-size: 2.5em; color: #e74c3c; font-weight: bold; margin-bottom: 10px;">5,000+</div>
-                    <div style="color: #666;">Free Health Camps Conducted</div>
-                </div>
-            
-                <div style="text-align: center; padding: 30px; background: #f5faff; border-radius: 12px;">
-                    <div style="font-size: 2.5em; color: #2e86de; font-weight: bold; margin-bottom: 10px;">1.2L+</div>
-                    <div style="color: #666;">Patients Treated Annually</div>
-                </div>
-            
-                <div style="text-align: center; padding: 30px; background: #f0fff4; border-radius: 12px;">
-                    <div style="font-size: 2.5em; color: #27ae60; font-weight: bold; margin-bottom: 10px;">85%</div>
-                    <div style="color: #666;">Rural Reach Efficiency</div>
-                </div>
-            </div>
-
-
-            <!-- Success Stories -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px;">
-                <div style="background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden;">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEil1Up7qUwmHAIJVHj-KQxGtU6rXuKQOnBbpVKTfs51WZFthfalyCKy21OLg81XVQSDwY7gN9kNkdHRoZoBf8unUBfSDgGbw4myAe-ceGcEMjVeq2wTcJOkmtbXv8S5OCKPrH_OYln7F3M/s1600/ambulance2.png" alt="Health Camp" style="width: 100%; height: 200px; object-fit: cover;">
-                    <div style="padding: 25px;">
-                        <h3 style="color: #2c3e50; margin: 0 0 15px;">Mobile Clinic Initiative</h3>
-                        <p style="color: #666; margin: 0 0 20px;">Reached 50 remote villages providing free screenings and essential medicines</p>
-                        <a href="#" style="color: #e74c3c; text-decoration: none; font-weight: bold;">Read Case Study →</a>
-                    </div>
+            <!-- STEP 1: EMAIL + PASSWORD -->
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="text-sm font-medium text-slate-600 flex items-center gap-1">
+                        <span>📧</span> Email
+                    </label>
+                    <input type="email" id="email" required
+                        class="w-full mt-1.5 p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-300 outline-none transition bg-slate-50/50">
                 </div>
 
-
-                <div style="background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden;">
-                    <img src="https://scmshyd.edu.in/assets/images/health_camp/Health%20Camp%20Report3.jpg" alt="Child Treatment" style="width: 100%; height: 200px; object-fit: cover;">
-                    <div style="padding: 25px;">
-                        <h3 style="color: #2c3e50; margin: 0 0 15px;">Pediatric Care Program</h3>
-                        <p style="color: #666; margin: 0 0 20px;">Supported 2,000+ children with critical medical interventions</p>
-                        <a href="#" style="color: #e74c3c; text-decoration: none; font-weight: bold;">View Impact Report →</a>
-                    </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-600 flex items-center gap-1">
+                        <span>🔑</span> Password
+                    </label>
+                    <input type="password" id="password" required
+                        class="w-full mt-1.5 p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-300 outline-none transition bg-slate-50/50">
                 </div>
-            </div>
 
-
-    <!-- Partnership Opportunities -->
-    <div style="background: #f8f9fa; border-radius: 12px; padding: 40px; margin-bottom: 60px;">
-
-    <div style="
-        display: flex;
-        flex-wrap: wrap;
-        gap: 40px;
-        align-items: center;
-        justify-content: center;
-    ">
-
-        <!-- Text Content -->
-        <div style="flex: 1 1 100%; max-width: 600px;">
-        <h3 style="color: #2c3e50; margin: 0 0 20px; font-size: 1.8em;">Corporate Partnerships</h3>
-        <p style="color: #666; margin: 0 0 25px;">Align your organization with meaningful healthcare initiatives through:</p>
-        <ul style="color: #666; padding-left: 20px;">
-            <li style="margin-bottom: 10px;">CSR Program Collaborations</li>
-            <li style="margin-bottom: 10px;">Employee Volunteering</li>
-            <li>Matched Giving Programs</li>
-        </ul>
-        </div>
-
-        <!-- Call to Action Box -->
-        <div style="flex: 1 1 100%; max-width: 400px; text-align: center;">
-        <div style="display: inline-block; background: #e74c3c; color: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 350px;">
-            <div style="font-size: 1.5em; margin-bottom: 10px;">Become a Health Partner</div>
-            <button style="background: #fff; color: #e74c3c; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer;">
-            Explore Partnerships
-            </button>
-        </div>
-        </div>
-
-    </div>
-    </div>
-
-
-
-            <!-- Volunteer Section -->
-            <div style="background: #2c3e50; border-radius: 12px; padding: 40px; color: #fff;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-                    <div>
-                        <h3 style="margin: 0 0 20px; font-size: 1.8em;">Join Our Volunteer Network</h3>
-                        <p style="opacity: 0.9; margin: 0 0 25px;">Contribute your skills and time to make healthcare accessible</p>
-                        <div style="display: grid; gap: 15px;">
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <div style="width: 40px; height: 40px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center;">👩⚕</div>
-                                <span>Medical Professionals</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <div style="width: 40px; height: 40px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center;">📚</div>
-                                <span>Health Educators</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <div style="width: 40px; height: 40px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center;">📱</div>
-                                <span>Digital Volunteers</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="text-align: center;">
-                        <img src="https://images.pexels.com/photos/8542829/pexels-photo-8542829.jpeg" alt="Volunteers" style="width: 100%; max-width: 400px; border-radius: 8px;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <div id="donor-form" style="padding: 60px 20px; background: linear-gradient(135deg, #f0f4f8, #dfe9f3); text-align: center;">
-        <h2 style="font-size: 42px; font-weight: bold; color: #2c3e50; margin: 0 0 30px;">Register as a Donor</h2>
-        <div style="max-width: 500px; margin: 0 auto; background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-            <form action="/submit-donor" method="post" style="display: flex; flex-direction: column; gap: 20px;">
-                <input type="text" name="name" placeholder="Full Name" required style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; outline: none;">
-                <input type="email" name="email" placeholder="Email Address" required style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; outline: none;">
-                <input type="tel" name="phone" placeholder="Phone Number" required style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; outline: none;">
-                <select name="donation-type" required style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; outline: none;">
-                    <option value="" disabled selected>Select Donation Type</option>
-                    <option value="blood">Blood Donation</option>
-                    <option value="organ">Organ Donation Pledge</option>
-                    <option value="both">Both</option>
-                </select>
-                <input type="text" name="blood-group" placeholder="Blood Group (e.g., A+)" style="padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; outline: none;">
-                <button type="submit" style="padding: 15px; background-color: #28a745; color: #fff; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                    Register Now
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-base">
+                    <span>✉️</span> Send OTP
                 </button>
             </form>
+
+            <!-- STEP 2: OTP VERIFY (initially hidden) -->
+            <form id="otpForm" class="space-y-5 hidden mt-2">
+                <div>
+                    <label class="text-sm font-medium text-slate-600 flex items-center gap-1">
+                        <span>🔢</span> 6‑digit OTP
+                    </label>
+                    <input type="text" id="otp" maxlength="6" required placeholder="• • • • • •"
+                        class="w-full mt-1.5 p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-300 outline-none transition text-center text-lg tracking-[0.5em] font-mono bg-slate-50/50">
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-green-600 text-white py-3.5 rounded-xl font-semibold hover:bg-green-700 transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-base">
+                    <span>✅</span> Verify & Login
+                </button>
+            </form>
+
+            <!-- dynamic message area -->
+            <p id="message" class="text-center text-sm mt-5 min-h-[2rem]"></p>
+
+            <!-- subtle footer hint (optional) -->
+            <div class="text-xs text-slate-400 text-center mt-4 border-t border-slate-100 pt-4">
+                Secure OTP verification • 24x7 Health v2.0
+            </div>
         </div>
-        <p style="font-size: 14px; color: #666; margin: 20px 0 0;">Your information is secure. We’ll contact you to coordinate donation drives or organ pledge processes.</p>
     </div>
 
+    <script src="config.js"></script>
 
-    <!-- footer -->
-    <footer style="background-color: black; color: white; padding: 30px 10%; font-family: Arial, sans-serif; ">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Quick Links</h3>
-                <a href="Diagnostics.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Diagnostics</a>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Test's</a>
-                <a href="doctor.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find Doctor</a>
-                <a href="Dental.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Find A Tooth Expert</a>
-                <a href="Eyecare.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Eye Care</a>
-                <a href="donations.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Organ Donors</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Services</h3>
-                <a href="diagnostic-services.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Health Checkups</a>
-                <a href="blood.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Blood Donations</a>
-                <a href="healthRecords.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">health Reports</a>
-                <a href="fertility.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Fertility</a>
-                <a href="Cancer.html" style="color: white; text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px;">Cancer Care</a>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Subscribe to News Letter</h3>
-                <input type="email" placeholder="Enter your email" style="padding: 10px; margin-bottom: 10px; width: 80%; border: none; border-radius: 5px;">
-                <button style="padding: 10px; width: 50%; border: none; border-radius: 5px; background-color: teal; color: white; cursor: pointer;">Subscribe</button>
-            </div>
-            <div style="flex: 1; min-width: 200px; margin-bottom: 20px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Scan & Connect</h3>
-                <img src="images/hitaishihealthcare-qr.png" alt="qr code for visit our website" style="height: 200px; width: 180px;">
-            </div>
-            
-            <div style="flex: 1; min-width: 200px;">
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-envelope"></i>
-                    <span>support@24x7health.in</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                    <i class="fas fa-phone"></i>
-                    <span>8790170525</span>
-                </div>
-                <h3 style="margin-bottom: 15px; font-size: 18px;">Social Media</h3>
-                <div>
-                    <a href="https://www.instagram.com/optic.bee/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/share/1CC3vxsppD/" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-facebook"></i></a>
-                    <a href="https://x.com/BeeOptic?t=LB5TDI4096CJEldX9Ccswg&s=09" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"><i class="fab fa-twitter"></i> </a>
-                    <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-linkedin"></i> </a>
-                    <a href="https://youtube.com/@opticbee-i7j?si=w9ynFoGer27Kb82g" target="_blank" style="color: white; font-size: 20px; margin-right: 15px;"> <i class="fab fa-youtube"></i> </a>
-
-                </div>
-            </div>
-        </div>
-        <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By 24x7 Health Services. All Rights Reserved</p>
-            <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
-            <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
-            <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
-        </div>
-    </footer>
-
-
-    <!-- Placeholder where chatbot will be inserted -->
-    <div id="chatbot-placeholder"></div>
-
-    <!-- JS to load the chatbot -->
     <script>
-        fetch('chatbot.html')
-        .then(res => res.text())
-        .then(html => {
-            const container = document.getElementById('chatbot-placeholder');
-            container.innerHTML = html;
+        document.addEventListener("DOMContentLoaded", async () => {
+            await loadConfig();
+        });
+        const loginForm = document.getElementById("loginForm");
+        const otpForm = document.getElementById("otpForm");
+        const message = document.getElementById("message");
 
-            // ⛔ At this point, any <script> tags inside chatbot.html are just inserted as text.
-            // ✅ So, we must find and re-run those <script> blocks manually:
-            const scripts = container.querySelectorAll("script");
-            scripts.forEach(script => {
-            const newScript = document.createElement("script");
-            if (script.src) {
-                newScript.src = script.src;
-            } else {
-                newScript.textContent = script.textContent;
-            }
-            document.body.appendChild(newScript);
+        let savedEmail = "";
+
+        /* ==============================
+        STEP 1: SEND OTP
+        ============================== */
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            message.innerText = "Sending OTP...";
+            message.className = "text-blue-600 text-center text-sm mt-4";
+
+            const res = await fetch(`${API_BASE_URL}/admin/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
             });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                savedEmail = email;
+                loginForm.classList.add("hidden");
+                otpForm.classList.remove("hidden");
+                message.innerText = "OTP sent to your email";
+                message.className = "text-green-600 text-center text-sm mt-4";
+            } else {
+                message.innerText = data.message;
+                message.className = "text-red-600 text-center text-sm mt-4";
+            }
+        });
+
+        /* ==============================
+        STEP 2: VERIFY OTP
+        ============================== */
+        otpForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const otp = document.getElementById("otp").value;
+
+            message.innerText = "Verifying...";
+            message.className = "text-blue-600 text-center text-sm mt-4";
+
+            const res = await fetch(`${API_BASE_URL}/admin/verify-login-otp`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: savedEmail, otp })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                localStorage.setItem("adminToken", data.token);
+                window.location.href = "Admin.html";
+            } else {
+                message.innerText = data.message;
+                message.className = "text-red-600 text-center text-sm mt-4";
+            }
         });
     </script>
 
-
 </body>
 </html>
-
-
-

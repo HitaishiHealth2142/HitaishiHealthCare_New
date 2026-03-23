@@ -110,7 +110,10 @@ router.post("/doctors", upload.single("profile_image"), (req, res) => {
     profileImagePath = `/uploads/doctor_profiles/${req.file.filename}`;
   }
 
-  const {first_name, last_name, email, mobile, door_no, area, city, state, country, zipcode, clinic, license_number, aadhar_card, experience, degree,university,specialization,availability,from_time,to_time,additional_info,password } = req.body;
+  let {first_name, last_name, email, mobile, door_no, area, city, state, country, zipcode, clinic, license_number, aadhar_card, experience, degree, university, specialization, availability, from_time, to_time, additional_info, password } = req.body;
+
+  // Convert specialization to uppercase
+  specialization = specialization ? specialization.trim().toUpperCase() : null;
 
   const uid = crypto.randomBytes(5).toString("hex"); // Generate 10-char UID
 
@@ -225,15 +228,9 @@ router.post("/doctorlogin", (req, res) => {
 // Get Online Doctors for Instant Consultation (new endpoint)
 router.get("/online-doctors",(req,res)=>{
 
-const { specialization } = req.query;
+let { specialization } = req.query;
 
-let sql = `
-SELECT uid,first_name,last_name,specialization,
-consultation_fee,profile_image_url,area,city
-FROM doctors
-WHERE is_online = 1
-AND instant_consultation = TRUE
-`;
+let sql = `SELECT uid,first_name,last_name,specialization, consultation_fee,profile_image_url,area,city FROM doctors WHERE is_online = 1 AND instant_consultation = TRUE `;
 
 const params = [];
 
@@ -351,7 +348,44 @@ router.get("/specializations", (req, res) => {
 
 // Get All Doctors (merged - includes uid from both files)
 router.get("/getdoctors", (req, res) => {
-    const sql = "SELECT id, uid, first_name, last_name, email, experience, specialization, clinic, door_no, area, city, state, country, zipcode, degree, university, availability, from_time, to_time, profile_image_url FROM doctors";
+    const sql = `
+        SELECT 
+            id, 
+            uid, 
+            first_name, 
+            last_name, 
+            email, 
+            mobile,
+            experience, 
+            specialization, 
+            clinic,
+
+            door_no, 
+            area, 
+            city, 
+            state, 
+            country, 
+            zipcode,
+
+            CONCAT(
+                COALESCE(door_no, ''), ', ',
+                COALESCE(area, ''), ', ',
+                COALESCE(city, ''), ', ',
+                COALESCE(state, ''), ', ',
+                COALESCE(country, ''), ' - ',
+                COALESCE(zipcode, '')
+            ) AS address,
+
+            degree, 
+            university, 
+            availability, 
+            from_time, 
+            to_time, 
+            profile_image_url
+
+        FROM doctors
+    `;
+
     db.query(sql, (err, results) => {
         if (err) {
             console.error("Error fetching doctors:", err);
@@ -644,11 +678,12 @@ router.get("/doctors/:uid/history", (req, res) => {
 // Update Doctor Profile (merged - includes all fields from both files)
 router.put("/updatedoctors/:uid", upload.single('profile_image'), (req, res) => {
   const { uid } = req.params;
-  const {
+  let {
     first_name, last_name, email, mobile, door_no, area, city, state, country, zipcode, clinic, license_number,
     aadhar_card, experience, degree, university, specialization,
     availability, from_time, to_time, additional_info
   } = req.body;
+  specialization = specialization ? specialization.trim().toUpperCase() : null;
 
   let profileImagePath = null;
   if (req.file) {

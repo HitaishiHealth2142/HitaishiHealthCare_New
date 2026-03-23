@@ -7,19 +7,19 @@
     <meta name="keywords" content="eye care, ophthalmology, optometrist, cataract surgery, LASIK, refractive surgery, retina specialist, glaucoma treatment, diabetic retinopathy, OCT scan, fundus photography, contact lens fitting, pediatric ophthalmology, cornea clinic, ocular surgery, eye clinic, eye tests, vision correction">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="/Eyecare.html">
-    <meta property="og:title" content="Eye Care & Ophthalmology | Hitaishi Healthcare">
+    <meta property="og:title" content="Eye Care & Ophthalmology | 24x7 Health Services">
     <meta property="og:description" content="Comprehensive eye care — cataract surgery, LASIK, retina & glaucoma treatment, pediatric ophthalmology, contact lens services, and advanced OCT imaging.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="/Eyecare.html">
     <meta property="og:image" content="/images/eye.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Eye Care & Ophthalmology | Hitaishi Healthcare">
+    <meta name="twitter:title" content="Eye Care & Ophthalmology | 24x7 Health Services">
     <meta name="twitter:description" content="Comprehensive eye care — cataract surgery, LASIK, retina & glaucoma treatment, pediatric ophthalmology, contact lens services, and advanced OCT imaging.">
     <meta name="twitter:image" content="/images/eye.png">
-    <meta name="author" content="Hitaishi Healthcare">
+    <meta name="author" content="24x7 Health Services">
     <meta name="theme-color" content="#e63946">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalOrganization","name":"Hitaishi Healthcare - Eye Care","url":"/Eyecare.html","logo":"/images/Hitaishi HealthCare (1).png","description":"Comprehensive ophthalmology services: cataract and refractive surgery, LASIK, glaucoma and retina care, pediatric ophthalmology, OCT and diagnostic imaging.","medicalSpecialty":["Ophthalmology","Retina","Glaucoma","Cornea","Pediatrics","Refractive Surgery"]}</script>
-    <title>Hitaishi Healthcare Services</title>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalOrganization","name":"24x7 Health Services - Eye Care","url":"/Eyecare.html","logo":"/images/24x7 HealthCare (1).png","description":"Comprehensive ophthalmology services: cataract and refractive surgery, LASIK, glaucoma and retina care, pediatric ophthalmology, OCT and diagnostic imaging.","medicalSpecialty":["Ophthalmology","Retina","Glaucoma","Cornea","Pediatrics","Refractive Surgery"]}</script>
+    <title>24x7 Health Services</title>
     <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -149,13 +149,13 @@
 
             .logo-title {
                 color: #fff;
-                font-size: 22px;
+                font-size: 18px;
                 font-weight: bold;
             }
 
             .logo-subtitle {
                 color: #fff;
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .search-container {
@@ -429,11 +429,11 @@
                 }
                 
                 .logo-title {
-                    font-size: 20px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-subtitle {
-                    font-size: 14px !important;
+                    font-size: 18px !important;
                 }
                 
                 .logo-section img {
@@ -476,10 +476,10 @@
         <div class="top-nav">
             <!-- Left: Logo, Title & Search Bar -->
             <div class="logo-section">
-                <img src="images/Hitaishi HealthCare (1).png" alt="Logo" style="height: 40px; border-radius: 50%;">
-                <div class="logo-text">
-                    <span class="logo-title">HITAISHI</span>
-                    <span class="logo-subtitle">HEALTHCARE</span>
+                <img src="img/24x7health-logo.png" alt="Logo" style="height: 40px; border-radius: 10%;" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <div class="logo-text" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                    <span class="logo-title">HEALTHCARE</span>
+                    <span class="logo-subtitle">SERVICES</span>
                 </div>
                 
                 <!-- Search Bar -->
@@ -492,8 +492,8 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
-                    <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
+                <a href="mailto:support@24x7health.in" class="contact-link">
+                    <i class="fas fa-envelope"></i> support@24x7health.in
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
                     <i class="fas fa-phone"></i>  +91-9908793602,  +91-8790170525
@@ -535,10 +535,133 @@
                 </div>
                 
                 <!-- Profile Icon -->
-                <a href="login.html" id="loginNav1" title="Login/Profile" class="social-link" style="margin-left: 10px;">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="userName1"></span>
-                </a>
+                <div style="position: relative; display: inline-block; margin-left: 10px;">
+
+                    <!-- User Icon -->
+                    <div onclick="toggleDropdown()" 
+                        style="cursor:pointer; display:flex; align-items:center; gap:5px; color:white;">
+                        <i class="fas fa-user-circle" style="font-size:22px;"></i>
+                        <span id="userName1" style="font-size:14px;"></span>
+                        <i class="fas fa-caret-down" style="font-size:12px;"></i>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdown" 
+                        style="
+                            display:none;
+                            position:absolute;
+                            right:0;
+                            top:35px;
+                            background:#ffffff;
+                            min-width:220px;
+                            border-radius:8px;
+                            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                            padding:8px 0;
+                            z-index:9999;
+                        ">
+
+                        <!-- Login / Register Links -->
+                        <a href="login.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔐 Unified Login
+                        </a>
+
+                        <a href="doctor.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🩺 Doctor Register
+                        </a>
+
+                        <a href="diagnosticRegistration.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🧪 Diagnostic Register
+                        </a>
+
+                        <a href="AdminLogin.html"
+                            style="display:block; padding:10px 15px; text-decoration:none; color:#333; font-size:14px;"
+                            onmouseover="this.style.background='#f3f4f6'"
+                            onmouseout="this.style.background='white'">
+                            🔑 Admin Login
+                        </a>
+
+                        <!-- Divider -->
+                        <div style="height:1px; background:#e5e7eb; margin:6px 0;"></div>
+
+                        <!-- Logout -->
+                        <div id="logoutBtn"
+                            style="display:none; padding:10px 15px; font-size:14px; color:#dc2626; cursor:pointer;"
+                            onmouseover="this.style.background='#fee2e2'"
+                            onmouseout="this.style.background='white'">
+                            🚪 Logout
+                        </div>
+
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("userDropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close dropdown outside click
+                    window.addEventListener("click", function(e) {
+                        if (!e.target.closest('#userDropdown') &&
+                            !e.target.closest('[onclick="toggleDropdown()"]')) {
+                            document.getElementById("userDropdown").style.display = "none";
+                        }
+                    });
+
+                    /* =========================
+                    USER LOGIN CHECK
+                    ========================= */
+
+                    document.addEventListener("DOMContentLoaded", function () {
+
+                        const userNameSpan = document.getElementById("userName1");
+                        const logoutBtn = document.getElementById("logoutBtn");
+
+                        const patientName = localStorage.getItem("fullName");
+                        const doctorName = localStorage.getItem("doctorName");
+                        const diagnosticName = localStorage.getItem("diagnosticName");
+                        const adminToken = localStorage.getItem("adminToken");
+
+                        let currentUser = patientName || doctorName || diagnosticName;
+
+                        if (adminToken) {
+                            currentUser = "Admin";
+                        }
+
+                        if (currentUser) {
+                            userNameSpan.textContent = currentUser;
+                            logoutBtn.style.display = "block";
+                        } else {
+                            userNameSpan.textContent = "";
+                            logoutBtn.style.display = "none";
+                        }
+
+                        /* Logout Function */
+                        logoutBtn.addEventListener("click", function () {
+
+                            // Clear all possible login data
+                            localStorage.removeItem("fullName");
+                            localStorage.removeItem("doctorName");
+                            localStorage.removeItem("diagnosticName");
+                            localStorage.removeItem("adminToken");
+                            localStorage.removeItem("uid");
+                            sessionStorage.clear();
+
+                            window.location.href = "index.html";
+                        });
+
+                    });
+                </script>
             </div>
         </div>
 
@@ -596,23 +719,39 @@
                     <div class="dropdown">
                         <a href="Physician.html" class="nav-link">Physicians <i class="fas fa-caret-down fa-xs"></i></a>
                         <div class="dropdown-menu mega-menu">
-                            <div class="mega-menu-grid">
-                                <a href="cardiologist.html" class="menu-item">Cardiologist</a>
-                                <a href="neurologist.html" class="menu-item">Neurologist</a>
-                                <a href="dermatologist.html" class="menu-item">Dermatologist</a>
-                                <a href="orthopedic.html" class="menu-item">Orthopedic</a>
-                                <a href="pediatrician.html" class="menu-item">Pediatrician</a>
-                                <a href="gynecologist.html" class="menu-item">Gynecologist</a>
-                                <a href="urologist.html" class="menu-item">Urologist</a>
-                                <a href="oncologist.html" class="menu-item">Oncologist</a>
-                                <a href="endocrinologist.html" class="menu-item">Endocrinologist</a>
-                                <a href="gastroenterologist.html" class="menu-item">Gastroenterologist</a>
-                                <a href="pulmonologist.html" class="menu-item">Pulmonologist</a>
-                                <a href="rheumatologist.html" class="menu-item">Rheumatologist</a>
-                                <a href="psychiatrist.html" class="menu-item">Psychiatrist</a>
-                                <a href="ophthalmologist.html" class="menu-item">Ophthalmologist</a>
-                                <a href="general-physician.html" class="menu-item">General Physician</a>
-                            </div>
+                        <div class="mega-menu-grid">
+
+                            <a href="doctors.html?specialization=CARDIOLOGY" class="menu-item">Cardiologist</a>
+
+                            <a href="doctors.html?specialization=NEUROLOGIST" class="menu-item">Neurologist</a>
+
+                            <a href="doctors.html?specialization=DERMATOLOGIST" class="menu-item">Dermatologist</a>
+
+                            <a href="doctors.html?specialization=ORTHOPEDIC" class="menu-item">Orthopedic</a>
+
+                            <a href="doctors.html?specialization=PEDIATRICIAN" class="menu-item">Pediatrician</a>
+
+                            <a href="doctors.html?specialization=GYNACOLOGY" class="menu-item">Gynecologist</a>
+
+                            <a href="doctors.html?specialization=UROLOGIST" class="menu-item">Urologist</a>
+
+                            <a href="doctors.html?specialization=ONCOLOGY" class="menu-item">Oncologist</a>
+
+                            <a href="doctors.html?specialization=ENDOCRINOLOGIST" class="menu-item">Endocrinologist</a>
+
+                            <a href="doctors.html?specialization=GASTROENTEROLOGIST" class="menu-item">Gastroenterologist</a>
+
+                            <a href="doctors.html?specialization=PULMONOLOGIST" class="menu-item">Pulmonologist</a>
+
+                            <a href="doctors.html?specialization=RHEUMATOLOGIST" class="menu-item">Rheumatologist</a>
+
+                            <a href="doctors.html?specialization=PSYCHIATRIST" class="menu-item">Psychiatrist</a>
+
+                            <a href="doctors.html?specialization=OPHTHALMOLOGIST" class="menu-item">Ophthalmologist</a>
+
+                            <a href="doctors.html?specialization=GENERAL_PHYSICIAN" class="menu-item">General Physician</a>
+
+                        </div>
                         </div>
                     </div>
                     
@@ -660,6 +799,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ambulance -->
+                    <a href="Ambulance.html" class="nav-link">Ambulance</a>
                 </div>
             </div>
         </div>
@@ -744,7 +886,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://hitaishihealthcare.com/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -944,7 +1086,7 @@
                 const apiKey = "AIzaSyB3ebJaiaYFyB30sGAx1PmfmgnDPFCajKk";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                 const textToTranslate = originals.join("|||");
-                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "Hitaishi" or "Hitaishi HealthCare Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
+                const prompt = `Translate the following text parts into ${label}. The parts are separated by "|||". Maintain the "|||" separator in your output. Do not translate "24x7 Health" or "24x7 Health Service". If a part is a number or symbol, return it as is. \n\nTEXT: ${textToTranslate}`;
                 
                 document.body.style.opacity = '0.5';
                 document.body.style.pointerEvents = 'none';
@@ -987,7 +1129,7 @@
                 }
             });
         </script>
-    <!-- Navbar Code Ends-- -->
+    <!-- Navbar Code Ends -->
  
  
     <section style="position:relative;width:100%;min-height:550px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;color:white;">
@@ -1009,7 +1151,7 @@
       <div style="max-width:700px;padding:30px 20px;z-index:1;">
         <h1 style="font-size:3em;margin-bottom:15px;">Comprehensive Eye Care</h1>
         <p style="font-size:1.2em;line-height:1.6;margin-bottom:25px;">
-          Welcome to Hitaishi Health Care Services – Eye Care Division. We provide cutting-edge diagnostics, compassionate care, and customized solutions for all your vision needs.
+          Welcome to 24x7 Health Care Services – Eye Care Division. We provide cutting-edge diagnostics, compassionate care, and customized solutions for all your vision needs.
         </p>
         <a href="contact.html" style="text-decoration:none;">
           <button style="padding:12px 25px;font-size:1em;background:#00bcd4;border:none;border-radius:5px;color:white;cursor:pointer;transition:background 0.3s ease;">
@@ -1035,120 +1177,108 @@
 
     <!-- EYE CARE TREATMENTS SECTION -->
     <section style="padding:60px 20px;background:white;text-align:center;">
-        <h2 style="font-size:2.5em;margin-bottom:10px;color:#000000;">Our Eye Care Treatments</h2>
-        <p style="font-size:1.1em;color:#000000;margin-bottom:40px;"><b>We diagnose and treat a wide range of vision problems with precision and care.</b></p>
+        
+      <h2 style="font-size:2.5em;margin-bottom:10px;color:#000000;">Our Eye Care Treatments</h2>
+      <p style="font-size:1.1em;color:#000000;margin-bottom:40px;">
+        <b>We diagnose and treat a wide range of vision problems with precision and care.</b>
+      </p>
 
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:30px;max-width:1200px;margin:0 auto;">
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:30px;max-width:1200px;margin:0 auto;">
 
-            <!-- Each Card -->
-            <div class="treatment-card" style="flex:1 1 300px;padding:20px;border:1px solid #ddd;border-radius:10px;background:#f9fcff;box-shadow:0 2px 8px rgba(0,0,0,0.05);transition:all 0.4s;">
-              <h3 style="color:#00bcd4;font-size:1.4em;margin-bottom:10px;">👁️ Refractive Errors</h3>
-              <p style="color:#080808;">Treatments for Myopia, Hyperopia, and Astigmatism including eyeglasses, contact lenses, and laser correction.</p>
-              <button  onclick="location.href='eyeDoctors.html'"  style="margin-top:20px;padding:12px 30px;background:linear-gradient(to right,#00bcd4,#0097a7);color:white;font-weight:bold;font-size:1em;border:none;border-radius:30px;cursor:pointer;transition:background 0.3s;">Book Now</button>
-            </div>
-
-            <div class="treatment-card" style="flex:1 1 300px;padding:20px;border:1px solid #ddd;border-radius:10px;background:#f9fcff;box-shadow:0 2px 8px rgba(0,0,0,0.05);transition:all 0.4s;">
-              <h3 style="color:#00bcd4;font-size:1.4em;margin-bottom:10px;">🧠 Cataract Surgery</h3>
-              <p style="color:#000000;">Advanced cataract treatment and lens replacement surgeries with high precision and safety.</p>
-              <button  onclick="location.href='eyeDoctors.html'"  style="margin-top:20px;padding:12px 30px;background:linear-gradient(to right,#00bcd4,#0097a7);color:white;font-weight:bold;font-size:1em;border:none;border-radius:30px;cursor:pointer;transition:background 0.3s;">Book Now</button>
-            </div>
-
-            <div class="treatment-card" style="flex:1 1 300px;padding:20px;border:1px solid #ddd;border-radius:10px;background:#f9fcff;box-shadow:0 2px 8px rgba(0,0,0,0.05);transition:all 0.4s;">
-              <h3 style="color:#00bcd4;font-size:1.4em;margin-bottom:10px;">💉 Glaucoma Treatment</h3>
-              <p style="color:#050505;">Early detection and pressure control through medication, laser therapy, or surgery.</p>
-              <button  onclick="location.href='eyeDoctors.html'"  style="margin-top:20px;padding:12px 30px;background:linear-gradient(to right,#00bcd4,#0097a7);color:white;font-weight:bold;font-size:1em;border:none;border-radius:30px;cursor:pointer;transition:background 0.3s;">Book Now</button>
-            </div>
-
-            <div class="treatment-card" style="flex:1 1 300px;padding:20px;border:1px solid #ddd;border-radius:10px;background:#f9fcff;box-shadow:0 2px 8px rgba(0,0,0,0.05);transition:all 0.4s;">
-              <h3 style="color:#00bcd4;font-size:1.4em;margin-bottom:10px;">🔬 Diabetic Retinopathy</h3>
-              <p style="color:#000000;">Retinal care for diabetic patients using advanced imaging and laser treatment to prevent vision loss.</p>
-              <button  onclick="location.href='eyeDoctors.html'"  style="margin-top:20px;padding:12px 30px;background:linear-gradient(to right,#00bcd4,#0097a7);color:white;font-weight:bold;font-size:1em;border:none;border-radius:30px;cursor:pointer;transition:background 0.3s;">Book Now</button>
-            </div>
-
-            <div class="treatment-card" style="flex:1 1 300px;padding:20px;border:1px solid #ddd;border-radius:10px;background:#f9fcff;box-shadow:0 2px 8px rgba(0,0,0,0.05);transition:all 0.4s;">
-              <h3 style="color:#00bcd4;font-size:1.4em;margin-bottom:10px;">🔍 Regular Eye Checkups</h3>
-              <p style="color:#030303;">We recommend periodic exams to maintain eye health, even without symptoms. Prevention is better than cure!</p>
-              <button onclick="location.href='eyeDoctors.html'" style="margin-top:20px;padding:12px 30px;background:linear-gradient(to right,#00bcd4,#0097a7);color:white;font-weight:bold;font-size:1em;border:none;border-radius:30px;cursor:pointer;transition:background 0.3s;">Book Now</button>
-            </div>
-
+        <!-- Card -->
+        <div class="treatment-card">
+          <h3>👁️ Refractive Errors</h3>
+          <p>Treatments for Myopia, Hyperopia, and Astigmatism including eyeglasses, contact lenses, and laser correction.</p>
         </div>
-      
-        <!-- Hover Effect Styling -->
-        <style>
-                .treatment-card:hover {
-                  background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
-                  transform: translateY(-8px);
-                  box-shadow: 0 12px 30px rgba(0, 188, 212, 0.3);
-                }
 
-                .treatment-card:hover h3 {
-                  color: #006064;
-                }
+        <div class="treatment-card">
+          <h3>🧠 Cataract Surgery</h3>
+          <p>Advanced cataract treatment and lens replacement surgeries performed with modern microsurgical techniques.</p>
+        </div>
 
-                .treatment-card:hover p {
-                  color: #004d40;
-                }
-          
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            
+        <div class="treatment-card">
+          <h3>💉 Glaucoma Treatment</h3>
+          <p>Early detection and intraocular pressure control using medications, laser procedures, and surgery.</p>
+        </div>
 
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
+        <div class="treatment-card">
+          <h3>🔬 Diabetic Retinopathy</h3>
+          <p>Specialized retinal care for diabetic patients using advanced imaging and laser treatments.</p>
+        </div>
 
-            .treatment-card {
-                transition: all 0.4s ease-in-out !important;
-            }
+        <div class="treatment-card">
+          <h3>🔍 Regular Eye Checkups</h3>
+          <p>Routine vision exams help detect problems early and maintain long-term eye health.</p>
+        </div>
 
-            .treatment-card:hover {
-                background: linear-gradient(135deg, #00bcd4, #006064) !important;
-                transform: translateY(-10px) scale(1.02);
-                box-shadow: 0 12px 30px rgba(0, 188, 212, 0.2);
-                border-color: #00bcd4 !important;
-            }
+      </div>
 
-            .treatment-card:hover .card-content h3,
-            .treatment-card:hover .card-content p {
-                color: #fff !important;
-            }
+      <!-- SINGLE BUTTON -->
+      <div style="margin-top:50px;">
+        <button onclick="window.location.href='doctors.html?specialization=EYECARE'"
+          style="
+          padding:14px 40px;
+          font-size:1.1em;
+          font-weight:bold;
+          background:linear-gradient(135deg,#e53935,#c62828);
+          color:white;
+          border:none;
+          border-radius:40px;
+          cursor:pointer;
+          box-shadow:0 6px 15px rgba(0,0,0,0.2);
+          transition:all 0.3s;
+          ">
+          Find an Eye Care Doctor
+        </button>
+      </div>
 
-            .treatment-card:hover .card-hover-bg {
-                opacity: 0.15;
-            }
+      <style>
 
-            .treatment-card:hover button {
-                background: linear-gradient(to right, #ffffff, #e0f7fa) !important;
-                color: #006064 !important;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(255,255,255,0.3);
-            }
+        .treatment-card{
+          flex:1 1 300px;
+          padding:25px;
+          border:1px solid #ddd;
+          border-radius:12px;
+          background:#f9fcff;
+          box-shadow:0 2px 10px rgba(0,0,0,0.05);
+          transition:all 0.35s;
+        }
 
-            button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            }
+        .treatment-card h3{
+          color:#00bcd4;
+          font-size:1.4em;
+          margin-bottom:10px;
+        }
 
-            input:focus, textarea:focus {
-                border-color: #00bcd4 !important;
-                outline: none;
-            }
+        .treatment-card p{
+          color:#333;
+          line-height:1.6;
+        }
 
-            @media (max-width: 768px) {
-                .treatment-card {
-                    flex: 1 1 100% !important;
-                }
-            }
-        </style>
+        .treatment-card:hover{
+          background:linear-gradient(135deg,#00bcd4,#006064);
+          transform:translateY(-8px);
+          box-shadow:0 15px 35px rgba(0,188,212,0.3);
+        }
+
+        .treatment-card:hover h3,
+        .treatment-card:hover p{
+          color:white;
+        }
+
+        button:hover{
+          transform:translateY(-3px);
+          box-shadow:0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        @media(max-width:768px){
+          .treatment-card{
+            flex:1 1 100%;
+          }
+        }
+
+      </style>
+
     </section>
 
     <section style="padding:60px 20px; background:#f9faff url('images/eye.png') no-repeat center center; background-size:100%; animation:zoomEffect 15s ease-in-out infinite; font-family:'Segoe UI', sans-serif; text-align:center; position:relative; overflow:hidden;">
@@ -1260,7 +1390,7 @@
       <div style="flex:1 1 500px; background: linear-gradient(rgba(255,255,255,0.9), rgba(255, 255, 255, 0.705)), url('images/care.png') no-repeat center center; background-size: 120%; padding:40px 30px; border-radius:20px; box-shadow:0 15px 35px rgba(0,0,0,0.06); display:flex; flex-direction:column; justify-content:center; animation:zoomOut 15s ease-in-out infinite;">
         <h5 style="font-size:2.4em;margin-bottom:20px;color:#004d61;">About Our Eye Care</h5>
         <p style="font-size:1.15em;line-height:1.8;color:#444;margin-bottom:25px;">
-          At <strong style="color:#00bcd4;">Hitaishi Health Care</strong>, we specialize in comprehensive eye examinations, early detection of eye diseases, and advanced surgical procedures.
+          At <strong style="color:#00bcd4;">24x7 Health Care</strong>, we specialize in comprehensive eye examinations, early detection of eye diseases, and advanced surgical procedures.
           Our compassionate specialists ensure every patient gets personalized, clear-sighted care.
         </p>
         <ul style="list-style:none;padding:0;margin:0 0 30px 0;">
@@ -1699,7 +1829,7 @@
 
           <div id="testimonial-container" style="position:relative; height:100px; overflow:hidden;">
             <div class="testimonial" style="position:absolute; top:0; left:0; width:100%; opacity:1; transition:opacity 1s ease;">
-              <p style="font-size:1.2em; color:#444;">"I had a fantastic experience with Hitaishi Eye Care. The doctors are highly professional and compassionate."</p>
+              <p style="font-size:1.2em; color:#444;">"I had a fantastic experience with 24x7 Health Eye Care. The doctors are highly professional and compassionate."</p>
               <h4 style="color:#00bcd4; margin-top:-15px;">– Ramesh K., Hyderabad</h4>
             </div>
 
@@ -1868,7 +1998,7 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>info@hitaishihealth.com</span>
+                    <span>support@24x7health.in</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>
@@ -1886,7 +2016,7 @@
             </div>
         </div>
         <div style="text-align: center; padding-top: 20px; border-top: 1px solid gray; margin-top: 20px;">
-            <p>© Copyright 2025 By Hitaishi Health Service. All Rights Reserved</p>
+            <p>© Copyright 2025 By 24x7 Health Service. All Rights Reserved</p>
             <a href="#" style="color: white; text-decoration: none;">Sitemap</a> |
             <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> |
             <a href="#" style="color: white; text-decoration: none;">Terms of Use</a>
