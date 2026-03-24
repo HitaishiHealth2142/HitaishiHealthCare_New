@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertility Center Registration | Hitaishi Healthcare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        .step-indicator {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step-number.active {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        
+        .step-number.completed {
+            background: #10b981;
+            color: white;
+        }
+        
+        .step-number.inactive {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        input.error, select.error, textarea.error {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .btn-base {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            background: #bfdbfe;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .doctor-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        }
+        
+        .checkbox-group, .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        input[type="checkbox"], input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #3b82f6;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(59, 130, 246, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-area:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #2563eb;
+        }
+        
+        .file-upload-area.dragging {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: #2563eb;
+        }
+        
+        .file-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .file-item {
+            position: relative;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            flex: 0 1 calc(33.333% - 0.75rem);
+            min-width: 150px;
+        }
+        
+        .file-item img {
+            max-width: 100%;
+            max-height: 100px;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-item-name {
+            font-size: 0.875rem;
+            color: #6b7280;
+            word-break: break-all;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+        
+        .multi-select-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .multi-select-item {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .multi-select-item.selected {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        
+        .success-container {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #667eea);
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .step-item {
+                font-size: 0.75rem;
+            }
+            
+            .step-number {
+                width: 28px;
+                height: 28px;
+                font-size: 0.875rem;
+            }
+            
+            .multi-select-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 0.75rem;
+            }
+            
+            .file-item {
+                flex: 0 1 calc(50% - 0.5rem);
+            }
+            
+            input, select, textarea {
+                font-size: 16px; /* prevents zoom on iOS */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-2xl mx-auto">
+            <!-- Header -->
+            <div class="text-center text-white mb-8">
+                <h1 class="text-4xl font-bold mb-2">Fertility Center Registration</h1>
+                <p class="text-lg opacity-90">Join Hitaishi Healthcare Network</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar mb-4">
+                <div class="progress-fill" id="progressFill" style="width: 11.11%;"></div>
+            </div>
+
+            <!-- Step Indicators -->
+            <div class="step-indicator">
+                <div class="step-item">
+                    <div class="step-number active" id="step-1">1</div>
+                    <span class="hidden sm:inline text-white text-sm">Basic</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-2">2</div>
+                    <span class="hidden sm:inline text-white text-sm">Location</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-3">3</div>
+                    <span class="hidden sm:inline text-white text-sm">Contact</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-4">4</div>
+                    <span class="hidden sm:inline text-white text-sm">Doctors</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-5">5</div>
+                    <span class="hidden sm:inline text-white text-sm">Services</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-6">6</div>
+                    <span class="hidden sm:inline text-white text-sm">Success</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-7">7</div>
+                    <span class="hidden sm:inline text-white text-sm">Documents</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-8">8</div>
+                    <span class="hidden sm:inline text-white text-sm">Account</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-number inactive" id="step-9">9</div>
+                    <span class="hidden sm:inline text-white text-sm">Review</span>
+                </div>
+            </div>
+
+            <!-- Main Form Card -->
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <form id="registrationForm">
+                    <!-- STEP 1: Basic Info -->
+                    <section class="form-section active" data-step="1">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Basic Information</h2>
+                        
+                        <div class="input-group">
+                            <label for="centerName">Center Name *</label>
+                            <input type="text" id="centerName" name="centerName" required>
+                            <div class="error-message" id="centerName-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="registrationNumber">Registration Number *</label>
+                            <input type="text" id="registrationNumber" name="registrationNumber" required placeholder="e.g., FC-2024-001">
+                            <div class="error-message" id="registrationNumber-error"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="establishmentYear">Establishment Year *</label>
+                                <input type="number" id="establishmentYear" name="establishmentYear" min="1900" max="2099" required>
+                                <div class="error-message" id="establishmentYear-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="centerType">Center Type *</label>
+                                <select id="centerType" name="centerType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="Hospital">Hospital</option>
+                                    <option value="Clinic">Clinic</option>
+                                    <option value="Research Center">Research Center</option>
+                                    <option value="Diagnostic Center">Diagnostic Center</option>
+                                </select>
+                                <div class="error-message" id="centerType-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="description">Description *</label>
+                            <textarea id="description" name="description" rows="4" placeholder="Brief description of your center..." required></textarea>
+                            <div class="error-message" id="description-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="logo">Logo (JPG/PNG, max 2MB)</label>
+                            <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png">
+                            <div class="file-preview" id="logo-preview"></div>
+                            <div class="error-message" id="logo-error"></div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 2: Location -->
+                    <section class="form-section" data-step="2">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Location Details</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="country">Country *</label>
+                                <input type="text" id="country" name="country" required value="India">
+                                <div class="error-message" id="country-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="state">State *</label>
+                                <input type="text" id="state" name="state" required>
+                                <div class="error-message" id="state-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" required>
+                                <div class="error-message" id="city-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="area">Area/Locality</label>
+                                <input type="text" id="area" name="area">
+                                <div class="error-message" id="area-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="address">Full Address *</label>
+                            <textarea id="address" name="address" rows="3" required></textarea>
+                            <div class="error-message" id="address-error"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="pincode">Pincode *</label>
+                                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{6}">
+                                <div class="error-message" id="pincode-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="latitude">Latitude (GPS)</label>
+                                <input type="number" id="latitude" name="latitude" step="0.00000001">
+                                <div class="error-message" id="latitude-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="longitude">Longitude (GPS)</label>
+                            <input type="number" id="longitude" name="longitude" step="0.00000001">
+                            <div class="error-message" id="longitude-error"></div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 3: Contact -->
+                    <section class="form-section" data-step="3">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="primaryPhone">Primary Phone *</label>
+                                <input type="tel" id="primaryPhone" name="primaryPhone" required pattern="[0-9]{10}">
+                                <div class="error-message" id="primaryPhone-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="alternatePhone">Alternate Phone</label>
+                                <input type="tel" id="alternatePhone" name="alternatePhone" pattern="[0-9]{10}">
+                                <div class="error-message" id="alternatePhone-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="website">Website URL</label>
+                            <input type="url" id="website" name="website" placeholder="https://example.com">
+                            <div class="error-message" id="website-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="emergencyContact">Emergency Contact</label>
+                            <input type="tel" id="emergencyContact" name="emergencyContact" pattern="[0-9]{10}">
+                            <div class="error-message" id="emergencyContact-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="languages">Supported Languages</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="lang-english" name="languages" value="English">
+                                    <label for="lang-english" class="mb-0">English</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="lang-hindi" name="languages" value="Hindi">
+                                    <label for="lang-hindi" class="mb-0">Hindi</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="lang-regional" name="languages" value="Regional">
+                                    <label for="lang-regional" class="mb-0">Regional</label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 4: Doctors -->
+                    <section class="form-section" data-step="4">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Medical Staff</h2>
+                        <p class="text-gray-600 mb-6">Add at least one doctor</p>
+
+                        <div id="doctorsContainer"></div>
+
+                        <button type="button" class="btn-base bg-green-600 text-white hover:bg-green-700 w-full" id="addDoctorBtn">
+                            + Add Doctor
+                        </button>
+                    </section>
+
+                    <!-- STEP 5: Services & Facilities -->
+                    <section class="form-section" data-step="5">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Services & Facilities</h2>
+                        
+                        <label class="block text-lg font-semibold text-gray-900 mb-4">Select Services *</label>
+                        <div class="multi-select-container" id="servicesContainer">
+                            <div class="multi-select-item" data-service="IVF">IVF</div>
+                            <div class="multi-select-item" data-service="IUI">IUI</div>
+                            <div class="multi-select-item" data-service="PGD">PGD</div>
+                            <div class="multi-select-item" data-service="Surrogacy">Surrogacy</div>
+                            <div class="multi-select-item" data-service="Egg Freezing">Egg Freezing</div>
+                            <div class="multi-select-item" data-service="Embryo Freezing">Embryo Freezing</div>
+                            <div class="multi-select-item" data-service="Sperm Freezing">Sperm Freezing</div>
+                            <div class="multi-select-item" data-service="Counseling">Counseling</div>
+                        </div>
+
+                        <label class="block text-lg font-semibold text-gray-900 mb-4 mt-8">Facilities *</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fac-operation" name="facilities" value="Operation Theater">
+                                <label for="fac-operation" class="mb-0">Operation Theater</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fac-ultrasound" name="facilities" value="Ultrasound">
+                                <label for="fac-ultrasound" class="mb-0">Ultrasound</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fac-lab" name="facilities" value="Lab">
+                                <label for="fac-lab" class="mb-0">Lab</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fac-cryobank" name="facilities" value="Cryobank">
+                                <label for="fac-cryobank" class="mb-0">Cryobank</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="fac-pharmacy" name="facilities" value="Pharmacy">
+                                <label for="fac-pharmacy" class="mb-0">Pharmacy</label>
+                            </div>
+                        </div>
+
+                        <div class="input-group mt-8">
+                            <label for="insurance">Insurance Accepted</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="insurance-cashless" name="insurance" value="Cashless">
+                                    <label for="insurance-cashless" class="mb-0">Cashless</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="insurance-reimbursement" name="insurance" value="Reimbursement">
+                                    <label for="insurance-reimbursement" class="mb-0">Reimbursement</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="insurance-corporate" name="insurance" value="Corporate">
+                                    <label for="insurance-corporate" class="mb-0">Corporate</label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 6: Success Metrics & Pricing -->
+                    <section class="form-section" data-step="6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Success Rates & Pricing</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="ivfSuccessRate">IVF Success Rate (%)</label>
+                                <input type="number" id="ivfSuccessRate" name="ivfSuccessRate" min="0" max="100" step="0.1">
+                                <div class="error-message" id="ivfSuccessRate-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="totalCycles">Total Cycles Completed</label>
+                                <input type="number" id="totalCycles" name="totalCycles" min="0">
+                                <div class="error-message" id="totalCycles-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="yearsExperience">Years of Experience</label>
+                                <input type="number" id="yearsExperience" name="yearsExperience" min="0">
+                                <div class="error-message" id="yearsExperience-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="consultationFee">Consultation Fee (₹)</label>
+                                <input type="number" id="consultationFee" name="consultationFee" min="0" step="100">
+                                <div class="error-message" id="consultationFee-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="input-group">
+                                <label for="ivfCostRange">IVF Cost Range (₹)</label>
+                                <input type="text" id="ivfCostRange" name="ivfCostRange" placeholder="e.g., 100000-300000">
+                                <div class="error-message" id="ivfCostRange-error"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="iuiCost">IUI Cost (₹)</label>
+                                <input type="number" id="iuiCost" name="iuiCost" min="0" step="100">
+                                <div class="error-message" id="iuiCost-error"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="certifications">Professional Certifications</label>
+                            <textarea id="certifications" name="certifications" rows="3" placeholder="e.g., ISO 9001, ISAR certified, etc."></textarea>
+                            <div class="error-message" id="certifications-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="awards">Awards & Recognition</label>
+                            <textarea id="awards" name="awards" rows="3" placeholder="Awards received"></textarea>
+                            <div class="error-message" id="awards-error"></div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 7: Documents -->
+                    <section class="form-section" data-step="7">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Document Upload</h2>
+                        
+                        <div class="input-group">
+                            <label for="licenseCertificate">License Certificate *</label>
+                            <div class="file-upload-area" data-input="licenseCertificate">
+                                <p class="text-gray-600">Click or drag to upload</p>
+                                <p class="text-sm text-gray-500 mt-1">JPG, PNG, PDF (Max 2MB)</p>
+                            </div>
+                            <input type="file" id="licenseCertificate" name="licenseCertificate" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                            <div class="file-preview" id="licenseCertificate-preview"></div>
+                            <div class="error-message" id="licenseCertificate-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="doctorCertificates">Doctor Certificates (Multiple)</label>
+                            <div class="file-upload-area" data-input="doctorCertificates">
+                                <p class="text-gray-600">Click or drag to upload</p>
+                                <p class="text-sm text-gray-500 mt-1">JPG, PNG, PDF (Max 2MB each)</p>
+                            </div>
+                            <input type="file" id="doctorCertificates" name="doctorCertificates" accept=".jpg,.jpeg,.png,.pdf" multiple style="display: none;">
+                            <div class="file-preview" id="doctorCertificates-preview"></div>
+                            <div class="error-message" id="doctorCertificates-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="accreditationDocs">Accreditation Documents (Multiple)</label>
+                            <div class="file-upload-area" data-input="accreditationDocs">
+                                <p class="text-gray-600">Click or drag to upload</p>
+                                <p class="text-sm text-gray-500 mt-1">JPG, PNG, PDF (Max 2MB each)</p>
+                            </div>
+                            <input type="file" id="accreditationDocs" name="accreditationDocs" accept=".jpg,.jpeg,.png,.pdf" multiple style="display: none;">
+                            <div class="file-preview" id="accreditationDocs-preview"></div>
+                            <div class="error-message" id="accreditationDocs-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="idProof">Official ID Proof *</label>
+                            <div class="file-upload-area" data-input="idProof">
+                                <p class="text-gray-600">Click or drag to upload</p>
+                                <p class="text-sm text-gray-500 mt-1">JPG, PNG, PDF (Max 2MB)</p>
+                            </div>
+                            <input type="file" id="idProof" name="idProof" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                            <div class="file-preview" id="idProof-preview"></div>
+                            <div class="error-message" id="idProof-error"></div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 8: Account Setup -->
+                    <section class="form-section" data-step="8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Account Setup</h2>
+                        
+                        <div class="input-group">
+                            <label for="username">Username *</label>
+                            <input type="text" id="username" name="username" required placeholder="Choose your username">
+                            <div class="error-message" id="username-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special char">
+                            <div class="error-message" id="password-error"></div>
+                            <div id="passwordStrength" class="mt-2"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <div class="error-message" id="confirmPassword-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" id="agreeTerms" name="agreeTerms" required class="w-5 h-5">
+                                <span>I agree to the Terms & Conditions *</span>
+                            </label>
+                            <div class="error-message" id="agreeTerms-error"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required class="w-5 h-5">
+                                <span>I agree to the Privacy Policy *</span>
+                            </label>
+                            <div class="error-message" id="agreePrivacy-error"></div>
+                        </div>
+                    </section>
+
+                    <!-- STEP 9: Review & Submit -->
+                    <section class="form-section" data-step="9">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Review & Submit</h2>
+                        <div id="reviewContainer" class="space-y-6"></div>
+                    </section>
+
+                    <!-- Success Page -->
+                    <section class="form-section" data-step="success">
+                        <div class="success-container">
+                            <div class="success-icon">✓</div>
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">Registration Submitted!</h2>
+                            <p class="text-gray-600 mb-4">Thank you for registering with Hitaishi Healthcare.</p>
+                            <p class="text-gray-600 mb-6">Our admin team will review your submission and notify you within 2-3 business days.</p>
+                            <p class="text-sm text-gray-500">A confirmation email has been sent to <span id="successEmail" class="font-semibold"></span></p>
+                            <button type="button" class="btn-base btn-primary mt-8" onclick="window.location.href='index.html'">
+                                Back to Home
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between gap-4 mt-8" id="navigationButtons">
+                        <button type="button" class="btn-base btn-secondary" id="prevBtn" style="display: none;">
+                            ← Previous
+                        </button>
+                        <button type="button" class="btn-base btn-primary ml-auto" id="nextBtn">
+                            Next →
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center text-white mt-8">
+                <p class="text-sm opacity-75">© 2024 Hitaishi Healthcare. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:5001/api';
+        const TOTAL_STEPS = 9;
+        let currentStep = 1;
+        let formData = {
+            services: [],
+            facilities: [],
+            insurance: [],
+            languages: [],
+            doctors: [],
+            doctorCertificates: [],
+            accreditationDocs: []
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupFileUpload();
+            setupServicesSelection();
+            setupDoctorManagement();
+            setupPasswordValidation();
+            setupNavigation();
+        });
+
+        // File Upload Setup
+        function setupFileUpload() {
+            const areas = document.querySelectorAll('.file-upload-area');
+            areas.forEach(area => {
+                area.addEventListener('click', (e) => {
+                    const inputId = area.dataset.input;
+                    document.getElementById(inputId).click();
+                });
+
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragging');
+                });
+
+                area.addEventListener('dragleave', () => area.classList.remove('dragging'));
+
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragging');
+                    const inputId = area.dataset.input;
+                    const input = document.getElementById(inputId);
+                    input.files = e.dataTransfer.files;
+                    handleFileInput({ target: input });
+                });
+            });
+
+            // File input handlers
+            ['logo', 'licenseCertificate', 'doctorCertificates', 'accreditationDocs', 'idProof'].forEach(id => {
+                document.getElementById(id).addEventListener('change', handleFileInput);
+            });
+        }
+
+        function handleFileInput(e) {
+            const input = e.target;
+            const previewId = input.id + '-preview';
+            const errorId = input.id + '-error';
+            const preview = document.getElementById(previewId);
+            const errorDiv = document.getElementById(errorId);
+            const files = input.files;
+
+            errorDiv.innerText = '';
+            preview.innerHTML = '';
+
+            if (files.length === 0) return;
+
+            for (let file of files) {
+                // Validation
+                const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+                if (!validTypes.includes(file.type)) {
+                    errorDiv.innerText = 'Only JPG, PNG, and PDF files are allowed';
+                    return;
+                }
+
+                if (file.size > 2 * 1024 * 1024) {
+                    errorDiv.innerText = 'File size must not exceed 2MB';
+                    return;
+                }
+
+                // Create preview
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    fileItem.appendChild(img);
+                }
+
+                const name = document.createElement('div');
+                name.className = 'file-item-name';
+                name.innerText = file.name;
+                fileItem.appendChild(name);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '×';
+                removeBtn.type = 'button';
+                removeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    fileItem.remove();
+                });
+                fileItem.appendChild(removeBtn);
+
+                preview.appendChild(fileItem);
+            }
+
+            formData[input.name] = files;
+        }
+
+        // Services Selection
+        function setupServicesSelection() {
+            document.querySelectorAll('#servicesContainer .multi-select-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('selected');
+                    const service = item.dataset.service;
+                    if (item.classList.contains('selected')) {
+                        if (!formData.services.includes(service)) formData.services.push(service);
+                    } else {
+                        formData.services = formData.services.filter(s => s !== service);
+                    }
+                });
+            });
+        }
+
+        // Doctor Management
+        function setupDoctorManagement() {
+            document.getElementById('addDoctorBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                addDoctorForm();
+            });
+
+            addDoctorForm(); // Add one by default
+        }
+
+        function addDoctorForm() {
+            const container = document.getElementById('doctorsContainer');
+            const index = container.children.length;
+            const doctorCard = document.createElement('div');
+            doctorCard.className = 'doctor-card';
+            doctorCard.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h4 class="font-semibold text-gray-900">Doctor ${index + 1}</h4>
+                    ${index > 0 ? `<button type="button" class="btn-base bg-red-600 text-white py-1 px-3 text-sm" onclick="this.closest('.doctor-card').remove();">Remove</button>` : ''}
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="input-group">
+                        <label>Full Name *</label>
+                        <input type="text" class="doctor-name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Specialization *</label>
+                        <select class="doctor-specialization" required>
+                            <option value="">Select Specialization</option>
+                            <option value="Reproductive Endocrinologist">Reproductive Endocrinologist</option>
+                            <option value="Embryologist">Embryologist</option>
+                            <option value="Andrologist">Andrologist</option>
+                            <option value="Gynecologist">Gynecologist</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="input-group">
+                        <label>Qualification *</label>
+                        <input type="text" class="doctor-qualification" placeholder="e.g., MD, DNB" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Experience (Years) *</label>
+                        <input type="number" class="doctor-experience" min="0" required>
+                    </div>
+                </div>
+            `;
+            container.appendChild(doctorCard);
+        }
+
+        // Password Validation
+        function setupPasswordValidation() {
+            document.getElementById('password').addEventListener('input', (e) => {
+                const password = e.target.value;
+                const strength = document.getElementById('passwordStrength');
+                let level = 0;
+                let message = '';
+
+                if (password.length >= 8) level++;
+                if (/[A-Z]/.test(password)) level++;
+                if (/[0-9]/.test(password)) level++;
+                if (/[!@#$%^&*]/.test(password)) level++;
+
+                if (level === 0) {
+                    message = '';
+                } else if (level <= 2) {
+                    message = '<span style="color: #ef4444;">Weak password</span>';
+                } else if (level === 3) {
+                    message = '<span style="color: #f59e0b;">Medium strength</span>';
+                } else {
+                    message = '<span style="color: #10b981;">Strong password</span>';
+                }
+
+                strength.innerHTML = message;
+            });
+        }
+
+        // Navigation
+        function setupNavigation() {
+            document.getElementById('prevBtn').addEventListener('click', () => goToStep(currentStep - 1));
+            document.getElementById('nextBtn').addEventListener('click', handleNextClick);
+        }
+
+        function handleNextClick(e) {
+            e.preventDefault();
+
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+            if (currentStep === TOTAL_STEPS) {
+                submitForm();
+            } else {
+                goToStep(currentStep + 1);
+            }
+        }
+
+        function validateStep(step) {
+            const requiredFields = {
+                1: ['centerName', 'registrationNumber', 'establishmentYear', 'centerType', 'description'],
+                2: ['country', 'state', 'city', 'address', 'pincode'],
+                3: ['primaryPhone', 'email'],
+                4: [], // Dynamic doctor validation
+                5: [], // Services validation
+                6: [],
+                7: ['licenseCertificate', 'idProof'],
+                8: ['username', 'password', 'confirmPassword', 'agreeTerms', 'agreePrivacy'],
+                9: []
+            };
+
+            if (step === 4) {
+                // Validate doctors
+                const doctors = document.querySelectorAll('.doctor-card');
+                if (doctors.length === 0) {
+                    alert('Please add at least one doctor');
+                    return false;
+                }
+
+                for (let doctor of doctors) {
+                    const name = doctor.querySelector('.doctor-name').value;
+                    const spec = doctor.querySelector('.doctor-specialization').value;
+                    const qual = doctor.querySelector('.doctor-qualification').value;
+                    const exp = doctor.querySelector('.doctor-experience').value;
+
+                    if (!name || !spec || !qual || !exp) {
+                        alert('Please fill all doctor details');
+                        return false;
+                    }
+
+                    formData.doctors.push({ name, specialization: spec, qualification: qual, experience: exp });
+                }
+            }
+
+            if (step === 5) {
+                if (formData.services.length === 0) {
+                    alert('Please select at least one service');
+                    return false;
+                }
+
+                formData.facilities = Array.from(document.querySelectorAll('input[name="facilities"]:checked')).map(c => c.value);
+                formData.insurance = Array.from(document.querySelectorAll('input[name="insurance"]:checked')).map(c => c.value);
+
+                if (formData.facilities.length === 0) {
+                    alert('Please select at least one facility');
+                    return false;
+                }
+            }
+
+            if (step === 3) {
+                formData.languages = Array.from(document.querySelectorAll('input[name="languages"]:checked')).map(c => c.value);
+            }
+
+            if (step === 8) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    document.getElementById('confirmPassword-error').innerText = 'Passwords do not match';
+                    return false;
+                }
+
+                if (!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(password) || password.length < 8) {
+                    document.getElementById('password-error').innerText = 'Password must be 8+ chars with uppercase, number, and special char';
+                    return false;
+                }
+            }
+
+            // Validate required fields
+            for (let field of requiredFields[step]) {
+                const element = document.getElementById(field);
+                if (!element || !element.value) {
+                    if (element) {
+                        element.classList.add('error');
+                        document.getElementById(field + '-error').innerText = 'This field is required';
+                    }
+                    return false;
+                }
+                element.classList.remove('error');
+                document.getElementById(field + '-error').innerText = '';
+            }
+
+            // Specific validations
+            if (step === 3) {
+                const phone = document.getElementById('primaryPhone').value;
+                if (phone && !/^[0-9]{10}$/.test(phone)) {
+                    document.getElementById('primaryPhone-error').innerText = 'Phone must be 10 digits';
+                    return false;
+                }
+
+                const email = document.getElementById('email').value;
+                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('email-error').innerText = 'Invalid email format';
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function goToStep(step) {
+            if (step < 1 || step > TOTAL_STEPS) return;
+
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.form-section[data-step="${step}"]`).classList.add('active');
+
+            // Update step indicators
+            updateStepIndicators(step);
+
+            // Update buttons
+            document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.innerHTML = step === TOTAL_STEPS ? 'Submit' : 'Next →';
+
+            // Update progress bar
+            const progress = (step / TOTAL_STEPS) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Generate review on step 9
+            if (step === TOTAL_STEPS) {
+                generateReview();
+            }
+
+            currentStep = step;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateStepIndicators(activeStep) {
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const indicator = document.getElementById(`step-${i}`);
+                indicator.className = 'step-number';
+                if (i === activeStep) {
+                    indicator.classList.add('active');
+                } else if (i < activeStep) {
+                    indicator.classList.add('completed');
+                } else {
+                    indicator.classList.add('inactive');
+                }
+            }
+        }
+
+        function generateReview() {
+            const container = document.getElementById('reviewContainer');
+            container.innerHTML = `
+                <div class="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6">
+                    <p class="text-blue-900 font-semibold">Please review your information before submitting</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded">
+                        <h4 class="font-semibold text-gray-900 mb-2">Basic Information</h4>
+                        <p><strong>Center Name:</strong> ${document.getElementById('centerName').value}</p>
+                        <p><strong>Registration Number:</strong> ${document.getElementById('registrationNumber').value}</p>
+                        <p><strong>Type:</strong> ${document.getElementById('centerType').value}</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded">
+                        <h4 class="font-semibold text-gray-900 mb-2">Location</h4>
+                        <p>${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} - ${document.getElementById('pincode').value}</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded">
+                        <h4 class="font-semibold text-gray-900 mb-2">Contact</h4>
+                        <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
+                        <p><strong>Phone:</strong> ${document.getElementById('primaryPhone').value}</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded">
+                        <h4 class="font-semibold text-gray-900 mb-2">Services</h4>
+                        <p>${formData.services.join(', ')}</p>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-600 p-4">
+                        <p class="text-yellow-900 text-sm"><strong>Note:</strong> Your registration will be reviewed by our admin team. You will receive an email once it's approved or if any clarifications are needed.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function submitForm() {
+            const submitBtn = document.getElementById('nextBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                // Collect all form data
+                const formDataObj = new FormData();
+
+                // Add text fields
+                ['centerName', 'registrationNumber', 'establishmentYear', 'centerType', 'description',
+                 'country', 'state', 'city', 'area', 'address', 'pincode', 'latitude', 'longitude',
+                 'primaryPhone', 'alternatePhone', 'email', 'website', 'emergencyContact',
+                 'ivfSuccessRate', 'totalCycles', 'yearsExperience', 'consultationFee',
+                 'ivfCostRange', 'iuiCost', 'certifications', 'awards', 'username', 'password'
+                ].forEach(field => {
+                    const element = document.getElementById(field);
+                    if (element && element.value) {
+                        formDataObj.append(field, element.value);
+                    }
+                });
+
+                // Add JSON arrays
+                formDataObj.append('doctors', JSON.stringify(formData.doctors));
+                formDataObj.append('services', JSON.stringify(formData.services));
+                formDataObj.append('facilities', JSON.stringify(formData.facilities));
+                formDataObj.append('languages', JSON.stringify(formData.languages));
+                formDataObj.append('insurance', JSON.stringify(formData.insurance));
+
+                // Add files
+                ['logo', 'licenseCertificate', 'idProof'].forEach(field => {
+                    const input = document.getElementById(field);
+                    if (input.files.length > 0) {
+                        formDataObj.append(field, input.files[0]);
+                    }
+                });
+
+                // Add multiple files
+                ['doctorCertificates', 'accreditationDocs'].forEach(field => {
+                    const input = document.getElementById(field);
+                    for (let file of input.files) {
+                        formDataObj.append(field, file);
+                    }
+                });
+
+                const response = await fetch(`${API_BASE_URL}/fertility/register`, {
+                    method: 'POST',
+                    body: formDataObj
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('successEmail').textContent = document.getElementById('email').value;
+                    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+                    document.querySelector('.form-section[data-step="success"]').classList.add('active');
+                    document.getElementById('navigationButtons').style.display = 'none';
+                } else {
+                    alert('Error: ' + (data.message || 'Registration failed'));
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit';
+            }
+        }
+
+        // Initialize with step 1
+        goToStep(1);
+    </script>
+</body>
+</html>
