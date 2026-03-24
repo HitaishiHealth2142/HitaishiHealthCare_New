@@ -277,7 +277,11 @@
     </div>
   </div>
 
+  <script src="config.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadConfig();
+    });
     // Helper function to show a custom modal instead of an alert
     function showModal(message) {
         document.getElementById('modal-message').innerText = message;

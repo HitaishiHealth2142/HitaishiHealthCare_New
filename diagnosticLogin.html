@@ -15,7 +15,12 @@
   </style>
 </head>
 <body>
- 
+ <script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 <div class="container">
   <div class="login-container">
     <h3 class="text-center mb-3">Diagnostic Center Login</h3>
@@ -68,7 +73,7 @@
 </div>
 
 <script>
-const API_BASE = "https://24x7health.in/api"; 
+
 
 // Login functionality
 document.getElementById("loginForm").addEventListener("submit", async (e) => {

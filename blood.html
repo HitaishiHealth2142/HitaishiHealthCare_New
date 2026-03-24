@@ -491,7 +491,7 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@24x7health.in" class="contact-link">
+                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
                     <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
@@ -885,7 +885,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`${API_BASE_URL}/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -1291,7 +1291,7 @@
                     };
     
                     // Send data to backend API (Assuming your API is hosted at a URL like '/api/register')
-                    fetch('https://www.24x7health.in/api/register', {
+                    fetch(`${API_BASE_URL}/register`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1340,8 +1340,14 @@
     </div>
   </section>
   
+  <script src="config.js"></script>
   <!-- Script -->
   <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadConfig();
+    });
+
+
     function toggleCardContent(type) {
       document.getElementById('donateContent').style.display = type === 'donate' ? 'block' : 'none';
       document.getElementById('donorsContent').style.display = type === 'donors' ? 'block' : 'none';
@@ -1367,7 +1373,7 @@
         location: document.getElementById('locationInput').value,
         contactNumber: document.getElementById('contactNumber').value
       };
-      fetch('https://24x7health.in/api/register', {
+      fetch(`${API_BASE_URL}/register`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData)
       })
       .then(res => res.json())
@@ -1379,7 +1385,7 @@
   
     async function fetchDonors() {
       try {
-        const res = await fetch('https://24x7health.in/api/donors');
+        const res = await fetch(`${API_BASE_URL}/donors`);
         const donors = await res.json();
         const container = document.getElementById('donorCardsContainer');
         container.innerHTML = '';
@@ -1442,60 +1448,60 @@
 
 
     <!-- FAQ Section with Toggle Functionality -->
-<section id="blood-donation-faq" style="max-width: 1200px; margin: 3rem auto; padding: 2rem; background: #fff7f7; border-radius: 10px;">
-    <h2 style="color: #cc0000; text-align: center; margin-bottom: 2rem; font-size: 2.2rem;">
-        Frequently Asked Questions About Blood Donation
-    </h2>
+    <section id="blood-donation-faq" style="max-width: 1200px; margin: 3rem auto; padding: 2rem; background: #fff7f7; border-radius: 10px;">
+        <h2 style="color: #cc0000; text-align: center; margin-bottom: 2rem; font-size: 2.2rem;">
+            Frequently Asked Questions About Blood Donation
+        </h2>
 
-    <!-- FAQ Item -->
-    <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer;">
-        <h3 style="color: #cc0000; margin-bottom: 0.8rem; font-size: 1.2rem;">
-            Who can donate blood in India?
-        </h3>
-        <div class="faq-answer" style="display: none; color: #444; line-height: 1.6;">
-            <p>
-                To donate blood in India, you must be between 18-65 years old, weigh at least 45kg, and have hemoglobin levels above 12.5g/dL.
-                There should be at least 56 days gap between donations. Certain medical conditions or recent surgeries may defer eligibility.
-            </p>
+        <!-- FAQ Item -->
+        <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer;">
+            <h3 style="color: #cc0000; margin-bottom: 0.8rem; font-size: 1.2rem;">
+                Who can donate blood in India?
+            </h3>
+            <div class="faq-answer" style="display: none; color: #444; line-height: 1.6;">
+                <p>
+                    To donate blood in India, you must be between 18-65 years old, weigh at least 45kg, and have hemoglobin levels above 12.5g/dL.
+                    There should be at least 56 days gap between donations. Certain medical conditions or recent surgeries may defer eligibility.
+                </p>
+            </div>
         </div>
-    </div>
 
-    <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer;">
-        <h3 style="color: #cc0000; margin-bottom: 0.8rem; font-size: 1.2rem;">
-            How often can I donate blood?
-        </h3>
-        <div class="faq-answer" style="display: none; color: #444; line-height: 1.6;">
-            <p>
-                Male donors can donate every 3 months, females every 4 months. This recovery time helps maintain safe hemoglobin and health levels.
-            </p>
+        <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer;">
+            <h3 style="color: #cc0000; margin-bottom: 0.8rem; font-size: 1.2rem;">
+                How often can I donate blood?
+            </h3>
+            <div class="faq-answer" style="display: none; color: #444; line-height: 1.6;">
+                <p>
+                    Male donors can donate every 3 months, females every 4 months. This recovery time helps maintain safe hemoglobin and health levels.
+                </p>
+            </div>
         </div>
-    </div>
 
-    <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer;">
-        <h3 style="color: #cc0000; margin-bottom: 0.8rem; font-size: 1.2rem;">
-            Is blood donation safe?
-        </h3>
-        <div class="faq-answer" style="display: none; color: #444; line-height: 1.6;">
-            <p>
-                Yes, it is safe when done at certified centers using sterilized, single-use equipment. Donors are screened and guided by professionals.
-            </p>
+        <div class="faq-item" style="margin-bottom: 1.5rem; padding: 1.5rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer;">
+            <h3 style="color: #cc0000; margin-bottom: 0.8rem; font-size: 1.2rem;">
+                Is blood donation safe?
+            </h3>
+            <div class="faq-answer" style="display: none; color: #444; line-height: 1.6;">
+                <p>
+                    Yes, it is safe when done at certified centers using sterilized, single-use equipment. Donors are screened and guided by professionals.
+                </p>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<script>
-    // Add toggle functionality to FAQ
-    document.querySelectorAll(".faq-item").forEach(item => {
-        item.addEventListener("click", () => {
-            const answer = item.querySelector(".faq-answer");
-            const isOpen = answer.style.display === "block";
-            // Close all answers first
-            document.querySelectorAll(".faq-answer").forEach(ans => ans.style.display = "none");
-            // Toggle current one
-            answer.style.display = isOpen ? "none" : "block";
+    <script>
+        // Add toggle functionality to FAQ
+        document.querySelectorAll(".faq-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const answer = item.querySelector(".faq-answer");
+                const isOpen = answer.style.display === "block";
+                // Close all answers first
+                document.querySelectorAll(".faq-answer").forEach(ans => ans.style.display = "none");
+                // Toggle current one
+                answer.style.display = isOpen ? "none" : "block";
+            });
         });
-    });
-</script>
+    </script>
 
 
 
@@ -1533,7 +1539,7 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>support@24x7health.in</span>
+                    <span>support@hitaishihealthcare.com</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>

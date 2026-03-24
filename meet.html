@@ -135,6 +135,14 @@
     </style>
 </head>
 <body>
+
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
+
     <script>
         // --- Login Check ---
         (function() {
@@ -187,7 +195,7 @@
             throw new Error("No roomId provided in the URL.");
         }
 
-        const socket = io("https://24x7health.in", { transports: ["websocket", "polling"] });
+        const socket = io("https://hitaishihealthcare.com", { transports: ["websocket", "polling"] });
         socket.emit("join-call-room",{
             roomId: ROOM_ID,
             doctorUid: doctorUid

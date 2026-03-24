@@ -11,20 +11,20 @@
     <meta property="og:title" content="Patient Profile Dashboard & Personal Health Records | Hitaishi Healthcare Services">
     <meta property="og:description" content="Secure patient portal for managing health records, appointments, and medical information in one central location.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.24x7health.in/patientProfile.html">
+    <meta property="og:url" content="https://www.hitaishihealthcare.com/patientProfile.html">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Patient Profile Dashboard & Personal Health Records | Hitaishi Healthcare Services">
     <meta name="twitter:description" content="Manage your patient profile, health records & appointments through our secure patient portal.">
-    <link rel="canonical" href="https://www.24x7health.in/patientProfile.html">
+    <link rel="canonical" href="https://www.hitaishihealthcare.com/patientProfile.html">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "MedicalBusiness",
       "name": "Hitaishi Healthcare Services - Patient Portal",
       "description": "Secure patient profile and health records management system with appointment scheduling and prescription tracking",
-      "url": "https://www.24x7health.in/patientProfile.html",
+      "url": "https://www.hitaishihealthcare.com/patientProfile.html",
       "telephone": "+91-9908793602",
-      "email": "support@24x7health.in",
+      "email": "support@hitaishihealthcare.com",
       "serviceType": ["Patient Portal", "Health Records Management", "Appointment Scheduling", "Prescription Management"],
       "areaServed": "IN",
       "priceRange": "Free"
@@ -167,6 +167,13 @@
     </style>
 </head>
 <body class="bg-gray-50">
+
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 
     <div class="flex h-screen bg-gray-100">
         <!-- Sidebar -->
@@ -422,7 +429,7 @@
                 try {
                     loadingState.style.display = 'block';
                     
-                    const profileResponse = await fetch(`https://www.24x7health.in/api/patient/profile/${uniqueId}`);
+                    const profileResponse = await fetch(`${API_BASE_URL}/patient/profile/${uniqueId}`);
                     if (!profileResponse.ok) throw new Error('Could not fetch profile data.');
                     const profileData = await profileResponse.json();
                     
@@ -431,7 +438,7 @@
                         window.originalProfileData = originalProfileData; // Make it globally accessible for rating modal
                         
                         // Fetch reviewed appointment IDs
-                        const reviewedResponse = await fetch(`https://www.24x7health.in/api/ratings/user/${originalProfileData.unique_id}/reviewed-ids`);
+                        const reviewedResponse = await fetch(`${API_BASE_URL}/ratings/user/${originalProfileData.unique_id}/reviewed-ids`);
                         if(reviewedResponse.ok) {
                             reviewedAppointmentIds = await reviewedResponse.json();
                         }
@@ -439,7 +446,7 @@
                         populateAllViews(originalProfileData);
 
                         // Fetch doctor appointments
-                        const appointmentsResponse = await fetch(`https://www.24x7health.in/api/appointments/patient/${originalProfileData.id}`);
+                        const appointmentsResponse = await fetch(`${API_BASE_URL}/appointments/patient/${originalProfileData.id}`);
                         const appointmentData = await appointmentsResponse.json();
                         allAppointments = appointmentData.appointments || [];
                         
@@ -461,7 +468,7 @@
 
             async function fetchDiagnosticAppointments() {
                 try {
-                    const response = await fetch(`https://www.24x7health.in/api/newpayment/get`);
+                    const response = await fetch(`${API_BASE_URL}/newpayment/get`);
                     if (!response.ok) throw new Error('Could not fetch diagnostic appointments.');
                     const diagnosticData = await response.json();
                     
@@ -544,7 +551,7 @@
         async function fetchReviewedIds() {
             try {
                 if (!window.originalProfileData || !window.originalProfileData.unique_id) return;
-                const resp = await fetch(`https://www.24x7health.in/api/ratings/user/${window.originalProfileData.unique_id}/reviewed-ids`);
+                const resp = await fetch(`${API_BASE_URL}/ratings/user/${window.originalProfileData.unique_id}/reviewed-ids`);
                 if (!resp.ok) return;
                 const data = await resp.json();
                 // server returns { success: true, doctor: [...], diagnostic: [...] }
@@ -853,7 +860,7 @@
                 }
 
                 try {
-                    const response = await fetch(`https://www.24x7health.in/api/newpayment/reschedule/${currentReschedulePaymentId}`, {
+                    const response = await fetch(`${API_BASE_URL}/newpayment/reschedule/${currentReschedulePaymentId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ newDate })
@@ -917,7 +924,7 @@
                 window.location.href = 'login.html';
             });
             refreshDoctorBtn.addEventListener('click', async () => {
-                const response = await fetch(`https://www.24x7health.in/api/appointments/patient/${originalProfileData.id}`);
+                const response = await fetch(`${API_BASE_URL}/appointments/patient/${originalProfileData.id}`);
                 const appointmentData = await response.json();
                 allAppointments = appointmentData.appointments || [];
                 populateAllAppointmentViews();
@@ -957,7 +964,7 @@
                 }
                 
                 try {
-                    const response = await fetch(`https://www.24x7health.in/api/patient/update/${originalProfileData.id}`, {
+                    const response = await fetch(`${API_BASE_URL}/patient/update/${originalProfileData.id}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(updatedData)
@@ -1154,7 +1161,7 @@
             }
 
             try {
-                const res = await fetch(`https://www.24x7health.in/api/ratings/${currentType}`, {
+                const res = await fetch(`${API_BASE_URL}/ratings/${currentType}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)

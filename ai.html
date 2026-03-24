@@ -793,7 +793,11 @@
             </div>
         </div>
 
+        <script src="config.js"></script>
         <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+                await loadConfig();
+            });
             document.addEventListener('DOMContentLoaded', () => {
                 // --- ADVANCED LOCATION SERVICES SCRIPT ---
 
@@ -873,7 +877,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`${API_BASE_URL}/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);

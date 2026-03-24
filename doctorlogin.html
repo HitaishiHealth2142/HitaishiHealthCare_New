@@ -184,7 +184,12 @@
   </style>
 </head>
 <body>
-
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 <!-- Main Content -->
 <div class="main-content">
   <div class="login-main-flex">
@@ -248,7 +253,7 @@
         messageElement.style.color = '#555';
 
         try {
-          const response = await fetch("/api/doctorlogin", {
+          const response = await fetch(`${API_BASE_URL}/api/doctorlogin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Important for session cookies

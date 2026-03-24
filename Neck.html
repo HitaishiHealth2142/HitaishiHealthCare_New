@@ -11,6 +11,12 @@
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
 
    
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 
     <!-- Navbar Code -->
         <style>
@@ -475,7 +481,7 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@24x7health.in" class="contact-link">
+                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
                     <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
@@ -869,7 +875,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`${API_BASE_URL}/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -1791,7 +1797,7 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">Contact</h3>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-envelope"></i>
-                    <span>support@24x7health.in</span>
+                    <span>support@hitaishihealthcare.com</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
                     <i class="fas fa-phone"></i>

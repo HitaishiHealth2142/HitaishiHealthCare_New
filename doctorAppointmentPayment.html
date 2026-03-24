@@ -365,7 +365,7 @@
   </div>
 
   <script>
-    const socket = io("https://24x7health.in", {
+    const socket = io("https://hitaishihealthcare.com", {
       transports: ["websocket", "polling"],
     });
 
@@ -428,7 +428,7 @@
       }
 
       try {
-        const response = await fetch("/api/payment/simulate", {
+        const response = await fetch(`${API_BASE_URL}/api/payment/simulate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

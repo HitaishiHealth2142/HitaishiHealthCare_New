@@ -65,9 +65,9 @@
 
     <script src="config.js"></script>
     <script>
-        document.addEventListener('DOMCONTENTLOADED', async () => {
-            await LoadConfig();
-        })
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadConfig();
+        });
 
         const registerForm = document.getElementById("registerForm");
         const otpForm = document.getElementById("otpForm");

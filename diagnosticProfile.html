@@ -49,6 +49,12 @@
   </style>
 </head>
 <body>
+  <script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 <nav class="main-nav">
   <!-- Logo and Brand Name -->
   <div class="nav-brand">
@@ -1132,7 +1138,7 @@
     
     function populateProfileForm(userData) {
       const placeholder = 'https://placehold.co/150x150/EFEFEF/AAAAAA&text=No+Image';
-      const profileImageUrl = userData.profile_image_url ? `https://24x7health.in${userData.profile_image_url}` : placeholder; 
+      const profileImageUrl = userData.profile_image_url ? `https://hitaishihealthcare.com${userData.profile_image_url}` : placeholder; 
 
       
       document.getElementById('profileImageSidebar').src = profileImageUrl;

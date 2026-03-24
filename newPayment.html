@@ -16,7 +16,12 @@
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
     <!-- Main Booking Form Container -->
     <div id="booking-form-container" class="container mx-auto max-w-4xl my-8 md:my-12 p-4">
         <div class="bg-white rounded-xl shadow-2xl overflow-hidden md:grid md:grid-cols-2">
@@ -219,7 +224,7 @@
         }
 
         function sendToBackend(data) {
-            fetch('https://24x7health.in/api/newpayment/register', {
+            fetch(`${API_BASE_URL}/newpayment/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)

@@ -10,7 +10,13 @@
 </head>
 <body style="overflow-x: hidden; margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
 
-    
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
+
     <!-- Navbar Code -->
         <style>
             /* General navbar styling */
@@ -474,7 +480,7 @@
 
             <!-- Center: Contact Info -->
             <div class="top-nav-contact">
-                <a href="mailto:support@24x7health.in" class="contact-link">
+                <a href="mailto:support@hitaishihealthcare.com" class="contact-link">
                     <i class="fas fa-envelope"></i> support@hitaishihealthcare.com
                 </a> <span class="contact-separator" style="margin: 0 5px;">|</span>
                 <a href="tel:+919908793602" class="contact-link">
@@ -868,7 +874,7 @@
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`https://24x7health.in/api/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`${API_BASE_URL}/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -1246,7 +1252,7 @@ function initMap() {
 
 async function fetchDoctors() {
   try {
-    const response = await fetch('https://24x7health.in/api/getdoctors');
+    const response = await fetch(`${API_BASE_URL}/getdoctors`);
     const data = await response.json();
     allDoctors = data;
     displayDoctors(allDoctors);
@@ -1332,7 +1338,7 @@ function loadTimeSlots(doctorId, fromTime, toTime) {
   const slotContainer = document.getElementById("timeSlots");
   slotContainer.innerHTML = "<p>Loading slots...</p>";
 
-  fetch(`https://24x7health.in/api/getBookedSlots?doctorId=${doctorId}&date=${date}`)
+  fetch(`${API_BASE_URL}/getBookedSlots?doctorId=${doctorId}&date=${date}`)
     .then(res => res.json())
     .then(bookedSlots => {
       slotContainer.innerHTML = '';
@@ -1406,7 +1412,7 @@ function selectSlot(btn, time) {
 function submitSlot(doctorId, date) {
   if (!selectedSlot) return alert("Please select a time slot");
 
-  fetch('https://24x7health.in/api/bookSlot', {
+  fetch(`${API_BASE_URL}/bookSlot`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

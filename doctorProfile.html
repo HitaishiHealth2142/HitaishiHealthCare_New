@@ -546,6 +546,13 @@
 </head>
 <body>
 
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
+
   <div class="main-container">
     <!-- Sidebar -->
     <div class="sidebar">
@@ -883,7 +890,7 @@
     let doctorUid = null;
 
     // Initialize Socket.IO connection for real-time communication
-    const socket = io("https://24x7health.in", {
+    const socket = io("https://hitaishihealthcare.com", {
       transports: ["websocket", "polling"]
     });
 
@@ -1010,7 +1017,7 @@
         ============================================================ */
         try {
             // Fetch doctor profile data from API
-            const response = await fetch(`${API_BASE}/gdoctors/${doctorUid}`);
+            const response = await fetch(`${API_BASE_URL}/gdoctors/${doctorUid}`);
             const doctorData = await response.json();
 
             // Populate profile information
@@ -1089,7 +1096,7 @@
     async function loadDashboardStats() {
       try {
         // Fetch statistics from API
-        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/stats`);
+        const res = await fetch(`${API_BASE_URL}/doctors/${doctorUid}/stats`);
         const data = await res.json();
 
         if (data.success) {
@@ -1117,7 +1124,7 @@
 
       try {
         // Fetch appointments from API
-        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/appointments`);
+        const res = await fetch(`${API_BASE_URL}/doctors/${doctorUid}/appointments`);
         const data = await res.json();
         tableBody.innerHTML = "";
 
@@ -1155,7 +1162,7 @@
 
       try {
         // Fetch history from API
-        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/history`);
+        const res = await fetch(`${API_BASE_URL}/doctors/${doctorUid}/history`);
         const data = await res.json();
         tableBody.innerHTML = "";
 
@@ -1189,7 +1196,7 @@
 
       try {
         // Fetch appointments
-        const res = await fetch(`${API_BASE}/doctors/${doctorUid}/appointments`);
+        const res = await fetch(`${API_BASE_URL}/doctors/${doctorUid}/appointments`);
         const data = await res.json();
         table.innerHTML = "";
 
@@ -1225,7 +1232,7 @@
 
       try {
         // Send update request to API
-        const res = await fetch(`${API_BASE}/updatedoctors/${doctorUid}`, {
+        const res = await fetch(`${API_BASE_URL}/updatedoctors/${doctorUid}`, {
           method: "PUT",
           body: formData
         });
@@ -1270,7 +1277,7 @@
     async function loadDoctorWallet() {
       try {
         // Fetch wallet data from API
-        const res = await fetch(`${API_BASE}/doctor/wallet/${doctorUid}`);
+        const res = await fetch(`${API_BASE_URL}/doctor/wallet/${doctorUid}`);
         const data = await res.json();
 
         // Update balance display
@@ -1338,7 +1345,7 @@
       }
 
       // Notify backend - set doctor offline
-      fetch(`${API_BASE}/doctor-logout`, {
+      fetch(`${API_BASE_URL}/doctor-logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

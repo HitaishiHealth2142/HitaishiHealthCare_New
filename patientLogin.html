@@ -90,7 +90,12 @@
     </style>
 </head>
 <body>
-
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 <!-- Full page wrapper for login -->
 <div class="login-page-wrapper">
     <div class="login-form-container">
@@ -131,7 +136,7 @@
     message.textContent = "";
 
     try {
-      const response = await fetch("https://www.24x7health.in/api/patientlogin", {
+      const response = await fetch(`${API_BASE_URL}/patientlogin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // Important for session cookies

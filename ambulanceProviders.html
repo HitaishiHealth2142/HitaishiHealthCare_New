@@ -324,7 +324,11 @@
     </div>
 </div>
 
+<script src="config.js"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadConfig();
+    });
     const form = document.getElementById('registrationForm');
     const submitBtn = document.getElementById('submitBtn');
     const loader = document.getElementById('loader');
@@ -354,7 +358,7 @@
 
         try {
             // Updated Endpoint as per your request
-            const response = await fetch('https://www.24x7health.in/api/providers/register', {
+            const response = await fetch(`${API_BASE_URL}/providers/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -124,6 +124,14 @@
   </style>
 </head>
 <body style="font-family: Arial, sans-serif;">
+
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
+
   <div class="container">
     <h2>Book Test Payment</h2>
     <div class="test-info"><strong>Test Name:</strong> <span id="test-name">Loading...</span></div>
@@ -244,7 +252,7 @@
     }
 
     function sendToBackend(data) {
-      fetch('https://24x7health.in/api/payment/register', {
+      fetch(`${API_BASE_URL}/payment/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

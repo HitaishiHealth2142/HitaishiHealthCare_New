@@ -36,6 +36,12 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
+<script src="config.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadConfig();
+});
+</script>
 
     <div id="app" class="flex min-h-screen">
         <!-- Sidebar -->
@@ -357,7 +363,6 @@
     <div id="toast-container" class="toast-container"></div>
 
     <script>
-        const API_BASE_URL = "https://www.24x7health.in/api";
         let providerData = null;
 
         // Check Auth
