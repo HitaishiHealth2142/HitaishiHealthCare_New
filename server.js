@@ -145,6 +145,7 @@ const newsletterRoutes = require('./routes/newsletter');
 const providersRoutes = require('./routes/providers');
 const ambulanceRoutes = require('./routes/Ambulance');
 const shiftsRoutes = require('./routes/Shifts');
+const fertilityEnquiryRoutes = require('./routes/fertilityEnquiry');
 const driversRoutes = require('./routes/Drivers');
 const ambulancebookingRoutes = require('./routes/ambulancebooking');
 const adminRoutes = require('./routes/Admin')
@@ -175,6 +176,7 @@ app.use('/api', diagnosticsRoutes);
 app.use('/api', newpaymentRoutes);
 app.use('/api', testsRoutes);
 app.use('/api', appointment_fertilityRoutes);
+app.use('/api', fertilityEnquiryRoutes);
 app.use('/api', appointmentsRoutes);
 app.use('/api', bookappointmentRoutes);
 app.use('/api', clinicRoutes);

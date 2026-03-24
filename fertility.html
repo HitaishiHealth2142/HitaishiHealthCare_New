@@ -1160,6 +1160,345 @@ document.addEventListener("DOMContentLoaded", async () => {
     </div>
   </div>
 
+  <!-- Patient Enquiry Form Section -->
+  <div id="fertility-enquiry-section" style="background: linear-gradient(135deg, #0d99d6 0%, #0a7aa3 100%); padding: 60px 20px; margin: 0;">
+    <div style="max-width: 600px; margin: 0 auto;">
+      <!-- Form Title -->
+      <h2 style="font-size: 32px; font-weight: 700; color: #ffffff; margin: 0 0 15px 0; text-align: center;">Get Expert Fertility Consultation</h2>
+      <p style="font-size: 16px; color: #e8f4f8; text-align: center; margin: 0 0 40px 0; line-height: 1.6;">
+        Share your details with our fertility specialists. We'll contact you shortly to discuss your options.
+      </p>
+
+      <!-- Form Container -->
+      <form id="fertility-enquiry-form" style="background: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+        
+        <!-- Name Field -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
+            Patient Name <span style="color: #e74c3c;">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="enquiry-name" 
+            name="name" 
+            placeholder="Enter your full name"
+            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
+            onblur="validateField(this)"
+            onfocus="this.style.borderColor='#0d99d6'"
+          />
+          <span id="enquiry-name-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px; display: none;"></span>
+        </div>
+
+        <!-- Mobile Number Field -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
+            Mobile Number <span style="color: #e74c3c;">*</span>
+          </label>
+          <input 
+            type="tel" 
+            id="enquiry-mobile" 
+            name="mobile" 
+            placeholder="10-digit mobile number"
+            maxlength="10"
+            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
+            onblur="validateField(this)"
+            onfocus="this.style.borderColor='#0d99d6'"
+          />
+          <span id="enquiry-mobile-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Email Field -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
+            Email Address <span style="color: #e74c3c;">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="enquiry-email" 
+            name="email" 
+            placeholder="your.email@example.com"
+            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
+            onblur="validateField(this)"
+            onfocus="this.style.borderColor='#0d99d6'"
+          />
+          <span id="enquiry-email-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
+        </div>
+
+        <!-- City Field -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
+            City <span style="color: #e74c3c;">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="enquiry-city" 
+            name="city" 
+            placeholder="Your city"
+            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
+            onblur="validateField(this)"
+            onfocus="this.style.borderColor='#0d99d6'"
+          />
+          <span id="enquiry-city-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Zip Code Field -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
+            Zip Code <span style="color: #e74c3c;">*</span>
+          </label>
+          <input 
+            type="number" 
+            id="enquiry-zip" 
+            name="zip" 
+            placeholder="Postal code"
+            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
+            onblur="validateField(this)"
+            onfocus="this.style.borderColor='#0d99d6'"
+          />
+          <span id="enquiry-zip-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Fertility Problem Field -->
+        <div style="margin-bottom: 30px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
+            Describe Your Fertility Concern <span style="color: #e74c3c;">*</span>
+          </label>
+          <textarea 
+            id="enquiry-problem" 
+            name="problem" 
+            placeholder="Please describe your fertility concerns or any symptoms..."
+            rows="4"
+            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; resize: vertical; transition: border-color 0.3s;"
+            onblur="validateField(this)"
+            onfocus="this.style.borderColor='#0d99d6'"
+          ></textarea>
+          <span id="enquiry-problem-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="button" 
+          id="enquiry-submit-btn" 
+          onclick="submitFertilityEnquiry(event)"
+          style="width: 100%; padding: 14px 0; background: linear-gradient(135deg, #0d99d6 0%, #0a7aa3 100%); color: #ffffff; font-size: 16px; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 20px rgba(13, 153, 214, 0.4)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';"
+        >
+          Submit My Details
+        </button>
+
+        <!-- Terms Text -->
+        <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px; line-height: 1.5;">
+          By submitting this form, you agree to be contacted by our fertility specialists. Your information will be kept confidential and secure.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Popup -->
+  <div id="enquiry-success-popup" style="display: none; position: fixed; top: 20px; right: 20px; background: #27ae60; color: #ffffff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 10000; max-width: 400px; animation: slideIn 0.3s ease-out;">
+    <div style="display: flex; align-items: flex-start; gap: 15px;">
+      <div style="font-size: 24px;">✓</div>
+      <div>
+        <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 700;">Thank You!</h4>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5;">
+          Thank you for submitting your details.<br/>
+          Your information is secure and confidential.<br/>
+          Our dedicated team will contact you shortly.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSS Animations -->
+  <style>
+    @keyframes slideIn {
+      from {
+        transform: translateX(500px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(500px);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #fertility-enquiry-section {
+        padding: 40px 15px !important;
+      }
+      
+      #enquiry-success-popup {
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none !important;
+      }
+    }
+  </style>
+
+  <!-- JavaScript for Form Validation and Submission -->
+  <script>
+    // Validation rules
+    const validationRules = {
+      'enquiry-name': {
+        validate: (value) => value.trim().length >= 2,
+        errorMsg: 'Name must be at least 2 characters long'
+      },
+      'enquiry-mobile': {
+        validate: (value) => /^[6-9]\d{9}$/.test(value.trim()),
+        errorMsg: 'Mobile must be 10 digits starting with 6, 7, 8, or 9'
+      },
+      'enquiry-email': {
+        validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
+        errorMsg: 'Please enter a valid email address'
+      },
+      'enquiry-city': {
+        validate: (value) => value.trim().length >= 2,
+        errorMsg: 'Please enter a valid city name'
+      },
+      'enquiry-zip': {
+        validate: (value) => /^\d{5,}$/.test(value.trim()),
+        errorMsg: 'Zip code must be at least 5 digits'
+      },
+      'enquiry-problem': {
+        validate: (value) => value.trim().length >= 10,
+        errorMsg: 'Please describe your concern (at least 10 characters)'
+      }
+    };
+
+    // Validate individual field
+    function validateField(field) {
+      const fieldId = field.id;
+      const value = field.value;
+      const rule = validationRules[fieldId];
+      const errorElement = document.getElementById(fieldId + '-error');
+
+      if (!rule) return true;
+
+      if (!rule.validate(value)) {
+        field.style.borderColor = '#e74c3c';
+        errorElement.textContent = rule.errorMsg;
+        errorElement.style.display = 'block';
+        return false;
+      } else {
+        field.style.borderColor = '#27ae60';
+        errorElement.style.display = 'none';
+        return true;
+      }
+    }
+
+    // Validate all fields
+    function validateAllFields() {
+      const fields = ['enquiry-name', 'enquiry-mobile', 'enquiry-email', 'enquiry-city', 'enquiry-zip', 'enquiry-problem'];
+      let isValid = true;
+
+      fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (!validateField(field)) {
+          isValid = false;
+        }
+      });
+
+      return isValid;
+    }
+
+    // Submit form
+    async function submitFertilityEnquiry(event) {
+      event.preventDefault();
+
+      // Validate all fields
+      if (!validateAllFields()) {
+        alert('Please fix the errors in the form before submitting.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('enquiry-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      try {
+        // Get form data
+        const name = document.getElementById('enquiry-name').value.trim();
+        const mobile = document.getElementById('enquiry-mobile').value.trim();
+        const email = document.getElementById('enquiry-email').value.trim();
+        const city = document.getElementById('enquiry-city').value.trim();
+        const zip = document.getElementById('enquiry-zip').value.trim();
+        const problem = document.getElementById('enquiry-problem').value.trim();
+
+        // Format mobile number
+        const formattedMobile = `+91-${mobile}`;
+
+        // Prepare payload
+        const payload = {
+          name,
+          mobile: formattedMobile,
+          email,
+          city,
+          zip,
+          problem
+        };
+
+        // Send to backend
+        const response = await fetch(`${API_BASE_URL}/fertility-enquiry`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Show success popup
+          showSuccessPopup();
+
+          // Clear form
+          document.getElementById('fertility-enquiry-form').reset();
+
+          // Reset field borders
+          ['enquiry-name', 'enquiry-mobile', 'enquiry-email', 'enquiry-city', 'enquiry-zip', 'enquiry-problem'].forEach(fieldId => {
+            document.getElementById(fieldId).style.borderColor = '#ddd';
+          });
+        } else {
+          alert('Error: ' + (data.error || 'Failed to submit form'));
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit My Details';
+      }
+    }
+
+    // Show success popup
+    function showSuccessPopup() {
+      const popup = document.getElementById('enquiry-success-popup');
+      popup.style.display = 'block';
+      popup.style.animation = 'slideIn 0.3s ease-out';
+
+      // Auto-hide after 10 seconds
+      setTimeout(() => {
+        popup.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => {
+          popup.style.display = 'none';
+        }, 300);
+      }, 10000);
+    }
+  </script>
+
   <!-- Introduction Section -->
   <div style="background:#f9f9f9; padding:50px 20px; max-width:1200px; margin:0 auto;">
     <h2 style="font-size:32px; font-weight:600; color:#0d99d6; margin-bottom:20px; text-align:center;">Understanding Fertility and Reproductive Health</h2>
