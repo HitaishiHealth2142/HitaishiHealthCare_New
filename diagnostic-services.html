@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         try {
-          const response = await fetch(`${API_BASE_URL}/test/all`);
+          const response = await fetch(`${API_BASE_URL}/api/test/all`);
           if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
           
           const data = await response.json();

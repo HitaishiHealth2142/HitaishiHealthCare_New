@@ -833,7 +833,7 @@
 
     <script>
         // Configuration
-        const API_BASE_URL = 'http://localhost:5001/api';
+        const API_BASE_URL = 'https://hitaishihealthcare.com/api';
         const TOTAL_STEPS = 9;
         let currentStep = 1;
         let formData = {
@@ -1258,6 +1258,19 @@
                         formDataObj.append(field, element.value);
                     }
                 });
+
+                // Handle certifications and awards as arrays
+                const certificationsInput = document.getElementById('certifications').value;
+                const certificationsArray = certificationsInput
+                  ? certificationsInput.split(',').map(item => item.trim())
+                  : [];
+                formDataObj.append('certifications', JSON.stringify(certificationsArray));
+
+                const awardsInput = document.getElementById('awards').value;
+                const awardsArray = awardsInput
+                  ? awardsInput.split(',').map(item => item.trim())
+                  : [];
+                formDataObj.append('awards', JSON.stringify(awardsArray));
 
                 // Add JSON arrays
                 formDataObj.append('doctors', JSON.stringify(formData.doctors));
