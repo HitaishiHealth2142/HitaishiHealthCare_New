@@ -1160,148 +1160,127 @@ document.addEventListener("DOMContentLoaded", async () => {
     </div>
   </div>
 
-  <!-- Patient Enquiry Form Section -->
-  <div id="fertility-enquiry-section" style="background: linear-gradient(135deg, #0d99d6 0%, #0a7aa3 100%); padding: 60px 20px; margin: 0;">
-    <div style="max-width: 600px; margin: 0 auto;">
-      <!-- Form Title -->
-      <h2 style="font-size: 32px; font-weight: 700; color: #ffffff; margin: 0 0 15px 0; text-align: center;">Get Expert Fertility Consultation</h2>
-      <p style="font-size: 16px; color: #e8f4f8; text-align: center; margin: 0 0 40px 0; line-height: 1.6;">
-        Share your details with our fertility specialists. We'll contact you shortly to discuss your options.
-      </p>
+<!-- enquiry starts here -->
+  <!-- Modern Horizontal Patient Enquiry Section -->
+  <div id="fertility-enquiry-section" class="enquiry-section">
+    <div class="enquiry-container">
+      <!-- Header -->
+      <div class="enquiry-header">
+        <h2 class="enquiry-title">Get Expert Fertility Consultation</h2>
+        <p class="enquiry-subtitle">Share your details with our fertility specialists. We'll contact you shortly to discuss your options.</p>
+      </div>
 
-      <!-- Form Container -->
-      <form id="fertility-enquiry-form" style="background: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
-        
-        <!-- Name Field -->
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
-            Patient Name <span style="color: #e74c3c;">*</span>
-          </label>
-          <input 
-            type="text" 
-            id="enquiry-name" 
-            name="name" 
-            placeholder="Enter your full name"
-            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
-            onblur="validateField(this)"
-            onfocus="this.style.borderColor='#0d99d6'"
-          />
-          <span id="enquiry-name-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px; display: none;"></span>
+      <!-- Horizontal Form -->
+      <form id="fertility-enquiry-form" class="enquiry-form">
+        <!-- Row 1: Name, Mobile, Email, City -->
+        <div class="enquiry-form-row">
+          <!-- Name Field -->
+          <div class="enquiry-form-field enquiry-field-name">
+            <input 
+              type="text" 
+              id="enquiry-name" 
+              name="name" 
+              placeholder="Your Name"
+              class="enquiry-input"
+              onblur="validateField(this)"
+            />
+            <span id="enquiry-name-error" class="enquiry-error"></span>
+          </div>
+
+          <!-- Mobile Field -->
+          <div class="enquiry-form-field enquiry-field-mobile">
+            <input 
+              type="tel" 
+              id="enquiry-mobile" 
+              name="mobile" 
+              placeholder="Mobile (10 digits)"
+              maxlength="10"
+              class="enquiry-input"
+              onblur="validateField(this)"
+            />
+            <span id="enquiry-mobile-error" class="enquiry-error"></span>
+          </div>
+
+          <!-- Email Field -->
+          <div class="enquiry-form-field enquiry-field-email">
+            <input 
+              type="email" 
+              id="enquiry-email" 
+              name="email" 
+              placeholder="Email Address"
+              class="enquiry-input"
+              onblur="validateField(this)"
+            />
+            <span id="enquiry-email-error" class="enquiry-error"></span>
+          </div>
+
+          <!-- City Field -->
+          <div class="enquiry-form-field enquiry-field-city">
+            <input 
+              type="text" 
+              id="enquiry-city" 
+              name="city" 
+              placeholder="City"
+              class="enquiry-input"
+              onblur="validateField(this)"
+            />
+            <span id="enquiry-city-error" class="enquiry-error"></span>
+          </div>
+
+          <!-- Zip Field -->
+          <div class="enquiry-form-field enquiry-field-zip">
+            <input 
+              type="number" 
+              id="enquiry-zip" 
+              name="zip" 
+              placeholder="Zip Code"
+              class="enquiry-input"
+              onblur="validateField(this)"
+            />
+            <span id="enquiry-zip-error" class="enquiry-error"></span>
+          </div>
         </div>
 
-        <!-- Mobile Number Field -->
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
-            Mobile Number <span style="color: #e74c3c;">*</span>
-          </label>
-          <input 
-            type="tel" 
-            id="enquiry-mobile" 
-            name="mobile" 
-            placeholder="10-digit mobile number"
-            maxlength="10"
-            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
-            onblur="validateField(this)"
-            onfocus="this.style.borderColor='#0d99d6'"
-          />
-          <span id="enquiry-mobile-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
+        <!-- Row 2: Problem & Submit -->
+        <div class="enquiry-form-row enquiry-form-row-bottom">
+          <!-- Problem Field -->
+          <div class="enquiry-form-field enquiry-field-problem">
+            <textarea 
+              id="enquiry-problem" 
+              name="problem" 
+              placeholder="Describe your fertility concern..."
+              class="enquiry-textarea"
+              onblur="validateField(this)"
+            ></textarea>
+            <span id="enquiry-problem-error" class="enquiry-error"></span>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="button" 
+            id="enquiry-submit-btn" 
+            class="enquiry-submit-btn"
+            onclick="submitFertilityEnquiry(event)"
+          >
+            Submit
+          </button>
         </div>
 
-        <!-- Email Field -->
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
-            Email Address <span style="color: #e74c3c;">*</span>
-          </label>
-          <input 
-            type="email" 
-            id="enquiry-email" 
-            name="email" 
-            placeholder="your.email@example.com"
-            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
-            onblur="validateField(this)"
-            onfocus="this.style.borderColor='#0d99d6'"
-          />
-          <span id="enquiry-email-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
-        </div>
-
-        <!-- City Field -->
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
-            City <span style="color: #e74c3c;">*</span>
-          </label>
-          <input 
-            type="text" 
-            id="enquiry-city" 
-            name="city" 
-            placeholder="Your city"
-            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
-            onblur="validateField(this)"
-            onfocus="this.style.borderColor='#0d99d6'"
-          />
-          <span id="enquiry-city-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
-        </div>
-
-        <!-- Zip Code Field -->
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
-            Zip Code <span style="color: #e74c3c;">*</span>
-          </label>
-          <input 
-            type="number" 
-            id="enquiry-zip" 
-            name="zip" 
-            placeholder="Postal code"
-            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; transition: border-color 0.3s;"
-            onblur="validateField(this)"
-            onfocus="this.style.borderColor='#0d99d6'"
-          />
-          <span id="enquiry-zip-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
-        </div>
-
-        <!-- Fertility Problem Field -->
-        <div style="margin-bottom: 30px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px;">
-            Describe Your Fertility Concern <span style="color: #e74c3c;">*</span>
-          </label>
-          <textarea 
-            id="enquiry-problem" 
-            name="problem" 
-            placeholder="Please describe your fertility concerns or any symptoms..."
-            rows="4"
-            style="width: 100%; padding: 12px 15px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: Arial, sans-serif; resize: vertical; transition: border-color 0.3s;"
-            onblur="validateField(this)"
-            onfocus="this.style.borderColor='#0d99d6'"
-          ></textarea>
-          <span id="enquiry-problem-error" style="display: none; color: #e74c3c; font-size: 12px; margin-top: 5px;"></span>
-        </div>
-
-        <!-- Submit Button -->
-        <button 
-          type="button" 
-          id="enquiry-submit-btn" 
-          onclick="submitFertilityEnquiry(event)"
-          style="width: 100%; padding: 14px 0; background: linear-gradient(135deg, #0d99d6 0%, #0a7aa3 100%); color: #ffffff; font-size: 16px; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
-          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 20px rgba(13, 153, 214, 0.4)';"
-          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';"
-        >
-          Submit My Details
-        </button>
-
-        <!-- Terms Text -->
-        <p style="font-size: 12px; color: #999; text-align: center; margin-top: 20px; line-height: 1.5;">
-          By submitting this form, you agree to be contacted by our fertility specialists. Your information will be kept confidential and secure.
+        <!-- Disclaimer -->
+        <p class="enquiry-disclaimer">
+          By submitting, you agree to be contacted by our fertility specialists. Your information is secure and confidential.
         </p>
       </form>
     </div>
   </div>
 
   <!-- Success Popup -->
-  <div id="enquiry-success-popup" style="display: none; position: fixed; top: 20px; right: 20px; background: #27ae60; color: #ffffff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 10000; max-width: 400px; animation: slideIn 0.3s ease-out;">
-    <div style="display: flex; align-items: flex-start; gap: 15px;">
-      <div style="font-size: 24px;">✓</div>
-      <div>
-        <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 700;">Thank You!</h4>
-        <p style="margin: 0; font-size: 14px; line-height: 1.5;">
+  <div id="enquiry-success-popup" class="enquiry-success-popup">
+    <div class="enquiry-success-content">
+      <div class="enquiry-success-icon">✓</div>
+      <div class="enquiry-success-text">
+        <h4 class="enquiry-success-title">Thank You!</h4>
+        <p class="enquiry-success-message">
           Thank you for submitting your details.<br/>
           Your information is secure and confidential.<br/>
           Our dedicated team will contact you shortly.
@@ -1310,11 +1289,242 @@ document.addEventListener("DOMContentLoaded", async () => {
     </div>
   </div>
 
-  <!-- CSS Animations -->
+  <!-- Modern Styles -->
   <style>
-    @keyframes slideIn {
+    /* ===== ENQUIRY SECTION STYLES ===== */
+    .enquiry-section {
+      background: linear-gradient(135deg, #0d99d6 0%, #0a7aa3 100%);
+      padding: 50px 20px;
+      margin: 0;
+    }
+
+    .enquiry-container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .enquiry-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .enquiry-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .enquiry-subtitle {
+      font-size: 15px;
+      color: #e8f4f8;
+      margin: 0;
+      line-height: 1.5;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== FORM STYLES ===== */
+    .enquiry-form {
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .enquiry-form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .enquiry-form-row-bottom {
+      margin-top: 8px;
+      align-items: flex-end;
+    }
+
+    /* ===== FIELD STYLES ===== */
+    .enquiry-form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+    }
+
+    /* Desktop: 5 fields in first row */
+    .enquiry-field-name,
+    .enquiry-field-mobile,
+    .enquiry-field-email,
+    .enquiry-field-city,
+    .enquiry-field-zip {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    /* Problem field full width on second row */
+    .enquiry-field-problem {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* ===== INPUT STYLES ===== */
+    .enquiry-input,
+    .enquiry-textarea {
+      padding: 12px 15px;
+      font-size: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-family: 'Arial', sans-serif;
+      transition: all 0.3s ease;
+      background-color: #fafafa;
+      color: #333;
+      outline: none;
+    }
+
+    .enquiry-input::placeholder,
+    .enquiry-textarea::placeholder {
+      color: #999;
+      font-weight: 500;
+    }
+
+    .enquiry-input:hover,
+    .enquiry-textarea:hover {
+      border-color: #0d99d6;
+      background-color: #ffffff;
+    }
+
+    .enquiry-input:focus,
+    .enquiry-textarea:focus {
+      border-color: #0d99d6;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(13, 153, 214, 0.1);
+    }
+
+    .enquiry-input.error,
+    .enquiry-textarea.error {
+      border-color: #e74c3c;
+      background-color: #fff5f5;
+    }
+
+    .enquiry-textarea {
+      min-height: 48px;
+      resize: none;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* ===== ERROR STYLES ===== */
+    .enquiry-error {
+      display: none;
+      color: #e74c3c;
+      font-size: 11px;
+      margin-top: 3px;
+      font-weight: 500;
+      min-height: 14px;
+    }
+
+    .enquiry-error.show {
+      display: block;
+    }
+
+    /* ===== BUTTON STYLES ===== */
+    .enquiry-submit-btn {
+      padding: 12px 32px;
+      background: linear-gradient(135deg, #0d99d6 0%, #0a7aa3 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      min-width: 140px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(13, 153, 214, 0.3);
+      align-self: flex-end;
+    }
+
+    .enquiry-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(13, 153, 214, 0.4);
+    }
+
+    .enquiry-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .enquiry-submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== DISCLAIMER STYLES ===== */
+    .enquiry-disclaimer {
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      margin: 16px 0 0 0;
+      line-height: 1.5;
+    }
+
+    /* ===== SUCCESS POPUP STYLES ===== */
+    .enquiry-success-popup {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+      color: #ffffff;
+      padding: 20px 28px;
+      border-radius: 10px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+      max-width: 420px;
+      animation: slideInRight 0.4s ease-out;
+    }
+
+    .enquiry-success-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .enquiry-success-icon {
+      font-size: 28px;
+      font-weight: bold;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .enquiry-success-text {
+      flex: 1;
+    }
+
+    .enquiry-success-title {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .enquiry-success-message {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes slideInRight {
       from {
-        transform: translateX(500px);
+        transform: translateX(450px);
         opacity: 0;
       }
       to {
@@ -1323,26 +1533,155 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    @keyframes slideOut {
+    @keyframes slideOutRight {
       from {
         transform: translateX(0);
         opacity: 1;
       }
       to {
-        transform: translateX(500px);
+        transform: translateX(450px);
         opacity: 0;
       }
     }
 
+    /* ===== TABLET RESPONSIVE (768px - 1024px) ===== */
+    @media (max-width: 1024px) {
+      .enquiry-section {
+        padding: 40px 15px;
+      }
+
+      .enquiry-form {
+        padding: 24px;
+        gap: 14px;
+      }
+
+      .enquiry-title {
+        font-size: 28px;
+      }
+
+      .enquiry-form-row {
+        gap: 10px;
+      }
+
+      /* Adjust field widths for tablet */
+      .enquiry-field-name,
+      .enquiry-field-mobile,
+      .enquiry-field-email,
+      .enquiry-field-city,
+      .enquiry-field-zip {
+        flex: 1 1 calc(50% - 5px);
+        min-width: 120px;
+      }
+    }
+
+    /* ===== MOBILE RESPONSIVE (< 768px) ===== */
     @media (max-width: 768px) {
-      #fertility-enquiry-section {
-        padding: 40px 15px !important;
+      .enquiry-section {
+        padding: 30px 15px;
       }
-      
-      #enquiry-success-popup {
-        right: 10px !important;
-        left: 10px !important;
-        max-width: none !important;
+
+      .enquiry-container {
+        max-width: 100%;
+      }
+
+      .enquiry-header {
+        margin-bottom: 30px;
+      }
+
+      .enquiry-title {
+        font-size: 26px;
+      }
+
+      .enquiry-subtitle {
+        font-size: 14px;
+      }
+
+      .enquiry-form {
+        padding: 20px;
+        gap: 12px;
+      }
+
+      .enquiry-form-row {
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* Stack 2 per row on mobile */
+      .enquiry-field-name,
+      .enquiry-field-mobile,
+      .enquiry-field-email,
+      .enquiry-field-city,
+      .enquiry-field-zip {
+        flex: 1 1 calc(50% - 5px);
+        min-width: 100px;
+      }
+
+      .enquiry-form-row-bottom {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .enquiry-field-problem {
+        flex: 1 1 100%;
+        min-width: 100%;
+      }
+
+      .enquiry-submit-btn {
+        align-self: stretch;
+        width: 100%;
+        min-width: 100%;
+        padding: 14px 16px;
+      }
+
+      .enquiry-input,
+      .enquiry-textarea {
+        padding: 11px 13px;
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+
+      .enquiry-success-popup {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        top: 50%;
+        transform: translateY(-50%);
+        animation: slideInCenter 0.4s ease-out;
+      }
+
+      @keyframes slideInCenter {
+        from {
+          transform: translateY(-50%) scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(-50%) scale(1);
+          opacity: 1;
+        }
+      }
+    }
+
+    /* ===== SMALL MOBILE (< 480px) ===== */
+    @media (max-width: 480px) {
+      .enquiry-title {
+        font-size: 22px;
+      }
+
+      .enquiry-subtitle {
+        font-size: 13px;
+      }
+
+      /* Stack 1 per row on very small screens */
+      .enquiry-field-name,
+      .enquiry-field-mobile,
+      .enquiry-field-email,
+      .enquiry-field-city,
+      .enquiry-field-zip {
+        flex: 1 1 100%;
+      }
+
+      .enquiry-submit-btn {
+        font-size: 14px;
+        padding: 12px 14px;
       }
     }
   </style>
@@ -1353,27 +1692,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     const validationRules = {
       'enquiry-name': {
         validate: (value) => value.trim().length >= 2,
-        errorMsg: 'Name must be at least 2 characters long'
+        errorMsg: 'Name must be at least 2 characters'
       },
       'enquiry-mobile': {
         validate: (value) => /^[6-9]\d{9}$/.test(value.trim()),
-        errorMsg: 'Mobile must be 10 digits starting with 6, 7, 8, or 9'
+        errorMsg: 'Invalid mobile number'
       },
       'enquiry-email': {
         validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
-        errorMsg: 'Please enter a valid email address'
+        errorMsg: 'Invalid email'
       },
       'enquiry-city': {
         validate: (value) => value.trim().length >= 2,
-        errorMsg: 'Please enter a valid city name'
+        errorMsg: 'Enter valid city'
       },
       'enquiry-zip': {
         validate: (value) => /^\d{5,}$/.test(value.trim()),
-        errorMsg: 'Zip code must be at least 5 digits'
+        errorMsg: 'Zip code required'
       },
       'enquiry-problem': {
         validate: (value) => value.trim().length >= 10,
-        errorMsg: 'Please describe your concern (at least 10 characters)'
+        errorMsg: 'Describe your concern (10+ chars)'
       }
     };
 
@@ -1387,13 +1726,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!rule) return true;
 
       if (!rule.validate(value)) {
-        field.style.borderColor = '#e74c3c';
-        errorElement.textContent = rule.errorMsg;
-        errorElement.style.display = 'block';
+        field.classList.add('error');
+        if (errorElement) {
+          errorElement.textContent = rule.errorMsg;
+          errorElement.classList.add('show');
+        }
         return false;
       } else {
-        field.style.borderColor = '#27ae60';
-        errorElement.style.display = 'none';
+        field.classList.remove('error');
+        if (errorElement) {
+          errorElement.classList.remove('show');
+          errorElement.textContent = '';
+        }
         return true;
       }
     }
@@ -1405,7 +1749,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       fields.forEach(fieldId => {
         const field = document.getElementById(fieldId);
-        if (!validateField(field)) {
+        if (field && !validateField(field)) {
           isValid = false;
         }
       });
@@ -1419,12 +1763,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Validate all fields
       if (!validateAllFields()) {
-        alert('Please fix the errors in the form before submitting.');
         return;
       }
 
       const submitBtn = document.getElementById('enquiry-submit-btn');
       submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
       submitBtn.textContent = 'Submitting...';
 
       try {
@@ -1467,19 +1811,28 @@ document.addEventListener("DOMContentLoaded", async () => {
           // Clear form
           document.getElementById('fertility-enquiry-form').reset();
 
-          // Reset field borders
+          // Reset all error states
           ['enquiry-name', 'enquiry-mobile', 'enquiry-email', 'enquiry-city', 'enquiry-zip', 'enquiry-problem'].forEach(fieldId => {
-            document.getElementById(fieldId).style.borderColor = '#ddd';
+            const field = document.getElementById(fieldId);
+            const errorEl = document.getElementById(fieldId + '-error');
+            if (field) {
+              field.classList.remove('error');
+            }
+            if (errorEl) {
+              errorEl.classList.remove('show');
+              errorEl.textContent = '';
+            }
           });
         } else {
-          alert('Error: ' + (data.error || 'Failed to submit form'));
+          console.error('API Error:', data);
+          alert('Failed to submit. Please try again.');
         }
       } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
+        alert('An error occurred. Please check your connection and try again.');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit My Details';
+        submitBtn.textContent = originalText;
       }
     }
 
@@ -1487,17 +1840,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     function showSuccessPopup() {
       const popup = document.getElementById('enquiry-success-popup');
       popup.style.display = 'block';
-      popup.style.animation = 'slideIn 0.3s ease-out';
 
       // Auto-hide after 10 seconds
       setTimeout(() => {
-        popup.style.animation = 'slideOut 0.3s ease-out';
+        popup.style.animation = 'slideOutRight 0.4s ease-out';
         setTimeout(() => {
           popup.style.display = 'none';
-        }, 300);
+          popup.style.animation = 'slideInRight 0.4s ease-out';
+        }, 400);
       }, 10000);
     }
   </script>
+<!-- enquiry ends here -->
 
   <!-- Introduction Section -->
   <div style="background:#f9f9f9; padding:50px 20px; max-width:1200px; margin:0 auto;">
