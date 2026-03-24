@@ -1404,7 +1404,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 async function fetchSuggestions(query) {
                     try {
-                        const response = await fetch(`${API_BASE_URL}/specializations?q=${encodeURIComponent(query)}`);
+                        const response = await fetch(`${API_BASE_URL}/api/specializations?q=${encodeURIComponent(query)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         const suggestions = await response.json();
                         displaySuggestions(suggestions);
@@ -1809,7 +1809,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const doctorsList = document.getElementById('doctorsList');
     doctorsList.innerHTML = `<div style="text-align: center; padding: 30px;"><div class="loading" style="border-top-color: var(--primary);"></div><p>Loading Doctors...</p></div>`;
     try {
-        const url = `${API_BASE_URL}/getdoctors`;
+        const url = `${API_BASE_URL}/api/getdoctors`;
         const response = await fetch(url);
         if (!response.ok) {
         throw new Error(`HTTP ${response.status} - ${response.statusText}`);
