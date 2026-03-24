@@ -40,8 +40,8 @@ The application is built on a microservices architecture, ensuring modularity an
 4. **Start the Application**:
    - Start the backend server:
      ```bash
-     cd server
-     npm start
+     node server.js
+   
      ```
    - Start the frontend:
      ```bash
