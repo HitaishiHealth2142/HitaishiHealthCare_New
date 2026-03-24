@@ -151,6 +151,7 @@ const ambulancebookingRoutes = require('./routes/ambulancebooking');
 const adminRoutes = require('./routes/Admin')
 const subscribersRoutes = require('./routes/subscribers');
 const clinicAppointmentRoutes = require('./routes/clinicAppointment');
+const fertilityRegisterRoutes = require('./routes/fertilityRegister');
 
 /* =====================
    API Routes (AFTER IMPORTS)
@@ -197,6 +198,7 @@ app.use('/api', patientRoutes);
 app.use('/api', paymentRoutes);
 app.use('/api', analyzeRoutes);
 app.use('/api', sessionRoutes);
+app.use('/api', fertilityRegisterRoutes);
 
 // Translate routes
 require('./translate')(app);
