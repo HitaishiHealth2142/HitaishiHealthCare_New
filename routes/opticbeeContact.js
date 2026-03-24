@@ -20,15 +20,15 @@ const router = express.Router();
 
 // --- 2. Corrected Nodemailer Transporter Configuration ---
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', // Corrected: Use Gmail's SMTP host
-    port: 587,
-    secure: false, 
-    auth: {
-        user: 'spltechnologycorp@gmail.com', // Your email address
-        pass: 'cbkm ntdm cuvp vygh'           // Your app password
-    },
-    tls: {
-        rejectUnauthorized: false
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
     }
 });
 
@@ -78,7 +78,7 @@ router.post('/contact', async (req, res) => {
 
         // --- Send Confirmation Email to User ---
         const userMailOptions = {
-            from: '"Optic Bee" <no-reply@opticbee.in>',
+            from: process.env.ZOHO_EMAIL, // Your email
             to: email,
             subject: 'Thank you for contacting us!',
             html: `

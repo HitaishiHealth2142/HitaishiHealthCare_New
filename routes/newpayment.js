@@ -41,11 +41,16 @@ function generatePaymentID() {
 
 // Nodemailer setup
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.SMTP_USER || "spltechnologycorp@gmail.com",
-    pass: process.env.SMTP_PASS || "cbkm ntdm cuvp vygh" // Use environment variables in production
-  }
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 // POST /api/newpayment/register
@@ -96,7 +101,7 @@ router.post("/newpayment/register", (req, res) => {
 
       // Send Email Confirmation
       const mailOptions = {
-        from: '"Hitaishi Healthcare" <spltechnologycorp@gmail.com>',
+        from: process.env.ZOHO_EMAIL, // Your email
         to: patientEmail,
         subject: `Booking Confirmation - ${paymentID}`,
         html: `

@@ -8,13 +8,16 @@ const crypto = require("crypto");
    ZOHO MAIL TRANSPORTER
 ========================================================= */
 const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.in",
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
   port: 465,
   secure: true,
   auth: {
     user: process.env.ZOHO_EMAIL,
     pass: process.env.ZOHO_PASS
-  }
+  },
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 /* =========================================================

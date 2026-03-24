@@ -84,7 +84,7 @@ const transporter = nodemailer.createTransport({
 
 async function sendEmail(to, subject, html) {
   try {
-    await transporter.sendMail({ from: `"24x7 Health Care Services" <${process.env.ZOHO_EMAIL}>`, to, subject, html });
+    await transporter.sendMail({ from: ` <${process.env.ZOHO_EMAIL}>`, to, subject, html });
     console.log('✅ OTP Email sent');
   } catch (err) {
     console.error('❌ Email error:', err);

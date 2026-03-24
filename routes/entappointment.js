@@ -23,11 +23,16 @@ db.query(createTable, (err) => {
 
 // Setup Nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
- auth: {
-          user: 'ganap294@gmail.com',
-          pass: 'fwxryolgpswlxbzq' // App-specific password
-        }
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 // POST /api/appointment
@@ -47,7 +52,7 @@ router.post('/appointment', (req, res) => {
 
     // Send confirmation email
     const mailOptions = {
-      from: 'ganap294@gmail.com',
+      from: process.env.ZOHO_EMAIL, // Your email
       to: email,
       subject: 'Appointment Confirmation',
       html: `

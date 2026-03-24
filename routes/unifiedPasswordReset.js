@@ -6,11 +6,16 @@ const nodemailer = require('nodemailer');
 
 // --- Email Setup (re-use from your other files) ---
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
   auth: {
-    user: 'spltechnologycorp@gmail.com', // Your Gmail address
-    pass: 'cbkm ntdm cuvp vygh'      // Your Gmail App Password
-  }
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 async function sendEmail(to, subject, html) {

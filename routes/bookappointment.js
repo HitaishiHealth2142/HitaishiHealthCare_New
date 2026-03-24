@@ -22,11 +22,16 @@ db.query(createTable, (err) => {
 
 // ✅ Setup Nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
   auth: {
-    user: 'ganap294@gmail.com',   // Use process.env.EMAIL_USER in production
-    pass: 'fwxryolgpswlxbzq'      // Use process.env.EMAIL_PASS in production
-  }
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 // ✅ Route to handle appointment form submission
@@ -46,7 +51,7 @@ router.post('/bookappointment', (req, res) => {
 
     // ✅ Send confirmation email to clinic
     const mailOptions = {
-      from: 'ganap294@gmail.com',
+      from: process.env.ZOHO_EMAIL, // Your email
       to: email,  // Send to your own email
       subject: '✅ New Appointment Booked',
       html: `

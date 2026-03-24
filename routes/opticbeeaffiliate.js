@@ -16,14 +16,16 @@ const router = express.Router();
 
 // --- 2. Nodemailer Transporter ---
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
   auth: {
-    user: 'spltechnologycorp@gmail.com',
-    pass: 'cbkm ntdm cuvp vygh' // Gmail App Password
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
   },
-  tls: { rejectUnauthorized: false }
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 // --- 3. Ensure affiliates table exists ---
@@ -77,7 +79,7 @@ router.post('/affiliate', async (req, res) => {
 
     // Send confirmation email to applicant
     const applicantMailOptions = {
-      from: '"Optic Bee" <no-reply@opticbee.in>',
+      from: process.env.ZOHO_EMAIL, // Your email
       to: email,
       subject: 'Thank you for applying as an Affiliate Partner',
       html: `

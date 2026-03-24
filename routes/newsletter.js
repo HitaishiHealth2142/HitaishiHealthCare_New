@@ -19,14 +19,16 @@ const router = express.Router();
 
 // 2️⃣ Nodemailer (same as affiliate.js)
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  host: 'smtp.zoho.in',   // ✅ IMPORTANT
+  port: 465,
+  secure: true,
   auth: {
-    user: 'spltechnologycorp@gmail.com',
-    pass: 'cbkm ntdm cuvp vygh' // Gmail App Password
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
   },
-  tls: { rejectUnauthorized: false }
+  tls: {
+    rejectUnauthorized: false
+    }
 });
 
 // 3️⃣ Ensure newsletter table exists
@@ -59,7 +61,7 @@ router.post('/newsletter', async (req, res) => {
 
     // Send confirmation email
     await transporter.sendMail({
-      from: '"Optic Bee" <no-reply@opticbee.in>',
+      from: process.env.ZOHO_EMAIL, // Your email
       to: email,
       subject: 'Newsletter Subscription Confirmation',
       html: `
