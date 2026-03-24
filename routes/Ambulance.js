@@ -4,6 +4,20 @@ const db = require("../db");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
+
+/* =========================================================
+   NODEMAILER SETUP
+========================================================= */
+const transporter = nodemailer.createTransport({
+  host: 'smtp.zoho.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASS
+  }
+});
 
 /* =========================================================
    ENSURE UPLOAD DIRECTORY EXISTS
@@ -92,7 +106,7 @@ router.post("/add",
        CHECK PROVIDER STATUS
     ===================================================== */
     db.query(
-      "SELECT id, status FROM ambulance_providers WHERE provider_uid = ?",
+      "SELECT id, status, email FROM ambulance_providers WHERE provider_uid = ?",
       [provider_uid],
       (err, providerRows) => {
         if (err || providerRows.length === 0) {
@@ -145,6 +159,68 @@ router.post("/add",
             res.status(201).json({
               success: true,
               message: "Ambulance added successfully"
+            });
+
+            // Send emails
+            const providerEmail = providerRows[0].email;
+            const adminEmail = process.env.ZOHO_EMAIL;
+
+            // Email to provider
+            const providerMailOptions = {
+              from: process.env.ZOHO_EMAIL,
+              to: providerEmail,
+              subject: 'Ambulance Added Successfully',
+              html: `
+                <h2>Ambulance Registration Confirmation</h2>
+                <p>Dear Ambulance Provider,</p>
+                <p>Your ambulance with vehicle number <strong>${vehicle_number.toUpperCase()}</strong> has been successfully added to our system.</p>
+                <p><strong>Details:</strong></p>
+                <ul>
+                  <li>Type: ${ambulance_type}</li>
+                  <li>Model: ${vehicle_model || 'N/A'}</li>
+                  <li>GPS Enabled: ${cleanGps}</li>
+                  <li>Status: ${active_status}</li>
+                </ul>
+                <p>You can now receive booking requests for this ambulance.</p>
+                <p>Best regards,<br>Hitaishi Healthcare Team</p>
+              `
+            };
+
+            // Email to admin
+            const adminMailOptions = {
+              from: process.env.ZOHO_EMAIL,
+              to: adminEmail,
+              subject: 'New Ambulance Added',
+              html: `
+                <h2>New Ambulance Registration</h2>
+                <p>A new ambulance has been added by provider UID: <strong>${provider_uid}</strong></p>
+                <p><strong>Ambulance Details:</strong></p>
+                <ul>
+                  <li>Vehicle Number: ${vehicle_number.toUpperCase()}</li>
+                  <li>Type: ${ambulance_type}</li>
+                  <li>Model: ${vehicle_model || 'N/A'}</li>
+                  <li>GPS Enabled: ${cleanGps}</li>
+                  <li>Status: ${active_status}</li>
+                </ul>
+                <p>Please review the documents and approve if necessary.</p>
+              `
+            };
+
+            // Send emails asynchronously
+            transporter.sendMail(providerMailOptions, (error, info) => {
+              if (error) {
+                console.error('❌ Provider email error:', error);
+              } else {
+                console.log('✅ Provider email sent:', info.response);
+              }
+            });
+
+            transporter.sendMail(adminMailOptions, (error, info) => {
+              if (error) {
+                console.error('❌ Admin email error:', error);
+              } else {
+                console.log('✅ Admin email sent:', info.response);
+              }
             });
           }
         );
