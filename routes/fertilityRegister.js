@@ -17,6 +17,8 @@ require('dotenv').config();
 /* =====================
    ADMIN AUTH MIDDLEWARE
 ===================== */
+const jwt = require('jsonwebtoken');
+
 const verifyAdminToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -26,11 +28,22 @@ const verifyAdminToken = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  if (token !== process.env.ADMIN_UNLOCK_TOKEN) {
-    return res.status(401).json({ message: "Unauthorized" });
+  // Support both: plain ADMIN_UNLOCK_TOKEN (legacy) and JWT signed with JWT_SECRET
+  if (token === process.env.ADMIN_UNLOCK_TOKEN) {
+    return next();
   }
 
-  next();
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Accept if role is admin OR if the decoded payload marks it as admin
+    if (decoded && (decoded.role === 'admin' || decoded.isAdmin === true)) {
+      req.admin = decoded;
+      return next();
+    }
+    return res.status(401).json({ message: "Unauthorized - not an admin token" });
+  } catch (err) {
+    return res.status(401).json({ message: "Unauthorized - invalid token" });
+  }
 };
 
 /* =====================
@@ -651,132 +664,7 @@ router.get('/fertility/register/:id', async (req, res) => {
   }
 });
 
-// Admin route to list centers with filtering
-router.get('/admin/fertility-centers', verifyAdminToken, async (req, res) => {
-  try {
-    const { status, zipcode, area } = req.query;
-
-    let query = `SELECT * FROM fertility_centers WHERE 1=1`;
-    const params = [];
-
-    if (status) {
-      query += ` AND status = ?`;
-      params.push(status);
-    }
-
-    if (zipcode) {
-      query += ` AND pincode = ?`;
-      params.push(zipcode);
-    }
-
-    if (area) {
-      query += ` AND area LIKE ?`;
-      params.push(`%${area}%`);
-    }
-
-    query += ` ORDER BY created_at DESC`;
-
-    const [rows] = await db.promise().query(query, params);
-
-    res.json({ success: true, data: rows });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to fetch centers" });
-  }
-});
-
-// Admin route to get filter options
-router.get('/admin/fertility-filters', verifyAdminToken, async (req, res) => {
-  try {
-    const [zipcodes] = await db.promise().query(
-      `SELECT DISTINCT pincode FROM fertility_centers`
-    );
-
-    const [areas] = await db.promise().query(
-      `SELECT DISTINCT area FROM fertility_centers`
-    );
-
-    res.json({
-      zipcodes: zipcodes.map(z => z.pincode),
-      areas: areas.map(a => a.area)
-    });
-
-  } catch (err) {
-    res.status(500).json({ message: "Filter load failed" });
-  }
-});
-
-// Admin route to approve center
-router.put('/admin/fertility/approve/:id', verifyAdminToken, async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const [rows] = await db.promise().query(
-      `SELECT * FROM fertility_centers WHERE id = ?`, [id]
-    );
-
-    if (!rows.length) return res.status(404).json({ message: "Not found" });
-
-    const center = rows[0];
-
-    await db.promise().query(
-      `UPDATE fertility_centers SET status='approved' WHERE id=?`, [id]
-    );
-
-    // ✅ send email
-    await sendEmail(
-      center.email,
-      emailTemplates.centerApprovalNotification(
-        center.center_name,
-        center.email,
-        center.registration_number
-      )
-    );
-
-    res.json({ success: true });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Approval failed" });
-  }
-});
-
-// Admin route to reject center with reason
-router.put('/admin/fertility/reject/:id', verifyAdminToken, async (req, res) => {
-  try {
-    const { reason } = req.body;
-    const id = req.params.id;
-
-    const [rows] = await db.promise().query(
-      `SELECT * FROM fertility_centers WHERE id = ?`, [id]
-    );
-
-    if (!rows.length) return res.status(404).json({ message: "Not found" });
-
-    const center = rows[0];
-
-    await db.promise().query(
-      `UPDATE fertility_centers SET status='rejected' WHERE id=?`, [id]
-    );
-
-    // ✅ send email
-    await sendEmail(
-      center.email,
-      emailTemplates.centerRejectionNotification(
-        center.center_name,
-        center.email,
-        reason
-      )
-    );
-
-    res.json({ success: true });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Rejection failed" });
-  }
-});
+// Old duplicate routes removed — canonical routes are defined earlier in this file
 
 
 
@@ -841,29 +729,104 @@ router.get('/fertility/check-availability', async (req, res) => {
 // };
 
 /* =====================
-   ADMIN ROUTES - LIST CENTERS
+   ADMIN ROUTES - FILTERS (zip & area dropdowns)
+===================== */
+router.get('/admin/fertility-filters', verifyAdminToken, async (req, res) => {
+  try {
+    const [zipcodes] = await db.promise().query(
+      `SELECT DISTINCT pincode FROM fertility_centers WHERE pincode IS NOT NULL AND pincode != '' ORDER BY pincode`
+    );
+    const [areas] = await db.promise().query(
+      `SELECT DISTINCT area FROM fertility_centers WHERE area IS NOT NULL AND area != '' ORDER BY area`
+    );
+
+    return res.status(200).json({
+      success: true,
+      zipcodes: zipcodes.map(z => z.pincode),
+      areas: areas.map(a => a.area)
+    });
+  } catch (err) {
+    console.error('Error loading filters:', err);
+    return res.status(500).json({ success: false, message: 'Filter load failed' });
+  }
+});
+
+/* =====================
+   ADMIN ROUTES - LIST CENTERS (with status, zipcode, area filters)
+===================== */
+router.get('/admin/fertility-centers', verifyAdminToken, async (req, res) => {
+  try {
+    const status  = req.query.status  || '';
+    const zipcode = req.query.zipcode || '';
+    const area    = req.query.area    || '';
+    const page    = parseInt(req.query.page)  || 1;
+    const limit   = parseInt(req.query.limit) || 20;
+    const offset  = (page - 1) * limit;
+
+    let query = `SELECT id, center_name, registration_number, email, primary_phone,
+                        city, state, area, pincode, status, created_at
+                 FROM fertility_centers WHERE 1=1`;
+    const params = [];
+
+    if (status)  { query += ' AND status = ?';  params.push(status);  }
+    if (zipcode) { query += ' AND pincode = ?'; params.push(zipcode); }
+    if (area)    { query += ' AND area = ?';    params.push(area);    }
+
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+    params.push(limit, offset);
+
+    const [centers] = await db.promise().query(query, params);
+
+    // Count query
+    let countQuery = 'SELECT COUNT(*) as total FROM fertility_centers WHERE 1=1';
+    const countParams = [];
+    if (status)  { countQuery += ' AND status = ?';  countParams.push(status);  }
+    if (zipcode) { countQuery += ' AND pincode = ?'; countParams.push(zipcode); }
+    if (area)    { countQuery += ' AND area = ?';    countParams.push(area);    }
+
+    const [countResult] = await db.promise().query(countQuery, countParams);
+
+    return res.status(200).json({
+      success: true,
+      data: centers,
+      pagination: {
+        page,
+        limit,
+        total: countResult[0].total,
+        pages: Math.ceil(countResult[0].total / limit)
+      }
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to retrieve fertility centers' });
+  }
+});
+
+/* =====================
+   ADMIN ROUTES - LIST CENTERS (legacy /admin/fertility — kept for backward compat)
 ===================== */
 router.get('/admin/fertility', verifyAdminToken, async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const status = req.query.status || '';
-    const search = req.query.search || '';
+    const page    = parseInt(req.query.page)   || 1;
+    const limit   = parseInt(req.query.limit)  || 20;
+    const status  = req.query.status  || '';
+    const zipcode = req.query.zipcode || '';
+    const area    = req.query.area    || '';
+    const search  = req.query.search  || '';
+    const offset  = (page - 1) * limit;
 
-    const offset = (page - 1) * limit;
-
-    let query = 'SELECT id, center_name, email, primary_phone, city, state, status, created_at FROM fertility_centers WHERE 1=1';
+    let query = `SELECT id, center_name, registration_number, email, primary_phone,
+                        city, state, area, pincode, status, created_at
+                 FROM fertility_centers WHERE 1=1`;
     const params = [];
 
-    if (status) {
-      query += ' AND status = ?';
-      params.push(status);
-    }
-
+    if (status)  { query += ' AND status = ?';  params.push(status);  }
+    if (zipcode) { query += ' AND pincode = ?'; params.push(zipcode); }
+    if (area)    { query += ' AND area = ?';    params.push(area);    }
     if (search) {
       query += ' AND (center_name LIKE ? OR email LIKE ? OR registration_number LIKE ?)';
-      const searchTerm = `%${search}%`;
-      params.push(searchTerm, searchTerm, searchTerm);
+      const s = `%${search}%`;
+      params.push(s, s, s);
     }
 
     query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
@@ -873,37 +836,29 @@ router.get('/admin/fertility', verifyAdminToken, async (req, res) => {
 
     let countQuery = 'SELECT COUNT(*) as total FROM fertility_centers WHERE 1=1';
     const countParams = [];
-
-    if (status) {
-      countQuery += ' AND status = ?';
-      countParams.push(status);
-    }
-
+    if (status)  { countQuery += ' AND status = ?';  countParams.push(status);  }
+    if (zipcode) { countQuery += ' AND pincode = ?'; countParams.push(zipcode); }
+    if (area)    { countQuery += ' AND area = ?';    countParams.push(area);    }
     if (search) {
       countQuery += ' AND (center_name LIKE ? OR email LIKE ? OR registration_number LIKE ?)';
-      const searchTerm = `%${search}%`;
-      countParams.push(searchTerm, searchTerm, searchTerm);
+      const s = `%${search}%`;
+      countParams.push(s, s, s);
     }
 
     const [countResult] = await db.promise().query(countQuery, countParams);
-    const total = countResult[0].total;
 
     return res.status(200).json({
       success: true,
       data: centers,
       pagination: {
-        page,
-        limit,
-        total,
-        pages: Math.ceil(total / limit)
+        page, limit,
+        total: countResult[0].total,
+        pages: Math.ceil(countResult[0].total / limit)
       }
     });
   } catch (error) {
     console.error('Error:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to retrieve fertility centers'
-    });
+    return res.status(500).json({ success: false, message: 'Failed to retrieve fertility centers' });
   }
 });
 

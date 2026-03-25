@@ -784,18 +784,13 @@
         }
 
         function setupFertilityFilterButtons() {
-            document.getElementById('fertility-filter-pending').onclick = () => {
-                currentFertilityFilter = 'pending';
-                fetchFertilityCenters('pending');
+            const setStatus = (status) => {
+                document.getElementById('fertilityStatus').value = status;
+                loadFertility();
             };
-            document.getElementById('fertility-filter-approved').onclick = () => {
-                currentFertilityFilter = 'approved';
-                fetchFertilityCenters('approved');
-            };
-            document.getElementById('fertility-filter-rejected').onclick = () => {
-                currentFertilityFilter = 'rejected';
-                fetchFertilityCenters('rejected');
-            };
+            document.getElementById('fertility-filter-pending').onclick  = () => setStatus('pending');
+            document.getElementById('fertility-filter-approved').onclick = () => setStatus('approved');
+            document.getElementById('fertility-filter-rejected').onclick = () => setStatus('rejected');
         }
 
         async function fetchFertilityCenters(status) {
@@ -942,22 +937,26 @@
 
                 const data = await res.json();
 
+                // Handle both { success, zipcodes, areas } and legacy { zipcodes, areas }
+                const zipcodes = data.zipcodes || [];
+                const areas = data.areas || [];
+
                 document.getElementById("fertilityZip").innerHTML =
                     '<option value="">All Zip</option>' +
-                    data.zipcodes.map(z => `<option>${z}</option>`).join('');
+                    zipcodes.map(z => `<option value="${z}">${z}</option>`).join('');
 
                 document.getElementById("fertilityArea").innerHTML =
                     '<option value="">All Area</option>' +
-                    data.areas.map(a => `<option>${a}</option>`).join('');
+                    areas.map(a => `<option value="${a}">${a}</option>`).join('');
             } catch (err) {
                 console.error('Error loading filters:', err);
             }
         }
 
         async function loadFertility() {
-            const status = document.getElementById("fertilityStatus").value;
+            const status  = document.getElementById("fertilityStatus").value;
             const zipcode = document.getElementById("fertilityZip").value;
-            const area = document.getElementById("fertilityArea").value;
+            const area    = document.getElementById("fertilityArea").value;
 
             const params = new URLSearchParams({ status, zipcode, area });
 
@@ -970,63 +969,44 @@
 
                 const container = document.getElementById("fertilityCentersContainer");
 
-                container.innerHTML = data.data.map(c => `
-                    <div class="p-4 border rounded-xl bg-white shadow-sm">
-                        <h3 class="font-bold text-slate-800">${c.center_name}</h3>
-                        <p class="text-sm text-slate-600">${c.city} - ${c.pincode}</p>
-                        <p class="text-sm text-slate-600">Status: <span class="px-2 py-1 rounded text-xs font-semibold ${
-                            c.status === 'pending' ? 'bg-amber-100 text-amber-800' :
-                            c.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
-                        }">${c.status}</span></p>
+                if (!data.success || !data.data || data.data.length === 0) {
+                    container.innerHTML = '<div class="p-8 text-center bg-slate-50 rounded-xl text-slate-500">No centers found for the selected filters.</div>';
+                    return;
+                }
 
-                        ${c.status === 'pending' ? `
-                            <div class="flex gap-2 mt-3">
-                                <button onclick="approve(${c.id})" class="flex-1 bg-emerald-500 text-white px-3 py-2 rounded text-xs font-semibold hover:bg-emerald-600">✓ Approve</button>
-                                <button onclick="reject(${c.id})" class="flex-1 bg-red-500 text-white px-3 py-2 rounded text-xs font-semibold hover:bg-red-600">✕ Reject</button>
+                container.innerHTML = data.data.map(c => {
+                    const statusColor = c.status === 'pending'  ? 'bg-amber-100 text-amber-800' :
+                                        c.status === 'approved' ? 'bg-emerald-100 text-emerald-800' :
+                                                                  'bg-red-100 text-red-800';
+                    return `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 hover:shadow-md transition cursor-pointer" onclick="viewFertilityCenterDetail(${c.id})">
+                        <div class="flex justify-between items-start gap-3 mb-2">
+                            <div>
+                                <h3 class="font-bold text-slate-800">${c.center_name}</h3>
+                                <p class="text-xs text-slate-500">${c.registration_number || ''}</p>
                             </div>
-                        ` : ''}
-                    </div>
-                `).join('');
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${c.status}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-600 mb-3">
+                            <div>📧 ${c.email}</div>
+                            <div>📞 ${c.primary_phone}</div>
+                            <div>📍 ${c.city}, ${c.state}</div>
+                            <div>📅 ${new Date(c.created_at).toLocaleDateString()}</div>
+                            ${c.area    ? `<div>🏘️ ${c.area}</div>` : ''}
+                            ${c.pincode ? `<div>📮 ${c.pincode}</div>` : ''}
+                        </div>
+                        ${c.status === 'pending' ? `
+                            <div class="flex gap-2 mt-2">
+                                <button onclick="event.stopPropagation(); approveFertilityCenter(${c.id})" class="flex-1 bg-emerald-500 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-emerald-600">✓ Approve</button>
+                                <button onclick="event.stopPropagation(); rejectFertilityCenter(${c.id})"  class="flex-1 bg-red-500 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-red-600">✕ Reject</button>
+                            </div>
+                        ` : `<span class="text-slate-400 text-xs py-2">Action completed</span>`}
+                    </div>`;
+                }).join('');
             } catch (err) {
                 console.error('Error loading centers:', err);
-                document.getElementById("fertilityCentersContainer").innerHTML = '<div class="text-red-500 p-4">Error loading centers</div>';
-            }
-        }
-
-        async function approve(id) {
-            if (!confirm('Approve this fertility center?')) return;
-            
-            try {
-                await fetch(`${API_BASE_URL}/admin/fertility/approve/${id}`, {
-                    method: "PUT",
-                    headers: { Authorization: `Bearer ${adminToken}` }
-                });
-                alert('✓ Center approved and email sent!');
-                loadFertility();
-            } catch (err) {
-                console.error('Error approving center:', err);
-                alert('Error approving center');
-            }
-        }
-
-        async function reject(id) {
-            const reason = prompt("Reason for rejection?");
-            if (!reason) return;
-
-            try {
-                await fetch(`${API_BASE_URL}/admin/fertility/reject/${id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${adminToken}`
-                    },
-                    body: JSON.stringify({ reason })
-                });
-                alert('✓ Center rejected and email sent!');
-                loadFertility();
-            } catch (err) {
-                console.error('Error rejecting center:', err);
-                alert('Error rejecting center');
+                document.getElementById("fertilityCentersContainer").innerHTML =
+                    '<div class="text-red-500 p-4">Error loading centers</div>';
             }
         }
 
