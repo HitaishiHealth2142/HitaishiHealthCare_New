@@ -15,6 +15,25 @@ const db = require('../db');
 require('dotenv').config();
 
 /* =====================
+   ADMIN AUTH MIDDLEWARE
+===================== */
+const verifyAdminToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  if (token !== process.env.ADMIN_UNLOCK_TOKEN) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  next();
+};
+
+/* =====================
    FILE UPLOAD MIDDLEWARE
 ===================== */
 router.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' }));
@@ -810,16 +829,16 @@ router.get('/fertility/check-availability', async (req, res) => {
 /* =====================
    ADMIN ROUTES - AUTHENTICATE
 ===================== */
-const verifyAdminToken = (req, res, next) => {
-  const adminToken = req.headers.authorization?.split(' ')[1];
-  if (!adminToken || adminToken !== process.env.ADMIN_UNLOCK_TOKEN) {
-    return res.status(401).json({
-      success: false,
-      message: 'Unauthorized'
-    });
-  }
-  next();
-};
+// const verifyAdminToken = (req, res, next) => {
+//   const adminToken = req.headers.authorization?.split(' ')[1];
+//   if (!adminToken || adminToken !== process.env.ADMIN_UNLOCK_TOKEN) {
+//     return res.status(401).json({
+//       success: false,
+//       message: 'Unauthorized'
+//     });
+//   }
+//   next();
+// };
 
 /* =====================
    ADMIN ROUTES - LIST CENTERS
