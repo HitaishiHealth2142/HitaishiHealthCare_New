@@ -1274,6 +1274,9 @@
 
                 // Add JSON arrays
                 formDataObj.append('doctors', JSON.stringify(formData.doctors));
+                
+                // DEBUG: Log FormData contents
+                console.log('📤 FormData being sent:', [...formDataObj.entries()]);
                 formDataObj.append('services', JSON.stringify(formData.services));
                 formDataObj.append('facilities', JSON.stringify(formData.facilities));
                 formDataObj.append('languages', JSON.stringify(formData.languages));

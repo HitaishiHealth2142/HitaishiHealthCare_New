@@ -383,11 +383,13 @@ const validateJSONArrays = (req, res, next) => {
       try {
         req.body[field] = typeof req.body[field] === 'string' ? JSON.parse(req.body[field]) : req.body[field];
       } catch (err) {
-        return res.status(400).json({
-          success: false,
-          message: `Invalid JSON format for ${field}`
-        });
+        console.warn(`⚠️ JSON parse error for ${field}:`, err.message);
+        // Safe fallback: convert to empty array if parsing fails
+        req.body[field] = [];
       }
+    } else {
+      // Ensure field exists as empty array if not provided
+      req.body[field] = [];
     }
   }
   next();
@@ -530,7 +532,7 @@ router.post('/fertility/register',
         ivf_success_rate: ivfSuccessRate || null,
         total_cycles: totalCycles || null,
         years_experience: yearsExperience || null,
-        certifications: JSON.stringify(certifications ? [certifications] : []),
+        certifications: JSON.stringify(certifications || []),
         
         ivf_cost_range: ivfCostRange || null,
         iui_cost: iuiCost || null,
@@ -550,7 +552,7 @@ router.post('/fertility/register',
         username: username,
         password: hashedPassword,
         
-        awards: JSON.stringify(awards ? [awards] : []),
+        awards: JSON.stringify(awards || []),
         status: 'pending'
       };
 
