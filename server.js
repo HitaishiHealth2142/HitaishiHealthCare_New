@@ -214,6 +214,6 @@ app.use(express.static(path.join(__dirname)));   //root directory for developmen
    Start Server
 ===================== */
 const PORT = 5001;
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server running on port ${PORT}`);
 });

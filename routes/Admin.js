@@ -42,7 +42,10 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.ZOHO_EMAIL,
         pass: process.env.ZOHO_PASS
-    }
+    },
+    connectionTimeout: 5000, // ✅ add this
+    greetingTimeout: 5000,
+    socketTimeout: 5000
 });
 
 
@@ -81,21 +84,21 @@ router.post("/admin/register", async (req, res) => {
                     if (err)
                         return res.status(500).json({ message: "Insert failed" });
 
-                    await transporter.sendMail({
-                        from: `"24x7 Health Admin" <${process.env.ZOHO_EMAIL}>`,
-                        to: email,
-                        subject: "Admin Registration OTP",
-                        html: `
-                            <h2>Admin Registration Verification</h2>
-                            <p>Your OTP:</p>
-                            <h1>${otp}</h1>
-                            <p>Valid for 10 minutes.</p>
-                        `
-                    });
+                    try {
+                        await transporter.sendMail({
+                            from: `"24x7 Health Admin" <${process.env.ZOHO_EMAIL}>`,
+                            to: email,
+                            subject: "Admin Registration OTP",
+                            html: `<h1>${otp}</h1>`
+                        });
+                    } catch (err) {
+                        console.error("❌ MAIL ERROR:", err);
+                        return res.status(500).json({ message: "Email sending failed" });
+                    }
+                });
 
-                    res.json({ message: "OTP sent to email" });
-                }
-            );
+                res.json({ message: "OTP sent to email" });
+                
         } catch {
             res.status(500).json({ message: "Server error" });
         }
