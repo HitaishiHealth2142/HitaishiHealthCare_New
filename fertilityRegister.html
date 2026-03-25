@@ -8,63 +8,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
         
         .step-indicator {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 3rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
         
         .step-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 0.5rem;
             font-size: 0.875rem;
+            min-width: 80px;
         }
         
         .step-number {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         .step-number.active {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transform: scale(1.2);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            animation: pulse 2s infinite;
         }
         
         .step-number.completed {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
+            transform: scale(1.1);
         }
         
         .step-number.inactive {
-            background: #e5e7eb;
-            color: #6b7280;
+            background: #f3f4f6;
+            color: #9ca3af;
+            border: 2px solid #e5e7eb;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1.2); }
+            50% { transform: scale(1.25); }
         }
         
         .form-section {
             display: none;
+            animation: fadeInUp 0.5s ease-out;
         }
         
         .form-section.active {
             display: block;
-            animation: slideIn 0.3s ease;
         }
         
-        @keyframes slideIn {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -73,120 +97,189 @@
         }
         
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
         }
         
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #374151;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.95rem;
         }
         
         input, select, textarea {
             width: 100%;
-            padding: 0.75rem;
+            padding: 1rem 1.25rem;
             border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
+            border-radius: 12px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
         }
         
         input.error, select.error, textarea.error {
             border-color: #ef4444;
             background: rgba(239, 68, 68, 0.05);
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
         }
         
         .error-message {
             color: #ef4444;
             font-size: 0.875rem;
-            margin-top: 0.25rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .error-message:before {
+            content: '⚠️';
         }
         
         .success-message {
             color: #10b981;
             font-size: 0.875rem;
-            margin-top: 0.25rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .success-message:before {
+            content: '✅';
         }
         
         .btn-base {
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 0.5rem;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-base:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-base:hover:before {
+            left: 100%;
         }
         
         .btn-primary {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
         }
         
         .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
         
         .btn-primary:disabled {
             background: #bfdbfe;
             cursor: not-allowed;
             transform: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .btn-secondary {
-            background: #e5e7eb;
+            background: #f9fafb;
             color: #374151;
+            border: 2px solid #e5e7eb;
         }
         
         .btn-secondary:hover {
-            background: #d1d5db;
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
         
         .btn-success {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
         }
         
         .btn-success:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
         }
         
         .doctor-card {
-            background: #f9fafb;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
             border: 2px solid #e5e7eb;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doctor-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
         }
         
         .doctor-card:hover {
             border-color: #3b82f6;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
         }
         
         .checkbox-group, .radio-group {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .checkbox-item, .radio-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #ffffff;
+        }
+        
+        .checkbox-item:hover, .radio-item:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
         }
         
         input[type="checkbox"], input[type="radio"] {
@@ -197,172 +290,261 @@
         }
         
         .file-upload-area {
-            border: 2px dashed #3b82f6;
-            border-radius: 0.75rem;
-            padding: 2rem;
+            border: 3px dashed #3b82f6;
+            border-radius: 16px;
+            padding: 3rem;
             text-align: center;
-            background: rgba(59, 130, 246, 0.05);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-upload-area:before {
+            content: '📎';
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 1rem;
         }
         
         .file-upload-area:hover {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: #2563eb;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
         }
         
         .file-upload-area.dragging {
-            background: rgba(59, 130, 246, 0.15);
-            border-color: #2563eb;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border-color: #1d4ed8;
+            transform: scale(1.02);
         }
         
         .file-preview {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
         
         .file-item {
             position: relative;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            flex: 0 1 calc(33.333% - 0.75rem);
-            min-width: 150px;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex: 0 1 calc(33.333% - 1rem);
+            min-width: 180px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
         
         .file-item img {
             max-width: 100%;
-            max-height: 100px;
-            border-radius: 0.25rem;
-            margin-bottom: 0.5rem;
+            max-height: 120px;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .file-item-name {
-            font-size: 0.875rem;
-            color: #6b7280;
+            font-size: 0.9rem;
+            color: #374151;
             word-break: break-all;
+            font-weight: 500;
         }
         
         .remove-btn {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
         
         .remove-btn:hover {
-            background: #dc2626;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
             transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
         
         .multi-select-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .multi-select-item {
-            padding: 1rem;
+            padding: 1.5rem;
             border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
             color: #374151;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .multi-select-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .multi-select-item:hover:before {
+            left: 100%;
         }
         
         .multi-select-item.selected {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
-            border-color: #3b82f6;
+            border-color: #1d4ed8;
             transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .multi-select-item.selected:before {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         }
         
         .success-container {
             text-align: center;
-            padding: 3rem 2rem;
+            padding: 4rem 3rem;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            border: 2px solid #bbf7d0;
         }
         
         .success-icon {
-            width: 80px;
-            height: 80px;
-            background: #10b981;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981, #059669);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 2rem;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            animation: bounce 1s ease-out;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
         
         .progress-bar {
             width: 100%;
-            height: 4px;
+            height: 6px;
             background: #e5e7eb;
             border-radius: 999px;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #667eea);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 999px;
+            position: relative;
+        }
+        
+        .progress-fill:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         @media (max-width: 768px) {
             .step-item {
                 font-size: 0.75rem;
+                min-width: 60px;
             }
             
             .step-number {
-                width: 28px;
-                height: 28px;
-                font-size: 0.875rem;
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
             }
             
             .multi-select-container {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 0.75rem;
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
             }
             
             .file-item {
-                flex: 0 1 calc(50% - 0.5rem);
+                flex: 0 1 calc(50% - 0.75rem);
+                min-width: 140px;
             }
             
             input, select, textarea {
                 font-size: 16px; /* prevents zoom on iOS */
+                padding: 0.875rem 1rem;
+            }
+            
+            .btn-base {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.95rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="min-h-screen py-8 px-4">
-        <div class="max-w-2xl mx-auto">
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-4xl mx-auto">
             <!-- Header -->
-            <div class="text-center text-white mb-8">
-                <h1 class="text-4xl font-bold mb-2">Fertility Center Registration</h1>
-                <p class="text-lg opacity-90">Join Hitaishi Healthcare Network</p>
+            <div class="text-center text-white mb-12">
+                <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                    Fertility Center Registration
+                </h1>
+                <p class="text-xl opacity-90 max-w-2xl mx-auto">
+                    Join Hitaishi Healthcare Network and expand your reach to thousands of patients
+                </p>
             </div>
 
             <!-- Progress Bar -->
-            <div class="progress-bar mb-4">
+            <div class="progress-bar mb-8">
                 <div class="progress-fill" id="progressFill" style="width: 11.11%;"></div>
             </div>
 
@@ -370,48 +552,51 @@
             <div class="step-indicator">
                 <div class="step-item">
                     <div class="step-number active" id="step-1">1</div>
-                    <span class="hidden sm:inline text-white text-sm">Basic</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Basic Info</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-2">2</div>
-                    <span class="hidden sm:inline text-white text-sm">Location</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Location</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-3">3</div>
-                    <span class="hidden sm:inline text-white text-sm">Contact</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Contact</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-4">4</div>
-                    <span class="hidden sm:inline text-white text-sm">Doctors</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Doctors</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-5">5</div>
-                    <span class="hidden sm:inline text-white text-sm">Services</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Services</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-6">6</div>
-                    <span class="hidden sm:inline text-white text-sm">Success</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Success</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-7">7</div>
-                    <span class="hidden sm:inline text-white text-sm">Documents</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Documents</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-8">8</div>
-                    <span class="hidden sm:inline text-white text-sm">Account</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Account</span>
                 </div>
                 <div class="step-item">
                     <div class="step-number inactive" id="step-9">9</div>
-                    <span class="hidden sm:inline text-white text-sm">Review</span>
+                    <span class="hidden sm:inline text-white text-sm font-medium">Review</span>
                 </div>
             </div>
 
             <!-- Main Form Card -->
-            <div class="bg-white rounded-lg shadow-xl p-8">
+            <div class="container p-10">
                 <form id="registrationForm">
                     <!-- STEP 1: Basic Info -->
                     <section class="form-section active" data-step="1">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Basic Information</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">🏥 Basic Information</h2>
+                            <p class="text-gray-600">Tell us about your fertility center</p>
+                        </div>
                         
                         <div class="input-group">
                             <label for="centerName">Center Name *</label>
@@ -447,8 +632,11 @@
 
                         <div class="input-group">
                             <label for="description">Description *</label>
-                            <textarea id="description" name="description" rows="4" placeholder="Brief description of your center..." required></textarea>
-                            <div class="error-message" id="description-error"></div>
+                            <textarea id="description" name="description" rows="4" placeholder="Brief description of your center (minimum 10 characters)..." required minlength="10"></textarea>
+                            <div class="flex justify-between items-center mt-1">
+                                <div class="error-message" id="description-error"></div>
+                                <div class="text-sm text-gray-500" id="description-counter">0/10 characters</div>
+                            </div>
                         </div>
 
                         <div class="input-group">
@@ -461,7 +649,10 @@
 
                     <!-- STEP 2: Location -->
                     <section class="form-section" data-step="2">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Location Details</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">📍 Location Details</h2>
+                            <p class="text-gray-600">Where is your center located?</p>
+                        </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
@@ -500,9 +691,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
                                 <label for="pincode">Pincode *</label>
-                                <input type="text" id="pincode" name="pincode" required pattern="[0-9]{6}">
-                                <div class="error-message" id="pincode-error"></div>
-                            </div>
+                            <input type="text" id="pincode" name="pincode" required pattern="[0-9]{6}" maxlength="6" placeholder="Enter 6-digit pincode">
 
                             <div class="input-group">
                                 <label for="latitude">Latitude (GPS)</label>
@@ -520,7 +709,10 @@
 
                     <!-- STEP 3: Contact -->
                     <section class="form-section" data-step="3">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">📞 Contact Information</h2>
+                            <p class="text-gray-600">How can patients reach you?</p>
+                        </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
@@ -575,8 +767,10 @@
 
                     <!-- STEP 4: Doctors -->
                     <section class="form-section" data-step="4">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Medical Staff</h2>
-                        <p class="text-gray-600 mb-6">Add at least one doctor</p>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">👨‍⚕️ Medical Staff</h2>
+                            <p class="text-gray-600">Add at least one doctor to your team</p>
+                        </div>
 
                         <div id="doctorsContainer"></div>
 
@@ -587,7 +781,10 @@
 
                     <!-- STEP 5: Services & Facilities -->
                     <section class="form-section" data-step="5">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Services & Facilities</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">🛠️ Services & Facilities</h2>
+                            <p class="text-gray-600">What services do you offer?</p>
+                        </div>
                         
                         <label class="block text-lg font-semibold text-gray-900 mb-4">Select Services *</label>
                         <div class="multi-select-container" id="servicesContainer">
@@ -825,8 +1022,16 @@
             </div>
 
             <!-- Footer -->
-            <div class="text-center text-white mt-8">
-                <p class="text-sm opacity-75">© 2024 Hitaishi Healthcare. All rights reserved.</p>
+            <div class="text-center text-white mt-12">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-md mx-auto">
+                    <p class="text-lg font-medium mb-2">🏥 Hitaishi Healthcare</p>
+                    <p class="text-sm opacity-80">Empowering fertility care nationwide</p>
+                    <div class="flex justify-center gap-4 mt-4 text-sm opacity-70">
+                        <span>🔒 Secure</span>
+                        <span>⚡ Fast</span>
+                        <span>💯 Trusted</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -853,6 +1058,7 @@
             setupDoctorManagement();
             setupPasswordValidation();
             setupNavigation();
+            setupCharacterCounters();
         });
 
         // File Upload Setup
@@ -1042,6 +1248,17 @@
             document.getElementById('nextBtn').addEventListener('click', handleNextClick);
         }
 
+        // Character Counters Setup
+        function setupCharacterCounters() {
+            // Description character counter
+            document.getElementById('description').addEventListener('input', function() {
+                const counter = document.getElementById('description-counter');
+                const length = this.value.length;
+                counter.textContent = length + '/10 characters';
+                counter.className = length >= 10 ? 'text-sm text-green-500' : 'text-sm text-gray-500';
+            });
+        }
+
         function handleNextClick(e) {
             e.preventDefault();
 
@@ -1151,6 +1368,20 @@
                 const email = document.getElementById('email').value;
                 if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                     document.getElementById('email-error').innerText = 'Invalid email format';
+                    return false;
+                }
+            }
+
+            if (step === 1) {
+                const description = document.getElementById('description').value;
+                if (description && description.length < 10) {
+                    document.getElementById('description-error').innerText = 'Description must be at least 10 characters';
+                    return false;
+                }
+
+                const pincode = document.getElementById('pincode').value;
+                if (pincode && !/^[0-9]{6}$/.test(pincode)) {
+                    document.getElementById('pincode-error').innerText = 'Pincode must be exactly 6 digits';
                     return false;
                 }
             }
@@ -1272,8 +1503,26 @@
                   : [];
                 formDataObj.append('awards', JSON.stringify(awardsArray));
 
+                // Collect doctors from DOM
+                const doctors = [];
+                document.querySelectorAll('.doctor-card').forEach(card => {
+                    const name = card.querySelector('.doctor-name').value;
+                    const specialization = card.querySelector('.doctor-specialization').value;
+                    const qualification = card.querySelector('.doctor-qualification').value;
+                    const experience = card.querySelector('.doctor-experience').value;
+                    
+                    if (name && specialization && qualification && experience) {
+                        doctors.push({
+                            name: name,
+                            specialization: specialization,
+                            qualification: qualification,
+                            experience: parseInt(experience) || 0
+                        });
+                    }
+                });
+
                 // Add JSON arrays
-                formDataObj.append('doctors', JSON.stringify(formData.doctors));
+                formDataObj.append('doctors', JSON.stringify(doctors));
                 
                 // DEBUG: Log FormData contents
                 console.log('📤 FormData being sent:', [...formDataObj.entries()]);

@@ -287,7 +287,9 @@ const sendEmail = async (to, template) => {
 const validateFertilityRegistration = [
   body('centerName').trim().notEmpty().withMessage('Center name is required').isLength({ min: 3 }).withMessage('Center name must be at least 3 characters'),
   body('registrationNumber').trim().notEmpty().withMessage('Registration number is required').isLength({ min: 5 }).withMessage('Invalid registration number'),
-  body('establishmentYear').isInt({ min: 1900, max: 2099 }).withMessage('Invalid establishment year'),
+  body('establishmentYear')
+    .toInt()
+    .isInt({ min: 1900, max: 2099 }).withMessage('Invalid establishment year'),
   body('centerType').trim().notEmpty().withMessage('Center type is required').isIn(['Hospital', 'Clinic', 'Research Center', 'Diagnostic Center']).withMessage('Invalid center type'),
   body('description').trim().notEmpty().withMessage('Description is required').isLength({ min: 10 }).withMessage('Description must be at least 10 characters'),
   body('country').trim().notEmpty().withMessage('Country is required'),
@@ -295,8 +297,8 @@ const validateFertilityRegistration = [
   body('city').trim().notEmpty().withMessage('City is required'),
   body('address').trim().notEmpty().withMessage('Address is required'),
   body('pincode').trim().notEmpty().withMessage('Pincode is required').matches(/^[0-9]{6}$/).withMessage('Pincode must be 6 digits'),
-  body('latitude').optional({ checkFalsy: true }).isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude'),
-  body('longitude').optional({ checkFalsy: true }).isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude'),
+  body('latitude').optional().toFloat().isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude'),
+  body('longitude').optional().toFloat().isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude'),
   body('primaryPhone').trim().notEmpty().withMessage('Primary phone is required').matches(/^[0-9]{10}$/).withMessage('Phone must be 10 digits'),
   body('alternatePhone').optional({ checkFalsy: true }).matches(/^[0-9]{10}$/).withMessage('Alternate phone must be 10 digits'),
   body('email').notEmpty().withMessage('Email is required').isEmail().withMessage('Invalid email format').normalizeEmail(),
@@ -304,16 +306,17 @@ const validateFertilityRegistration = [
   body('emergencyContact').optional({ checkFalsy: true }).matches(/^[0-9]{10}$/).withMessage('Emergency contact must be 10 digits'),
   body('username').trim().notEmpty().withMessage('Username is required').isLength({ min: 3, max: 50 }).withMessage('Username must be 3-50 characters').matches(/^[a-zA-Z0-9_-]+$/).withMessage('Username can only contain letters, numbers, dashes, and underscores'),
   body('password').notEmpty().withMessage('Password is required').isLength({ min: 8 }).withMessage('Password must be at least 8 characters').matches(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/).withMessage('Password must contain uppercase, number, and special character'),
-  body('ivfSuccessRate').optional({ checkFalsy: true }).isFloat({ min: 0, max: 100 }).withMessage('Success rate must be between 0-100'),
-  body('totalCycles').optional({ checkFalsy: true }).isInt({ min: 0 }).withMessage('Total cycles must be positive'),
-  body('yearsExperience').optional({ checkFalsy: true }).isInt({ min: 0 }).withMessage('Years must be positive'),
-  body('consultationFee').optional({ checkFalsy: true }).isFloat({ min: 0 }).withMessage('Consultation fee must be positive'),
-  body('iuiCost').optional({ checkFalsy: true }).isFloat({ min: 0 }).withMessage('IUI cost must be positive')
+  body('ivfSuccessRate').optional().toFloat().isFloat({ min: 0, max: 100 }).withMessage('Success rate must be between 0-100'),
+  body('totalCycles').optional().toInt().isInt({ min: 0 }).withMessage('Total cycles must be positive'),
+  body('yearsExperience').optional().toInt().isInt({ min: 0 }).withMessage('Years must be positive'),
+  body('consultationFee').optional().toFloat().isFloat({ min: 0 }).withMessage('Consultation fee must be positive'),
+  body('iuiCost').optional().toFloat().isFloat({ min: 0 }).withMessage('IUI cost must be positive')
 ];
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log("❌ Validation Errors:", errors.array()); // DEBUG: Log exact validation errors
     return res.status(400).json({
       success: false,
       message: 'Validation failed',
