@@ -55,6 +55,11 @@
                     <span>Appointments</span>
                 </button>
 
+                <button onclick="switchTab('fertility')" id="tab-fertility" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><path d="M12 2a3 3 0 0 1 3 3v1a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M5 8c0 3.5 3.5 5.5 7 9 3.5-3.5 7-5.5 7-9"/><path d="M9 15a1 1 0 0 1 1 1v5h4v-5a1 1 0 1 1 2 0v5a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1z"/></svg>
+                    <span>Fertility Clinics</span>
+                </button>
+
                 <button onclick="switchTab('wallet')" id="tab-wallet" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6"></path><rect x="3" y="7" width="18" height="4" rx="2"></rect></svg>
                     <span>Wallet</span>
@@ -249,6 +254,28 @@
                 <!-- hint for processing -->
                 <p class="text-xs text-slate-400 italic px-2">Payments are final. Process to release doctor share.</p>
             </section>
+
+            <!-- FERTILITY CLINICS VIEW -->
+            <section id="view-fertility" class="view-content hidden space-y-5 md:space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button id="fertility-filter-pending" class="p-4 rounded-xl bg-amber-100 text-amber-800 font-semibold hover:bg-amber-200 transition">Pending (<span id="fertility-count-pending">0</span>)</button>
+                    <button id="fertility-filter-approved" class="p-4 rounded-xl bg-emerald-100 text-emerald-800 font-semibold hover:bg-emerald-200 transition">Approved (<span id="fertility-count-approved">0</span>)</button>
+                    <button id="fertility-filter-rejected" class="p-4 rounded-xl bg-red-100 text-red-800 font-semibold hover:bg-red-200 transition">Rejected (<span id="fertility-count-rejected">0</span>)</button>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl shadow-md border border-slate-200">
+                    <div class="flex flex-wrap gap-3 items-center justify-between mb-3">
+                        <h3 class="text-lg font-bold text-slate-800">Fertility Clinic Registrations</h3>
+                        <button onclick="fetchFertilityCenters(currentFertilityFilter)" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">Refresh</button>
+                    </div>
+                    <div class="grid gap-3" id="fertilityCentersContainer"></div>
+                </div>
+
+                <div id="fertilityCenterDetail" class="bg-white p-4 rounded-2xl shadow-md border border-slate-200 hidden">
+                    <h4 class="text-lg font-semibold text-slate-800 mb-2">Center details</h4>
+                    <div id="fertilityCenterDetailContent" class="space-y-1 text-sm text-slate-600"></div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -281,7 +308,8 @@
                 'opinions': ['Blogs & Opinions', 'Respond to user feedback and publish insights.'],
                 'ambulance': ['Ambulance Approvals', 'Manage and vet healthcare partner applications.'],
                 'appointments': ['Appointments Dashboard', 'View analytics and manage appointment data.'],
-                'wallet': ['Wallet & Settlements', 'Manage admin earnings and doctor payouts.']
+                'wallet': ['Wallet & Settlements', 'Manage admin earnings and doctor payouts.'],
+                'fertility': ['Fertility Clinics', 'Review and manage fertility center registrations.']
             };
 
             document.getElementById('viewTitle').textContent = titles[tabId][0];
@@ -293,6 +321,9 @@
             if (tabId === 'appointments') fetchAppointmentsDashboard();
             if (tabId === 'wallet') {
                 fetchAdminWallet();
+            }
+            if (tabId === 'fertility') {
+                fetchFertilityDashboard();
             }
 
             // close sidebar on mobile (if open)
@@ -708,6 +739,178 @@
             document.getElementById('filterZipcode').value = '';
 
             fetchAppointmentsDashboard();
+        }
+
+        // --- FERTILITY CLINICS MANAGEMENT ---
+        let currentFertilityFilter = 'pending';
+        const adminToken = localStorage.getItem('adminToken');
+
+        async function fetchFertilityDashboard() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility/stats/overview`, {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('fertility-count-pending').textContent = data.data.pending || 0;
+                    document.getElementById('fertility-count-approved').textContent = data.data.approved || 0;
+                    document.getElementById('fertility-count-rejected').textContent = data.data.rejected || 0;
+                }
+                setupFertilityFilterButtons();
+                fetchFertilityCenters('pending');
+            } catch (err) {
+                console.error('Error fetching fertility stats:', err);
+            }
+        }
+
+        function setupFertilityFilterButtons() {
+            document.getElementById('fertility-filter-pending').onclick = () => {
+                currentFertilityFilter = 'pending';
+                fetchFertilityCenters('pending');
+            };
+            document.getElementById('fertility-filter-approved').onclick = () => {
+                currentFertilityFilter = 'approved';
+                fetchFertilityCenters('approved');
+            };
+            document.getElementById('fertility-filter-rejected').onclick = () => {
+                currentFertilityFilter = 'rejected';
+                fetchFertilityCenters('rejected');
+            };
+        }
+
+        async function fetchFertilityCenters(status) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility?status=${status}`, {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    renderFertilityCenters(data.data);
+                } else {
+                    document.getElementById('fertilityCentersContainer').innerHTML = `<div class="text-red-500 p-4">Failed to load centers</div>`;
+                }
+            } catch (err) {
+                console.error('Error fetching fertility centers:', err);
+                document.getElementById('fertilityCentersContainer').innerHTML = `<div class="text-red-500 p-4">Error loading centers</div>`;
+            }
+        }
+
+        function renderFertilityCenters(centers) {
+            const container = document.getElementById('fertilityCentersContainer');
+            if (!centers || centers.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center bg-slate-50 rounded-xl text-slate-500">No ${currentFertilityFilter} centers</div>`;
+                return;
+            }
+
+            container.innerHTML = centers.map(center => {
+                const statusColor = center.status === 'pending' ? 'bg-amber-100 text-amber-800' : 
+                                   center.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800';
+                return `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 hover:shadow-md transition cursor-pointer" onclick="viewFertilityCenterDetail(${center.id})">
+                        <div class="flex justify-between items-start gap-3 mb-2">
+                            <div>
+                                <h3 class="font-bold text-slate-800">${center.center_name}</h3>
+                                <p class="text-xs text-slate-500">${center.registration_number}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusColor}">${center.status}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-600 mb-3">
+                            <div>📧 ${center.email}</div>
+                            <div>📞 ${center.primary_phone}</div>
+                            <div>📍 ${center.city}, ${center.state}</div>
+                            <div>📅 ${new Date(center.created_at).toLocaleDateString()}</div>
+                        </div>
+                        <div class="flex gap-2">
+                            ${center.status === 'pending' ? `
+                                <button onclick="event.stopPropagation(); approveFertilityCenter(${center.id})" class="flex-1 bg-emerald-500 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-emerald-600">✓ Approve</button>
+                                <button onclick="event.stopPropagation(); rejectFertilityCenter(${center.id})" class="flex-1 bg-red-500 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-red-600">✕ Reject</button>
+                            ` : `<span class="text-slate-400 text-xs py-2">Action completed</span>`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function viewFertilityCenterDetail(id) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility/${id}`, {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const center = data.data;
+                    const detailDiv = document.getElementById('fertilityCenterDetail');
+                    const contentDiv = document.getElementById('fertilityCenterDetailContent');
+                    
+                    contentDiv.innerHTML = `
+                        <p><strong>Center:</strong> ${center.center_name}</p>
+                        <p><strong>Registration #:</strong> ${center.registration_number}</p>
+                        <p><strong>Type:</strong> ${center.center_type}</p>
+                        <p><strong>Description:</strong> ${center.description}</p>
+                        <p><strong>Address:</strong> ${center.address}, ${center.city}, ${center.state}, ${center.country} - ${center.pincode}</p>
+                        <p><strong>Email:</strong> ${center.email}</p>
+                        <p><strong>Phone:</strong> ${center.primary_phone} ${center.alternate_phone ? '/ ' + center.alternate_phone : ''}</p>
+                        <p><strong>Website:</strong> ${center.website || '—'}</p>
+                        <p><strong>Experience:</strong> ${center.years_experience || '—'} years</p>
+                        <p><strong>Status:</strong> <span class="px-2 py-1 rounded text-xs font-semibold ${
+                            center.status === 'pending' ? 'bg-amber-100 text-amber-800' :
+                            center.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                        }">${center.status}</span></p>
+                        ${center.status === 'pending' ? `
+                            <div class="mt-3 flex gap-2">
+                                <button onclick="approveFertilityCenter(${center.id})" class="bg-emerald-500 text-white px-4 py-2 rounded text-xs font-semibold hover:bg-emerald-600">✓ Approve</button>
+                                <button onclick="rejectFertilityCenter(${center.id})" class="bg-red-500 text-white px-4 py-2 rounded text-xs font-semibold hover:bg-red-600">✕ Reject</button>
+                            </div>
+                        ` : ''}
+                    `;
+                    detailDiv.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error('Error loading center detail:', err);
+            }
+        }
+
+        async function approveFertilityCenter(id) {
+            if (!confirm('Approve this fertility center?')) return;
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility/${id}/approve`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✓ Center approved and email sent!');
+                    fetchFertilityDashboard();
+                } else {
+                    alert('Error approving center');
+                }
+            } catch (err) {
+                console.error('Error approving center:', err);
+                alert('Error approving center');
+            }
+        }
+
+        async function rejectFertilityCenter(id) {
+            const reason = prompt('Enter rejection reason:');
+            if (!reason) return;
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility/${id}/reject`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reason })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('✓ Center rejected and email sent!');
+                    fetchFertilityDashboard();
+                } else {
+                    alert('Error rejecting center');
+                }
+            } catch (err) {
+                console.error('Error rejecting center:', err);
+                alert('Error rejecting center');
+            }
         }
 
         // --- Init (load appointments as default) ---
