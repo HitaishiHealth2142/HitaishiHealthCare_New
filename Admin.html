@@ -264,6 +264,25 @@
                 </div>
 
                 <div class="bg-white p-4 rounded-2xl shadow-md border border-slate-200">
+                    <div class="flex gap-3 flex-wrap mb-4">
+                        <select id="fertilityStatus" class="border border-slate-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                            <option value="">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+
+                        <select id="fertilityZip" class="border border-slate-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                            <option value="">All Zip</option>
+                        </select>
+
+                        <select id="fertilityArea" class="border border-slate-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                            <option value="">All Area</option>
+                        </select>
+
+                        <button onclick="loadFertility()" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">Apply</button>
+                    </div>
+
                     <div class="flex flex-wrap gap-3 items-center justify-between mb-3">
                         <h3 class="text-lg font-bold text-slate-800">Fertility Clinic Registrations</h3>
                         <button onclick="fetchFertilityCenters(currentFertilityFilter)" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">Refresh</button>
@@ -757,7 +776,8 @@
                     document.getElementById('fertility-count-rejected').textContent = data.data.rejected || 0;
                 }
                 setupFertilityFilterButtons();
-                fetchFertilityCenters('pending');
+                await loadFertilityFilters();
+                loadFertility();
             } catch (err) {
                 console.error('Error fetching fertility stats:', err);
             }
@@ -907,6 +927,103 @@
                 } else {
                     alert('Error rejecting center');
                 }
+            } catch (err) {
+                console.error('Error rejecting center:', err);
+                alert('Error rejecting center');
+            }
+        }
+
+        // --- FERTILITY FILTERS AND LOADING ---
+        async function loadFertilityFilters() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility-filters`, {
+                    headers: { Authorization: `Bearer ${adminToken}` }
+                });
+
+                const data = await res.json();
+
+                document.getElementById("fertilityZip").innerHTML =
+                    '<option value="">All Zip</option>' +
+                    data.zipcodes.map(z => `<option>${z}</option>`).join('');
+
+                document.getElementById("fertilityArea").innerHTML =
+                    '<option value="">All Area</option>' +
+                    data.areas.map(a => `<option>${a}</option>`).join('');
+            } catch (err) {
+                console.error('Error loading filters:', err);
+            }
+        }
+
+        async function loadFertility() {
+            const status = document.getElementById("fertilityStatus").value;
+            const zipcode = document.getElementById("fertilityZip").value;
+            const area = document.getElementById("fertilityArea").value;
+
+            const params = new URLSearchParams({ status, zipcode, area });
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/fertility-centers?${params}`, {
+                    headers: { Authorization: `Bearer ${adminToken}` }
+                });
+
+                const data = await res.json();
+
+                const container = document.getElementById("fertilityCentersContainer");
+
+                container.innerHTML = data.data.map(c => `
+                    <div class="p-4 border rounded-xl bg-white shadow-sm">
+                        <h3 class="font-bold text-slate-800">${c.center_name}</h3>
+                        <p class="text-sm text-slate-600">${c.city} - ${c.pincode}</p>
+                        <p class="text-sm text-slate-600">Status: <span class="px-2 py-1 rounded text-xs font-semibold ${
+                            c.status === 'pending' ? 'bg-amber-100 text-amber-800' :
+                            c.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                        }">${c.status}</span></p>
+
+                        ${c.status === 'pending' ? `
+                            <div class="flex gap-2 mt-3">
+                                <button onclick="approve(${c.id})" class="flex-1 bg-emerald-500 text-white px-3 py-2 rounded text-xs font-semibold hover:bg-emerald-600">✓ Approve</button>
+                                <button onclick="reject(${c.id})" class="flex-1 bg-red-500 text-white px-3 py-2 rounded text-xs font-semibold hover:bg-red-600">✕ Reject</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading centers:', err);
+                document.getElementById("fertilityCentersContainer").innerHTML = '<div class="text-red-500 p-4">Error loading centers</div>';
+            }
+        }
+
+        async function approve(id) {
+            if (!confirm('Approve this fertility center?')) return;
+            
+            try {
+                await fetch(`${API_BASE_URL}/admin/fertility/approve/${id}`, {
+                    method: "PUT",
+                    headers: { Authorization: `Bearer ${adminToken}` }
+                });
+                alert('✓ Center approved and email sent!');
+                loadFertility();
+            } catch (err) {
+                console.error('Error approving center:', err);
+                alert('Error approving center');
+            }
+        }
+
+        async function reject(id) {
+            const reason = prompt("Reason for rejection?");
+            if (!reason) return;
+
+            try {
+                await fetch(`${API_BASE_URL}/admin/fertility/reject/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify({ reason })
+                });
+                alert('✓ Center rejected and email sent!');
+                loadFertility();
             } catch (err) {
                 console.error('Error rejecting center:', err);
                 alert('Error rejecting center');

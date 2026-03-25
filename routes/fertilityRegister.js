@@ -632,6 +632,135 @@ router.get('/fertility/register/:id', async (req, res) => {
   }
 });
 
+// Admin route to list centers with filtering
+router.get('/admin/fertility-centers', verifyAdminToken, async (req, res) => {
+  try {
+    const { status, zipcode, area } = req.query;
+
+    let query = `SELECT * FROM fertility_centers WHERE 1=1`;
+    const params = [];
+
+    if (status) {
+      query += ` AND status = ?`;
+      params.push(status);
+    }
+
+    if (zipcode) {
+      query += ` AND pincode = ?`;
+      params.push(zipcode);
+    }
+
+    if (area) {
+      query += ` AND area LIKE ?`;
+      params.push(`%${area}%`);
+    }
+
+    query += ` ORDER BY created_at DESC`;
+
+    const [rows] = await db.promise().query(query, params);
+
+    res.json({ success: true, data: rows });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch centers" });
+  }
+});
+
+// Admin route to get filter options
+router.get('/admin/fertility-filters', verifyAdminToken, async (req, res) => {
+  try {
+    const [zipcodes] = await db.promise().query(
+      `SELECT DISTINCT pincode FROM fertility_centers`
+    );
+
+    const [areas] = await db.promise().query(
+      `SELECT DISTINCT area FROM fertility_centers`
+    );
+
+    res.json({
+      zipcodes: zipcodes.map(z => z.pincode),
+      areas: areas.map(a => a.area)
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: "Filter load failed" });
+  }
+});
+
+// Admin route to approve center
+router.put('/admin/fertility/approve/:id', verifyAdminToken, async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const [rows] = await db.promise().query(
+      `SELECT * FROM fertility_centers WHERE id = ?`, [id]
+    );
+
+    if (!rows.length) return res.status(404).json({ message: "Not found" });
+
+    const center = rows[0];
+
+    await db.promise().query(
+      `UPDATE fertility_centers SET status='approved' WHERE id=?`, [id]
+    );
+
+    // ✅ send email
+    await sendEmail(
+      center.email,
+      emailTemplates.centerApprovalNotification(
+        center.center_name,
+        center.email,
+        center.registration_number
+      )
+    );
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Approval failed" });
+  }
+});
+
+// Admin route to reject center with reason
+router.put('/admin/fertility/reject/:id', verifyAdminToken, async (req, res) => {
+  try {
+    const { reason } = req.body;
+    const id = req.params.id;
+
+    const [rows] = await db.promise().query(
+      `SELECT * FROM fertility_centers WHERE id = ?`, [id]
+    );
+
+    if (!rows.length) return res.status(404).json({ message: "Not found" });
+
+    const center = rows[0];
+
+    await db.promise().query(
+      `UPDATE fertility_centers SET status='rejected' WHERE id=?`, [id]
+    );
+
+    // ✅ send email
+    await sendEmail(
+      center.email,
+      emailTemplates.centerRejectionNotification(
+        center.center_name,
+        center.email,
+        reason
+      )
+    );
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Rejection failed" });
+  }
+});
+
+
+
 /**
  * GET /api/fertility/check-availability
  * Check if registration number, email, or username is available
