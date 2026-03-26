@@ -97,37 +97,65 @@
         }
         
         .input-group {
-            margin-bottom: 2rem;
             position: relative;
+            margin-bottom: 20px;
         }
         
-        label {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            color: #1f2937;
-            font-size: 0.95rem;
-        }
-        
-        input, select, textarea {
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
             width: 100%;
-            padding: 1rem 1.25rem;
+            padding: 16px 14px 8px 14px;
             border: 2px solid #e5e7eb;
             border-radius: 12px;
-            font-size: 1rem;
+            font-size: 16px;
+            outline: none;
+            background: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #ffffff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
         
-        input:focus, select:focus, textarea:focus {
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 6px;
+            color: #9ca3af;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            display: block;
+            margin-bottom: 0;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label,
+        .input-group textarea:focus + label,
+        .input-group textarea:not(:placeholder-shown) + label,
+        .input-group select:focus + label,
+        .input-group select:not([value=""]) + label {
+            top: -10px;
+            font-size: 12px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(59, 130, 246, 0.15);
             transform: translateY(-2px);
         }
         
-        input.error, select.error, textarea.error {
+        
+        .input-group input.error,
+        .input-group select.error,
+        .input-group textarea.error {
             border-color: #ef4444;
             background: rgba(239, 68, 68, 0.05);
             box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
@@ -141,10 +169,15 @@
             display: flex;
             align-items: center;
             gap: 0.25rem;
+            min-height: 22px;
         }
         
         .error-message:before {
             content: '⚠️';
+        }
+        
+        .error-message:empty:before {
+            content: '';
         }
         
         .success-message {
@@ -518,9 +551,15 @@
                 min-width: 140px;
             }
             
-            input, select, textarea {
+            .input-group input,
+            .input-group select,
+            .input-group textarea {
                 font-size: 16px; /* prevents zoom on iOS */
-                padding: 0.875rem 1rem;
+                padding: 14px 12px 6px 12px;
+            }
+            
+            .input-group label {
+                font-size: 14px;
             }
             
             .btn-base {
@@ -599,40 +638,40 @@
                         </div>
                         
                         <div class="input-group">
+                            <input type="text" id="centerName" name="centerName" placeholder=" " required>
                             <label for="centerName">Center Name *</label>
-                            <input type="text" id="centerName" name="centerName" required>
                             <div class="error-message" id="centerName-error"></div>
                         </div>
 
                         <div class="input-group">
+                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder=" " required>
                             <label for="registrationNumber">Registration Number *</label>
-                            <input type="text" id="registrationNumber" name="registrationNumber" required placeholder="e.g., FC-2024-001">
                             <div class="error-message" id="registrationNumber-error"></div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="number" id="establishmentYear" name="establishmentYear" min="1900" max="2099" placeholder=" " required>
                                 <label for="establishmentYear">Establishment Year *</label>
-                                <input type="number" id="establishmentYear" name="establishmentYear" min="1900" max="2099" required>
                                 <div class="error-message" id="establishmentYear-error"></div>
                             </div>
 
                             <div class="input-group">
-                                <label for="centerType">Center Type *</label>
-                                <select id="centerType" name="centerType" required>
-                                    <option value="">Select Type</option>
+                                <select id="centerType" name="centerType" placeholder=" " required>
+                                    <option value=""></option>
                                     <option value="Hospital">Hospital</option>
                                     <option value="Clinic">Clinic</option>
                                     <option value="Research Center">Research Center</option>
                                     <option value="Diagnostic Center">Diagnostic Center</option>
                                 </select>
+                                <label for="centerType">Center Type *</label>
                                 <div class="error-message" id="centerType-error"></div>
                             </div>
                         </div>
 
                         <div class="input-group">
+                            <textarea id="description" name="description" rows="4" placeholder=" " required minlength="10"></textarea>
                             <label for="description">Description *</label>
-                            <textarea id="description" name="description" rows="4" placeholder="Brief description of your center (minimum 10 characters)..." required minlength="10"></textarea>
                             <div class="flex justify-between items-center mt-1">
                                 <div class="error-message" id="description-error"></div>
                                 <div class="text-sm text-gray-500" id="description-counter">0/10 characters</div>
@@ -640,8 +679,8 @@
                         </div>
 
                         <div class="input-group">
+                            <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png" placeholder=" ">
                             <label for="logo">Logo (JPG/PNG, max 2MB)</label>
-                            <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png">
                             <div class="file-preview" id="logo-preview"></div>
                             <div class="error-message" id="logo-error"></div>
                         </div>
@@ -656,53 +695,55 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="text" id="country" name="country" placeholder=" " required value="India">
                                 <label for="country">Country *</label>
-                                <input type="text" id="country" name="country" required value="India">
                                 <div class="error-message" id="country-error"></div>
                             </div>
 
                             <div class="input-group">
+                                <input type="text" id="state" name="state" placeholder=" " required>
                                 <label for="state">State *</label>
-                                <input type="text" id="state" name="state" required>
                                 <div class="error-message" id="state-error"></div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="text" id="city" name="city" placeholder=" " required>
                                 <label for="city">City *</label>
-                                <input type="text" id="city" name="city" required>
                                 <div class="error-message" id="city-error"></div>
                             </div>
 
                             <div class="input-group">
+                                <input type="text" id="area" name="area" placeholder=" ">
                                 <label for="area">Area/Locality</label>
-                                <input type="text" id="area" name="area">
                                 <div class="error-message" id="area-error"></div>
                             </div>
                         </div>
 
                         <div class="input-group">
+                            <textarea id="address" name="address" rows="3" placeholder=" " required></textarea>
                             <label for="address">Full Address *</label>
-                            <textarea id="address" name="address" rows="3" required></textarea>
                             <div class="error-message" id="address-error"></div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="text" id="pincode" name="pincode" placeholder=" " required pattern="[0-9]{6}" maxlength="6">
                                 <label for="pincode">Pincode *</label>
-                            <input type="text" id="pincode" name="pincode" required pattern="[0-9]{6}" maxlength="6" placeholder="Enter 6-digit pincode">
+                                <div class="error-message" id="pincode-error"></div>
+                            </div>
 
                             <div class="input-group">
+                                <input type="number" id="latitude" name="latitude" step="0.00000001" placeholder=" ">
                                 <label for="latitude">Latitude (GPS)</label>
-                                <input type="number" id="latitude" name="latitude" step="0.00000001">
                                 <div class="error-message" id="latitude-error"></div>
                             </div>
                         </div>
 
                         <div class="input-group">
+                            <input type="number" id="longitude" name="longitude" step="0.00000001" placeholder=" ">
                             <label for="longitude">Longitude (GPS)</label>
-                            <input type="number" id="longitude" name="longitude" step="0.00000001">
                             <div class="error-message" id="longitude-error"></div>
                         </div>
                     </section>
@@ -716,50 +757,50 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="tel" id="primaryPhone" name="primaryPhone" placeholder=" " required pattern="[0-9]{10}">
                                 <label for="primaryPhone">Primary Phone *</label>
-                                <input type="tel" id="primaryPhone" name="primaryPhone" required pattern="[0-9]{10}">
                                 <div class="error-message" id="primaryPhone-error"></div>
                             </div>
 
                             <div class="input-group">
+                                <input type="tel" id="alternatePhone" name="alternatePhone" placeholder=" " pattern="[0-9]{10}">
                                 <label for="alternatePhone">Alternate Phone</label>
-                                <input type="tel" id="alternatePhone" name="alternatePhone" pattern="[0-9]{10}">
                                 <div class="error-message" id="alternatePhone-error"></div>
                             </div>
                         </div>
 
                         <div class="input-group">
+                            <input type="email" id="email" name="email" placeholder=" " required>
                             <label for="email">Email Address *</label>
-                            <input type="email" id="email" name="email" required>
                             <div class="error-message" id="email-error"></div>
                         </div>
 
                         <div class="input-group">
+                            <input type="url" id="website" name="website" placeholder=" ">
                             <label for="website">Website URL</label>
-                            <input type="url" id="website" name="website" placeholder="https://example.com">
                             <div class="error-message" id="website-error"></div>
                         </div>
 
                         <div class="input-group">
+                            <input type="tel" id="emergencyContact" name="emergencyContact" placeholder=" " pattern="[0-9]{10}">
                             <label for="emergencyContact">Emergency Contact</label>
-                            <input type="tel" id="emergencyContact" name="emergencyContact" pattern="[0-9]{10}">
                             <div class="error-message" id="emergencyContact-error"></div>
                         </div>
 
                         <div class="input-group">
-                            <label for="languages">Supported Languages</label>
+                            <label class="block text-sm font-semibold text-gray-900 mb-4">Supported Languages</label>
                             <div class="checkbox-group">
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="lang-english" name="languages" value="English">
-                                    <label for="lang-english" class="mb-0">English</label>
+                                    <label for="lang-english" class="mb-0" style="position: static; transform: none; top: auto; left: auto; padding: 0;">English</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="lang-hindi" name="languages" value="Hindi">
-                                    <label for="lang-hindi" class="mb-0">Hindi</label>
+                                    <label for="lang-hindi" class="mb-0" style="position: static; transform: none; top: auto; left: auto; padding: 0;">Hindi</label>
                                 </div>
                                 <div class="checkbox-item">
                                     <input type="checkbox" id="lang-regional" name="languages" value="Regional">
-                                    <label for="lang-regional" class="mb-0">Regional</label>
+                                    <label for="lang-regional" class="mb-0" style="position: static; transform: none; top: auto; left: auto; padding: 0;">Regional</label>
                                 </div>
                             </div>
                         </div>
@@ -843,59 +884,62 @@
 
                     <!-- STEP 6: Success Metrics & Pricing -->
                     <section class="form-section" data-step="6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Success Rates & Pricing</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">📊 Success Rates & Pricing</h2>
+                            <p class="text-gray-600">Share your center's metrics</p>
+                        </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="number" id="ivfSuccessRate" name="ivfSuccessRate" min="0" max="100" step="0.1" placeholder=" ">
                                 <label for="ivfSuccessRate">IVF Success Rate (%)</label>
-                                <input type="number" id="ivfSuccessRate" name="ivfSuccessRate" min="0" max="100" step="0.1">
                                 <div class="error-message" id="ivfSuccessRate-error"></div>
                             </div>
 
                             <div class="input-group">
+                                <input type="number" id="totalCycles" name="totalCycles" min="0" placeholder=" ">
                                 <label for="totalCycles">Total Cycles Completed</label>
-                                <input type="number" id="totalCycles" name="totalCycles" min="0">
                                 <div class="error-message" id="totalCycles-error"></div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="number" id="yearsExperience" name="yearsExperience" min="0" placeholder=" ">
                                 <label for="yearsExperience">Years of Experience</label>
-                                <input type="number" id="yearsExperience" name="yearsExperience" min="0">
                                 <div class="error-message" id="yearsExperience-error"></div>
                             </div>
 
                             <div class="input-group">
+                                <input type="number" id="consultationFee" name="consultationFee" min="0" step="100" placeholder=" ">
                                 <label for="consultationFee">Consultation Fee (₹)</label>
-                                <input type="number" id="consultationFee" name="consultationFee" min="0" step="100">
                                 <div class="error-message" id="consultationFee-error"></div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div class="input-group">
+                                <input type="text" id="ivfCostRange" name="ivfCostRange" placeholder=" ">
                                 <label for="ivfCostRange">IVF Cost Range (₹)</label>
-                                <input type="text" id="ivfCostRange" name="ivfCostRange" placeholder="e.g., 100000-300000">
                                 <div class="error-message" id="ivfCostRange-error"></div>
                             </div>
 
                             <div class="input-group">
+                                <input type="number" id="iuiCost" name="iuiCost" min="0" step="100" placeholder=" ">
                                 <label for="iuiCost">IUI Cost (₹)</label>
-                                <input type="number" id="iuiCost" name="iuiCost" min="0" step="100">
                                 <div class="error-message" id="iuiCost-error"></div>
                             </div>
                         </div>
 
                         <div class="input-group">
+                            <textarea id="certifications" name="certifications" rows="3" placeholder=" "></textarea>
                             <label for="certifications">Professional Certifications</label>
-                            <textarea id="certifications" name="certifications" rows="3" placeholder="e.g., ISO 9001, ISAR certified, etc."></textarea>
                             <div class="error-message" id="certifications-error"></div>
                         </div>
 
                         <div class="input-group">
+                            <textarea id="awards" name="awards" rows="3" placeholder=" "></textarea>
                             <label for="awards">Awards & Recognition</label>
-                            <textarea id="awards" name="awards" rows="3" placeholder="Awards received"></textarea>
                             <div class="error-message" id="awards-error"></div>
                         </div>
                     </section>
@@ -951,39 +995,42 @@
 
                     <!-- STEP 8: Account Setup -->
                     <section class="form-section" data-step="8">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Account Setup</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">🔐 Account Setup</h2>
+                            <p class="text-gray-600">Create your login credentials</p>
+                        </div>
                         
                         <div class="input-group">
+                            <input type="text" id="username" name="username" placeholder=" " required>
                             <label for="username">Username *</label>
-                            <input type="text" id="username" name="username" required placeholder="Choose your username">
                             <div class="error-message" id="username-error"></div>
                         </div>
 
                         <div class="input-group">
+                            <input type="password" id="password" name="password" placeholder=" " required>
                             <label for="password">Password *</label>
-                            <input type="password" id="password" name="password" required placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special char">
                             <div class="error-message" id="password-error"></div>
                             <div id="passwordStrength" class="mt-2"></div>
                         </div>
 
                         <div class="input-group">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder=" " required>
                             <label for="confirmPassword">Confirm Password *</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" required>
                             <div class="error-message" id="confirmPassword-error"></div>
                         </div>
 
-                        <div class="input-group">
-                            <label class="flex items-center gap-2">
-                                <input type="checkbox" id="agreeTerms" name="agreeTerms" required class="w-5 h-5">
-                                <span>I agree to the Terms & Conditions *</span>
+                        <div class="input-group mb-6">
+                            <label class="flex items-center gap-3 p-3 border-2 border-e5e7eb rounded-lg cursor-pointer hover:bg-blue-50 transition-all">
+                                <input type="checkbox" id="agreeTerms" name="agreeTerms" required class="w-5 h-5 accent-blue-600">
+                                <span class="text-gray-700 font-medium">I agree to the Terms & Conditions *</span>
                             </label>
                             <div class="error-message" id="agreeTerms-error"></div>
                         </div>
 
                         <div class="input-group">
-                            <label class="flex items-center gap-2">
-                                <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required class="w-5 h-5">
-                                <span>I agree to the Privacy Policy *</span>
+                            <label class="flex items-center gap-3 p-3 border-2 border-e5e7eb rounded-lg cursor-pointer hover:bg-blue-50 transition-all">
+                                <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required class="w-5 h-5 accent-blue-600">
+                                <span class="text-gray-700 font-medium">I agree to the Privacy Policy *</span>
                             </label>
                             <div class="error-message" id="agreePrivacy-error"></div>
                         </div>
@@ -991,7 +1038,10 @@
 
                     <!-- STEP 9: Review & Submit -->
                     <section class="form-section" data-step="9">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Review & Submit</h2>
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">📋 Review & Submit</h2>
+                            <p class="text-gray-600">Please review your information before submission</p>
+                        </div>
                         <div id="reviewContainer" class="space-y-6"></div>
                     </section>
 
@@ -1101,8 +1151,8 @@
             const errorDiv = document.getElementById(errorId);
             const files = input.files;
 
-            errorDiv.innerText = '';
-            preview.innerHTML = '';
+            if (errorDiv) errorDiv.innerText = '';
+            if (preview) preview.innerHTML = '';
 
             if (files.length === 0) return;
 
@@ -1110,12 +1160,12 @@
                 // Validation
                 const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
                 if (!validTypes.includes(file.type)) {
-                    errorDiv.innerText = 'Only JPG, PNG, and PDF files are allowed';
+                    if (errorDiv) errorDiv.innerText = 'Only JPG, PNG, and PDF files are allowed';
                     return;
                 }
 
                 if (file.size > 2 * 1024 * 1024) {
-                    errorDiv.innerText = 'File size must not exceed 2MB';
+                    if (errorDiv) errorDiv.innerText = 'File size must not exceed 2MB';
                     return;
                 }
 
@@ -1144,7 +1194,7 @@
                 });
                 fileItem.appendChild(removeBtn);
 
-                preview.appendChild(fileItem);
+                if (preview) preview.appendChild(fileItem);
             }
 
             formData[input.name] = files;
@@ -1331,14 +1381,16 @@
             if (step === 8) {
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
+                const confirmPasswordError = document.getElementById('confirmPassword-error');
+                const passwordError = document.getElementById('password-error');
 
                 if (password !== confirmPassword) {
-                    document.getElementById('confirmPassword-error').innerText = 'Passwords do not match';
+                    if (confirmPasswordError) confirmPasswordError.innerText = 'Passwords do not match';
                     return false;
                 }
 
                 if (!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(password) || password.length < 8) {
-                    document.getElementById('password-error').innerText = 'Password must be 8+ chars with uppercase, number, and special char';
+                    if (passwordError) passwordError.innerText = 'Password must be 8+ chars with uppercase, number, and special char';
                     return false;
                 }
             }
@@ -1346,42 +1398,52 @@
             // Validate required fields
             for (let field of requiredFields[step]) {
                 const element = document.getElementById(field);
+                const errorElement = document.getElementById(field + '-error');
+                
                 if (!element || !element.value) {
                     if (element) {
                         element.classList.add('error');
-                        document.getElementById(field + '-error').innerText = 'This field is required';
+                        if (errorElement) {
+                            errorElement.innerText = 'This field is required';
+                        }
                     }
                     return false;
                 }
                 element.classList.remove('error');
-                document.getElementById(field + '-error').innerText = '';
+                if (errorElement) {
+                    errorElement.innerText = '';
+                }
             }
 
             // Specific validations
             if (step === 3) {
                 const phone = document.getElementById('primaryPhone').value;
+                const phoneError = document.getElementById('primaryPhone-error');
                 if (phone && !/^[0-9]{10}$/.test(phone)) {
-                    document.getElementById('primaryPhone-error').innerText = 'Phone must be 10 digits';
+                    if (phoneError) phoneError.innerText = 'Phone must be 10 digits';
                     return false;
                 }
 
                 const email = document.getElementById('email').value;
+                const emailError = document.getElementById('email-error');
                 if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    document.getElementById('email-error').innerText = 'Invalid email format';
+                    if (emailError) emailError.innerText = 'Invalid email format';
                     return false;
                 }
             }
 
             if (step === 1) {
                 const description = document.getElementById('description').value;
+                const descError = document.getElementById('description-error');
                 if (description && description.length < 10) {
-                    document.getElementById('description-error').innerText = 'Description must be at least 10 characters';
+                    if (descError) descError.innerText = 'Description must be at least 10 characters';
                     return false;
                 }
 
                 const pincode = document.getElementById('pincode').value;
+                const pincodeError = document.getElementById('pincode-error');
                 if (pincode && !/^[0-9]{6}$/.test(pincode)) {
-                    document.getElementById('pincode-error').innerText = 'Pincode must be exactly 6 digits';
+                    if (pincodeError) pincodeError.innerText = 'Pincode must be exactly 6 digits';
                     return false;
                 }
             }
