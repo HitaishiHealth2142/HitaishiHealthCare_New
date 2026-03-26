@@ -128,7 +128,7 @@ initializeDatabase();
    ZOHO SMTP CONFIGURATION
 ===================== */
 const transporter = nodemailer.createTransport({
-  host: 'smtp.zoho.com',
+  host: 'smtp.zoho.in',
   port: 465,
   secure: true,
   auth: {
