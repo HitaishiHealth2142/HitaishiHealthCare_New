@@ -60,6 +60,11 @@
                     <span>Fertility Clinics</span>
                 </button>
 
+                <button onclick="switchTab('surrogacy')" id="tab-surrogacy" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"></path><path d="M9.5 11a1.5 1.5 0 1 1 3 0v5"></path><path d="M12 14h.01"/></svg>
+                    <span>Surrogacy</span>
+                </button>
+
                 <button onclick="switchTab('wallet')" id="tab-wallet" class="sidebar-item flex items-center gap-3 w-full p-3.5 rounded-xl hover:bg-slate-700/80 hover:text-white group font-medium text-slate-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-blue-300"><path d="M21 12v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6"></path><rect x="3" y="7" width="18" height="4" rx="2"></rect></svg>
                     <span>Wallet</span>
@@ -295,6 +300,18 @@
                     <div id="fertilityCenterDetailContent" class="space-y-1 text-sm text-slate-600"></div>
                 </div>
             </section>
+
+            <section id="view-surrogacy" class="view-content hidden space-y-5">
+                <div class="bg-white p-4 rounded-2xl shadow-md border border-slate-200">
+                    <div class="flex flex-wrap gap-3 mb-4">
+                        <button id="surrogacyTabParents" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition" onclick="renderSurrogacyView('parents')">Parents</button>
+                        <button id="surrogacyTabSurrogates" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition" onclick="renderSurrogacyView('surrogates')">Surrogate Mothers</button>
+                    </div>
+
+                    <div id="surrogacyStatus" class="text-sm text-slate-500 mb-3">Select a tab to load data.</div>
+                    <div class="wallet-scroll" id="surrogacyTableWrapper"></div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -328,7 +345,8 @@
                 'ambulance': ['Ambulance Approvals', 'Manage and vet healthcare partner applications.'],
                 'appointments': ['Appointments Dashboard', 'View analytics and manage appointment data.'],
                 'wallet': ['Wallet & Settlements', 'Manage admin earnings and doctor payouts.'],
-                'fertility': ['Fertility Clinics', 'Review and manage fertility center registrations.']
+                'fertility': ['Fertility Clinics', 'Review and manage fertility center registrations.'],
+                'surrogacy': ['Surrogacy Interest', 'Monitor intended parents and surrogate mothers submissions.']
             };
 
             document.getElementById('viewTitle').textContent = titles[tabId][0];
@@ -343,6 +361,9 @@
             }
             if (tabId === 'fertility') {
                 fetchFertilityDashboard();
+            }
+            if (tabId === 'surrogacy') {
+                renderSurrogacyView('parents');
             }
 
             // close sidebar on mobile (if open)
@@ -809,6 +830,145 @@
                 document.getElementById('fertilityCentersContainer').innerHTML = `<div class="text-red-500 p-4">Error loading centers</div>`;
             }
         }
+
+        // --- Surrogacy Panel (new) ---
+        async function renderSurrogacyView(type) {
+            const parentsBtn = document.getElementById('surrogacyTabParents');
+            const surrogatesBtn = document.getElementById('surrogacyTabSurrogates');
+            const statusNode = document.getElementById('surrogacyStatus');
+            const wrapper = document.getElementById('surrogacyTableWrapper');
+
+            parentsBtn.classList.toggle('bg-blue-600', type === 'parents');
+            parentsBtn.classList.toggle('text-white', type === 'parents');
+            parentsBtn.classList.toggle('bg-slate-100', type !== 'parents');
+            parentsBtn.classList.toggle('text-slate-700', type !== 'parents');
+
+            surrogatesBtn.classList.toggle('bg-blue-600', type === 'surrogates');
+            surrogatesBtn.classList.toggle('text-white', type === 'surrogates');
+            surrogatesBtn.classList.toggle('bg-slate-100', type !== 'surrogates');
+            surrogatesBtn.classList.toggle('text-slate-700', type !== 'surrogates');
+
+            wrapper.innerHTML = `<div class="p-6 text-center text-slate-500">Loading ${type === 'parents' ? 'parents' : 'surrogates'}...</div>`;
+            statusNode.textContent = 'Fetching data...';
+
+            try {
+                if (type === 'parents') {
+                    await loadSurrogacyParents();
+                } else {
+                    await loadSurrogacyMothers();
+                }
+                statusNode.textContent = `Showing ${type === 'parents' ? 'Intended Parents' : 'Surrogate Mothers'}`;
+            } catch (err) {
+                console.error('Surrogacy load error:', err);
+                wrapper.innerHTML = `<div class="p-6 text-center text-red-500">Failed to load data</div>`;
+                statusNode.textContent = 'Error fetching data.';
+            }
+        }
+
+        async function loadSurrogacyParents() {
+            const wrapper = document.getElementById('surrogacyTableWrapper');
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/parents`, { headers: { 'Authorization': `Bearer ${adminToken}` } });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message || 'Failed to fetch parents');
+                renderParentsTable(data.parents || []);
+            } catch (err) {
+                wrapper.innerHTML = `<div class="p-6 text-center text-red-500">${err.message}</div>`;
+                throw err;
+            }
+        }
+
+        async function loadSurrogacyMothers() {
+            const wrapper = document.getElementById('surrogacyTableWrapper');
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/surrogates`, { headers: { 'Authorization': `Bearer ${adminToken}` } });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message || 'Failed to fetch surrogates');
+                renderSurrogatesTable(data.surrogates || []);
+            } catch (err) {
+                wrapper.innerHTML = `<div class="p-6 text-center text-red-500">${err.message}</div>`;
+                throw err;
+            }
+        }
+
+        function renderParentsTable(rows) {
+            const wrapper = document.getElementById('surrogacyTableWrapper');
+            if (!rows.length) {
+                wrapper.innerHTML = `<div class="p-6 text-center text-slate-500">No intended parent interest records yet.</div>`;
+                return;
+            }
+            const rowsHTML = rows.map(r => `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-3 py-3 text-left text-sm font-medium text-slate-700">${r.full_name}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.email}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.phone}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.country}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.marital_status}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.budget || '—'}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${new Date(r.created_at).toLocaleString()}</td>
+                </tr>`).join('');
+
+            wrapper.innerHTML = `
+                <div class="wallet-scroll">
+                    <table class="min-w-full text-xs md:text-sm border-collapse">
+                        <thead class="bg-slate-100 text-slate-600 uppercase tracking-wide text-[11px] md:text-xs">
+                            <tr>
+                                <th class="px-3 py-3 text-left">Name</th>
+                                <th class="px-3 py-3 text-left">Email</th>
+                                <th class="px-3 py-3 text-left">Phone</th>
+                                <th class="px-3 py-3 text-left">Country</th>
+                                <th class="px-3 py-3 text-left">Marital Status</th>
+                                <th class="px-3 py-3 text-left">Budget</th>
+                                <th class="px-3 py-3 text-left">Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">${rowsHTML}</tbody>
+                    </table>
+                </div>`;
+        }
+
+        function renderSurrogatesTable(rows) {
+            const wrapper = document.getElementById('surrogacyTableWrapper');
+            if (!rows.length) {
+                wrapper.innerHTML = `<div class="p-6 text-center text-slate-500">No surrogate records yet.</div>`;
+                return;
+            }
+            const rowsHTML = rows.map(r => `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-3 py-3 text-left text-sm font-medium text-slate-700">${r.full_name}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.age}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.email}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.phone}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.country}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${r.children_count}</td>
+                    <td class="px-3 py-3 text-left text-sm text-slate-600">${new Date(r.created_at).toLocaleString()}</td>
+                </tr>`).join('');
+
+            wrapper.innerHTML = `
+                <div class="wallet-scroll">
+                    <table class="min-w-full text-xs md:text-sm border-collapse">
+                        <thead class="bg-slate-100 text-slate-600 uppercase tracking-wide text-[11px] md:text-xs">
+                            <tr>
+                                <th class="px-3 py-3 text-left">Name</th>
+                                <th class="px-3 py-3 text-left">Age</th>
+                                <th class="px-3 py-3 text-left">Email</th>
+                                <th class="px-3 py-3 text-left">Phone</th>
+                                <th class="px-3 py-3 text-left">Country</th>
+                                <th class="px-3 py-3 text-left">Children Count</th>
+                                <th class="px-3 py-3 text-left">Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">${rowsHTML}</tbody>
+                    </table>
+                </div>`;
+        }
+
+        function setupSurrogacyDefault() {
+            if (currentTab === 'surrogacy') renderSurrogacyView('parents');
+        }
+
+        // call default in case current tab is already surrogacy
+        setupSurrogacyDefault();
 
         function renderFertilityCenters(centers) {
             const container = document.getElementById('fertilityCentersContainer');

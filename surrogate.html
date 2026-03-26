@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Surrogate Mothers Interest - Hitaishi Healthcare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #f8fafc; font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .float-input { position: relative; }
+    .float-input input,
+    .float-input select,
+    .float-input textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; background: #fff; padding: 1.4rem 0.75rem 0.6rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .float-input input:focus,
+    .float-input select:focus,
+    .float-input textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
+    .float-input label { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #64748b; pointer-events: none; transition: transform 0.2s, font-size 0.2s, color 0.2s; background: white; padding: 0 0.2rem; }
+    .float-input input:not(:placeholder-shown) + label,
+    .float-input select:not([value=""]) + label,
+    .float-input textarea:not(:placeholder-shown) + label,
+    .float-input input:focus + label,
+    .float-input select:focus + label,
+    .float-input textarea:focus + label { top: 0.3rem; transform: translateY(-0.05rem); font-size: 0.75rem; color: #2563eb; }
+    .error-message { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; }
+  </style>
+</head>
+<body>
+  <main class="min-h-screen p-4 sm:p-6 lg:p-8">
+    <section class="max-w-5xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+      <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">Surrogacy Interest - Surrogate Mothers</h1>
+      <p class="text-slate-500 mb-6">Collecting interest information only. No matching or contact sharing is handled here.</p>
+
+      <form id="surrogateForm" class="grid gap-5 md:grid-cols-2" novalidate>
+        <div class="float-input">
+          <input id="full_name" name="full_name" type="text" placeholder=" " required />
+          <label for="full_name">Full Name *</label>
+          <p id="error_full_name" class="error-message"></p>
+        </div>
+
+        <div class="float-input">
+          <input id="age" name="age" type="number" placeholder=" " min="18" max="50" required />
+          <label for="age">Age *</label>
+          <p id="error_age" class="error-message"></p>
+        </div>
+
+        <div class="float-input">
+          <input id="email" name="email" type="email" placeholder=" " required />
+          <label for="email">Email *</label>
+          <p id="error_email" class="error-message"></p>
+        </div>
+
+        <div class="float-input">
+          <input id="phone" name="phone" type="tel" placeholder=" " required />
+          <label for="phone">Phone *</label>
+          <p id="error_phone" class="error-message"></p>
+        </div>
+
+        <div class="float-input">
+          <select id="country" name="country" required>
+            <option value="" hidden></option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+          </select>
+          <label for="country">Country *</label>
+          <p id="error_country" class="error-message"></p>
+        </div>
+
+        <div class="float-input md:col-span-2">
+          <textarea id="health_condition" name="health_condition" rows="3" placeholder=" "></textarea>
+          <label for="health_condition">Health Condition (optional)</label>
+          <p id="error_health_condition" class="error-message"></p>
+        </div>
+
+        <div>
+        <p class="text-sm text-slate-600 mb-2">Previous Pregnancy *</p>
+        <div class="flex gap-6">
+            <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="previous_pregnancy" value="yes" class="accent-blue-600">
+            Yes
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="previous_pregnancy" value="no" class="accent-blue-600">
+            No
+            </label>
+        </div>
+        <p id="error_previous_pregnancy" class="error-message"></p>
+        </div>
+
+        <div class="float-input">
+          <input id="children_count" name="children_count" type="number" placeholder=" " min="0" value="0" />
+          <label for="children_count">Children Count</label>
+          <p id="error_children_count" class="error-message"></p>
+        </div>
+
+        <div class="float-input md:col-span-2">
+          <textarea id="lifestyle" name="lifestyle" rows="3" placeholder=" "></textarea>
+          <label for="lifestyle">Lifestyle (optional)</label>
+          <p id="error_lifestyle" class="error-message"></p>
+        </div>
+
+        <div class="md:col-span-2 flex items-start gap-3">
+          <input id="agreement" name="agreement" type="checkbox" class="mt-1 w-4 h-4 accent-blue-600" />
+          <div>
+            <label for="agreement" class="text-slate-700">I agree to terms for interest submission *</label>
+            <p id="error_agreement" class="error-message"></p>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 flex flex-col gap-3">
+          <button id="submitBtn"
+            class="px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-semibold shadow-md hover:shadow-lg active:scale-95">
+            Submit Interest
+          </button>
+          <p id="statusMessage" class="text-sm"></p>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = '';
+    const form = document.getElementById('surrogateForm');
+    const statusMessage = document.getElementById('statusMessage');
+
+    const setError = (field, msg) => {
+      const errEl = document.getElementById('error_' + field);
+      if (errEl) errEl.textContent = msg || '';
+    };
+    const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    const validatePhone = (value) => /^[0-9+\-() ]{7,20}$/.test(value);
+
+    const getApiUrl = (path) => {
+      if (API_BASE && API_BASE.length) return `${API_BASE.replace(/\/$/, '')}${path}`;
+      if (window.location.protocol === 'file:') return `http://localhost:5001${path}`;
+      return path;
+    };
+
+    const logStatus = (text, isError = false) => {
+      console.log('[SurrogateForm]', text);
+      statusMessage.textContent = text;
+      statusMessage.className = isError ? 'text-red-600' : 'text-green-600';
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusMessage.textContent = '';
+      ['full_name', 'age', 'email', 'phone', 'country', 'previous_pregnancy', 'agreement'].forEach(f => setError(f, ''));
+
+      const formData = new FormData(form);
+      const body = Object.fromEntries(formData.entries());
+      body.children_count = parseInt(body.children_count, 10) || 0;
+      body.agreement = form.agreement.checked;
+
+      let hasError = false;
+      if (!body.full_name) { setError('full_name', 'Required'); hasError = true; }
+      if (!body.age || body.age < 18 || body.age > 50) { setError('age', 'Age 18-50 required'); hasError = true; }
+      if (!body.email || !validateEmail(body.email)) { setError('email', 'Valid email required'); hasError = true; }
+      if (!body.phone || !validatePhone(body.phone)) { setError('phone', 'Valid phone required'); hasError = true; }
+      if (!body.country) { setError('country', 'Required'); hasError = true; }
+      if (!body.previous_pregnancy) { setError('previous_pregnancy', 'Select yes or no'); hasError = true; }
+      if (!body.agreement) { setError('agreement', 'Consent required'); hasError = true; }
+
+      if (hasError) return;
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      try {
+        const targetUrl = getApiUrl('/api/surrogate/register');
+        console.log('[SurrogateForm] POST', targetUrl, body);
+        const response = await fetch(targetUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        console.log('[SurrogateForm] response', response.status, response.statusText);
+
+        if (!response.ok) {
+          const error = await response.json().catch(() => ({}));
+          logStatus(error.message || 'Submission failed. Please try again.', true);
+          return;
+        }
+
+        form.reset();
+        logStatus('Thank you! Your interest is submitted.');
+      } catch (err) {
+        console.error('[SurrogateForm] Network error', err);
+        logStatus('Network error. Please try again later.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Interest';
+      }
+    });
+  </script>
+</body>
+</html>
