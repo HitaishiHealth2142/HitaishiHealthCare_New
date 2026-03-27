@@ -925,8 +925,16 @@
                 </td>
 
                 <td class="px-3 py-3">
-                    <button onclick="updateSurrogacyStatus('parents', ${r.id}, 'approved')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
-                    <button onclick="updateSurrogacyStatus('parents', ${r.id}, 'rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Reject</button>
+                    ${
+                        r.status === 'pending' ? `
+                            <button onclick="updateSurrogacyStatus('parents', ${r.id}, 'approved')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
+                            <button onclick="updateSurrogacyStatus('parents', ${r.id}, 'rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Reject</button>
+                        ` : r.status === 'approved' ? `
+                            <button onclick="updateSurrogacyStatus('parents', ${r.id}, 'rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Reject</button>
+                        ` : `
+                            <button onclick="updateSurrogacyStatus('parents', ${r.id}, 'approved')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
+                        `
+                    }
                 </td>
             </tr>
             `).join('');
@@ -968,7 +976,7 @@
                 <td>${r.email}</td>
                 <td>${r.phone}</td>
                 <td>${r.country || '-'}</td>
-                <td>${r.children_count || '-'}</td>
+                <td>${r.children_count ?? '-'}</td>
                 <td>${new Date(r.created_at).toLocaleDateString()}</td>
 
                 <td>
@@ -987,8 +995,16 @@
                 </td>
 
                 <td>
-                    <button onclick="updateSurrogacyStatus('surrogates', ${r.id}, 'approved')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
-                    <button onclick="updateSurrogacyStatus('surrogates', ${r.id}, 'rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Reject</button>
+                    ${
+                        r.status === 'pending' ? `
+                            <button onclick="updateSurrogacyStatus('surrogates', ${r.id}, 'approved')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
+                            <button onclick="updateSurrogacyStatus('surrogates', ${r.id}, 'rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Reject</button>
+                        ` : r.status === 'approved' ? `
+                            <button onclick="updateSurrogacyStatus('surrogates', ${r.id}, 'rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Reject</button>
+                        ` : `
+                            <button onclick="updateSurrogacyStatus('surrogates', ${r.id}, 'approved')" class="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
+                        `
+                    }
                 </td>
             </tr>
             `).join('');
