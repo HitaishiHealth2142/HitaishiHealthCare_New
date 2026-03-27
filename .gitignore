@@ -1,5 +1,5 @@
 # Local Netlify folder
 .netlify
-
+uploads
 .vercel
 .env

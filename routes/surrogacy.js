@@ -128,17 +128,17 @@ router.post('/surrogate/register', upload.single('medical_report'), (req, res) =
 // =====================
 // ADMIN GET DATA
 // =====================
-router.get('/admin/parents', (req, res) => {
-  db.query("SELECT * FROM parents_surrogacy ORDER BY created_at DESC", (err, result) => {
-    if (err) return res.status(500).json(err);
-    res.json(result);
-  });
-});
-
 router.get('/admin/surrogates', (req, res) => {
   db.query("SELECT * FROM surrogates ORDER BY created_at DESC", (err, result) => {
     if (err) return res.status(500).json(err);
-    res.json(result);
+    res.json({ surrogates: result }); // ✅ FIXED
+  });
+});
+
+router.get('/admin/parents', (req, res) => {
+  db.query("SELECT * FROM parents_surrogacy ORDER BY created_at DESC", (err, result) => {
+    if (err) return res.status(500).json(err);
+    res.json({ parents: result }); // ✅ FIXED
   });
 });
 
