@@ -154,10 +154,12 @@ const adminRoutes = require('./routes/Admin')
 const subscribersRoutes = require('./routes/subscribers');
 const clinicAppointmentRoutes = require('./routes/clinicAppointment');
 const fertilityRegisterRoutes = require('./routes/fertilityRegister');
+const surrogacyRoutes = require('./routes/surrogacy');
 
 /* =====================
    API Routes (AFTER IMPORTS)
 ===================== */
+app.use('/api', surrogacyRoutes);
 app.use('/api', clinicAppointmentRoutes);
 app.use('/api', subscribersRoutes);
 app.use('/api', adminRoutes);
@@ -229,149 +231,6 @@ const verifyAdminToken = (req, res, next) => {
   }
 };
 
-// Auto-create tables
-const tablesDDL = [
-  `CREATE TABLE IF NOT EXISTS intended_parents (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    country VARCHAR(100) NOT NULL,
-    marital_status VARCHAR(50) NOT NULL,
-    medical_condition TEXT,
-    surrogacy_type VARCHAR(100) NOT NULL,
-    budget VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )`,
-  `CREATE TABLE IF NOT EXISTS surrogate_mothers (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    full_name VARCHAR(255) NOT NULL,
-    age INT NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    country VARCHAR(100) NOT NULL,
-    health_condition TEXT,
-    previous_pregnancy ENUM('yes','no') NOT NULL,
-    children_count INT DEFAULT 0,
-    lifestyle TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )`
-];
-
-tablesDDL.forEach(sql => {
-  db.query(sql, (err) => {
-    if (err) console.error('❌ Surrogacy table creation failed', err);
-    else console.log('✅ Surrogacy table ready');
-  });
-});
-
-// Input helper and basic validation
-const sanitizeStr = (value) => typeof value === 'string' ? value.trim() : '';
-
-app.post('/api/parents/register', async (req, res) => {
-  try {
-    const data = {
-      full_name: sanitizeStr(req.body.full_name),
-      email: sanitizeStr(req.body.email),
-      phone: sanitizeStr(req.body.phone),
-      country: sanitizeStr(req.body.country),
-      marital_status: sanitizeStr(req.body.marital_status),
-      medical_condition: sanitizeStr(req.body.medical_condition),
-      surrogacy_type: sanitizeStr(req.body.surrogacy_type),
-      budget: sanitizeStr(req.body.budget),
-      agreement: !!req.body.agreement
-    };
-
-    if (!data.full_name || !data.email || !data.phone || !data.country || !data.marital_status || !data.surrogacy_type || !data.agreement) {
-      return res.status(400).json({ message: 'Missing required fields or agreement not accepted' });
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) return res.status(400).json({ message: 'Invalid email format' });
-
-    const phoneRegex = /^[0-9+\-() ]{7,20}$/;
-    if (!phoneRegex.test(data.phone)) return res.status(400).json({ message: 'Invalid phone number' });
-
-    // scalability placeholder: configure country-based rules in future
-    // const allowedCountries = process.env.SURROGACY_ALLOWED_COUNTRIES?.split(',').map(c=>c.trim());
-    // if (allowedCountries && !allowedCountries.includes(data.country)) return res.status(403).json({ message: 'Surrogacy interest in this country currently not accepted' });
-
-    const insertSql = `INSERT INTO intended_parents (full_name,email,phone,country,marital_status,medical_condition,surrogacy_type,budget) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    db.query(insertSql, [data.full_name,data.email,data.phone,data.country,data.marital_status,data.medical_condition,data.surrogacy_type,data.budget], (err) => {
-      if (err) {
-        if (err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Email already registered' });
-        console.error(err);
-        return res.status(500).json({ message: 'Database error' });
-      }
-      res.json({ message: 'Intended parent interest recorded' });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-app.post('/api/surrogate/register', async (req, res) => {
-  try {
-    const data = {
-      full_name: sanitizeStr(req.body.full_name),
-      age: parseInt(req.body.age, 10),
-      email: sanitizeStr(req.body.email),
-      phone: sanitizeStr(req.body.phone),
-      country: sanitizeStr(req.body.country),
-      health_condition: sanitizeStr(req.body.health_condition),
-      previous_pregnancy: sanitizeStr(req.body.previous_pregnancy).toLowerCase(),
-      children_count: parseInt(req.body.children_count, 10) || 0,
-      lifestyle: sanitizeStr(req.body.lifestyle),
-      agreement: !!req.body.agreement
-    };
-
-    if (!data.full_name || !data.age || !data.email || !data.phone || !data.country || !data.previous_pregnancy || !data.agreement) {
-      return res.status(400).json({ message: 'Missing required fields or agreement not accepted' });
-    }
-
-    if (!['yes', 'no'].includes(data.previous_pregnancy)) {
-      return res.status(400).json({ message: 'Invalid previous_pregnancy value' });
-    }
-
-    if (data.age < 18 || data.age > 50) {
-      return res.status(400).json({ message: 'Age must be between 18 and 50' });
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) return res.status(400).json({ message: 'Invalid email format' });
-
-    const phoneRegex = /^[0-9+\-() ]{7,20}$/;
-    if (!phoneRegex.test(data.phone)) return res.status(400).json({ message: 'Invalid phone number' });
-
-    const insertSql = `INSERT INTO surrogate_mothers (full_name, age, email, phone, country, health_condition, previous_pregnancy, children_count, lifestyle) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    db.query(insertSql, [data.full_name,data.age,data.email,data.phone,data.country,data.health_condition,data.previous_pregnancy,data.children_count,data.lifestyle], (err) => {
-      if (err) {
-        if (err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Email already registered' });
-        console.error(err);
-        return res.status(500).json({ message: 'Database error' });
-      }
-      res.json({ message: 'Surrogate interest recorded' });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-app.get('/api/admin/parents', verifyAdminToken, async (req, res) => {
-  db.query('SELECT id, full_name, email, phone, country, marital_status, budget, created_at FROM intended_parents ORDER BY created_at DESC', (err, rows) => {
-    if (err) return res.status(500).json({ message: 'Database error' });
-    res.json({ parents: rows });
-  });
-});
-
-app.get('/api/admin/surrogates', verifyAdminToken, async (req, res) => {
-  db.query('SELECT id, full_name, age, email, phone, country, children_count, created_at FROM surrogate_mothers ORDER BY created_at DESC', (err, rows) => {
-    if (err) return res.status(500).json({ message: 'Database error' });
-    res.json({ surrogates: rows });
-  });
-});
 
 /* =====================
    Static Files (LAST)

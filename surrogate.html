@@ -22,6 +22,46 @@
     .float-input select:focus + label,
     .float-input textarea:focus + label { top: 0.3rem; transform: translateY(-0.05rem); font-size: 0.75rem; color: #2563eb; }
     .error-message { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; }
+    /* file input custom styling to match floating concept */
+    .file-upload-wrapper {
+      position: relative;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      background: #fff;
+      padding: 1rem 0.75rem 0.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .file-upload-wrapper:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    .file-upload-wrapper label {
+      position: absolute;
+      left: 0.75rem;
+      top: 0.5rem;
+      font-size: 0.75rem;
+      color: #2563eb;
+      background: white;
+      padding: 0 0.2rem;
+      pointer-events: none;
+    }
+    input[type="file"] {
+      font-size: 0.9rem;
+      color: #334155;
+      cursor: pointer;
+    }
+    input[type="file"]::file-selector-button {
+      border-radius: 8px;
+      background-color: #eef2ff;
+      border: 1px solid #cbd5e1;
+      padding: 0.3rem 0.8rem;
+      margin-right: 0.8rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    input[type="file"]::file-selector-button:hover {
+      background-color: #e0e7ff;
+    }
   </style>
 </head>
 <body>
@@ -30,7 +70,7 @@
       <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">Surrogacy Interest - Surrogate Mothers</h1>
       <p class="text-slate-500 mb-6">Collecting interest information only. No matching or contact sharing is handled here.</p>
 
-      <form id="surrogateForm" class="grid gap-5 md:grid-cols-2" novalidate>
+      <form id="surrogateForm" class="grid gap-5 md:grid-cols-2" novalidate enctype="multipart/form-data">
         <div class="float-input">
           <input id="full_name" name="full_name" type="text" placeholder=" " required />
           <label for="full_name">Full Name *</label>
@@ -75,18 +115,18 @@
         </div>
 
         <div>
-        <p class="text-sm text-slate-600 mb-2">Previous Pregnancy *</p>
-        <div class="flex gap-6">
+          <p class="text-sm text-slate-600 mb-2">Previous Pregnancy *</p>
+          <div class="flex gap-6">
             <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="previous_pregnancy" value="yes" class="accent-blue-600">
-            Yes
+              <input type="radio" name="previous_pregnancy" value="yes" class="accent-blue-600">
+              Yes
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="previous_pregnancy" value="no" class="accent-blue-600">
-            No
+              <input type="radio" name="previous_pregnancy" value="no" class="accent-blue-600">
+              No
             </label>
-        </div>
-        <p id="error_previous_pregnancy" class="error-message"></p>
+          </div>
+          <p id="error_previous_pregnancy" class="error-message"></p>
         </div>
 
         <div class="float-input">
@@ -99,6 +139,16 @@
           <textarea id="lifestyle" name="lifestyle" rows="3" placeholder=" "></textarea>
           <label for="lifestyle">Lifestyle (optional)</label>
           <p id="error_lifestyle" class="error-message"></p>
+        </div>
+
+        <!-- NEW: PDF file input for medical report -->
+        <div class="md:col-span-2">
+          <div class="file-upload-wrapper">
+            <label for="medical_report">Medical Report (PDF, optional)</label>
+            <input type="file" id="medical_report" name="medical_report" accept="application/pdf" />
+            <p class="text-xs text-slate-500 mt-1">Only PDF files accepted. Max size 10MB.</p>
+          </div>
+          <p id="error_medical_report" class="error-message"></p>
         </div>
 
         <div class="md:col-span-2 flex items-start gap-3">
@@ -131,6 +181,20 @@
     };
     const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     const validatePhone = (value) => /^[0-9+\-() ]{7,20}$/.test(value);
+    
+    // Validate PDF file (optional, but if provided must be PDF)
+    const validateFile = (file) => {
+      if (!file || file.size === 0) return true; // optional field, no error if empty
+      const allowedTypes = ['application/pdf'];
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (!allowedTypes.includes(file.type)) {
+        return 'Only PDF files are allowed.';
+      }
+      if (file.size > maxSize) {
+        return 'File size should be less than 10MB.';
+      }
+      return true;
+    };
 
     const getApiUrl = (path) => {
       if (API_BASE && API_BASE.length) return `${API_BASE.replace(/\/$/, '')}${path}`;
@@ -147,54 +211,216 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusMessage.textContent = '';
-      ['full_name', 'age', 'email', 'phone', 'country', 'previous_pregnancy', 'agreement'].forEach(f => setError(f, ''));
+      
+      // Reset all errors
+      ['full_name', 'age', 'email', 'phone', 'country', 'previous_pregnancy', 'agreement', 'medical_report'].forEach(f => setError(f, ''));
 
-      const formData = new FormData(form);
-      const body = Object.fromEntries(formData.entries());
-      body.children_count = parseInt(body.children_count, 10) || 0;
-      body.agreement = form.agreement.checked;
-
+      // Get basic field values (non-file)
+      const fullName = document.getElementById('full_name').value.trim();
+      const age = document.getElementById('age').value;
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const country = document.getElementById('country').value;
+      const previousPregnancy = document.querySelector('input[name="previous_pregnancy"]:checked')?.value;
+      const agreementChecked = form.agreement.checked;
+      const childrenCount = parseInt(document.getElementById('children_count').value, 10) || 0;
+      
+      // File input validation
+      const fileInput = document.getElementById('medical_report');
+      const file = fileInput.files[0];
+      const fileValidation = validateFile(file);
+      
       let hasError = false;
-      if (!body.full_name) { setError('full_name', 'Required'); hasError = true; }
-      if (!body.age || body.age < 18 || body.age > 50) { setError('age', 'Age 18-50 required'); hasError = true; }
-      if (!body.email || !validateEmail(body.email)) { setError('email', 'Valid email required'); hasError = true; }
-      if (!body.phone || !validatePhone(body.phone)) { setError('phone', 'Valid phone required'); hasError = true; }
-      if (!body.country) { setError('country', 'Required'); hasError = true; }
-      if (!body.previous_pregnancy) { setError('previous_pregnancy', 'Select yes or no'); hasError = true; }
-      if (!body.agreement) { setError('agreement', 'Consent required'); hasError = true; }
-
+      if (!fullName) { setError('full_name', 'Required'); hasError = true; }
+      if (!age || age < 18 || age > 50) { setError('age', 'Age 18-50 required'); hasError = true; }
+      if (!email || !validateEmail(email)) { setError('email', 'Valid email required'); hasError = true; }
+      if (!phone || !validatePhone(phone)) { setError('phone', 'Valid phone required (min 7 digits, +, -, spaces, parentheses)'); hasError = true; }
+      if (!country) { setError('country', 'Required'); hasError = true; }
+      if (!previousPregnancy) { setError('previous_pregnancy', 'Select yes or no'); hasError = true; }
+      if (!agreementChecked) { setError('agreement', 'Consent required'); hasError = true; }
+      if (fileValidation !== true) { setError('medical_report', fileValidation); hasError = true; }
+      
       if (hasError) return;
 
+      // Prepare FormData for multipart request (files + text fields)
+      const formData = new FormData(form);
+      
+      // Fix checkbox representation - ensure agreement is sent as 'true' string
+      if (agreementChecked) {
+        formData.set('agreement', 'true');
+      } else {
+        formData.delete('agreement');
+      }
+      
+      // Ensure children_count is sent as number
+      formData.set('children_count', childrenCount.toString());
+      
+      // Ensure previous_pregnancy is properly set (FormData captures radio button value)
+      // If radio button value exists, it's already in formData; if not, set it
+      if (previousPregnancy) {
+        formData.set('previous_pregnancy', previousPregnancy);
+      }
+      
+      // Ensure health_condition and lifestyle are sent even if empty (already in formData as empty strings)
+      
       const btn = document.getElementById('submitBtn');
+      const originalBtnText = btn.textContent;
       btn.disabled = true;
       btn.textContent = 'Submitting...';
 
       try {
         const targetUrl = getApiUrl('/api/surrogate/register');
-        console.log('[SurrogateForm] POST', targetUrl, body);
+        console.log('[SurrogateForm] POST', targetUrl, 'with FormData (multipart)');
+        
+        // Send as multipart/form-data via fetch (no manual JSON headers)
         const response = await fetch(targetUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: formData   // Important: Content-Type header automatically set to multipart/form-data with boundary
         });
+        
         console.log('[SurrogateForm] response', response.status, response.statusText);
 
         if (!response.ok) {
-          const error = await response.json().catch(() => ({}));
-          logStatus(error.message || 'Submission failed. Please try again.', true);
+          let errorMsg = 'Submission failed. Please try again.';
+          try {
+            const errorData = await response.json();
+            errorMsg = errorData.message || errorMsg;
+          } catch (e) {
+            // if response not json, use status text
+            errorMsg = response.statusText || errorMsg;
+          }
+          logStatus(errorMsg, true);
           return;
         }
 
+        // Success: clear form fields
         form.reset();
-        logStatus('Thank you! Your interest is submitted.');
+        // explicitly reset file input
+        fileInput.value = '';
+        // Reset radio buttons
+        document.querySelectorAll('input[name="previous_pregnancy"]').forEach(radio => radio.checked = false);
+        // Reset floating label styles
+        document.querySelectorAll('.float-input input, .float-input select, .float-input textarea').forEach(field => {
+          if (field.tagName === 'SELECT') {
+            field.value = '';
+            field.dispatchEvent(new Event('change'));
+          }
+        });
+        logStatus('Thank you! Your interest is submitted successfully.');
       } catch (err) {
         console.error('[SurrogateForm] Network error', err);
-        logStatus('Network error. Please try again later.', true);
+        logStatus('Network error. Please check your connection and try again.', true);
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Submit Interest';
+        btn.textContent = originalBtnText;
       }
     });
+
+    // Enhance floating behavior for select elements
+    const initFloatingSelect = () => {
+      document.querySelectorAll('.float-input select').forEach(select => {
+        const updateLabelState = () => {
+          const label = select.nextElementSibling;
+          if (select.value && select.value !== '') {
+            label?.classList.add('active');
+          } else {
+            label?.classList.remove('active');
+          }
+        };
+        select.addEventListener('change', updateLabelState);
+        updateLabelState();
+      });
+      
+      // For input/textarea, the CSS handles placeholder-shown / focus
+      // ensure manual trigger for any pre-filled values
+      document.querySelectorAll('.float-input input, .float-input textarea').forEach(input => {
+        if (input.value && input.value.trim() !== '') {
+          // CSS will handle via :placeholder-shown if placeholder is set
+          // but we can trigger change event to ensure consistency
+          input.dispatchEvent(new Event('input'));
+        }
+      });
+    };
+    
+    // File input validation on change (client-side)
+    const enhanceFileValidation = () => {
+      const fileField = document.getElementById('medical_report');
+      if (fileField) {
+        fileField.addEventListener('change', () => {
+          const file = fileField.files[0];
+          const errorSpan = document.getElementById('error_medical_report');
+          if (file && file.type !== 'application/pdf') {
+            errorSpan.textContent = 'Only PDF files are allowed.';
+            fileField.value = ''; // reset invalid file
+          } else if (file && file.size > 10 * 1024 * 1024) {
+            errorSpan.textContent = 'File size must be less than 10MB.';
+            fileField.value = '';
+          } else {
+            errorSpan.textContent = '';
+            // Update file wrapper styling
+            const wrapper = fileField.closest('.file-upload-wrapper');
+            if (wrapper) {
+              if (file) {
+                wrapper.style.borderColor = '#2563eb';
+              } else {
+                wrapper.style.borderColor = '#cbd5e1';
+              }
+            }
+          }
+        });
+      }
+    };
+    
+    // Manual file wrapper styling on focus/blur
+    const initFileWrapper = () => {
+      const fileWrapper = document.querySelector('.file-upload-wrapper');
+      const fileInput = document.getElementById('medical_report');
+      if (fileWrapper && fileInput) {
+        fileInput.addEventListener('focus', () => {
+          fileWrapper.style.borderColor = '#2563eb';
+          fileWrapper.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.2)';
+        });
+        fileInput.addEventListener('blur', () => {
+          if (!fileInput.files.length) {
+            fileWrapper.style.borderColor = '#cbd5e1';
+          }
+          fileWrapper.style.boxShadow = 'none';
+        });
+      }
+    };
+    
+    initFloatingSelect();
+    enhanceFileValidation();
+    initFileWrapper();
+    
+    // Handle radio button styling and ensure error clears when selected
+    const radioButtons = document.querySelectorAll('input[name="previous_pregnancy"]');
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', () => {
+        setError('previous_pregnancy', '');
+      });
+    });
+    
+    // Also add input listeners to clear errors as user types
+    const clearErrorOnInput = (fieldId) => {
+      const element = document.getElementById(fieldId);
+      if (element) {
+        element.addEventListener('input', () => setError(fieldId, ''));
+        element.addEventListener('change', () => setError(fieldId, ''));
+      }
+    };
+    clearErrorOnInput('full_name');
+    clearErrorOnInput('age');
+    clearErrorOnInput('email');
+    clearErrorOnInput('phone');
+    clearErrorOnInput('country');
+    clearErrorOnInput('children_count');
+    
+    // Agreement checkbox clear error
+    const agreementCheckbox = document.getElementById('agreement');
+    if (agreementCheckbox) {
+      agreementCheckbox.addEventListener('change', () => setError('agreement', ''));
+    }
   </script>
 </body>
 </html>

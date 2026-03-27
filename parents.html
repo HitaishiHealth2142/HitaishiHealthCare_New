@@ -22,6 +22,46 @@
     .float-input select:focus + label,
     .float-input textarea:focus + label { top: 0.3rem; transform: translateY(-0.05rem); font-size: 0.75rem; color: #2563eb; }
     .error-message { color: #dc2626; font-size: 0.8rem; margin-top: 0.25rem; }
+    /* file input custom styling to match floating concept */
+    .file-upload-wrapper {
+      position: relative;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      background: #fff;
+      padding: 1rem 0.75rem 0.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .file-upload-wrapper:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    .file-upload-wrapper label {
+      position: absolute;
+      left: 0.75rem;
+      top: 0.5rem;
+      font-size: 0.75rem;
+      color: #2563eb;
+      background: white;
+      padding: 0 0.2rem;
+      pointer-events: none;
+    }
+    input[type="file"] {
+      font-size: 0.9rem;
+      color: #334155;
+      cursor: pointer;
+    }
+    input[type="file"]::file-selector-button {
+      border-radius: 8px;
+      background-color: #eef2ff;
+      border: 1px solid #cbd5e1;
+      padding: 0.3rem 0.8rem;
+      margin-right: 0.8rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    input[type="file"]::file-selector-button:hover {
+      background-color: #e0e7ff;
+    }
   </style>
 </head>
 <body>
@@ -30,7 +70,7 @@
       <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">Surrogacy Interest - Intended Parents</h1>
       <p class="text-slate-500 mb-6">Collecting interest information only. No matching or contact sharing is handled here.</p>
 
-      <form id="parentsForm" class="grid gap-5 md:grid-cols-2" novalidate>
+      <form id="parentsForm" class="grid gap-5 md:grid-cols-2" novalidate enctype="multipart/form-data">
         <div class="float-input">
           <input id="full_name" name="full_name" type="text" placeholder=" " required />
           <label for="full_name">Full Name *</label>
@@ -97,6 +137,16 @@
           <p id="error_budget" class="error-message"></p>
         </div>
 
+        <!-- NEW: PDF file input for medical report -->
+        <div class="md:col-span-2">
+          <div class="file-upload-wrapper">
+            <label for="medical_report">Medical Report (PDF, optional)</label>
+            <input type="file" id="medical_report" name="medical_report" accept="application/pdf" />
+            <p class="text-xs text-slate-500 mt-1">Only PDF files accepted. Max size 10MB (client-side hint).</p>
+          </div>
+          <p id="error_medical_report" class="error-message"></p>
+        </div>
+
         <div class="md:col-span-2 flex items-start gap-3">
           <input id="agreement" name="agreement" type="checkbox" class="mt-2" />
           <div>
@@ -118,69 +168,192 @@
     const statusMessage = document.getElementById('statusMessage');
 
     const setError = (field, msg) => {
-      document.getElementById('error_' + field).textContent = msg || '';
+      const errorEl = document.getElementById('error_' + field);
+      if (errorEl) errorEl.textContent = msg || '';
     };
 
     const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     const validatePhone = (value) => /^[0-9+\-() ]{7,20}$/.test(value);
+    
+    // Validate PDF file (optional, but if provided must be PDF)
+    const validateFile = (file) => {
+      if (!file || file.size === 0) return true; // optional field, no error if empty
+      const allowedTypes = ['application/pdf'];
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (!allowedTypes.includes(file.type)) {
+        return 'Only PDF files are allowed.';
+      }
+      if (file.size > maxSize) {
+        return 'File size should be less than 10MB.';
+      }
+      return true;
+    };
 
     parentsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusMessage.textContent = '';
-      [ 'full_name', 'email', 'phone', 'country', 'marital_status', 'surrogacy_type', 'agreement'].forEach(f => setError(f, ''));
+      
+      // Reset all errors
+      ['full_name', 'email', 'phone', 'country', 'marital_status', 'surrogacy_type', 'agreement', 'medical_report'].forEach(f => setError(f, ''));
 
-      const formData = new FormData(parentsForm);
-      const body = Object.fromEntries(formData.entries());
-      body.agreement = parentsForm.agreement.checked;
-
+      // Get basic field values (non-file)
+      const fullName = document.getElementById('full_name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const country = document.getElementById('country').value;
+      const maritalStatus = document.getElementById('marital_status').value;
+      const surrogacyType = document.getElementById('surrogacy_type').value;
+      const agreementChecked = parentsForm.agreement.checked;
+      
+      // File input validation
+      const fileInput = document.getElementById('medical_report');
+      const file = fileInput.files[0];
+      const fileValidation = validateFile(file);
+      
       let hasError = false;
-      if (!body.full_name) { setError('full_name', 'Required'); hasError = true; }
-      if (!body.email || !validateEmail(body.email)) { setError('email', 'Valid email required'); hasError = true; }
-      if (!body.phone || !validatePhone(body.phone)) { setError('phone', 'Valid phone required'); hasError = true; }
-      if (!body.country) { setError('country', 'Required'); hasError = true; }
-      if (!body.marital_status) { setError('marital_status', 'Required'); hasError = true; }
-      if (!body.surrogacy_type) { setError('surrogacy_type', 'Required'); hasError = true; }
-      if (!body.agreement) { setError('agreement', 'Consent required'); hasError = true; }
-
+      if (!fullName) { setError('full_name', 'Required'); hasError = true; }
+      if (!email || !validateEmail(email)) { setError('email', 'Valid email required'); hasError = true; }
+      if (!phone || !validatePhone(phone)) { setError('phone', 'Valid phone required (min 7 digits, +, -, spaces, parentheses)'); hasError = true; }
+      if (!country) { setError('country', 'Required'); hasError = true; }
+      if (!maritalStatus) { setError('marital_status', 'Required'); hasError = true; }
+      if (!surrogacyType) { setError('surrogacy_type', 'Required'); hasError = true; }
+      if (!agreementChecked) { setError('agreement', 'Consent required'); hasError = true; }
+      if (fileValidation !== true) { setError('medical_report', fileValidation); hasError = true; }
+      
       if (hasError) return;
 
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.textContent = 'Submitting...';
-
+      // Prepare FormData for multipart request (files + text fields)
+      const formData = new FormData(parentsForm);
+      // Ensure agreement checkbox value is explicitly added as boolean string (FormData captures "on" if checked, but we normalize)
+      // The FormData from parentsForm automatically includes "agreement=on" when checked.
+      // However backend expects clear boolean/string. We'll override to send explicit "true" to be consistent.
+      // Also, ensure medical_condition and budget are sent properly (already in formData).
+      // But to match typical API expectations, we can add a custom entry if needed, but using formData from form is enough.
+      // However because checkbox may send 'on' vs missing, we'll re-append agreement as string 'true' if checked.
+      // Note: FormData(parentsForm) will include the checkbox only if checked, value = "on". We can keep as is, but backend can interpret.
+      // To avoid confusion, we explicitly set 'agreement' to 'true' string. Also ensure 'medical_report' file is included.
+      
+      // Since FormData already contains all fields from inputs (including file), we just need to fix agreement representation.
+      // BUT the checkbox value "on" is not explicit true/false, many backends expect boolean. We'll overwrite agreement field.
+      if (agreementChecked) {
+        formData.set('agreement', 'true');
+      } else {
+        formData.delete('agreement'); // not needed because validation ensures true, but for safety
+      }
+      
+      // Optional: ensure budget and medical_condition are trimmed (but they are sent as-is)
+      // Also if medical_condition or budget fields are empty, they will be sent as empty strings.
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      
       try {
+        // Send as multipart/form-data via fetch (no manual JSON headers)
         const response = await fetch('/api/parents/register', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: formData   // Important: Content-Type header automatically set to multipart/form-data with boundary
         });
-
+        
         if (!response.ok) {
-          const error = await response.json().catch(() => ({}));
-          statusMessage.textContent = error.message || 'Submission failed. Please try again.';
+          let errorMsg = 'Submission failed. Please try again.';
+          try {
+            const errorData = await response.json();
+            errorMsg = errorData.message || errorMsg;
+          } catch (e) {
+            // if response not json, use status text
+            errorMsg = response.statusText || errorMsg;
+          }
+          statusMessage.textContent = errorMsg;
           statusMessage.className = 'text-red-600';
           return;
         }
-
+        
+        // Success: clear form fields except maybe keep a success message
         parentsForm.reset();
-        statusMessage.textContent = 'Thank you! Your interest is submitted.';
+        // after reset, also reset any floating label styles (manual reset of select values)
+        // reset file input value explicitly
+        fileInput.value = '';
+        // clear all custom floating error styles
+        document.querySelectorAll('.float-input input, .float-input select, .float-input textarea').forEach(field => {
+          if (field.tagName === 'SELECT') field.dispatchEvent(new Event('change'));
+        });
+        statusMessage.textContent = 'Thank you! Your interest is submitted successfully.';
         statusMessage.className = 'text-green-600';
       } catch (err) {
-        statusMessage.textContent = 'Network error. Please try again later.';
+        console.error('Network error:', err);
+        statusMessage.textContent = 'Network error. Please check your connection and try again.';
         statusMessage.className = 'text-red-600';
       } finally {
-        btn.disabled = false;
-        btn.textContent = 'Submit Interest';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
       }
     });
-
-    // Floating behavior fallback for selects
-    document.querySelectorAll('select').forEach(select => {
-      select.addEventListener('change', (event) => {
-        const label = event.target.nextElementSibling;
-        if (event.target.value) label.classList.add('active');
+    
+    // Enhance floating behavior for select elements: when an option is selected, keep label raised.
+    const initFloatingSelect = () => {
+      document.querySelectorAll('.float-input select').forEach(select => {
+        const updateLabelState = () => {
+          const label = select.nextElementSibling;
+          if (select.value && select.value !== '') {
+            label?.classList.add('active');
+          } else {
+            label?.classList.remove('active');
+          }
+        };
+        select.addEventListener('change', updateLabelState);
+        // initial check if value pre-filled (rare)
+        updateLabelState();
       });
-    });
+      
+      // also for input/textarea, but the CSS handles placeholder-shown / focus.
+      // for consistency, ensure manual trigger for all float-inputs
+      document.querySelectorAll('.float-input input, .float-input textarea').forEach(input => {
+        if (input.value && input.value.trim() !== '') {
+          const label = input.nextElementSibling;
+          if (label && label.tagName === 'LABEL') {
+            // triggers via CSS :placeholder-shown but adding extra style consistency
+          }
+        }
+      });
+    };
+    
+    // manual adjustment for file wrapper visual
+    const fileInputEl = document.getElementById('medical_report');
+    if (fileInputEl) {
+      fileInputEl.addEventListener('change', function() {
+        const wrapper = this.closest('.file-upload-wrapper');
+        if (this.files.length > 0) {
+          wrapper.style.borderColor = '#2563eb';
+        } else {
+          wrapper.style.borderColor = '#cbd5e1';
+        }
+      });
+    }
+    
+    initFloatingSelect();
+    
+    // Additional safeguard: validate file size before submission client side
+    const enhanceFileValidation = () => {
+      const fileField = document.getElementById('medical_report');
+      if (fileField) {
+        fileField.addEventListener('change', () => {
+          const file = fileField.files[0];
+          const errorSpan = document.getElementById('error_medical_report');
+          if (file && file.type !== 'application/pdf') {
+            errorSpan.textContent = 'Only PDF files are allowed.';
+            fileField.value = ''; // reset invalid file
+          } else if (file && file.size > 10 * 1024 * 1024) {
+            errorSpan.textContent = 'File size must be less than 10MB.';
+            fileField.value = '';
+          } else {
+            errorSpan.textContent = '';
+          }
+        });
+      }
+    };
+    enhanceFileValidation();
   </script>
 </body>
 </html>
