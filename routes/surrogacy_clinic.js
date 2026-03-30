@@ -720,5 +720,7 @@ router.put("/surrogacy-clinic/checkup/:checkup_uid", async (req, res) => {
 // ═══════════════════════════════════════════════════════════════
 //  EXPORTS
 // ═══════════════════════════════════════════════════════════════
-
+createTables().catch((err) => {
+  console.error("❌ Surrogacy clinic table init failed:", err);
+});
 module.exports = router;

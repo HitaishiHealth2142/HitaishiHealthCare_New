@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Surrogacy Clinic Portal — Hitaishi Healthcare</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFCF8;
+    --sage: #8A9E8C;
+    --sage-deep: #5C7A5F;
+    --terracotta: #C47A5A;
+    --terracotta-light: #E8A882;
+    --charcoal: #2D2D2A;
+    --mid: #6B6B65;
+    --border: #E2DDD6;
+    --shadow: rgba(45,45,42,0.08);
+    --input-bg: #F5F1EB;
+    --error: #C0392B;
+    --success: #4A7C59;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* ── Background Texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(138,158,140,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 10% 80%, rgba(196,122,90,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(250,247,242,0.85);
+    backdrop-filter: blur(8px);
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .logo-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--charcoal);
+    letter-spacing: 0.02em;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--sage-deep);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1px solid var(--sage);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sage-deep);
+    letter-spacing: 0.06em;
+  }
+
+  .header-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sage);
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── Main Layout ── */
+  main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 8px 48px var(--shadow), 0 2px 8px rgba(45,45,42,0.04);
+    width: 100%;
+    max-width: 560px;
+    overflow: hidden;
+    animation: card-in 0.5s cubic-bezier(0.22,0.68,0,1.2) both;
+  }
+
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(24px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    padding: 18px 24px;
+    background: none;
+    border: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--mid);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    letter-spacing: 0.02em;
+  }
+
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: var(--terracotta);
+    transform: scaleX(0);
+    transition: transform 0.3s cubic-bezier(0.22,0.68,0,1.2);
+    border-radius: 2px;
+  }
+
+  .tab-btn.active {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  /* ── Forms ── */
+  .form-panel {
+    display: none;
+    padding: 36px 40px 40px;
+    animation: fade-up 0.3s ease both;
+  }
+
+  .form-panel.active { display: block; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .form-heading em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .form-sub {
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  /* ── Field Groups ── */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  input, select, textarea {
+    background: var(--input-bg);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--charcoal);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--sage);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(138,158,140,0.15);
+  }
+
+  input::placeholder { color: #B5AFA7; }
+
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B65' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+  /* ── Section Divider ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0 18px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    font-weight: 500;
+  }
+
+  .section-label::before, .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Password Wrapper ── */
+  .pw-wrap { position: relative; }
+
+  .pw-wrap input { padding-right: 44px; }
+
+  .pw-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--mid);
+    display: flex;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+
+  .pw-toggle:hover { color: var(--charcoal); }
+
+  /* ── Submit ── */
+  .submit-btn {
+    width: 100%;
+    padding: 15px 24px;
+    background: var(--charcoal);
+    color: var(--cream);
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    margin-top: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn:hover {
+    background: var(--terracotta);
+    box-shadow: 0 6px 24px rgba(196,122,90,0.3);
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  .submit-btn:disabled {
+    background: var(--mid);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Spinner */
+  .spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Alert ── */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    display: none;
+    animation: fade-up 0.25s ease both;
+    line-height: 1.5;
+  }
+
+  .alert.show { display: flex; align-items: flex-start; gap: 10px; }
+
+  .alert-error {
+    background: #FDF0EE;
+    border: 1px solid #F5C5BC;
+    color: var(--error);
+  }
+
+  .alert-success {
+    background: #EEF5F0;
+    border: 1px solid #B8D9C2;
+    color: var(--success);
+  }
+
+  .alert-warning {
+    background: #FDF6EE;
+    border: 1px solid #F0D9B5;
+    color: #9A6F3A;
+  }
+
+  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Switch link ── */
+  .switch-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--mid);
+  }
+
+  .switch-link button {
+    background: none;
+    border: none;
+    color: var(--terracotta);
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .switch-link button:hover { text-decoration-color: var(--terracotta); }
+
+  /* ── Register scroll ── */
+  .register-scroll {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .register-scroll::-webkit-scrollbar { width: 4px; }
+  .register-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  /* ── Pending state ── */
+  .success-state {
+    text-align: center;
+    padding: 48px 32px;
+    display: none;
+  }
+
+  .success-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: #EEF5F0;
+    border: 2px solid #B8D9C2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+    animation: pop-in 0.5s cubic-bezier(0.22,0.68,0,1.5) both;
+  }
+
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.4); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+  }
+
+  .success-msg {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto 24px;
+  }
+
+  .success-uid {
+    font-size: 12px;
+    background: var(--input-bg);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--mid);
+    font-family: monospace;
+    letter-spacing: 0.05em;
+    word-break: break-all;
+  }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--mid);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; }
+    .form-panel { padding: 28px 24px 32px; }
+    .field-row { grid-template-columns: 1fr; }
+    .card { border-radius: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-title">Hitaishi Healthcare</span>
+    <span class="logo-sub">Surrogacy Clinic Portal</span>
+  </div>
+  <div class="header-badge">Clinic Access</div>
+</header>
+
+<main>
+  <div class="card" id="card">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- ── LOGIN PANEL ── -->
+    <div class="form-panel active" id="panel-login">
+      <h2 class="form-heading">Welcome <em>back</em></h2>
+      <p class="form-sub">Sign in to access your clinic dashboard</p>
+
+      <div class="alert alert-error" id="login-error">
+        <span class="alert-icon">⚠️</span>
+        <span id="login-error-msg"></span>
+      </div>
+      <div class="alert alert-warning" id="login-warn">
+        <span class="alert-icon">🕐</span>
+        <span id="login-warn-msg"></span>
+      </div>
+
+      <div class="field">
+        <label for="login-email">Email address</label>
+        <input type="email" id="login-email" placeholder="clinic@example.com" autocomplete="email"/>
+      </div>
+
+      <div class="field">
+        <label for="login-password">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('login-password', this)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="login-btn" onclick="handleLogin()">Sign In</button>
+
+      <div class="switch-link">
+        New clinic? <button onclick="switchTab('register')">Register here</button>
+      </div>
+    </div>
+
+    <!-- ── REGISTER PANEL ── -->
+    <div class="form-panel" id="panel-register">
+      <div id="register-form-wrap">
+        <h2 class="form-heading">Join our <em>network</em></h2>
+        <p class="form-sub">Register your surrogacy clinic — approval takes 1–2 business days</p>
+
+        <div class="alert alert-error" id="reg-error">
+          <span class="alert-icon">⚠️</span>
+          <span id="reg-error-msg"></span>
+        </div>
+
+        <div class="register-scroll">
+
+          <div class="section-label">Clinic Identity</div>
+
+          <div class="field">
+            <label for="reg-clinic-name">Clinic name *</label>
+            <input type="text" id="reg-clinic-name" placeholder="Sunrise Surrogacy Centre"/>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="reg-license">License number</label>
+              <input type="text" id="reg-license" placeholder="LIC-00000"/>
+            </div>
+            <div class="field">
+              <label for="reg-specialization">Specialization</label>
+              <input type="text" id="reg-specialization" placeholder="IVF, Surrogacy"/>
+            </div>
+          </div>
+
+          <div class="section-label">Contact Details</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="reg-email">Email address *</label>
+              <input type="email" id="reg-email" placeholder="contact@clinic.com"/>
+            </div>
+            <div class="field">
+              <label for="reg-phone">Phone number</label>
+              <input type="tel" id="reg-phone" placeholder="+91 98765 43210"/>
+            </div>
+          </div>
+
+          <div class="section-label">Location</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="reg-country">Country</label>
+              <select id="reg-country">
+                <option value="">Select country</option>
+                <option value="India">India</option>
+                <option value="USA">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="reg-state">State / Province</label>
+              <input type="text" id="reg-state" placeholder="Telangana"/>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="reg-city">City</label>
+              <input type="text" id="reg-city" placeholder="Hyderabad"/>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reg-address">Full address</label>
+            <input type="text" id="reg-address" placeholder="123 Medical Lane, Banjara Hills"/>
+          </div>
+
+          <div class="section-label">Security</div>
+
+          <div class="field">
+            <label for="reg-password">Password *</label>
+            <div class="pw-wrap">
+              <input type="password" id="reg-password" placeholder="Min. 8 characters"/>
+              <button type="button" class="pw-toggle" onclick="togglePw('reg-password', this)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reg-confirm">Confirm password *</label>
+            <div class="pw-wrap">
+              <input type="password" id="reg-confirm" placeholder="Re-enter password"/>
+              <button type="button" class="pw-toggle" onclick="togglePw('reg-confirm', this)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button class="submit-btn" id="reg-btn" onclick="handleRegister()">Create Clinic Account</button>
+
+          <div class="switch-link">
+            Already registered? <button onclick="switchTab('login')">Sign in</button>
+          </div>
+
+        </div><!-- /register-scroll -->
+      </div><!-- /register-form-wrap -->
+
+      <!-- Success state shown after registration -->
+      <div class="success-state" id="reg-success">
+        <div class="success-icon">🏥</div>
+        <div class="success-title">Registration Submitted</div>
+        <p class="success-msg">Your clinic account is <strong>pending admin approval</strong>. You'll be able to sign in once approved — usually within 1–2 business days.</p>
+        <div class="success-uid" id="reg-uid-display"></div>
+        <br/>
+        <button class="submit-btn" style="max-width:240px;margin:0 auto;display:block;" onclick="switchTab('login')">Go to Sign In</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 Hitaishi Healthcare &nbsp;·&nbsp; Surrogacy Clinic Portal &nbsp;·&nbsp; All rights reserved
+</footer>
+
+<script>
+  // ── Config ──────────────────────────────────────────────────────
+  const BASE_URL = 'https://hitaishihealthcare.com'; // change to http://localhost:5001 for local dev
+
+  // ── Tab switch ──────────────────────────────────────────────────
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+    clearAlerts();
+  }
+
+  // ── Toggle password ────────────────────────────────────────────
+  function togglePw(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    const isText = inp.type === 'text';
+    inp.type = isText ? 'password' : 'text';
+    btn.innerHTML = isText
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────
+  function showAlert(id, msg) {
+    const el = document.getElementById(id);
+    const msgEl = document.getElementById(id + '-msg');
+    if (msgEl) msgEl.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function clearAlerts() {
+    document.querySelectorAll('.alert').forEach(el => el.classList.remove('show'));
+  }
+
+  function setLoading(btnId, loading, text) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? `<span class="spinner"></span>${text}`
+      : text;
+  }
+
+  // ── LOGIN ──────────────────────────────────────────────────────
+  async function handleLogin() {
+    clearAlerts();
+
+    const email    = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    if (!email || !password) {
+      showAlert('login-error', 'Please enter your email and password.');
+      return;
+    }
+
+    setLoading('login-btn', true, 'Signing in…');
+
+    try {
+      const res  = await fetch(`${BASE_URL}/api/surrogacy-clinic/login`, {
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body   : JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (res.status === 403) {
+          // Pending or rejected
+          showAlert('login-warn', data.message || 'Your account is not active.');
+        } else {
+          showAlert('login-error', data.message || 'Login failed. Please try again.');
+        }
+        return;
+      }
+
+      // ── Success: save clinic info and redirect ──
+      const clinic = data.clinic;
+      sessionStorage.setItem('clinic_uid',  clinic.clinic_uid);
+      sessionStorage.setItem('clinic_name', clinic.clinic_name);
+      sessionStorage.setItem('clinic_data', JSON.stringify(clinic));
+
+      // Redirect to dashboard
+      window.location.href = `/clinic-dashboard.html?uid=${clinic.clinic_uid}`;
+
+    } catch (err) {
+      showAlert('login-error', 'Network error. Please check your connection and try again.');
+    } finally {
+      setLoading('login-btn', false, 'Sign In');
+    }
+  }
+
+  // ── REGISTER ───────────────────────────────────────────────────
+  async function handleRegister() {
+    clearAlerts();
+
+    const clinic_name    = document.getElementById('reg-clinic-name').value.trim();
+    const email          = document.getElementById('reg-email').value.trim();
+    const password       = document.getElementById('reg-password').value;
+    const confirm        = document.getElementById('reg-confirm').value;
+    const phone          = document.getElementById('reg-phone').value.trim();
+    const country        = document.getElementById('reg-country').value;
+    const state          = document.getElementById('reg-state').value.trim();
+    const city           = document.getElementById('reg-city').value.trim();
+    const address        = document.getElementById('reg-address').value.trim();
+    const license_number = document.getElementById('reg-license').value.trim();
+    const specialization = document.getElementById('reg-specialization').value.trim();
+
+    // Validate required
+    if (!clinic_name) { showAlert('reg-error', 'Clinic name is required.'); return; }
+    if (!email)        { showAlert('reg-error', 'Email address is required.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showAlert('reg-error', 'Please enter a valid email address.'); return; }
+    if (!password)     { showAlert('reg-error', 'Password is required.'); return; }
+    if (password.length < 8) { showAlert('reg-error', 'Password must be at least 8 characters long.'); return; }
+    if (password !== confirm)  { showAlert('reg-error', 'Passwords do not match.'); return; }
+
+    setLoading('reg-btn', true, 'Creating account…');
+
+    try {
+      const payload = {
+        clinic_name, email, password,
+        ...(phone          && { phone }),
+        ...(country        && { country }),
+        ...(state          && { state }),
+        ...(city           && { city }),
+        ...(address        && { address }),
+        ...(license_number && { license_number }),
+        ...(specialization && { specialization }),
+      };
+
+      const res  = await fetch(`${BASE_URL}/api/surrogacy-clinic/register`, {
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body   : JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showAlert('reg-error', data.message || 'Registration failed. Please try again.');
+        return;
+      }
+
+      // Show success state
+      document.getElementById('register-form-wrap').style.display = 'none';
+      document.getElementById('reg-success').style.display = 'block';
+      document.getElementById('reg-uid-display').textContent = `Clinic UID: ${data.clinic_uid}`;
+
+    } catch (err) {
+      showAlert('reg-error', 'Network error. Please check your connection and try again.');
+    } finally {
+      setLoading('reg-btn', false, 'Create Clinic Account');
+    }
+  }
+
+  // ── Enter key ─────────────────────────────────────────────────
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const activePanel = document.querySelector('.form-panel.active');
+    if (activePanel.id === 'panel-login') handleLogin();
+    else handleRegister();
+  });
+</script>
+</body>
+</html>
