@@ -801,6 +801,87 @@ router.get("/admin/surrogacy-clinic/:clinic_uid", async (req, res) => {
     res.json({ success: true, clinic: rows[0] });
 });
 
+
+
+
+
+
+
+router.get("/admin/surrogacy/parents", async (req, res) => {
+  try {
+    const status = req.query.status || "approved";
+
+    const [rows] = await pool.query(
+      `SELECT
+          parent_uid,
+          name,
+          email,
+          phone,
+          country,
+          marital_status,
+          budget,
+          status
+       FROM intended_parents
+       WHERE status = ?
+       ORDER BY id DESC`,
+      [status]
+    );
+
+    return sendSuccess(res, { parents: rows });
+
+  } catch (err) {
+    console.error("Parents fetch error:", err);
+    return sendError(res, 500, "Failed to fetch parents", err);
+  }
+});
+
+
+router.get("/admin/surrogacy/surrogates", async (req, res) => {
+  try {
+    const status = req.query.status || "approved";
+
+    const [rows] = await pool.query(
+      `SELECT
+          surrogate_uid,
+          name,
+          email,
+          phone,
+          age,
+          city,
+          state,
+          status
+       FROM surrogate_mothers
+       WHERE status = ?
+       ORDER BY id DESC`,
+      [status]
+    );
+
+    return sendSuccess(res, { surrogates: rows });
+
+  } catch (err) {
+    console.error("Surrogate fetch error:", err);
+    return sendError(res, 500, "Failed to fetch surrogates", err);
+  }
+});
+
+
+
+
+router.get("/admin/surrogacy-clinics", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT clinic_uid, clinic_name, city, state, status
+       FROM surrogacy_clinics
+       WHERE status = 'approved'
+       ORDER BY id DESC`
+    );
+
+    return sendSuccess(res, { clinics: rows });
+  } catch (err) {
+    return sendError(res, 500, "Failed to fetch clinics", err);
+  }
+});
+
 // ═══════════════════════════════════════════════════════════════
 //  EXPORTS
 // ═══════════════════════════════════════════════════════════════

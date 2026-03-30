@@ -1154,39 +1154,39 @@
                 const [parentsRes, surrogatesRes, clinicsRes] = await Promise.all([
                     fetch(`${API_BASE_URL}/admin/surrogacy/parents?status=approved`),
                     fetch(`${API_BASE_URL}/admin/surrogacy/surrogates?status=approved`),
-                    fetch(`${API_BASE_URL}/api/admin/surrogacy-clinics`)
+                    fetch(`${API_BASE_URL}/admin/surrogacy-clinics`)
                 ]);
 
                 const parentsData = await parentsRes.json();
                 const surrogatesData = await surrogatesRes.json();
                 const clinicsData = await clinicsRes.json();
 
-                const approvedClinics = clinicsData.clinics.filter(c => c.status === "approved");
-
                 const parent_uid = prompt(
-                    "Enter Approved Parent UID:\n" +
+                    "Enter Approved Parent UID:\n\n" +
                     parentsData.parents.map(p => p.parent_uid).join("\n")
                 );
 
                 if (!parent_uid) return;
 
                 const surrogate_uid = prompt(
-                    "Enter Approved Surrogate UID:\n" +
+                    "Enter Approved Surrogate UID:\n\n" +
                     surrogatesData.surrogates.map(s => s.surrogate_uid).join("\n")
                 );
 
                 if (!surrogate_uid) return;
 
                 const clinic_uid = prompt(
-                    "Enter Approved Clinic UID:\n" +
-                    approvedClinics.map(c => c.clinic_uid).join("\n")
+                    "Enter Approved Clinic UID:\n\n" +
+                    clinicsData.clinics.map(c => c.clinic_uid).join("\n")
                 );
 
                 if (!clinic_uid) return;
 
-                const res = await fetch(`${API_BASE_URL}/api/admin/surrogacy-case/create`, {
+                const res = await fetch(`${API_BASE_URL}/admin/surrogacy-case/create`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify({
                         parent_uid,
                         surrogate_uid,
@@ -1197,16 +1197,17 @@
                 const data = await res.json();
 
                 if (data.success) {
-                    alert("✅ Case assigned successfully");
+                    alert("✅ Surrogacy case assigned successfully");
                 } else {
                     alert(data.message);
                 }
 
             } catch (err) {
-                console.error(err);
+                console.error("Assign case error:", err);
                 alert("Assignment failed");
             }
         }
+
 
         function renderFertilityCenters(centers) {
             const container = document.getElementById('fertilityCentersContainer');
