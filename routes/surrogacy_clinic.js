@@ -362,74 +362,41 @@ router.put("/admin/surrogacy-clinic/:clinic_uid/reject", async (req, res) => {
  */
 router.post("/admin/surrogacy-case/create", async (req, res) => {
   try {
-    const required = ["parent_uid", "surrogate_uid", "clinic_uid"];
-    const missing = missingFields(req.body, required);
+    const { parent_uid, surrogate_uid, clinic_uid } = req.body;
 
-    if (missing.length) {
-      return sendError(res, 400, `Missing required fields: ${missing.join(", ")}`);
+    if (!parent_uid || !surrogate_uid || !clinic_uid) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields required"
+      });
     }
 
-    const {
-      parent_uid,
-      surrogate_uid,
-      clinic_uid,
-      assigned_by_admin = "admin",
-      payment_stage = null,
-      legal_stage = null,
-      embryo_transfer_date = null,
-      expected_delivery_date = null,
-      notes = null,
-    } = req.body;
-
-    // ✅ parent must be approved
+    // parent check
     const [parentRows] = await pool.query(
-      `SELECT parent_uid 
-       FROM parents_surrogacy
-       WHERE parent_uid = ? AND status = 'approved'`,
+      `SELECT id FROM parents_surrogacy
+       WHERE id = ? AND status='approved'`,
       [parent_uid]
     );
 
     if (!parentRows.length) {
-      return sendError(res, 404, "Parent not found or not approved.");
+      return res.status(404).json({
+        success: false,
+        message: "Parent not approved"
+      });
     }
 
-    // ✅ surrogate must be approved
+    // surrogate check
     const [surrogateRows] = await pool.query(
-      `SELECT surrogate_uid
-       FROM surrogates
-       WHERE surrogate_uid = ? AND status = 'approved'`,
+      `SELECT id FROM surrogates
+       WHERE id = ? AND status='approved'`,
       [surrogate_uid]
     );
 
     if (!surrogateRows.length) {
-      return sendError(res, 404, "Surrogate mother not found or not approved.");
-    }
-
-    // ✅ clinic must be approved
-    const [clinicRows] = await pool.query(
-      `SELECT clinic_uid
-       FROM surrogacy_clinics
-       WHERE clinic_uid = ? AND status = 'approved'`,
-      [clinic_uid]
-    );
-
-    if (!clinicRows.length) {
-      return sendError(res, 404, "Clinic not found or not approved.");
-    }
-
-    // ✅ prevent duplicate active assignment
-    const [existingCase] = await pool.query(
-      `SELECT surrogacy_case_id
-       FROM surrogacy_cases
-       WHERE parent_uid = ?
-         AND surrogate_uid = ?
-         AND clinic_uid = ?
-         AND case_status NOT IN ('completed','cancelled')`,
-      [parent_uid, surrogate_uid, clinic_uid]
-    );
-
-    if (existingCase.length) {
-      return sendError(res, 409, "This parent, surrogate, and clinic are already linked in an active case.");
+      return res.status(404).json({
+        success: false,
+        message: "Surrogate not approved"
+      });
     }
 
     const surrogacy_case_id = generateUID();
@@ -442,36 +409,30 @@ router.post("/admin/surrogacy-case/create", async (req, res) => {
         surrogate_uid,
         clinic_uid,
         assigned_by_admin,
-        case_status,
-        payment_stage,
-        legal_stage,
-        embryo_transfer_date,
-        expected_delivery_date,
-        notes
+        case_status
       )
-      VALUES (?, ?, ?, ?, ?, 'clinic_assigned', ?, ?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?, ?, 'clinic_assigned')`,
       [
         surrogacy_case_id,
         parent_uid,
         surrogate_uid,
         clinic_uid,
-        assigned_by_admin,
-        payment_stage,
-        legal_stage,
-        embryo_transfer_date,
-        expected_delivery_date,
-        notes
+        "admin"
       ]
     );
 
-    return sendSuccess(
-      res,
-      { surrogacy_case_id },
-      "Approved parent, surrogate, and clinic successfully linked."
-    );
+    res.json({
+      success: true,
+      message: "Case created successfully",
+      surrogacy_case_id
+    });
 
   } catch (err) {
-    return sendError(res, 500, "Case assignment failed.", err);
+    console.error("CASE ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 });
 

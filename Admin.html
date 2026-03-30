@@ -1199,17 +1199,19 @@
                 clinicSelect.innerHTML = `<option value="">Select Clinic</option>`;
 
                 parentsData.parents.forEach(p => {
-                    parentSelect.innerHTML += `
-                        <option value="${p.parent_uid}">
+                    parentSelect.innerHTML = `
+                        <option value="${p.id}">
                             ${p.full_name} - ${p.email}
-                        </option>`;
+                        </option>
+                    `;
                 });
 
                 surrogatesData.surrogates.forEach(s => {
-                    surrogateSelect.innerHTML += `
-                        <option value="${s.surrogate_uid}">
+                    surrogateSelect.innerHTML = `
+                        <option value="${s.id}">
                             ${s.full_name} - ${s.email}
-                        </option>`;
+                        </option>
+                    `;
                 });
 
                 clinicsData.clinics
