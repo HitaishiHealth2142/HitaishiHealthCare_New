@@ -16,24 +16,11 @@ const bcrypt   = require("bcrypt");
 const crypto   = require("crypto");
 const path     = require("path");
 const fs       = require("fs");
+const db = require("../db");
 
 const router = express.Router();
 
-// ─── DB Pool (injected at init time, see initSurrogacyClinicTables) ────────────
-let pool; // mysql2 promise pool reference
-
-/**
- * Inject the shared MySQL2 promise pool.
- * Call this once from server.js before mounting the router.
- *
- *   const { initSurrogacyClinicTables } = require("./routes/surrogacy_clinic");
- *   await initSurrogacyClinicTables(dbPool);
- *   app.use("/api", surrogacyClinicRoutes);
- */
-const initSurrogacyClinicTables = async (dbPool) => {
-  pool = dbPool;
-  await createTables();
-};
+const pool = db.promise();
 
 // ─── Multer — PDF scan report upload ────────────────────────────────────────────
 const UPLOAD_DIR = path.join(__dirname, "../uploads/scan_reports");
@@ -734,24 +721,4 @@ router.put("/surrogacy-clinic/checkup/:checkup_uid", async (req, res) => {
 //  EXPORTS
 // ═══════════════════════════════════════════════════════════════
 
-module.exports = {
-  surrogacyClinicRoutes  : router,
-  initSurrogacyClinicTables,
-};
-
-/*
- * ─── server.js integration ──────────────────────────────────────────────────
- *
- *   const mysql = require("mysql2/promise");
- *   const { surrogacyClinicRoutes, initSurrogacyClinicTables } =
- *     require("./routes/surrogacy_clinic");
- *
- *   const pool = mysql.createPool({ host, user, password, database });
- *
- *   (async () => {
- *     await initSurrogacyClinicTables(pool);   // create tables
- *     app.use("/api", surrogacyClinicRoutes);   // mount routes
- *   })();
- *
- * ────────────────────────────────────────────────────────────────────────────
- */
+module.exports = router;
