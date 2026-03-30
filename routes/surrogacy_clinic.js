@@ -384,7 +384,7 @@ router.post("/admin/surrogacy-case/create", async (req, res) => {
     // ✅ parent must be approved
     const [parentRows] = await pool.query(
       `SELECT parent_uid 
-       FROM intended_parents
+       FROM parents_surrogacy
        WHERE parent_uid = ? AND status = 'approved'`,
       [parent_uid]
     );
@@ -396,7 +396,7 @@ router.post("/admin/surrogacy-case/create", async (req, res) => {
     // ✅ surrogate must be approved
     const [surrogateRows] = await pool.query(
       `SELECT surrogate_uid
-       FROM surrogate_mothers
+       FROM surrogates
        WHERE surrogate_uid = ? AND status = 'approved'`,
       [surrogate_uid]
     );
@@ -813,24 +813,22 @@ router.get("/admin/surrogacy/parents", async (req, res) => {
 
     const [rows] = await pool.query(
       `SELECT
-          parent_uid,
-          name,
+          id,
+          full_name,
           email,
           phone,
           country,
           marital_status,
           budget,
           status
-       FROM intended_parents
+       FROM parents_surrogacy
        WHERE status = ?
-       ORDER BY id DESC`,
+       ORDER BY created_at DESC`,
       [status]
     );
 
     return sendSuccess(res, { parents: rows });
-
   } catch (err) {
-    console.error("Parents fetch error:", err);
     return sendError(res, 500, "Failed to fetch parents", err);
   }
 });
@@ -842,29 +840,25 @@ router.get("/admin/surrogacy/surrogates", async (req, res) => {
 
     const [rows] = await pool.query(
       `SELECT
-          surrogate_uid,
-          name,
+          id,
+          full_name,
+          age,
           email,
           phone,
-          age,
-          city,
-          state,
+          country,
+          children_count,
           status
-       FROM surrogate_mothers
+       FROM surrogates
        WHERE status = ?
-       ORDER BY id DESC`,
+       ORDER BY created_at DESC`,
       [status]
     );
 
     return sendSuccess(res, { surrogates: rows });
-
   } catch (err) {
-    console.error("Surrogate fetch error:", err);
     return sendError(res, 500, "Failed to fetch surrogates", err);
   }
 });
-
-
 
 
 router.get("/admin/surrogacy-clinics", async (req, res) => {

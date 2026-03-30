@@ -317,7 +317,33 @@
                         class="bg-slate-50 border border-slate-200 rounded-2xl p-4 hidden">
                     </div>
                 </div>
+                <div id="assignCaseSection"
+                class="hidden mt-6 bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                
+                <h3 class="text-lg font-bold mb-4">Assign New Surrogacy Case</h3>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <select id="assignParent" class="border rounded-xl px-4 py-3">
+                        <option value="">Select Parent</option>
+                    </select>
+
+                    <select id="assignSurrogate" class="border rounded-xl px-4 py-3">
+                        <option value="">Select Surrogate</option>
+                    </select>
+
+                    <select id="assignClinic" class="border rounded-xl px-4 py-3">
+                        <option value="">Select Clinic</option>
+                    </select>
+                </div>
+
+                <button onclick="createSurrogacyCase()"
+                    class="mt-4 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700">
+                    Create Case
+                </button>
+            </div>
             </section>
+
+            
         </main>
     </div>
 
@@ -1150,6 +1176,13 @@
         }
 
         async function openAssignCaseModal() {
+            const section = document.getElementById("assignCaseSection");
+            const parentSelect = document.getElementById("assignParent");
+            const surrogateSelect = document.getElementById("assignSurrogate");
+            const clinicSelect = document.getElementById("assignClinic");
+
+            section.classList.remove("hidden");
+
             try {
                 const [parentsRes, surrogatesRes, clinicsRes] = await Promise.all([
                     fetch(`${API_BASE_URL}/admin/surrogacy/parents?status=approved`),
@@ -1161,27 +1194,49 @@
                 const surrogatesData = await surrogatesRes.json();
                 const clinicsData = await clinicsRes.json();
 
-                const parent_uid = prompt(
-                    "Enter Approved Parent UID:\n\n" +
-                    parentsData.parents.map(p => p.parent_uid).join("\n")
-                );
+                parentSelect.innerHTML = `<option value="">Select Parent</option>`;
+                surrogateSelect.innerHTML = `<option value="">Select Surrogate</option>`;
+                clinicSelect.innerHTML = `<option value="">Select Clinic</option>`;
 
-                if (!parent_uid) return;
+                parentsData.parents.forEach(p => {
+                    parentSelect.innerHTML += `
+                        <option value="${p.parent_uid}">
+                            ${p.full_name} - ${p.email}
+                        </option>`;
+                });
 
-                const surrogate_uid = prompt(
-                    "Enter Approved Surrogate UID:\n\n" +
-                    surrogatesData.surrogates.map(s => s.surrogate_uid).join("\n")
-                );
+                surrogatesData.surrogates.forEach(s => {
+                    surrogateSelect.innerHTML += `
+                        <option value="${s.surrogate_uid}">
+                            ${s.full_name} - ${s.email}
+                        </option>`;
+                });
 
-                if (!surrogate_uid) return;
+                clinicsData.clinics
+                    .filter(c => c.status === "approved")
+                    .forEach(c => {
+                        clinicSelect.innerHTML += `
+                            <option value="${c.clinic_uid}">
+                                ${c.clinic_name} - ${c.city}
+                            </option>`;
+                });
 
-                const clinic_uid = prompt(
-                    "Enter Approved Clinic UID:\n\n" +
-                    clinicsData.clinics.map(c => c.clinic_uid).join("\n")
-                );
+            } catch (err) {
+                console.error("Dropdown load error:", err);
+                alert("Failed to load dropdown data");
+            }
+        }
 
-                if (!clinic_uid) return;
+        async function createSurrogacyCase() {
+            const parent_uid = document.getElementById("assignParent").value;
+            const surrogate_uid = document.getElementById("assignSurrogate").value;
+            const clinic_uid = document.getElementById("assignClinic").value;
 
+            if (!parent_uid || !surrogate_uid || !clinic_uid) {
+                return alert("Please select all dropdown values");
+            }
+
+            try {
                 const res = await fetch(`${API_BASE_URL}/admin/surrogacy-case/create`, {
                     method: "POST",
                     headers: {
@@ -1197,17 +1252,18 @@
                 const data = await res.json();
 
                 if (data.success) {
-                    alert("✅ Surrogacy case assigned successfully");
+                    alert("✅ Surrogacy case created successfully");
+
+                    document.getElementById("assignCaseSection").classList.add("hidden");
                 } else {
-                    alert(data.message);
+                    alert(data.message || "Case creation failed");
                 }
 
             } catch (err) {
-                console.error("Assign case error:", err);
+                console.error(err);
                 alert("Assignment failed");
             }
         }
-
 
         function renderFertilityCenters(centers) {
             const container = document.getElementById('fertilityCentersContainer');
