@@ -155,10 +155,12 @@ const subscribersRoutes = require('./routes/subscribers');
 const clinicAppointmentRoutes = require('./routes/clinicAppointment');
 const fertilityRegisterRoutes = require('./routes/fertilityRegister');
 const surrogacyRoutes = require('./routes/surrogacy');
+const surrogacyClinicRoutes = require('./routes/surrogacy_clinic');
 
 /* =====================
    API Routes (AFTER IMPORTS)
 ===================== */
+app.use('/api', surrogacyClinicRoutes);
 app.use('/api', surrogacyRoutes);
 app.use('/api', clinicAppointmentRoutes);
 app.use('/api', subscribersRoutes);
