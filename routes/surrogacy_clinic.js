@@ -363,46 +363,115 @@ router.put("/admin/surrogacy-clinic/:clinic_uid/reject", async (req, res) => {
 router.post("/admin/surrogacy-case/create", async (req, res) => {
   try {
     const required = ["parent_uid", "surrogate_uid", "clinic_uid"];
-    const missing  = missingFields(req.body, required);
-    if (missing.length) return sendError(res, 400, `Missing required fields: ${missing.join(", ")}`);
+    const missing = missingFields(req.body, required);
+
+    if (missing.length) {
+      return sendError(res, 400, `Missing required fields: ${missing.join(", ")}`);
+    }
 
     const {
-      parent_uid, surrogate_uid, clinic_uid,
-      assigned_by_admin = null,
-      payment_stage = null, legal_stage = null,
-      embryo_transfer_date = null, expected_delivery_date = null,
+      parent_uid,
+      surrogate_uid,
+      clinic_uid,
+      assigned_by_admin = "admin",
+      payment_stage = null,
+      legal_stage = null,
+      embryo_transfer_date = null,
+      expected_delivery_date = null,
       notes = null,
     } = req.body;
 
-    // Verify clinic exists and is approved
+    // ✅ parent must be approved
+    const [parentRows] = await pool.query(
+      `SELECT parent_uid 
+       FROM intended_parents
+       WHERE parent_uid = ? AND status = 'approved'`,
+      [parent_uid]
+    );
+
+    if (!parentRows.length) {
+      return sendError(res, 404, "Parent not found or not approved.");
+    }
+
+    // ✅ surrogate must be approved
+    const [surrogateRows] = await pool.query(
+      `SELECT surrogate_uid
+       FROM surrogate_mothers
+       WHERE surrogate_uid = ? AND status = 'approved'`,
+      [surrogate_uid]
+    );
+
+    if (!surrogateRows.length) {
+      return sendError(res, 404, "Surrogate mother not found or not approved.");
+    }
+
+    // ✅ clinic must be approved
     const [clinicRows] = await pool.query(
-      "SELECT clinic_uid FROM surrogacy_clinics WHERE clinic_uid = ? AND status = 'approved'",
+      `SELECT clinic_uid
+       FROM surrogacy_clinics
+       WHERE clinic_uid = ? AND status = 'approved'`,
       [clinic_uid]
     );
-    if (!clinicRows.length)
-      return sendError(res, 404, "Clinic not found or not yet approved.");
+
+    if (!clinicRows.length) {
+      return sendError(res, 404, "Clinic not found or not approved.");
+    }
+
+    // ✅ prevent duplicate active assignment
+    const [existingCase] = await pool.query(
+      `SELECT surrogacy_case_id
+       FROM surrogacy_cases
+       WHERE parent_uid = ?
+         AND surrogate_uid = ?
+         AND clinic_uid = ?
+         AND case_status NOT IN ('completed','cancelled')`,
+      [parent_uid, surrogate_uid, clinic_uid]
+    );
+
+    if (existingCase.length) {
+      return sendError(res, 409, "This parent, surrogate, and clinic are already linked in an active case.");
+    }
 
     const surrogacy_case_id = generateUID();
 
     await pool.query(
       `INSERT INTO surrogacy_cases
-         (surrogacy_case_id, parent_uid, surrogate_uid, clinic_uid,
-          assigned_by_admin, case_status, payment_stage, legal_stage,
-          embryo_transfer_date, expected_delivery_date, notes)
-       VALUES (?, ?, ?, ?, ?, 'clinic_assigned', ?, ?, ?, ?, ?)`,
-      [surrogacy_case_id, parent_uid, surrogate_uid, clinic_uid,
-       assigned_by_admin, payment_stage, legal_stage,
-       embryo_transfer_date, expected_delivery_date, notes]
+      (
+        surrogacy_case_id,
+        parent_uid,
+        surrogate_uid,
+        clinic_uid,
+        assigned_by_admin,
+        case_status,
+        payment_stage,
+        legal_stage,
+        embryo_transfer_date,
+        expected_delivery_date,
+        notes
+      )
+      VALUES (?, ?, ?, ?, ?, 'clinic_assigned', ?, ?, ?, ?, ?)`,
+      [
+        surrogacy_case_id,
+        parent_uid,
+        surrogate_uid,
+        clinic_uid,
+        assigned_by_admin,
+        payment_stage,
+        legal_stage,
+        embryo_transfer_date,
+        expected_delivery_date,
+        notes
+      ]
     );
 
     return sendSuccess(
       res,
       { surrogacy_case_id },
-      "Surrogacy case created and assigned to clinic.",
-      201
+      "Approved parent, surrogate, and clinic successfully linked."
     );
+
   } catch (err) {
-    return sendError(res, 500, "Case creation failed.", err);
+    return sendError(res, 500, "Case assignment failed.", err);
   }
 });
 

@@ -1305,8 +1305,8 @@ let currentSection = 'overview';
 ══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   // Load from sessionStorage (set by login page)
-  clinicUID  = sessionStorage.getItem('clinic_uid');
-  const raw  = sessionStorage.getItem('clinic_data');
+  clinicUID  = localStorage.getItem('clinic_uid');
+  const raw  = localStorage.getItem('clinic_data');
   if (raw) clinicData = JSON.parse(raw);
 
   // Also support ?uid= query param
@@ -1330,6 +1330,78 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadDashboard();
 });
 
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const clinicUid = localStorage.getItem("clinic_uid");
+
+  if (!clinicUid) {
+    window.location.href = "SurrogacyClinicRegister.html";
+    return;
+  }
+
+  await loadDashboard(clinicUid);
+});
+
+async function loadDashboard(clinicUid) {
+  try {
+    const res = await fetch(`${BASE_URL}/api/surrogacy-clinic/${clinicUid}/dashboard`);
+    const data = await res.json();
+
+    if (!data.success) {
+      throw new Error(data.message || "Failed to load dashboard");
+    }
+
+    clinicData = data.clinic;
+
+    // Sidebar + topbar
+    document.getElementById("sidebar-clinic-name").textContent = clinicData.clinic_name || "-";
+    document.getElementById("sidebar-clinic-email").textContent = clinicData.email || "-";
+    document.getElementById("topbar-name").textContent = clinicData.clinic_name || "Clinic";
+
+    // Stats
+    document.getElementById("stat-total").textContent = data.total_assigned || 0;
+    document.getElementById("stat-active").textContent = data.active_pregnancies || 0;
+    document.getElementById("stat-completed").textContent = data.completed_cases || 0;
+    document.getElementById("stat-visits").textContent = data.upcoming_visits || 0;
+
+    // Overview info
+    document.getElementById("ov-status").textContent = clinicData.status || "-";
+    document.getElementById("ov-location").textContent =
+      `${clinicData.city || ""}, ${clinicData.state || ""}, ${clinicData.country || ""}`;
+    document.getElementById("ov-spec").textContent = clinicData.specialization || "-";
+    document.getElementById("ov-license").textContent = clinicData.license_number || "-";
+    document.getElementById("ov-phone").textContent = clinicData.phone || "-";
+    document.getElementById("ov-since").textContent =
+      new Date(clinicData.created_at).toLocaleDateString();
+
+    // FULL PROFILE SECTION
+    fillProfile(clinicData);
+
+  } catch (err) {
+    console.error(err);
+    alert("Dashboard loading failed");
+  }
+}
+
+function fillProfile(c) {
+  document.getElementById("prof-name").textContent = c.clinic_name || "-";
+  document.getElementById("prof-email").textContent = c.email || "-";
+  document.getElementById("prof-phone").textContent = c.phone || "-";
+  document.getElementById("prof-location").textContent =
+    `${c.city || ""}, ${c.state || ""}, ${c.country || ""}`;
+
+  document.getElementById("prof-license").textContent = c.license_number || "-";
+  document.getElementById("prof-spec").textContent = c.specialization || "-";
+  document.getElementById("prof-address").textContent = c.address || "-";
+  document.getElementById("prof-country").textContent = c.country || "-";
+  document.getElementById("prof-state").textContent = c.state || "-";
+  document.getElementById("prof-city").textContent = c.city || "-";
+  document.getElementById("prof-uid").textContent = c.clinic_uid || "-";
+
+  document.getElementById("prof-status-badge").textContent =
+    (c.status || "approved").toUpperCase();
+}
 /* ══════════════════════════════════════════
    API
 ══════════════════════════════════════════ */
