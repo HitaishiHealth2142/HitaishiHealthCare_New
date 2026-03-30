@@ -741,13 +741,11 @@
       }
 
       // ── Success: save clinic info and redirect ──
-      const clinic = data.clinic;
-      sessionStorage.setItem('clinic_uid',  clinic.clinic_uid);
-      sessionStorage.setItem('clinic_name', clinic.clinic_name);
-      sessionStorage.setItem('clinic_data', JSON.stringify(clinic));
+      localStorage.setItem("clinic_uid", data.clinic.clinic_uid);
+      localStorage.setItem("clinic_name", data.clinic.clinic_name);
+      localStorage.setItem("clinic_email", data.clinic.email);
 
-      // Redirect to dashboard
-      window.location.href = `/clinic-dashboard.html?uid=${clinic.clinic_uid}`;
+      window.location.href = `SurrogacyClinicDashboard.html?clinic_uid=${data.clinic.clinic_uid}`;
 
     } catch (err) {
       showAlert('login-error', 'Network error. Please check your connection and try again.');

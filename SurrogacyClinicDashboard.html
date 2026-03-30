@@ -1317,7 +1317,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (!clinicUID) {
     showToast('Session expired. Please log in again.', 'error');
-    setTimeout(() => window.location.href = '/surrogacy_clinic_auth.html', 2000);
+    setTimeout(() => window.location.href = '/SurrogacyClinicRegister.html', 2000);
     return;
   }
 
@@ -1729,7 +1729,7 @@ function refreshAll() { loadDashboard(); showToast('Refreshed!', 'success'); }
 
 function handleLogout() {
   sessionStorage.clear();
-  window.location.href = '/surrogacy_clinic_auth.html';
+  window.location.href = 'SurrogacyClinicRegister.html';
 }
 
 function statusBadge(s) {

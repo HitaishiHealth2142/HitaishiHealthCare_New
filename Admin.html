@@ -306,10 +306,15 @@
                     <div class="flex flex-wrap gap-3 mb-4">
                         <button id="surrogacyTabParents" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition" onclick="renderSurrogacyView('parents')">Parents</button>
                         <button id="surrogacyTabSurrogates" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition" onclick="renderSurrogacyView('surrogates')">Surrogate Mothers</button>
+                        <button id="surrogacyTabClinics"class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition" onclick="renderSurrogacyView('clinics')"> Surrogacy Clinics</button>
                     </div>
 
                     <div id="surrogacyStatus" class="text-sm text-slate-500 mb-3">Select a tab to load data.</div>
-                    <div class="wallet-scroll" id="surrogacyTableWrapper"></div>
+                    <div id="surrogacyTableWrapper"></div>
+                    <div id="surrogacyClinicCards" class="grid md:grid-cols-2 gap-4 hidden"></div>
+                    <div id="surrogacyClinicDetail"
+                        class="bg-slate-50 border border-slate-200 rounded-2xl p-4 hidden">
+                    </div>
                 </div>
             </section>
         </main>
@@ -853,11 +858,23 @@
 
             try {
                 if (type === 'parents') {
+                    document.getElementById("surrogacyClinicCards")?.classList.add("hidden");
+                    document.getElementById("surrogacyClinicDetail")?.classList.add("hidden");
                     await loadSurrogacyParents();
-                } else {
+                    statusNode.textContent = "Showing Intended Parents";
+
+                } else if (type === 'surrogates') {
+                    document.getElementById("surrogacyClinicCards")?.classList.add("hidden");
+                    document.getElementById("surrogacyClinicDetail")?.classList.add("hidden");
                     await loadSurrogacyMothers();
+                    statusNode.textContent = "Showing Surrogate Mothers";
+
+                } else if (type === 'clinics') {
+                    wrapper.innerHTML = "";
+                    await loadSurrogacyClinics();
+                    statusNode.textContent = "Showing Surrogacy Clinics";
                 }
-                statusNode.textContent = `Showing ${type === 'parents' ? 'Intended Parents' : 'Surrogate Mothers'}`;
+
             } catch (err) {
                 console.error('Surrogacy load error:', err);
                 wrapper.innerHTML = `<div class="p-6 text-center text-red-500">Failed to load data</div>`;
@@ -1058,6 +1075,78 @@
         
         // call default in case current tab is already surrogacy
         setupSurrogacyDefault();
+
+        async function loadSurrogacyClinics() {
+            const container = document.getElementById("surrogacyClinicCards");
+            const detail = document.getElementById("surrogacyClinicDetail");
+
+            container.classList.remove("hidden");
+            detail.classList.add("hidden");
+            document.getElementById("surrogacyTableWrapper").innerHTML = "";
+
+            const res = await fetch(`${API_BASE_URL}/admin/surrogacy-clinics`);
+            const data = await res.json();
+
+            if (!data.clinics || !data.clinics.length) {
+                container.innerHTML = `<div class="text-slate-500">No clinics found</div>`;
+                return;
+            }
+
+            container.innerHTML = data.clinics.map(c => `
+                <div onclick="showClinicDetails('${c.clinic_uid}')"
+                    class="bg-white border border-slate-200 rounded-2xl p-4 shadow hover:shadow-md cursor-pointer transition">
+                    <h3 class="font-bold text-lg">${c.clinic_name}</h3>
+                    <p class="text-sm text-slate-500">${c.city}, ${c.state}</p>
+                    <p class="text-sm">${c.email}</p>
+                    <div class="mt-3 flex gap-2">
+                        ${c.status !== 'approved' ? `
+                            <button onclick="event.stopPropagation(); approveSurrogacyClinic('${c.clinic_uid}')"
+                                class="px-3 py-1 bg-green-500 text-white rounded-lg">Approve</button>` : ''}
+                        ${c.status !== 'rejected' ? `
+                            <button onclick="event.stopPropagation(); rejectSurrogacyClinic('${c.clinic_uid}')"
+                                class="px-3 py-1 bg-red-500 text-white rounded-lg">Reject</button>` : ''}
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        async function showClinicDetails(clinic_uid) {
+            const detail = document.getElementById("surrogacyClinicDetail");
+            detail.classList.remove("hidden");
+
+            const res = await fetch(`${API_BASE_URL}/admin/surrogacy-clinic/${clinic_uid}`);
+            const data = await res.json();
+            const c = data.clinic;
+
+            detail.innerHTML = `
+                <h3 class="text-xl font-bold mb-3">${c.clinic_name}</h3>
+                <div class="grid md:grid-cols-2 gap-3 text-sm">
+                    <p><b>Email:</b> ${c.email}</p>
+                    <p><b>Phone:</b> ${c.phone}</p>
+                    <p><b>Country:</b> ${c.country}</p>
+                    <p><b>State:</b> ${c.state}</p>
+                    <p><b>City:</b> ${c.city}</p>
+                    <p><b>License:</b> ${c.license_number}</p>
+                    <p><b>Specialization:</b> ${c.specialization}</p>
+                    <p><b>Status:</b> ${c.status}</p>
+                    <p class="md:col-span-2"><b>Address:</b> ${c.address}</p>
+                </div>
+            `;
+        }
+
+        async function approveSurrogacyClinic(uid) {
+            await fetch(`${API_BASE_URL}/admin/surrogacy-clinic/${uid}/approve`, {
+                method: "PUT"
+            });
+            loadSurrogacyClinics();
+        }
+
+        async function rejectSurrogacyClinic(uid) {
+            await fetch(`${API_BASE_URL}/admin/surrogacy-clinic/${uid}/reject`, {
+                method: "PUT"
+            });
+            loadSurrogacyClinics();
+        }
 
         function renderFertilityCenters(centers) {
             const container = document.getElementById('fertilityCentersContainer');

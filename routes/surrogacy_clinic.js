@@ -717,6 +717,21 @@ router.put("/surrogacy-clinic/checkup/:checkup_uid", async (req, res) => {
   }
 });
 
+router.get("/admin/surrogacy-clinics", async (req, res) => {
+    const [clinics] = await pool.query(
+        "SELECT * FROM surrogacy_clinics ORDER BY created_at DESC"
+    );
+    res.json({ success: true, clinics });
+});
+
+router.get("/admin/surrogacy-clinic/:clinic_uid", async (req, res) => {
+    const [rows] = await pool.query(
+        "SELECT * FROM surrogacy_clinics WHERE clinic_uid=?",
+        [req.params.clinic_uid]
+    );
+    res.json({ success: true, clinic: rows[0] });
+});
+
 // ═══════════════════════════════════════════════════════════════
 //  EXPORTS
 // ═══════════════════════════════════════════════════════════════
